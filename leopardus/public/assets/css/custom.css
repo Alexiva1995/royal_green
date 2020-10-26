@@ -1,0 +1,58 @@
+/* here you can put your own css to customize and override the theme */
+.infobox.infobox-small.infobox-dark {
+    width: 165px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;
+    height: 45px;
+    float: left;
+    margin-right: 15px;
+}
+.infobox-icon {
+    float: left;
+    font-weight: 800;
+    padding: 3px;
+    font-size: 26px;
+    padding-left: 10px;
+}
+
+.infobox-data {
+    float: left;
+    padding: 5px;
+    padding-left: 15px;
+    padding-top: 3px;
+}
+
+.infobox-grey {
+    background-color: #999;
+    border: 1px solid #777575;
+}
+.infobox-blu {
+    background-color: #6FB3E0;
+    border: 1px solid #3387BF;
+}
+.infobox-ama {
+    background-color: #E0D30B;
+    border: 1px solid #C2B600;
+}
+
+.infobox-ver {
+    background-color: #9ABC32;
+    border: 1px solid #799F05;
+    margin-right: 0px !important;
+}
+.infobox.infobox-small.infobox-dark.lar {
+    width: 275px;
+}
+.infobox-veru {
+    background-color: #304411;
+    border: 1px solid #1d2c05;
+}
+.infobox-bluu {
+    background-color: #0F2149;
+    border: 1px solid #031130;
+}
+.infobox-content {
+    padding-top: 6px;
+}

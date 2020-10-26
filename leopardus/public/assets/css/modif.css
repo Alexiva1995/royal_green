@@ -1,0 +1,48 @@
+.tb1{
+    position: absolute;
+    top: 131px;
+    width: 40%;
+    left: 260px;
+}
+.tb2{
+    position: absolute;
+    top: 152px;
+    left: 787px;
+    width: 40%;
+}
+.boton{
+    width: 50%;
+    position: absolute;
+
+    left: 247px;
+    top: -4px;
+}
+.user{
+    position: absolute;
+    top: 73px;
+    width: 70%;
+    left: 311px;
+
+}
+
+.infobox.infobox-small.infobox-dark {
+    max-width: 150px;
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 600;height: 50px;
+}
+.infobox-icon {
+    float: left;
+    font-weight: 800;
+    padding: 3px;
+    font-size: 26px;
+    padding-left: 10px;
+}
+
+.infobox-data {
+    float: left;
+    padding: 5px;
+    padding-left: 15px;
+    padding-top: 3px;
+}

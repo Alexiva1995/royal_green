@@ -1,0 +1,31 @@
+.admin-panel {
+	background: #000;
+	padding: 10px 15px;
+}
+
+.admin-panel > ul.list {
+	list-style: none;
+	margin: 0;
+}
+
+.admin-panel > ul.list > li {
+	float: left;
+	margin-right: 10px;
+	border-left: 1px solid #c9c9c9;
+	padding-left: 10px;
+}
+
+.admin-panel > ul.list > li > a {
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+.admin-panel > ul.list > li > a:hover {
+	color: #c0c0c0;
+}
+
+.dropdown-menu>li>a {
+    font-weight: bold !important;
+    color: #333;
+}
