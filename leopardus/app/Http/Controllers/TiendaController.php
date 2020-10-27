@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\View;
 use App\User; 
 
 use App\Settings; use App\Monedas; 
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ActivacionController;
+use App\Http\Controllers\ProductController;
 use Carbon\Carbon;
+use CoinbaseCommerce\ApiClient;
+use CoinbaseCommerce\Resources\Charge;
 use Illuminate\Support\Facades\Session;
 
 
@@ -85,8 +87,12 @@ class TiendaController extends Controller
      */
     public function linkCoinPayMent(object $producto)
     {
+        $apiKey = env('COINBASE_API_KEY');
+        $apiClientObj = ApiClient::init($apiKey);
+        $apiClientObj->setTimeout(6);
+
         $chargerData = [
-            'description' => 'No Aplica',
+            'description' => $producto->post_content,
             'metadata' => $producto,
             'pricing_type' => 'fixed_price',
             'redirect_url' => route('tienda.estado', ['pendiente']),
@@ -148,8 +154,8 @@ class TiendaController extends Controller
                     'post_type' => 'shop_order',
                     'post_mime_type' => ' ',
                     'comment_count' => 1,
-                    'id_coinbase' => $datos->id_coinbase,
-                    'code_coinbase' => $datos->code_coinbase,
+                    // 'id_coinbase' => $datos->id_coinbase,
+                    // 'code_coinbase' => $datos->code_coinbase,
                 ]);
                 $data = [
                     '_order_key' => 'wc_order_'.base64_encode($fecha->now()),
@@ -157,16 +163,35 @@ class TiendaController extends Controller
                     'total' => $datos->precio.'.00',
                     'idproducto' => $datos->idproducto
                 ];
+                $ruta = '';
                 if ($id) {
                     $linkProducto = str_replace('mioficina', '?post_type=shop_order&#038;p=', $datos->root());
                     DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
                         'guid' => $linkProducto.$id
                     ]);
+
                     $this->saveOrdenPostmeta($id, $data, $datos->tipo);
                     $this->saveOrderItems($id, $datos->name, $data);
+                    
+                    $contrProducto = new ProductController;
+                    $producto = $contrProducto->getOneProduct($datos->idproducto);
+                    if (!empty($producto)) {
+                        $link = $this->linkCoinPayMent($producto);
+                        if (!empty($link)) {
+                            DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
+                                'id_coinbase' => $link->id,
+                                'code_coinbase' => $link->code,
+                            ]);
+                            $ruta = $link->hosted_url;
+                        }
+                    }
+                }
+                if (!empty($ruta)) {
+                    return redirect($ruta);
+                }else{
+                    return redirect()->back()->with('msj', 'Hubo Un Problema con el proceso de compra');
                 }
                 
-                return redirect('tienda')->with('msj', 'Compra '.$id.' Procesada ');
         }
     }
 

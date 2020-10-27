@@ -54,6 +54,31 @@ class ProductController extends Controller
         return $result;
     }
 
+    /**
+     * Permite obtener la informacion de un producto en especifico
+     *
+     * @param integer $idproduct
+     * @return void
+     */
+    public function getOneProduct($idproduct)
+    {
+        $settings = Settings::first();
+        $result = DB::table($settings->prefijo_wp.'posts as wp')
+                    ->join($settings->prefijo_wp.'postmeta as wpm', 'wp.ID', '=', 'wpm.post_id' )
+                    ->where([
+                        ['wpm.meta_key', '=', '_price'],
+                        ['wp.post_type', '=', 'product'],
+                        ['wp.ID', '=', $idproduct]
+                    ])
+                    ->select(
+                        'wp.ID',
+                        'wp.post_title',
+                        'wp.post_content',
+                        'wpm.meta_value',)
+                    ->first();
+        return $result;
+    }
+
     public function saveProduct(Request $request)
     {
         $validate = $request->validate([

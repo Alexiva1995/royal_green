@@ -20,8 +20,6 @@
                                 <form action="{{route('tienda-save-compra')}}" method="POST">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="idproducto" id="idproducto">
-                                    <input type="hidden" id="code_coinbase" name="code_coinbase">
-                                    <input type="hidden" id="id_coinbase" name="id_coinbase">
                                     <input type="hidden" id="title2" name="name">
                                     <input type="hidden" id="price2" name="precio">
                                     <input type="hidden" name="tipo" value="">
