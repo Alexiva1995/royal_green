@@ -47,19 +47,10 @@ class ProductController extends Controller
                         'wp.post_title',
                         'wp.post_content',
                         'wpm.meta_value',
-                        'wp.post_mime_type as type',
-                        'wp.guid as file',
                         'wp.post_excerpt as imagen',
-                        'wp.post_password as nivel_pago',
-                        'wp.to_ping as porcentaje',
-                        'wp.pinged as visible',
-                        'wp.post_content_filtered as tipo_pago',
-                        'wp.post_parent as dias_activos')
+                        'wp.post_password as bono_binario',
+                        'wp.pinged as visible')
                     ->get();
-        foreach ($result as $element) {
-            $element->type = json_decode($element->type);
-            $element->file = json_decode($element->file);
-        }
         return $result;
     }
 
@@ -75,16 +66,7 @@ class ProductController extends Controller
             $settings = Settings::first();
             $fecha = new Carbon();
             $name = str_replace(' ', '-', $request->name);
-            $routeFile = [];
             $routeLogo = '';
-            $filesTypes = [];
-            for ($i=1; $i < 5; $i++) { 
-                if (!empty($request->file('file_'.$i))) {
-                    $file = $request->file('file_'.$i);
-                    $routeFile ['file_'.$i] = $this->fileSave($request['type_file_'.$i], $file, $name.'_'.$i);
-                    $filesTypes ['file_'.$i] = $request['type_file_'.$i];
-                }
-            }
             if (!empty($request->file('imagen'))) {
                 $file = $request->file('imagen');
                 $routeLogo = $this->fileSave('Logo', $file, 'logo_'.$name);
@@ -102,18 +84,18 @@ class ProductController extends Controller
                 'post_status' => 'publish',
                 'comment_status' => 'open',
                 'ping_status' => 'closed',
-                'post_password' => $request->nivel_pago,
+                'post_password' => ($request->bono_binario / 100),
                 'post_name' => strtolower($name),
-                'to_ping' => ($request->tipo_pago != 'asr') ? $request->porcentaje : 0,
+                'to_ping' => '',
                 'pinged' => $request->visible,
                 'post_modified' => $fecha->now(),
                 'post_modified_gmt' => $fecha->now(),
-                'post_content_filtered' => $request->tipo_pago,
-                'post_parent' => $request->dias_activos,
-                'guid' => json_encode($routeFile),
+                'post_content_filtered' => '',
+                'post_parent' => '',
+                'guid' => '',
                 'menu_order' => 0,
                 'post_type' => 'product',
-                'post_mime_type' => json_encode($filesTypes),
+                'post_mime_type' => '',
                 'comment_count' => 0
             ]);
             $this->savePostmetaProduct($id, $request);
@@ -201,18 +183,9 @@ class ProductController extends Controller
             $settings = Settings::first();
             $fecha = new Carbon();
             $name = str_replace(' ', '-', $request->name);
-            $file = DB::table($settings->prefijo_wp.'posts')->where('ID', $request->idproduct)->select('guid', 'post_excerpt', 'post_mime_type')->first();
-            $routeFile = json_decode($file->guid);
+            $file = DB::table($settings->prefijo_wp.'posts')->where('ID', $request->idproduct)->select('post_excerpt')->first();
             $routeLogo = $file->post_excerpt;
-            $filesTypes = json_decode($file->post_mime_type);
-            for ($i=1; $i < 5; $i++) { 
-                if (!empty($request->file('file_'.$i))) {
-                    $file = $request->file('file_'.$i);
-                    $index = 'file_'.$i;
-                    $routeFile->$index = $this->fileSave($request['type_file_'.$i], $file, $name.'_'.$i);
-                    $filesTypes->$index = $request['type_file_'.$i];
-                }
-            }
+            
             if (!empty($request->file('imagen'))) {
                 $file = $request->file('imagen');
                 $routeLogo = $this->fileSave('Logo', $file, 'logo_'.$name);
@@ -223,22 +196,15 @@ class ProductController extends Controller
                 'post_content' => $request->content,
                 'post_modified' => $fecha->now(),
                 'post_modified_gmt' => $fecha->now(),
-                'post_mime_type' => json_encode($filesTypes),
-                'guid' => json_encode($routeFile),
+                'post_password' => ($request->bono_binario / 100),
                 'post_excerpt' => $routeLogo,
-                'post_password' => $request->nivel_pago,
-                'to_ping' => ($request->tipo_pago != 'asr') ? $request->porcentaje : 0,
                 'pinged' => $request->visible,
-                'post_content_filtered' => $request->tipo_pago,
-                'post_parent' => $request->dias_activos,
             ]);
 
             $paquete = [
                 'nombre' => strtoupper($request->name),
                 'ID' => $request->idproduct,
                 'monto' => $request->price,
-                'nivel' => $request->nivel_pago,
-                'porcentaje' => ($request->porcentaje / 100)
             ];
             
             DB::table($settings->prefijo_wp.'postmeta')->where([

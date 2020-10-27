@@ -4,154 +4,56 @@ namespace App\Http\Controllers;
 
 use App\Settings;
 use App\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use App\SettingsEstructura;
-use App\Commission;
-use App\Contenido;
-use App\Monedas;
-use CoinbaseCommerce\ApiClient;
-use CoinbaseCommerce\Resources\Charge;
-use App\Http\Controllers\TiendaController;
-use App\Http\Controllers\ComisionesController;
-
-
+use Illuminate\Support\Facades\DB;
+use stdClass;
 class IndexController extends Controller
 {
+
     /**
-     * Función que devuelve los patrocinados de un determinado usuario
-     * 
-     * @access private
-     * @param int $id - id del usuario 
-     * @return array
+     * Permite saber el estado del binario del usuario
+     *
+     * @param integer $id - id del usuario a revisar
+     * @return boolean
      */
-    private function getSponsor($user_id){
-        $tmp = User::select('ID', 'user_email', 'status', 'display_name', 'puntos', 'created_at', 'ladomatrix', 'rol_id', 'avatar')->where('position_id', $user_id)->get()->toArray();
-		return $tmp;
+    public function statusBinary($id)
+    {
+        $result = false;
+        $derecha = User::where([
+            ['referred_id', '=', $id ],
+            ['status', '=', 1],
+            ['ladomatrix', '=', 'D']
+        ])->get()->count('ID');
+        $izquierda = User::where([
+            ['referred_id', '=', $id ],
+            ['status', '=', 1],
+            ['ladomatrix', '=', 'I']
+        ])->get()->count('ID');
+
+        if ($derecha >= 1 && $izquierda >= 1) {
+            $result = true;
+        }
+        return $result;
     }
-    /**
-     * Función que devuelve los referidos de un determinado usuario
-     * 
-     * @access public
-     * @param int $user_id - id del usuario
-     * @return array - listado de los referidos del usuario
-     */
-    public function getReferreds($user_id){
-        $referidos = User::select('ID', 'user_email', 'status', 'display_name', 'puntos', 'created_at', 'ladomatrix', 'rol_id', 'avatar')->where('referred_id', $user_id)->get()->toArray();
-		return $referidos;
-	}
+
     
     /**
-     * Obtienen a todo los usuarios referidos de un usuario determinado
-     * 
-     * @access public
-     * @param array $arregloUser - listado de usuario, int $niveles - niveles a recorrer,
-     * int $para - nivel a detenerse, array $allUser - todos los usuario referidos
-     * @return array - listado de todos los usuario
+     * Permite obtener la informacion para el arbol o matris
+     *
+     * @param integer $id - id del usuario a obtener sus hijos
+     * @param string $type - tipo de estructura a general
+     * @return void
      */
-	public function getReferredsAll($arregloUser, $niveles, $para, $allUser, $tipoestructura)
+    public function getDataEstructura($id, $type)
     {
-        if ($niveles <= $para) {
-            $llaves =  array_keys($arregloUser);
-            $finFor = end($llaves);
-            $cont = 0;
-            $tmparry = [];
-            foreach ($arregloUser as $user) {
-                $allUser [] = [
-                    'ID' => $user['ID'],
-                    'email' => $user['user_email'],
-                    'nombre' => $user['display_name'],
-                    'status' => $user['status'],
-                    'puntos' => $user['puntos'],
-                    'nivel' => $niveles,
-                    'rol' => $user['rol_id'],
-                    'avatar' => $user['avatar'],
-                    'fecha' => $user['created_at'],
-                    'lado' => $user['ladomatrix'],
-                ];
-                if ($tipoestructura == 'arbol') {
-                    if (!empty($this->getReferreds($user['ID']))) {
-                        $tmparry [] = $this->getReferreds($user['ID']);
-                    }
-                }else{
-                    if (!empty($this->getSponsor($user['ID']))) {
-                        $tmparry [] = $this->getSponsor($user['ID']);
-                    }
-                }
-                if ($finFor == $cont) {
-                    if (!empty($tmparry)) {
-                        $tmp2 = $tmparry[0];
-                        for($i = 1; $i < count($tmparry); $i++){
-                            $tmp2 = array_merge($tmp2,$tmparry[$i]);
-                        }
-                        $this->getReferredsAll($tmp2, ($niveles+1), $para, $allUser, $tipoestructura);
-                    }else{
-                        $GLOBALS['allUsers'] = $allUser;
-                    }
-                }else{
-                    $cont++;
-                }
-          }
-        }else{
-            $GLOBALS['allUsers'] = $allUser;
-        }
-    }
-
-    /**
-     * Devuelve el tipo de estructura con que se esta trabajando en el sistema
-     * 
-     * @access public
-     * @return string
-     */
-    public function obtenerEstructura()
-    {
-        $settingEstructura = SettingsEstructura::find(1);
-        $estructura = "";
-        if ($settingEstructura->tipoestructura == 'arbol') {
-            $estructura = "arbol";
-        } elseif ($settingEstructura->tipoestructura == 'matriz') {
-            $estructura = "matriz";
-        }else{
-            if ($settingEstructura->estructuraprincipal == 1) {
-                if ($settingEstructura->usuarioprincipal == 1) {
-                    $estructura = "arbol";
-                } else {
-                    $estructura = "matriz";
-                }
-            } else {
-                if ($settingEstructura->usuarioprincipal == 1) {
-                    $estructura = "arbol";
-                } else {
-                    $estructura = "matriz";
-                }
-            }
-        }
-        return  $estructura;
-    }
-
-
-    /**
-     * Genera el Arreglo de los usuarios referidos
-     * 
-     * @access public
-     * @param $iduser - id del usuario 
-     * @return array
-     */
-    public function generarArregloUsuario($iduser)
-    {
-        $settingEstructura = SettingsEstructura::find(1);
-        $GLOBALS['allUsers'] = [];
-        // if ($this->obtenerEstructura() == 'arbol') {
-            $referidosDirectos = $this->getReferreds($iduser);
-            $this->getReferredsAll($referidosDirectos, 1, $settingEstructura->cantnivel, [], 'arbol');
-        // } else {
-        //     $referidosDirectos = $this->getSponsor($iduser);
-            
-        //     $this->getReferredsAll($referidosDirectos, 1, $settingEstructura->cantnivel, [], 'matriz');
-        // }
-
-        return $GLOBALS['allUsers'];
+        $genealogyType = [
+            'tree' => 'referred_id',
+            'matriz' => 'position_id',
+        ];
+        
+        $childres = $this->getData($id, 1, $genealogyType[$type]);
+        $trees = $this->getChildren($childres, 2, $genealogyType[$type]);
+        return $trees;
     }
 
     /**
@@ -159,355 +61,87 @@ class IndexController extends Controller
      */
     public function newMembers($iduser)
     {
-        $TodosUsuarios = $this->generarArregloUsuario($iduser);
+        $TodosUsuarios = $this->getChidrens2($iduser, [], 1, 'referred_id', 0);
         $TodosUsuarios = $this->ordenarArreglosMultiDimensiones($TodosUsuarios, 'ID', 'numero');
         return array_slice($TodosUsuarios, 0, 7);
     }
 
-    /**
-     * Obtiene la información de las ventas
-     * 
-     * calcula la cantidad de ventas mensuales
-     * 
-     * @access public
-     * @return array
-     */
-    public function chartVentas()
-    {
-        $settings = Settings::first();
-        // $sql = "SELECT month(wp.post_date) as mes, SUM(wpm.meta_value) as total FROM $settings->prefijo_wp.postmeta as wpm INNER JOIN $settings->prefijo_wp.posts as wp on (wp.ID = wpm.post_id) WHERE wp.post_status = 'wc-completed' AND wpm.meta_key = '_order_total' AND YEAR(wp.post_date) = year(now()) GROUP BY month(wp.post_date)";
-        if (Auth::user()->rol_id != 0) {
-            $allUser = $this->generarArregloUsuario(Auth::user()->ID);
-            
-            $ventas = [];
-            for ($i=1; $i < 13; $i++) {
-                array_push($ventas, [
-                    'mes' => $i,
-                    'total' => 0,
-                    'comision' => 0,
-                ]);
-            }
-            foreach ($allUser as $user) {
-                $ventas2 = DB::table($settings->prefijo_wp.'postmeta')
-                        ->join($settings->prefijo_wp.'posts', $settings->prefijo_wp.'postmeta.post_id', '=', $settings->prefijo_wp.'posts.ID')
-                        ->join($settings->prefijo_wp.'postmeta as wpm', $settings->prefijo_wp.'postmeta.post_id', '=', 'wpm.post_id')
-                        ->select(DB::raw('month('.$settings->prefijo_wp.'posts.post_date) as mes'), DB::raw('SUM('.$settings->prefijo_wp.'postmeta.meta_value) as total'), DB::raw('month('.$settings->prefijo_wp.'posts.post_date) as comision'))
-                        ->where([
-                            [$settings->prefijo_wp.'posts.post_status', '=', 'wc-completed'],
-                            [$settings->prefijo_wp.'postmeta.meta_key', '=', '_order_total'],
-                            ['wpm.meta_key', '=', '_customer_user'],
-                            ['wpm.meta_value', '=', $user['ID']],
-                            [DB::raw('YEAR('.$settings->prefijo_wp.'posts.post_date)'), '=', DB::raw('year(now())')],
-                        ])->groupBy(DB::raw('month('.$settings->prefijo_wp.'posts.post_date)'))->get();
-
-                if (!empty($ventas2)) {
-                    foreach ($ventas2 as $venta) {
-                        $ventas[($venta->mes -1)]['total'] = ($ventas[($venta->mes -1)]['total'] + $venta->total);
-                    }
-                }
-            }
-            $wallets = DB::table('walletlog')->select(DB::raw('month(created_at) as mes'), DB::raw('SUM(debito) as comision'))->where([
-                ['iduser', '=', Auth::user()->ID],
-                [DB::raw('YEAR(created_at)'), '=', DB::raw('year(now())')],
-            ])->groupBy(DB::raw('month(created_at)'))->get();
-            
-        } else {
-            $ventas = DB::table($settings->prefijo_wp.'postmeta')
-                        ->join($settings->prefijo_wp.'posts', $settings->prefijo_wp.'postmeta.post_id', '=', $settings->prefijo_wp.'posts.ID')
-                        ->select(DB::raw('month('.$settings->prefijo_wp.'posts.post_date) as mes'), DB::raw('SUM('.$settings->prefijo_wp.'postmeta.meta_value) as total'), DB::raw('month('.$settings->prefijo_wp.'posts.post_date) as comision'))
-                        ->where([
-                            [$settings->prefijo_wp.'posts.post_status', '=', 'wc-completed'],
-                            [$settings->prefijo_wp.'postmeta.meta_key', '=', '_order_total'],
-                            [DB::raw('YEAR('.$settings->prefijo_wp.'posts.post_date)'), '=', DB::raw('year(now())')],
-                        ])->groupBy(DB::raw('month('.$settings->prefijo_wp.'posts.post_date)'))->get();
-
-
-            $wallets = DB::table('walletlog')->select(DB::raw('month(created_at) as mes'), DB::raw('SUM(debito) as comision'))->where([
-                [DB::raw('YEAR(created_at)'), '=', DB::raw('year(now())')],
-            ])->groupBy(DB::raw('month(created_at)'))->get();
-        }
-        
-        $tmp = [];
-        for ($i=1; $i < 13; $i++) {
-            array_push($tmp, [
-                'mes' => $i,
-                'total' => 0,
-                'comision' => 0,
-            ]);
-        }
-        if (!empty($ventas)) {
-            foreach ($ventas as $venta) {
-                if (Auth::user()->rol_id != 0) {
-                    $tmp[($venta['mes'] -1)]['mes'] = $venta['mes'];
-                    $tmp[($venta['mes'] -1)]['total'] = $venta['total'];
-                } else {
-                    $tmp[($venta->mes -1)]['mes'] = $venta->mes;
-                    $tmp[($venta->mes -1)]['total'] = $venta->total;
-                }
-            }
-        }
-        if (!empty($wallets)) {
-            foreach ($wallets as $wallet) {
-                $tmp[($wallet->mes -1)]['comision'] = $wallet->comision;
-            }
-        }
-
-        return json_encode($tmp);
-    }
 
     /**
-     * Permite obtener la cantida de pagos
+     * Permite obtener a todos mis hijos y los hijos de mis hijos
      *
+     * @param array $users - arreglo de usuarios
+     * @param integer $nivel - el nivel en el que esta parado
+     * @param string $typeTree - el tipo de arbol a usar
      * @return void
      */
-    public function charPagos()
+    public function getChildren($users, $nivel, $typeTree)
     {
-        if (Auth::user()->rol_id == 0) {
-            $pagos = [
-                'pagado' => DB::table('pagos')->where('estado', 1)->get()->count('id'),
-                'pendiente' => DB::table('pagos')->where('estado', 0)->get()->count('id'),
-                'cancelado' => DB::table('pagos')->where('estado', 2)->get()->count('id'),
-            ];
-        } else {
-            $pagos = [
-                'pagado' => DB::table('pagos')->where([['iduser', '=', Auth::user()->ID],['estado', '=', 1]])->get()->count('id'),
-                'pendiente' => DB::table('pagos')->where([['iduser', '=', Auth::user()->ID], ['estado', '=', 0]])->get()->count('id'),
-                'cancelado' => DB::table('pagos')->where([['iduser', '=', Auth::user()->ID], ['estado', '=', 2]])->get()->count('id'),
-            ];
-        }
-
-        return json_encode($pagos);
-    }
-
-    /**
-     * Obtiene la información de los rangos
-     * 
-     * calcula la cantidad de rangos que estan en el sistema
-     * 
-     * @access public
-     * @return array
-     */
-    public function chartRangos()
-    {
-        $settings = Settings::first();
-        // $sql = "SELECT r.name, COUNT(wu.rol_id) FROM roles as r LEFT JOIN $settings->prefijo_wp.users as wu on (r.id = wu.rol_id) GROUP BY r.name";
-        if (Auth::user()->ID != 1) {
-            if ($this->obtenerEstructura() == 'arbol') {
-                $roles = DB::table('roles')
-                    ->leftjoin($settings->prefijo_wp.'users', 'roles.id', '=', $settings->prefijo_wp.'users.rol_id')
-                    ->select('roles.name', DB::raw('COUNT('.$settings->prefijo_wp.'users.rol_id) as cantidad'))
-                    ->where($settings->prefijo_wp.'users.position_id', Auth::user()->ID)
-                    ->orderBy('roles.id', 'asc')
-                    ->groupBy('roles.name', 'roles.id')->get();
-            } else {
-                $roles = DB::table('roles')
-                    ->leftjoin($settings->prefijo_wp.'users', 'roles.id', '=', $settings->prefijo_wp.'users.rol_id')
-                    ->select('roles.name', DB::raw('COUNT('.$settings->prefijo_wp.'users.rol_id) as cantidad'))
-                    ->where($settings->prefijo_wp.'users.position_id', Auth::user()->ID)
-                    ->orderBy('roles.id', 'asc')
-                    ->groupBy('roles.name', 'roles.id')->get();
+        if (!empty($users)) {
+            foreach ($users as $user) {
+                $user->children = $this->getData($user->ID, $nivel, $typeTree);
+                $this->getChildren($user->children, ($nivel+1), $typeTree);
             }
-        } else {
-            $roles = DB::table('roles')
-                    ->join($settings->prefijo_wp.'users', 'roles.id', '=', $settings->prefijo_wp.'users.rol_id')
-                    ->select('roles.name', DB::raw('COUNT('.$settings->prefijo_wp.'users.rol_id) as cantidad'))
-                    ->orderBy('roles.id', 'asc')
-                    ->groupBy('roles.name', 'roles.id')->get();
+            return $users;
+        }else{
+            return $users;
         }
-        
-        return json_encode($roles);
     }
 
     /**
-     * Obtiene la información de los usuarios
-     * 
-     * calcula la cantidad de usuario que tiene el sistema, tambien calcula la cantidad activos e inactivos
-     * 
-     * @access public
-     * @return array
+     * Se trare la informacion de los hijos 
+     *
+     * @param integer $id - id a buscar hijos
+     * @param integer $nivel - nivel en que los hijos se encuentra
+     * @param string $typeTree - tipo de arbol a usar
+     * @return void
      */
-    public function chartUsuarios()
+    private function getData($id, $nivel, $typeTree) : object
     {
-        $totalMesN1 = [];
-        $totalMesN2 = [];
-        $totalMesN3 = [];
-        $totalMesN4 = [];
-        $allUser = $this->generarArregloUsuario(Auth::user()->ID);
-        $Ano_Actual = Carbon::now()->format('Y');
-        $totalN1 = 0;
-        $totalN2 = 0;
-        $totalN3 = 0;
-        $totalN4 = 0;
-        for ($i=1; $i < 13; $i++) {
-            $totalN1Mtmp = 0;
-            $totalN2Mtmp = 0;
-            $totalN3Mtmp = 0;
-            $totalN4Mtmp = 0;
-            foreach ($allUser as $user) {
-                $fecha_register = new Carbon($user['fecha']);
-                if ($Ano_Actual == $fecha_register->format('Y')) {
-                    if ($user['nivel'] == 1) {
-                        if ($fecha_register->format('m') == $i) {
-                            $totalN1Mtmp++;
-                        }
-                    } elseif ($user['nivel'] == 2) {
-                        if ($fecha_register->format('m') == $i) {
-                            $totalN2Mtmp++;
-                        }
-                    } elseif ($user['nivel'] == 3) {
-                        if ($fecha_register->format('m') == $i) {
-                            $totalN3Mtmp++;
-                        }
-                    } elseif ($user['nivel'] == 4) {
-                        if ($fecha_register->format('m') == $i) {
-                            $totalN4Mtmp++;
-                        }
+        $resul = User::where($typeTree, '=', $id)->get();
+        foreach ($resul as $user) {
+            $patrocinado = User::find($user->referred_id);
+            $user->avatar = asset('avatar/'.$user->avatar);
+            $user->nivel = $nivel;
+            $user->ladomatriz = $user->ladomatrix;
+            $user->patrocinador = $patrocinado->display_name;
+        }
+        return $resul;
+    }
+
+    /**
+     * Permite tener la informacion de los hijos como un listado
+     *
+     * @param integer $parent - id del padre
+     * @param array $array_tree_user - arreglo con todos los usuarios
+     * @param integer $nivel - nivel
+     * @param string $typeTree - tipo de usuario
+     * @param boolean $allNetwork - si solo se va a traer la informacion de los directos o todos mis hijos
+     * @return 
+     */
+    public function getChidrens2($parent, $array_tree_user, $nivel, $typeTree, $allNetwork) : array
+    {   
+        if (!is_array($array_tree_user))
+        $array_tree_user = [];
+    
+        $data = $this->getData($parent, $nivel, $typeTree);
+        if (count($data) > 0) {
+            if ($allNetwork == 1) {
+                foreach($data as $user){
+                    if ($user->nivel == 1) {
+                        $array_tree_user [] = $user;
                     }
                 }
-            }
-            $totalMesN1 [] = $totalN1Mtmp;
-            $totalMesN2 [] = $totalN2Mtmp;
-            $totalMesN3 [] = $totalN3Mtmp;
-            $totalMesN4 [] = $totalN4Mtmp;
-        }
-
-        foreach ($allUser as $user) {
-            if ($user['nivel'] == 1) {
-                    $totalN1++;
-            } elseif ($user['nivel'] == 2) {
-                    $totalN2++;
-            } elseif ($user['nivel'] == 3) {
-                    $totalN3++;
-            } elseif ($user['nivel'] == 4) {
-                    $totalN4++;
-            }
-        }
-        
-        if (Auth::user()->rol_id != 0) {
-            if (!empty(Auth::user()->paquete)) {
-                $paquete = json_decode(Auth::user()->paquete);
-                $datos = [
-                    'totalN1' => ($paquete->nivel >= 1) ? $totalN1 : 0,
-                    'totalN2' => ($paquete->nivel >= 2) ? $totalN2 : 0,
-                    'totalN3' => ($paquete->nivel >= 3) ? $totalN3 : 0,
-                    'totalN4' => ($paquete->nivel == 4) ? $totalN4 : 0,
-                    'totalMesN1' => ($paquete->nivel >= 1) ? $totalMesN1 : 0,
-                    'totalMesN2' => ($paquete->nivel >= 2) ? $totalMesN2 : 0,
-                    'totalMesN3' => ($paquete->nivel >= 3) ? $totalMesN3 : 0,
-                    'totalMesN4' => ($paquete->nivel == 4) ? $totalMesN4 : 0,
-                ];
             }else{
-                $datos = [
-                    'totalN1' => 0,
-                    'totalN2' => 0,
-                    'totalN3' => 0,
-                    'totalN4' => 0,
-                    'totalMesN1' => 0,
-                    'totalMesN2' => 0,
-                    'totalMesN3' => 0,
-                    'totalMesN4' => 0,
-                ];
+                foreach($data as $user){
+                    $array_tree_user [] = $user;
+                    $array_tree_user = $this->getChidrens2($user->ID, $array_tree_user, ($nivel+1), $typeTree, $allNetwork);
+                }
             }
-        } else {
-            $datos = [
-                'totalN1' => $totalN1,
-                'totalN2' => $totalN2,
-                'totalN3' => $totalN3,
-                'totalN4' => $totalN4,
-                'totalMesN1' => $totalMesN1,
-                'totalMesN2' => $totalMesN2,
-                'totalMesN3' => $totalMesN3,
-                'totalMesN4' => $totalMesN4,
-            ];
         }
-        
-        
-        return json_encode($datos);
+        return $array_tree_user;
     }
 
-    /**
-     * Realiza un rankig de los 5 usuarios com mas comisiones
-     * 
-     * @access public
-     * @return array
-     */
-    public function rankingComisiones()
-    {
-        $ranking = [];
-        $clave = "";
-        if (Auth::user()->ID != 1) {
-            $users = $this->generarArregloUsuario(Auth::user()->ID);
-            $clave = 'nombre';
-        } else {
-            $users = User::all()->toArray();
-            $clave = 'display_name';
-        }
-        foreach ($users as $user) {
-            $ranking [] = [
-                'usuario' => $user[$clave],
-                'totalcomision' => Commission::where('user_id', $user['ID'])->get()->sum('total'),
-            ];
-        }
-
-        $ranking = $this->ordenarArreglosMultiDimensiones($ranking, 'totalcomision', 'numero');
-        
-        return array_slice($ranking, 0, 5);;
-    }
-    
-    
-    public function noticias()
-    {
-        $contenido=Contenido::orderBy('id','DESC')->paginate(3);
-        return $contenido;
-    }
-
-    /**
-     * Realiza un rankig de los 5 usuarios com mas Compras
-     * 
-     * @access public
-     * @return array
-     */
-    public function rankingVentas()
-    {
-        $settings = Settings::first();
-        $moneda = Monedas::where('principal', 1)->get()->first();
-        $ranking = [];
-        $clave = "";
-        if (Auth::user()->ID != 1) {
-            $users = $this->generarArregloUsuario(Auth::user()->ID);
-            $clave = "nombre";
-        } else {
-            $users = User::all()->toArray();
-            $clave = "display_name";
-        }
-        foreach ($users as $user) {
-            $cantVentasMont = 0;
-            $ordenes = DB::table($settings->prefijo_wp.'postmeta')
-                            ->select('post_id')
-                            ->where('meta_key', '=', '_customer_user')
-                            ->where('meta_value', '=', $user['ID'])
-                            ->orderBy('post_id', 'DESC')
-                            ->get();
-
-            foreach ($ordenes as $orden){
-                $totalOrden = DB::table($settings->prefijo_wp.'postmeta')
-                        ->select('meta_value')
-                        ->where('post_id', '=', $orden->post_id)
-                        ->where('meta_key', '=', '_order_total')
-                        ->first();
-                        $valor = trim(str_replace($moneda->simbolo, ' ', $totalOrden->meta_value));
-                        $cantVentasMont = ((int)$valor + $cantVentasMont);
-            }
-            $ranking [] = [
-                'usuario' => $user[$clave],
-                'totalventas' => $cantVentasMont,
-            ];
-        }
-
-        $ranking = $this->ordenarArreglosMultiDimensiones($ranking, 'totalventas', 'numero');
-        
-        return array_slice($ranking, 0, 5);
-    }
 
     /**
      * Permite ordenar el arreglo primario con las claves de los arreglos segundarios
@@ -542,99 +176,305 @@ class IndexController extends Controller
     }
 
     /**
-     * Obtiene todas las ventas de la red
-     * 
-     * @access public
-     * @param int $iduser - id del usuario
-     * @return int 
-     */
-    public function countOrderNetwork($iduser)
-    {
-        $TodosUsuarios = $this->generarArregloUsuario($iduser);
-        $compras = array();
-        $cantVentas = 0;
-        $settings = Settings::first();
-        foreach($TodosUsuarios as $user){
-            $ordenes = DB::table($settings->prefijo_wp.'postmeta')
-                            ->select('post_id')
-                            ->where('meta_key', '=', '_customer_user')
-                            ->where('meta_value', '=', $user['ID'])
-                            ->orderBy('post_id', 'DESC')
-                            ->get();
-
-            foreach ($ordenes as $orden){
-                $cantVentas++;
-            }
-        }
-        return $cantVentas;
-    }
-
-    /**
-     * Obtiene el monto de todas las ventas de la red
-     * 
-     * @access public
-     * @param int $iduser - id del usuario
-     * @return float
-     */
-    public function countOrderNetworkMont($iduser)
-    {
-        $TodosUsuarios = $this->generarArregloUsuario($iduser);
-        $compras = array();
-        $cantVentasMont = 0;
-        $settings = Settings::first();
-        foreach($TodosUsuarios as $user){
-            $ordenes = DB::table($settings->prefijo_wp.'postmeta')
-                            ->select('post_id')
-                            ->where('meta_key', '=', '_customer_user')
-                            ->where('meta_value', '=', $user['ID'])
-                            ->orderBy('post_id', 'DESC')
-                            ->get();
-
-            foreach ($ordenes as $orden){
-                $totalOrden = DB::table($settings->prefijo_wp.'postmeta')
-                        ->select('meta_value')
-                        ->where('post_id', '=', $orden->post_id)
-                        ->where('meta_key', '=', '_order_total')
-                        ->first();
-                $cantVentasMont = ($totalOrden->meta_value + $cantVentasMont);
-            }
-        }
-        return $cantVentasMont;
-    }
-
-    /**
-     * Permite Saber cuales cuales compras se aprobaron por el wordpress 
-     *  para poder descontar que se compro
+     * Permite obtener la informacion completa de las compras
      *
+     * @param integer $iduser
      * @return void
      */
-    public function ordenesSistema()
+    public function getInforShopping($iduser) : array
     {
-        $tienda = new TiendaController;
-        $apiKey = env('COINBASE_API_KEY');
-        ApiClient::init($apiKey);
-        $solicitudes = $tienda->ArregloCompra();
-        foreach ($solicitudes as $solicitud) {
-            if (!empty($solicitud['code_coinbase']) && !empty($solicitud['id_coinbase']) && $solicitud['estado'] != 'Completado') {
-                $retrievedCharge = Charge::retrieve($solicitud['id_coinbase']);
-                if (count($retrievedCharge->timeline) > 0) {
-                    foreach ($retrievedCharge->timeline as $item) {
-                        if ($item['status'] == 'COMPLETED') {
-                            $tienda->actualizarBD($solicitud['idcompra'], 'wc-completed');
-                            $usuarios = User::select('ID', 'status', 'rol_id', 'display_name')->get();
-                            $comiesiones = new ComisionesController;
-                            foreach ($usuarios as $user) {
-                                if ($user->rol_id != 0) {
-                                // $comiesiones->generarComision($user->ID);
-                                $comiesiones->bonoUnilevel($user->ID);
-                                }
+        $arreCompras = [];
+        $compras = $this->getShopping($iduser);
+        if (!empty($compras)) {
+            foreach ($compras as $compra) {
+                $detallesCompra = $this->getShoppingDetails($compra->post_id);
+                if ($detallesCompra->null) {
+                    $arregProducto = $this->getProductos($compra->post_id);
+                    if ($arregProducto->null) {
+                        $productos = [];
+                        foreach ($arregProducto as $product) {
+                            $idProducto = $this->getIdProductos($product->order_item_id);
+                            $detalleProduct = $this->getProductDetails($idProducto);
+                            if ($detalleProduct->null) {
+                                $productos [] = [
+                                    'idproducto' => $idProducto,
+                                    'precio' => $this->getTotalProductos($product->order_item_id),
+                                    'nombre' => $detalleProduct->post_title,
+                                    'img' => $detalleProduct->post_excerpt,
+                                    'porc_binario' => $detalleProduct->bono_binario
+                                ];
                             }
                         }
+                        $arreCompras [] = [
+                            'idusuario' => $iduser,
+                            'idcompra' => $compra->post_id,
+                            'fecha' => $detallesCompra->post_date,
+                            'productos' => $productos,
+                            'total' => $this->getShoppingTotal($compra->post_id)
+                        ];
                     }
-                    
                 }
             }
         }
+        return $arreCompras;
+    }
+
+    /**
+     * Permite obtener las compras que hizo un usuario
+     *
+     * @param integer $user_id
+     * @return void
+     */
+    public function getShopping($user_id) : object
+    {
+        $settings = Settings::first();
+        $comprasID = DB::table($settings->prefijo_wp.'postmeta')
+                    ->select('post_id')
+                    ->where('meta_key', '=', '_customer_user')
+                    ->where('meta_value', '=', $user_id)
+                    ->get();
+        return $comprasID;
+    }
+
+    /**
+     * Permite obtener el id del usuario que hizo la compra
+     *
+     * @param integer $idpost
+     * @return void
+     */
+    public function getIdUser($idpost) : int
+    {
+        $settings = Settings::first();
+        $comprasID = DB::table($settings->prefijo_wp.'postmeta')
+                    ->select('meta_value')
+                    ->where('meta_key', '=', '_customer_user')
+                    ->where('post_id', '=', $idpost)
+                    ->first();
+        return $comprasID->meta_value;
+    }
+
+    /**
+     * Permite obtener informacion del estado y fecha de la compra
+     *
+     * @param integer $shop_id
+     * @return void
+     */
+    public function getShoppingDetails($shop_id) : object
+    {
+        $settings = Settings::first();
+		$datosCompra = DB::table($settings->prefijo_wp.'posts')
+                        ->select('post_date')
+                        ->where('ID', '=', $shop_id)
+                        ->where('post_status', '=', 'wc-completed')
+                        ->first();
+
+        if (empty($datosCompra)) {
+            $datosCompra = new stdClass();
+            $datosCompra->null = false;
+        }else{
+            $datosCompra->null = true;
+        }
+        return $datosCompra;
+    }
+
+    /**
+     * Permite obtener todos los productos de la compras
+     *
+     * @param integer $shop_id
+     * @return object
+     */
+	public function getProductos($shop_id): object
+	{
+        $settings = Settings::first();
+		$totalProductos = DB::table($settings->prefijo_wp.'woocommerce_order_items')
+													->select('order_item_id')
+													->where('order_id', '=', $shop_id)
+                                                    ->get();
+
+        if (empty($totalProductos)) {
+            $totalProductos = new stdClass();
+            $totalProductos->null = false;
+        }else{
+            $totalProductos->null = true;
+        }
+		return $totalProductos;
+	}
+    
+    /**
+     * Permite obtener el id de los productos
+     *
+     * @param integer $id_item
+     * @return void
+     */
+	public function getIdProductos($id_item): int
+	{
+        $settings = Settings::first();
+        $valor = 0;
+		$IdProducto = DB::table($settings->prefijo_wp.'woocommerce_order_itemmeta')
+													->select('meta_value')
+													->where('order_item_id', '=', $id_item)
+													->where('meta_key', '=', '_product_id')
+                                                    ->first();
+        if (!empty($IdProducto)) {
+            if (!empty($IdProducto->meta_value)) {
+                $valor = $IdProducto->meta_value;
+            }
+        }
+		return $valor;
+    }
+    
+    /**
+     * Permite obtener informacion de los productos
+     *
+     * @param integer $shop_id
+     * @return void
+     */
+    public function getProductDetails($shop_id) : object
+    {
+        $settings = Settings::first();
+		$datosCompra = DB::table($settings->prefijo_wp.'posts')
+                        ->select('post_excerpt', 'post_title', 'post_password as bono_binario')
+                        ->where('ID', '=', $shop_id)
+                        ->first();
+
+        if (empty($datosCompra)) {
+            $datosCompra = new stdClass();
+            $datosCompra->null = false;
+        }else{
+            $datosCompra->null = true;
+        }
+        return $datosCompra;
+    }
+    
+    /**
+     * Permite obtener el precio de los productos comprado
+     *
+     * @param integer $id_item
+     * @return void
+     */
+	public function getTotalProductos($id_item) : float
+	{
+        $valor = 0;
+        $settings = Settings::first();
+		$IdProducto = DB::table($settings->prefijo_wp.'woocommerce_order_itemmeta')
+													->select('meta_value')
+													->where('order_item_id', '=', $id_item)
+													->where('meta_key', '=', '_line_total')
+													->first();
+        if (!empty($IdProducto)) {
+            $restante = $IdProducto->meta_value;
+            $valor = $restante;
+        }
+		return $valor;
+    }
+    
+	/**
+     * Permite obtener el monto total de la compra realizada
+     *
+     * @param integer $shop_id
+     * @return void
+     */
+    public function getShoppingTotal($shop_id): float
+    {
+        $settings = Settings::first();
+		$totalCompra = DB::table($settings->prefijo_wp.'postmeta')
+				        ->select('meta_value')
+				        ->where('post_id', '=', $shop_id)
+				        ->where('meta_key', '=', '_order_total')
+				        ->first();
+		return $totalCompra->meta_value;
+    }
+    
+    /**
+     * Se trare la informacion de los hijos 
+     *
+     * @param integer $id - id a buscar hijos
+     * @param integer $nivel - nivel en que los hijos se encuentra
+     * @param string $typeTree - tipo de arbol a usar
+     * @return void
+     */
+    private function getDataSponsor($id, $nivel, $typeTree) : object
+    {
+        $resul = User::where($typeTree, '=', $id)->get();
+        foreach ($resul as $user) {
+            $user->avatar = asset('avatar/'.$user->avatar);
+            $user->nivel = $nivel;
+            $user->ladomatriz = $user->ladomatrix;
+        }
+        return $resul;
+    }
+
+    /**
+     * Permite obtener a todos mis patrocinadores
+     *
+     * @param integer $child - id del hijo
+     * @param array $array_tree_user - arreglo de patrocinadores
+     * @param integer $nivel - nivel a buscar
+     * @param string $typeTree - llave a buscar
+     * @param string $keySponsor - llave para buscar el sponsor, position o referido
+     * @return array
+     */
+    public function getSponsor($child, $array_tree_user, $nivel, $typeTree, $keySponsor): array
+    {
+        if (!is_array($array_tree_user))
+        $array_tree_user = [];
+    
+        $data = $this->getDataSponsor($child, $nivel, $typeTree);
+        if (count($data) > 0) {
+            foreach($data as $user){
+                $array_tree_user [] = $user;
+                $array_tree_user = $this->getSponsor($user->$keySponsor, $array_tree_user, ($nivel+1), $typeTree, $keySponsor);
+            }
+        }
+        return $array_tree_user;
+    }
+
+    /**
+     * Permite Obtener las ultimas compras realizadas en los ultimos 30 dias, para pagar los bonos correspondientes
+     *
+     * @return array
+     */
+    public function getAllCompras(): array
+    {
+        $fecha = Carbon::now();
+        $settings = Settings::first();
+        $compras = DB::table($settings->prefijo_wp.'posts')
+                    ->select('*')
+                    ->where([
+                        ['post_type', '=', 'shop_order'],
+                        ['post_status', '=', 'wc-completed']
+                    ])
+                    ->whereDate('post_date', '>', $fecha->subDay(30))
+                    ->get();
+        $arreCompras = [];
+        foreach ($compras as $compra) {
+            $arregProducto = $this->getProductos($compra->ID);
+            $iduser = $this->getIdUser($compra->ID);
+            if ($arregProducto->null) {
+                $productos = [];
+                $membresia = false;
+                foreach ($arregProducto as $product) {
+                    $idProducto = $this->getIdProductos($product->order_item_id);
+                    $detalleProduct = $this->getProductDetails($idProducto);
+                    if ($detalleProduct->null) {
+                        $productos [] = [
+                            'idproducto' => $idProducto,
+                            'precio' => $this->getTotalProductos($product->order_item_id),
+                            'nombre' => $detalleProduct->post_title,
+                            'img' => $detalleProduct->post_excerpt,
+                        ];
+                    }
+                }
+                $arreCompras [] = [
+                    'idusuario' => $iduser,
+                    'idcompra' => $compra->ID,
+                    'fecha' => $compra->post_date,
+                    'productos' => $productos,
+                    'total' => $this->getShoppingTotal($compra->ID),
+                ];
+            }
+        }
+        return $arreCompras;
     }
 
 }

@@ -34,18 +34,9 @@ class WalletController extends Controller
 		$metodopagos = MetodoPago::all();
 		$comisiones = SettingsComision::select('comisionretiro', 'comisiontransf')->where('id', 1)->get();
 		$funciones = new ComisionesController;
-		$funciones->ObtenerUsuarios();
+		$funciones->bonoDirecto();
 		$cuentawallet = '';
 		$pagosPendientes = false;
-		// if (Auth::user()->rol_id == 0) {
-		// 	$wallets = Wallet::where([
-		// 		['puntos', '!=', 0],
-		// 		['debito', '!=', 0],
-		// 	])->orWhere([
-		// 		['puntos', '!=', 0],
-		// 		['credito', '!=', 0],
-		// 	])->get();
-		// } else {
 			$validarPagos = Pagos::where([
 				['iduser', '=', Auth::user()->ID],
 				['estado', '=', 0]
@@ -62,76 +53,10 @@ class WalletController extends Controller
 				])->get();
 			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
 			$cuentawallet = $cuentawallet->paypal;
-		// }
 		
 	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes'));
 	}
 
-	/**
-	 *  Va a la vista principal de la billetera tantechcoins
-	 * 
-	 * @access public
-	 * @return view
-	 */
-	public function indexTantech(){
-	   
-		$moneda = Monedas::where('principal', 1)->get()->first();
-		$metodopagos = MetodoPago::all();
-		$comisiones = SettingsComision::select('comisionretiro', 'comisiontransf')->where('id', 1)->get();
-		$funciones = new ComisionesController;
-		$funciones->ObtenerUsuarios();
-		$cuentawallet = '';
-		if (Auth::user()->rol_id == 0) {
-			$wallets = Wallet::where([
-				['puntos', '!=', 0],
-				['descripcion', '!=', 'Bono de activacion']
-			])->get();
-		} else {
-			$wallets = Wallet::where([
-				['iduser', '=',Auth::user()->ID], 
-				['puntos', '!=', 0],
-				['descripcion', '!=', 'Bono de activacion']
-			])->get();
-			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
-			$cuentawallet = $cuentawallet->paypal;
-		}
-		
-	   	return view('wallet.indexwallettantech')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet'));
-	}
-
-	
-	/**
-	 *  Va a la vista principal de la billetera tantechcoins personales
-	 * 
-	 * @access public
-	 * @return view
-	 */
-	public function indexTantechPersonal(){
-	   
-		$moneda = Monedas::where('principal', 1)->get()->first();
-		$metodopagos = MetodoPago::all();
-		$comisiones = SettingsComision::select('comisionretiro', 'comisiontransf')->where('id', 1)->get();
-		$funciones = new ComisionesController;
-		$funciones->ObtenerUsuarios();
-		$cuentawallet = '';
-		if (Auth::user()->rol_id == 0) {
-			$wallets = Wallet::where([
-				['puntos', '!=', 0],
-			])->get();
-		} else {
-			$wallets = Wallet::where([
-				['iduser', '=',Auth::user()->ID], 
-				['puntos', '!=', 0],
-			])->orWhere([
-				['iduser', '=',Auth::user()->ID], 
-				['creditocoin', '!=', 0],
-			])->get();
-			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
-			$cuentawallet = $cuentawallet->paypal;
-		}
-		
-	   	return view('wallet.indexwallettantech')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet'));
-	}
 
 	/**
 	 *  Va a la vista principal de la billetera puntos
@@ -194,7 +119,6 @@ class WalletController extends Controller
 						   'puntosI' => 0,
 						   'puntosD' => 0,
 						   'credito' => $datos['monto'],
-						   'tantechcoin' => 0,
 						   'balance' => $userOrigen->wallet_amount,
 						   'tipotransacion' => 0
     	               ];
@@ -208,7 +132,6 @@ class WalletController extends Controller
 						   'puntosI' => 0,
 						   'puntosD' => 0,
 						   'credito' => 0,
-						   'tantechcoin' => 0,
 						   'balance' => $userDestino->wallet_amount,
 						   'tipotransacion' => 0
     	               ];
@@ -236,20 +159,6 @@ class WalletController extends Controller
 	 */
 	public function saveWallet($datos){
 		Wallet::create($datos);
-		// Wallet::create([
-		// 	'iduser' => $datos['iduser'],
-		// 	'usuario' => $datos['usuario'],
-		// 	'descripcion' => $datos['descripcion'],
-		// 	'puntos' => $datos['puntos'],
-		// 	'descuento' => $datos['descuento'],
-		// 	'puntosI' => $datos['puntosI'],
-		// 	'puntosD' => $datos['puntosD'],
-		// 	'debito' => $datos['debito'],
-		// 	'tantechcoin' => $datos['tantechcoin'],
-		// 	'credito' => $datos['credito'],
-		// 	'balance' => $datos['balance'],
-		// 	'tipotransacion' => $datos['tipotransacion']
-		// ]);
 	}
     
     /**

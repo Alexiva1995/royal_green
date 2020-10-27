@@ -4,11 +4,11 @@
 <div class="contai2">
 	<div class="row">
 		{{-- primeros cuadro --}}
-		@include('dashboard.componenteIndex.first_square')
+		{{-- @include('dashboard.componenteIndex.first_square') --}}
 		{{-- secundo cuadro --}}
 		{{-- @include('dashboard.componenteIndex.second_square') --}}
 		{{-- tecer cuadro --}}
-		@include('dashboard.componenteIndex.third_square')
+		{{-- @include('dashboard.componenteIndex.third_square') --}}
 	</div>
 </div>
 

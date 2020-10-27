@@ -669,7 +669,7 @@ class SettingController extends Controller
 		DB::table($settings->prefijo_wp.'users')->where('ID', '!=', 1)->delete();
 		DB::table($settings->prefijo_wp.'users')->where('ID', '=', 1)->update([
 			'wallet_amount' => 0, 
-			'puntos' => 0, 
+			'puntos' => [],
 		]);
 		$sql = 'ALTER TABLE '.$settings->prefijo_wp.'users AUTO_INCREMENT = 2';
 		DB::statement($sql);

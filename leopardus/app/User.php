@@ -25,9 +25,9 @@ class User extends Authenticatable
         'display_name', 'password', 'avatar', 'access_token', 'referred_id',
         'sponsor_id', 'position_id', 'status', 'rol_id', 'wallet_amount',
         'clave', 'activacion', 'token_correo', 'verificar_correo', 'toke_google',
-        'tipouser', 'puntos', 'paquete', 'puntosP', 'puntosizq',
-        'puntosder', 'ladomatrix', 'ladoregistrar', 'icono_paquete', 'clave_maestra',
-        'fecha_activacion', 'rentabilidad', 'porc_rentabilidad', 'check_token_google'
+        'tipouser', 'puntos', 'paquete', 'ladomatrix', 'ladoregistrar', 
+        'icono_paquete', 'clave_maestra', 'fecha_activacion', 'rentabilidad', 'porc_rentabilidad', 
+        'check_token_google'
     ];
 
     /**

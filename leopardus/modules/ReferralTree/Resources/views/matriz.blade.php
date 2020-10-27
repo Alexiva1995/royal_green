@@ -177,7 +177,7 @@ right connector from last child*/
 		border-color: #94a0b4;
 	}
 
-	.padre img{
+	.padre img {
 		height: 64px;
 		border-radius: 50%;
 		border: 1px solid #cccccc;
@@ -185,8 +185,8 @@ right connector from last child*/
 </style>
 
 {{-- formulario de fecha  --}}
-@include('dashboard.componentView.formSearchSimple', ['route' => 'moretree2', 'name1' => 'id', 'type' => 'number',
-'text' => 'ID del Usuario'])
+{{-- @include('dashboard.componentView.formSearchSimple', ['route' => 'moretree', 'name1' => 'id', 'type' => 'number',
+'text' => 'ID del Usuario']) --}}
 
 @if (Session::has('msj2'))
 <div class="col-md-12">
@@ -198,185 +198,103 @@ right connector from last child*/
 	</div>
 </div>
 <hr>
+
 @endif
 
-<div class="card">
-	<div class="card-content">
-		<div class="card-body">
-			<div class="tree padre" scroll="auto">
+<div class="col-12 text-center">
+	<div class="padre tree">
+		<ul>
+			<li>
+				<img title="{{ ucwords($base->display_name) }}" src="{{ $base->avatar }}" style="width:64px">
+				{{-- Nivel 1 --}}
 				<ul>
+					@foreach ($trees as $child)
+					{{-- lado Derecho --}}
+					@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($base->children)])
 					<li>
-						<!-- NODO PRINCIPAL -->
-						<img title="{{ ucwords($referidoBase['nombre']) }}"
-							src="{{ $referidoBase['avatar'] }}" style="width:64px">
-						<div class="inforuser">
-							@include('referraltree::infouser', ['data' => $referidoBase])
-							{{-- <h4>{{ ucwords($referidoBase['nombre']) }}</h4> --}}
-
-						</div>
-						{{-- nivel 1 --}}
+						@include('referraltree::infouser', ['data' => $child])
+						@if (!empty($child->children))
+						{{-- nivel 2 --}}
 						<ul>
-							@foreach ($referidosAll as $item)
-							@if ($item['subreferido'] == 0)
-							{{-- posicion vacia izquierda --}}
-							@if($item['idpatrocinador'] == $referidoBase['ID'] && $item['nivel'] == 1)
-							@if ($referidoBase['cantsubreferido'] == 1 && $item['ladomatrix'] == 'D')
+							@foreach ($child->children as $child2)
+							{{-- lado Derecho --}}
+							@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child->children)])
 							<li>
-								<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png"
-									alt="" style="width:64px">
-							</li>
-							@endif
-							<li>
-								<img title="{{ ucwords($item['nombre']) }}"
-									src="{{ $item['avatar'] }}" style="width:64px"
-									onclick="nuevoreferido({{$item['ID']}})">
-								<div class="inforuser">
-									@include('referraltree::infouser', ['data' => $item])
-								</div>
-								{{-- <h5 class="nombre">{{ ucwords($item['nombre']) }}</h5> --}}
-							</li>
-							@endif
-							{{-- posicion vacia derecha nivel 1 --}}
-							{{-- @if ($referidoBase['cantsubreferido'] == 1 && $item['ladomatrix'] == 'I')
-							<li>
-								entre 1
-								<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png" alt="" style="width:64px">
-							</li>
-							@endif --}}
-							@else
-							@if($item['idpatrocinador'] == $referidoBase['ID'] && $item['nivel'] == 1)
-							{{-- posicion vacia izquierda --}}
-							@if ($referidoBase['cantsubreferido'] == 1 && $item['ladomatrix'] == 'D' &&
-							$referidoBase['ID']
-							!=
-							1)
-							<li>
-								<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png"
-									alt="" style="width:64px">
-							</li>
-							@endif
-							{{-- Usuario registrado --}}
-							<li>
-								<img title="{{ ucwords($item['nombre']) }}"
-									src="{{ $item['avatar'] }}" style="width:64px"
-									onclick="nuevoreferido({{$item['ID']}})">
-								<div class="inforuser">
-									@include('referraltree::infouser', ['data' => $item])
-								</div>
-								{{-- <h5 class="nombre">{{ ucwords($item['nombre']) }}</h5> --}}
-								{{-- nivel2 --}}
-								<ul class="nivel2">
-									@foreach ($referidosAll as $elemento)
-									@if($elemento['subreferido'] == 0)
-									@if($elemento['idpatrocinador'] == $item['ID'] && $elemento['nivel'] == 2)
-									{{-- posicion vacia izquierda nivel 2 --}}
-									@if ($item['cantsubreferido'] == 1 && $elemento['ladomatrix'] == 'D')
+								
+								@include('referraltree::infouser', ['data' => $child2])
+								@if (!empty($child2->children))
+								{{-- nivel 3 --}}
+								<ul>
+									@foreach ($child2->children as $child3)
+									{{-- lado Derecho --}}
+									@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child2->children)])
 									<li>
-										<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png"
-											alt="" style="width:64px">
+										@include('referraltree::infouser', ['data' => $child3])
+										@if (!empty($child3->children))
+										{{-- nivel 4 --}}
+										<ul>
+											@foreach ($child3->children as $child4)
+											{{-- lado Derecho --}}
+											@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child3->children)])
+											<li>
+												@include('referraltree::infouser', ['data' => $child4])
+
+												@if (!empty($child4->children))
+												{{-- nivel 5 --}}
+												<ul>
+													@foreach ($child4->children as $child5)
+													{{-- lado Derecho --}}
+													@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child4->children)])
+													<li>
+														@include('referraltree::infouser', ['data' => $child5])
+													</li>
+													{{-- lado Izquierdo --}}
+													@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child4->children)])
+													@endforeach
+												</ul>
+												{{-- fin nivel 5 --}}
+												@endif
+											</li>
+											{{-- lado Izquierdo --}}
+											@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child3->children)])
+											@endforeach
+										</ul>
+										{{-- fin nivel 4 --}}
+										@endif
 									</li>
-									@endif
-									<li>
-										<img title="{{ ucwords($elemento['nombre']) }}"
-											src="{{ $elemento['avatar'] }}"
-											style="width:64px" onclick="nuevoreferido({{$elemento['ID']}})">
-										<div class="inforuser">
-											@include('referraltree::infouser', ['data' => $elemento])
-										</div>
-									</li>
-									{{-- posicion vacia derecha nive2 --}}
-									@if ($item['cantsubreferido'] == 1 && $elemento['ladomatrix'] == 'I')
-									<li>
-										<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png"
-											alt="" style="width:64px">
-									</li>
-									@endif
-									@endif
-									@else
-									@if($elemento['idpatrocinador'] == $item['ID'] && $elemento['nivel'] == 2)
-									{{-- posicion vacia izquierda nivel 2 --}}
-									@if ($item['cantsubreferido'] == 1 && $elemento['ladomatrix'] == 'D')
-									<li>
-										<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png"
-											alt="" style="width:64px">
-									</li>
-									@endif
-									<li>
-										<img title="{{ ucwords($elemento['nombre']) }}"
-											src="{{$elemento['avatar'] }}"
-											style="width:64px" onclick="nuevoreferido({{$elemento['ID']}})">
-										<div class="inforuser">
-											@include('referraltree::infouser', ['data' => $elemento])
-										</div>
-									</li>
-									{{-- posicion vacia derecha nive2 --}}
-									@if ($item['cantsubreferido'] == 1 && $elemento['ladomatrix'] == 'I')
-									<li>
-										<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png"
-											alt="" style="width:64px">
-									</li>
-									@endif
-									@endif
-									@endif
+									{{-- lado Izquierdo --}}
+									@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child2->children)])
 									@endforeach
 								</ul>
+								{{-- fin nivel 3 --}}
+								@endif
 							</li>
-							{{-- posicion vacia derecha nivel 1 --}}
-							@if ($referidoBase['cantsubreferido'] == 1 && $item['ladomatrix'] == 'I')
-							<li>
-								<img src="https://greenviewmds.com/mioficina/assets/img/avatares/png-icono_(1).png"
-									alt="" style="width:64px">
-							</li>
-							@endif
-							@endif
-							@endif
+							{{-- lado Izquierdo --}}
+							@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child->children)])
 							@endforeach
 						</ul>
+						{{-- fin nivel 2 --}}
+						@endif
 					</li>
+					{{-- lado Izquierdo --}}
+					@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($base->children)])
+					@endforeach
 				</ul>
-			</div>
-			<div class="col-12 text-center">
-				@if ($principal == 'NO')
-				<a href="{{ route('referraltree')}}">Back to my tree</a>
-				@endif
-			</div>
-		</div>
+				{{-- fin nivel 1 --}}
+			</li>
+		</ul>
 	</div>
+	@if (Auth::id() != $base->ID)
+	<div class="col-12 text-center">
+		<a class="btn btn-info" href="{{route('referraltree', strtolower($type))}}">Regresar a mi arbol</a>
+	</div>
+	@endif
 </div>
 
 <script>
-	function nuevoreferido(id) {
-		let ruta = "{{url('mioficina/referraltree')}}/" + id
+	function nuevoreferido(id, type) {
+		let ruta = "{{url('mioficina/referraltree')}}/" + type + '/' + id
 		window.location.href = ruta
 	}
-	// $(document).ready(function(){
-	// 	$(".nivel2 .del").remove()
-	// 	$(".nivel3 .del2").remove()
-	// })
 </script>
 @endsection
-
-
-{{-- <h5 class="nombre">{{ ucwords($elemento['nombre']) }}</h5> --}}
-{{-- nivel 3 --}}
-{{-- <ul class="nivel3">
-											@foreach ($referidosAll as $elemento2)
-											@if($elemento2['idpatrocinador'] == $elemento['ID'] && $elemento2['nivel'] == 3) 
-											<li>
-												<a href="{{ route('moretree', $elemento2['ID']) }}">
-<img title="{{ ucwords($elemento2['nombre']) }}" src="{{ $elemento2['picture'] }}"
-	style="width:64px">
-<div class="inforuser">
-	<h3><img title="{{ ucwords($elemento2['nombre']) }}"
-			src="{{ $referidoBase['picture'] }}"></h3>
-	<h4>{{ ucwords($elemento2['nombre']) }}</h4>
-
-	<h5><span>Ingreso</span>: <b>{{ date('d-m-Y', strtotime($elemento2['fechaingreso'])) }}</b></h5>
-	<h5><b class="rol">{{ ucwords($elemento2['rol']) }}</b></h5>
-</div>
-<h5 class="nombre">{{ ucwords($elemento2['nombre']) }}</h5>
-</a>
-</li>
-@endif
-@endforeach
-</ul> --}}
