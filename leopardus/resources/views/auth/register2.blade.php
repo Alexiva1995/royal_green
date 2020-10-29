@@ -39,20 +39,17 @@ $referred = DB::table($settings->prefijo_wp.'users')
 
 @endif
 
-<section class="row flexbox-container">
-    <div class="col-xl-8 col-10 d-flex justify-content-center">
-        <div class="card bg-authentication rounded-0 mb-0">
+<section class="row flexbox-container overflow-scroll">
+    <div class="col-md-6 col-12 d-flex justify-content-center">
+        <div class="card bg-authentication rounded-0 mb-0" style="background: transparent;">
             <div class="row m-0">
-                <div class="col-lg-6 d-lg-block d-none text-center align-self-center pl-0 pr-3 py-0">
-                    {{-- <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="branding logo" width="350"> --}}
-                    <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="branding logo" width="300">
-                    {{-- <img src="../../../app-assets/images/pages/register.jpg" alt="branding logo"> --}}
-                </div>
-                <div class="col-lg-6 col-12 p-0">
-                    <div class="card rounded-0 mb-0 p-2">
+                <div class="col-12 p-0">
+                    <div class="card rounded-0 mb-0 p-2 text-center" style="background: transparent;">
+                        <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class="m-auto branding logo"
+                            height="130" width="130">
                         <div class="card-header pt-50 pb-1">
-                            <div class="card-title">
-                                <h4 class="mb-0">Nuevo Usuario</h4>
+                            <div class="card-title m-auto">
+                                <h4 class="mb-0 text-white">Nuevo Usuario</h4>
                             </div>
                         </div>
                         @if ($referred != null)
@@ -90,8 +87,7 @@ $referred = DB::table($settings->prefijo_wp.'users')
                                     <div class="form-label-group input-alt">
                                         <label class="" for=""></label>
                                         <input class="form-control " step="1" type="{{$campo->tipo}}"
-                                            placeholder="'{{$campo->label}} {{($campo->requerido == 1) ? '(*)' : ''}}'"
-                                            name="{{$campo->nameinput}}"
+                                            placeholder="{{$campo->label}}" name="{{$campo->nameinput}}"
                                             min="{{(!empty($campo->min)) ? $campo->min : ''}}"
                                             max="{{(!empty($campo->max)) ? $campo->max : ''}}"
                                             required="{{($campo->requerido == 1) ? 'true' : 'false'}}"
@@ -110,8 +106,7 @@ $referred = DB::table($settings->prefijo_wp.'users')
                                     @else
                                     <div class="form-label-group input-alt">
 
-                                        <input class="form-control "
-                                            placeholder="{{$campo->label}} {{($campo->requerido == 1) ? '(*)' : ''}}"
+                                        <input class="form-control " placeholder="{{$campo->label}}"
                                             type="{{$campo->tipo}}" name="{{$campo->nameinput}}"
                                             value="{{old($campo->nameinput)}}"
                                             minlength="{{(!empty($campo->min)) ? $campo->min : ''}}"
@@ -149,9 +144,9 @@ $referred = DB::table($settings->prefijo_wp.'users')
 
                                         <input
                                             class="form-control form-control-solid placeholder-no-fix form-label-group"
-                                            type="password" autocomplete="off" name="password"
-                                            placeholder="Clave (*)" required style="background-color:f7f7f7;"
-                                            oncopy="return false" onpaste="return false" />
+                                            type="password" autocomplete="off" name="password" placeholder="Clave (*)"
+                                            required style="background-color:f7f7f7;" oncopy="return false"
+                                            onpaste="return false" />
                                     </div>
 
                                     <div class="form-label-group input-alt">
@@ -195,10 +190,10 @@ $referred = DB::table($settings->prefijo_wp.'users')
                             @endif
 
                             <div class="form-group row">
-                                <div class="col-12">
+                                <div class="col-12 d-none">
                                     <fieldset class="checkbox">
                                         <div class="vs-checkbox-con vs-checkbox-primary">
-                                            <input type="checkbox" {{ old('terms') ? 'checked' : '' }} name="terms">
+                                            <input type="checkbox" checked name="terms">
                                             <span class="vs-checkbox">
                                                 <span class="vs-checkbox--check">
                                                     <i class="vs-icon feather icon-check"></i>
@@ -206,28 +201,32 @@ $referred = DB::table($settings->prefijo_wp.'users')
                                             </span>
                                             <span class="">
                                                 Acepta terminos y condiciones
-                                                <a href="{{asset('assets/terminosycondiciones.pdf')}}" download> Descargar terminos y condiciones</a>
+                                                <a href="{{asset('assets/terminosycondiciones.pdf')}}" download>
+                                                    Descargar terminos y condiciones</a>
                                             </span>
                                         </div>
                                     </fieldset>
                                 </div>
                             </div>
-                            <a href="{{route('login')}}"
-                                class="btn btn-outline-primary float-left btn-inline mb-50">Login</a>
-                            <button type="submit" class="btn btn-primary float-right btn-inline mb-50">Registrar</a>
+                            <div class="row">
+                                <a href="{{route('login')}}"
+                                    class="btn btn-outline-primary float-left btn-inline mb-50 col-12">Login</a>
+                                <button type="submit"
+                                    class="btn btn-primary float-right btn-inline mb-50 col-12">Registrar</button>
+                            </div>
 
 
-                                {{-- <div class="col-sm-12 col-xs-12 form-label-group">
+                            {{-- <div class="col-sm-12 col-xs-12 form-label-group">
 
                                 <div class="rem-password">
                                     <label class="rememberme mt-checkbox mt-checkbox-outline new-checkbox">
                                         <input type="checkbox" id="terms" name="terms"
                                             {{ old('terms') ? 'checked' : '' }} />
-                                I have read, I accept the terms and conditions
-                                <span></span>
-                                <a href="{{asset('assets/terminosycondiciones.pdf')}}" download> Download Terms
-                                    and Conditions</a>
-                                </label>
+                            I have read, I accept the terms and conditions
+                            <span></span>
+                            <a href="{{asset('assets/terminosycondiciones.pdf')}}" download> Download Terms
+                                and Conditions</a>
+                            </label>
                         </div>
                         <div class="form-actions col-12" style="margin-bottom:30px; text-align: center;">
 

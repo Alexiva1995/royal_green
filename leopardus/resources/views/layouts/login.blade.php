@@ -32,6 +32,56 @@
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/pages/authentication.css')}}">
     <!-- END: Page CSS-->
 
+    <style>
+        html body.bg-full-screen-image{
+            background: url("{{asset('assets/mesa_trabajo.jpg')}}") no-repeat center center;
+            background-size: auto;
+            background-size: cover;
+        }
+
+        @media screen and (max-width: 600px){
+            html body.bg-full-screen-image{
+                background: url("{{asset('assets/mesa_trabajo_tlf.jpg')}}") no-repeat center center;
+            }
+        }
+
+        .btn-primary{
+            border-color: rgba(106,193,255,1);
+            border-color: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -webkit-gradient(left top, right top, color-stop(0%, rgba(106,193,255,1)), color-stop(100%, rgba(104,255,113,1)));
+            border-color: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+
+            background: rgba(106,193,255,1);
+            background: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            background: -webkit-gradient(left top, right top, color-stop(0%, rgba(106,193,255,1)), color-stop(100%, rgba(104,255,113,1)));
+            background: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            background: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            background: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            background: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6ac1ff', endColorstr='#68ff71', GradientType=1 );
+
+            color: #FFFFFF;
+        }
+
+        .btn-outline-primary {
+
+            border-color: rgba(106,193,255,1);
+            border-color: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -webkit-gradient(left top, right top, color-stop(0%, rgba(106,193,255,1)), color-stop(100%, rgba(104,255,113,1)));
+            border-color: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            
+            border: 1px solid;
+            background-color: transparent;
+            color: #6AC1FF;
+        }
+    </style>
+
     <!-- BEGIN: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
     <!-- END: Custom CSS-->

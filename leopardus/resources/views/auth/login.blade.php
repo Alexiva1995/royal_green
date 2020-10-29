@@ -1,31 +1,18 @@
 @extends('layouts.login')
-
 @section('content')
-{{-- @php
-    if(!request()->secure())
-    {
-        header('location: https://greenviewmds.com/mioficina/login');
-        // redirect()->secure(request()->getPathInfo(),301);
-    }
-@endphp --}}
-
-
 <section class="row flexbox-container">
     <div class="col-xl-8 col-11 d-flex justify-content-center">
-        <div class="card bg-authentication rounded-0 mb-0">
+        <div class="card bg-authentication rounded-0 mb-0" style="background: transparent;">
             <div class="row m-0">
-                <div class="col-lg-6 d-lg-block d-none text-center align-self-center px-1 py-0">
-                    <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="branding logo" width="300">
-                    {{-- <img src="{{asset('app-assets/images/pages/login.png')}}" alt="branding logo"> --}}
-                </div>
-                <div class="col-lg-6 col-12 p-0">
-                    <div class="card rounded-0 mb-0 px-2">
+                <div class="col-12 p-0">
+                    <div class="card rounded-0 mb-0 px-2" style="background: transparent;">
+                        <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class="m-auto branding logo" height="130" width="130">
                         <div class="card-header pb-1">
-                            <div class="card-title inicio">
-                                <h4 class="mb-0">Sesion</h4>
+                            <div class="card-title inicio m-auto">
+                                <h4 class="mb-0 text-white">Sesion</h4>
                             </div>
                             <div class="card-title recuperar" style="display:none;">
-                                <h4 class="mb-0">Recuperar tu clave</h4>
+                                <h4 class="mb-0 text-white">Recuperar tu clave</h4>
                             </div>
                         </div>
                         {{-- alertas --}}
@@ -56,10 +43,10 @@
                                         <label for="user-password">Clave</label>
                                     </fieldset>
                                     <div class="form-group d-flex justify-content-between align-items-center">
-                                        <div class="text-left">
+                                        <div class="text-left d-none">
                                             <fieldset class="checkbox">
                                                 <div class="vs-checkbox-con vs-checkbox-primary">
-                                                    <input type="checkbox">
+                                                    <input type="checkbox" checked>
                                                     <span class="vs-checkbox">
                                                         <span class="vs-checkbox--check">
                                                             <i class="vs-icon feather icon-check"></i>
@@ -75,9 +62,12 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <a href="{{route('autenticacion.new-register')}}"
-                                        class="btn btn-outline-primary float-left btn-inline">Registro</a>
-                                    <button type="submit" class="btn btn-primary float-right btn-inline">Session</button>
+                                    <div class="row">
+                                        <a href="{{route('autenticacion.new-register')}}"
+                                        class="btn btn-outline-primary float-left btn-inline col-12">Registro</a>
+                                    <button type="submit" class="btn btn-primary float-right btn-inline col-12 mt-2">Iniciar Sesión</button>
+                                    </div>
+                                    
                                 </form>
                                 {{-- reset password --}}
                                 <form class="forget-form recuperar" action="{{route('autenticacion.clave')}}"
