@@ -26,10 +26,14 @@ use App\Http\Controllers\IndexController;
 
 class AdminController extends Controller
 {
+
+    public $indexControl;
 	function __construct()
 	{
         // TITLE
-		view()->share('title', 'Panel de administración');
+        view()->share('title', 'Panel de administración');
+        
+        $this->indexControl = new IndexController;
 	}
 
 
@@ -41,76 +45,32 @@ class AdminController extends Controller
 
     }
 
-
-
-
-
     public function direct_records(){
-
         // TITLE
-
         view()->share('title', 'Usuarios Directos');
 
 
-
-        // DO MENU
-
-        view()->share('do', collect(['name' => 'network', 'text' => 'Red de Usuarios']));
-
-
-
-            $referidosDirectos = User::where('referred_id', '=', Auth::user()->ID)
-
+        $referidosDirectos = User::where('referred_id', '=', Auth::user()->ID)
                                 ->orderBy('created_at', 'DESC')
-
                                 ->get();
 
-
-
-
         return view('dashboard.directRecords')->with(compact('referidosDirectos'));
-
     }
 
     
-
     public function buscardirectos(){
-
         // TITLE
-
         view()->share('title', 'Usuarios Directos');
 
-
-
-        // DO MENU
-
-        view()->share('do', collect(['name' => 'network', 'text' => 'Red de Usuarios']));
-
-
-
         $primero = new Carbon($_POST["fecha1"]);
-
         $segundo = new Carbon($_POST["fecha2"]);
-
-         
-
-
-            $referidosDirectos =User::whereDate("created_at",">=",$primero)
-
+        $referidosDirectos =User::whereDate("created_at",">=",$primero)
              ->whereDate("created_at","<=",$segundo)
-
              ->where('referred_id', '=', Auth::user()->ID)
-
              ->orderBy('created_at', 'DESC')
-
              ->get();
 
-      
-
-
-
         return view('dashboard.buscardirectos')->with(compact('referidosDirectos'));
-
     }
 
     
@@ -121,37 +81,30 @@ class AdminController extends Controller
 
         view()->share('title', 'Usuarios en Red');
 
-        view()->share('do', collect(['name' => 'network', 'text' => 'Red de Usuarios']));
+        $allReferido = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
 
-
-        $allReferido = $this->generarArregloUsuario(Auth::user()->ID);
-        return view('dashboard.buscarnetwork')->with(compact('allReferido','primero','segundo'));
+        return view('dashboard.networkRecords')->with(compact('allReferido'));
 
     }
 
     public function buscarnetworknivel(Request $request)
     {
-                // TITLE
+        // TITLE
+        view()->share('title', 'Usuarios en Red');
 
-                view()->share('title', 'Usuarios en Red');
-
-                // DO MENU
-        
-                view()->share('do', collect(['name' => 'network', 'text' => 'Red de Usuarios']));
-                
-                $allReferidotmp = $this->generarArregloUsuario(Auth::user()->ID);
-                $allReferido = [];
-                foreach ($allReferidotmp as $user ) {
-                    if ($request->nivel > 0) {
-                        if ($user['nivel'] == $request->nivel) {
-                            $allReferido [] = $user;
-                        }
-                    } else {
-                            $allReferido [] = $user;
-                    }
-                    
+        $allReferidotmp = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
+        $allReferido = [];
+        foreach ($allReferidotmp as $user ) {
+            if ($request->nivel > 0) {
+                if ($user['nivel'] == $request->nivel) {
+                    $allReferido [] = $user;
                 }
-                return view('dashboard.networkRecords')->with(compact('allReferido'));
+            } else {
+                    $allReferido [] = $user;
+            }
+            
+        }
+        return view('dashboard.networkRecords')->with(compact('allReferido'));
     }
 
 
@@ -161,47 +114,8 @@ class AdminController extends Controller
         // TITLE
 
         view()->share('title', 'Usuarios en Red');
-
-
-
-        // DO MENU
-
-        view()->share('do', collect(['name' => 'network', 'text' => 'Red de Usuarios']));
-
-        // $GLOBALS['allUsers'] = [];
-        // $settingEstructura = SettingsEstructura::find(1);
-        // $referidosDirectos = $this->getReferreds(Auth::user()->ID);
-        // $this->getReferredsAll($referidosDirectos, 1, $settingEstructura->cantnivel, [], 'matris');
         
-        $allReferido = $this->generarArregloUsuario(Auth::user()->ID);
-
-        //******************
-
-        //Marcar como leídas las notificaciones pendientes de Registros Indirectos
-
-        $notificaciones_pendientes = DB::table('notifications')
-
-                                        ->select('id')
-
-                                        ->where('user_id', '=', Auth::user()->ID)
-
-                                        ->where('notification_type', '=', 'RI')
-
-                                        ->where('status', '=', 0)
-
-                                        ->get();
-
-
-
-        foreach ($notificaciones_pendientes as $not){
-
-            Notification::find($not->id)->update(['status' => 1]);
-
-        }
-
-        //********************
-
-
+        $allReferido = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
 
         return view('dashboard.networkRecords')->with(compact('allReferido'));
 
@@ -255,22 +169,8 @@ class AdminController extends Controller
                     ->where('meta_value', '=', Auth::user()->ID)
                     ->orderBy('post_id', 'DESC')
                     ->get();
-         //******************
-        //Marcar como leídas las notificaciones pendientes de Órdenes Directas
-        $notificaciones_pendientes = DB::table('notifications')
-                                        ->select('id')
-                                        ->where('user_id', '=', Auth::user()->ID)
-                                        ->where('notification_type', '=', 'OD')
-                                        ->where('status', '=', 0)
-                                        ->get();
-        foreach ($notificaciones_pendientes as $not){
-            Notification::find($not->id)->update(['status' => 1]);
-        }
-        //********************
+
         return view('dashboard.personalOrders')->with(compact('ordenes'));
-
-
-
     }
 
     
@@ -416,7 +316,7 @@ class AdminController extends Controller
 
         $settings = Settings::first();
 
-        $TodosUsuarios = $this->generarArregloUsuario(Auth::user()->ID);
+        $TodosUsuarios = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
 
         $compras = array();
 
@@ -491,7 +391,7 @@ class AdminController extends Controller
      public function buscarnetworkorder(){
           // TITLE
           view()->share('title', 'Ordenes de Red');
-         $TodosUsuarios = $this->generarArregloUsuario(Auth::user()->ID);
+         $TodosUsuarios = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
          $settings = Settings::first();
         $compras = array();
 
