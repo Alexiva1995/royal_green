@@ -1,134 +1,43 @@
-<div class="col-12">
-    <div class="row">
-        {{-- primer cuadro --}}
-        <div class="col-12 col-md-3 mt-2">
-            <div class="card">
-                <div class="card-content">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="card-header" style="padding-left: 15px !important; padding-top:0rem;">
-                                <h4 class="card-title">Link Referido</h4>
-                            </div>
-                            <div class="col-12 mt-2 text-center" onclick="copyToClipboard('copy')"
-                                style="margin-top: 1rem !important;">
-                                <button type="button" class="btn bg-orange-alt text-white">
-                                    <i class="fa fa-link font-medium-3"></i>
-                                    Copiar Enlace
-                                </button>
-                                <p class="font-small-3 mb-0">*Click Para copiar link</p>
-                                <img src="https://comunidadlevelup.com//assets/imgLanding/imagen-referidos-.png"
-                                    style="width: 78%;">
-                                <p style="display:none;" id="copy">
-                                    {{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}
-                                </p>
-                            </div>
-                        </div>
+<div class="row">
+    <div class="col-lg-6 col-md-12 col-12 mt-1">
+        <div class="card bg-analytics bg-blue-2 text-white h-100">
+            <div class="card-content">
+                <div class="card-body text-center">
+                    <img src="{{asset('assets/img/sistema/ban-der.svg')}}" class="img-left" alt="card-img-left">
+                    <img src="{{asset('assets/img/sistema/ban-izq.svg')}}" class="img-right" alt="card-img-right">
+                    <img src="{{asset('assets/img/sistema/confe-der.svg')}}" class="img-left" alt="card-img-left"
+                        style="height: 100%">
+                    <img src="{{asset('assets/img/sistema/confe-izq.svg')}}" class="img-right" alt="card-img-right"
+                        style="height: 100%">
+                    <div class="avatar avatar-xl bg-green-2 shadow m-0 mb-1">
+                        <img src="{{asset('assets/img/sistema/usuario.png')}}" alt="card-img-left">
+                        {{-- <div class="avatar-content">
+                         <i class="feather icon-award white font-large-1"></i> 
+                        </div> --}}
+                    </div>
+                    <div class="text-center">
+                        <h1 class="mb-2 text-white">Bienvenido {{Auth::user()->display_name}}</h1>
+                        {{-- <p class="m-auto w-75">
+                            Tu saldo actual es $ {{number_format(Auth::user()->wallet, '2', ',', '.')}} <br>
+                            ¿Qué tal recargar tu saldo?
+                        </p> --}}
                     </div>
                 </div>
             </div>
         </div>
-        {{-- segundo cuadro --}}
-        <div class="col-12 col-md-7 mt-2 row">
-            <div class="col-12 col-md-12 mt-2 " style="margin-top: 0px !important;padding: 0px !important;">
-                <div class="card" style="margin-bottom: 1.2rem;">
-                    <div class="card-header">
-                        <h4 class="card-title">Ganacia por Fondos de Beneficios:</h4>
-                    </div>
-                    <div class="card-content h-100 d-flex align-items-center">
-                        <div class="card-body">
-                            <div class="progress progress-bar-primary progress-xl mb-0"
-                                style="height: 2.5em;border-radius: 5px;">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="{{$rentabilidad}}"
-                                    aria-valuemin="0" aria-valuemax="100" style="width:{{$rentabilidad}}%">
-                                    {{$rentabilidad}}%</div>
-                            </div>
-                            <p class="font-small-3 mb-0"> *Meses Trascurridos y pagos realizados</p>
-                            <p class="font-small-3 mb-0"> Paquete Actual: <strong>{{$namePack}}</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{-- Tercer cuadro --}}
-            <div class="col-6 col-md-3 mt-2" style="margin-top: 0px !important;padding-left: 0px; padding-right: 6px;">
-                <div class="card h-75">
-                    <div class="card-header" style="padding-bottom: 9px !important;">
-                        <div class="col-12" style="padding-left: 0px;">
-                            <h4 class="card-title" style="color: #0078bc;">Nivel 1</h4>
-                            <p class="text-bold-700"> Miembros</p>
-                        </div>
-                        <div class="col-12 mb-2">
-                            <h2 class="text-bold-700 text-alt-blue mt-1 mb-0" style="margin-top: 0px !important;" id="nivel1"></h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 mt-2" style="margin-top: 0px !important;padding-left: 3px; padding-right: 6px;">
-                <div class="card h-75">
-                    <div class="card-header" style="padding-bottom: 9px !important;">
-                        <div class="col-12" style="padding-left: 0px;">
-                            <h4 class="card-title" style="color: #00646d;">Nivel 2</h4>
-                            <p class="text-bold-700"> Miembros</p>
-                        </div>
-                        <div class="col-12 mb-2">
-                            <h2 class="text-bold-700 text-alt-blue mt-1 mb-0"
-                                style="margin-top: 0px !important;color: #00646d !important;" id="nivel2"></h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 mt-2" style="margin-top: 0px !important;padding-left: 3px; padding-right: 6px;">
-                <div class="card h-75">
-                    <div class="card-header" style="padding-bottom: 9px !important;">
-                        <div class="col-12" style="padding-left: 0px;">
-                            <h4 style="color: #0078bc;" class="card-title">Nivel 3</h4>
-                            <p class="text-bold-700"> Miembros</p>
-                        </div>
-                        <div class="col-12 mb-2">
-                            <h2 class="text-bold-700 text-alt-blue mt-1 mb-0" style="margin-top: 0px !important;" id="nivel3"></h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 col-md-3 mt-2" style="margin-top: 0px !important;padding-left: 3px; padding-right: 0px;">
-                <div class="card h-75">
-                    <div class="card-header" style="padding-bottom: 9px !important;">
-                        <div class="col-12" style="padding-left: 0px;">
-                            <h4 class="card-title" style="color: #00646d;">Nivel 4</h4>
-                            <p class="text-bold-700"> Miembros</p>
-                        </div>
-                        <div class="col-12 mb-2">
-                            <h2 class="text-bold-700 text-alt-blue mt-1 mb-0"
-                                style="margin-top: 0px !important;color:#00646d !important;" id="nivel4"></h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- cuarto cuadro --}}
-        <div class="col-12 col-md-2 mt-2">
-            <div class="col-12 col-md-12 mt-2 " style="margin-top: 0px !important;padding: 0px !important;">
-                <div class="card h-100" style="margin-bottom: 1.4rem;">
-                    <div class="card-header d-flex flex-column align-items-start "
-                        style="padding-bottom: 3.9rem !important;">
-                        <h4 class="card-title">Billetera:</h4>
-                        <h2 class="text-bold-700 text-alt-blue mt-1 " style="font-size: 21px;">
-                            {{number_format(Auth::user()->wallet_amount, 2, ',', '.')}} USD
-                        </h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-12 mt-2" style="margin-top: 0px !important;padding: 0px !important;">
-                <div class="card h-100">
-                    <div class="card-header d-flex flex-column align-items-start"
-                        style="padding-bottom: 1.5rem !important;">
-                        <h4 class="card-title">Ganancia Totales:</h4>
-                        <h2 class="text-bold-700 text-alt-blue mt-1 mb-2"
-                            style="margin: 15px 0px 10px 0px !important; font-size: 21px;">
-                            {{number_format($ganancias, 2, ',', '.')}} USD</h2>
-                    </div>
-                    {{-- <div class="card-content">
-                    <div id="line-area-chart-1"></div>
-                </div> --}}
+    </div>
+    <div class="col-lg-6 col-md-12 col-12 mt-1">
+        <div class="card text-white bg-gradient-danger bg-red-alt h-100">
+            <div class="card-content d-flex justify-contents-start align-items-center">
+                <div class="card-body pb-0 pt-1">
+                    <img src="{{asset('assets/img/sistema/card-img.svg')}}" alt="element 03" width="250" height="250"
+                        class="float-right px-1">
+                    <p class="card-text mt-3">Invita a tus amigos <br> y gana una comision</p>
+                    <h4 class="card-title text-white">¡Todo es mejor con <br> amigos!</h4>
+                    <a href="{{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}" target="_blank"
+                        class="btn btn-primary padding-button-short bg-white mt-1 waves-effect waves-light">
+                        LINK REFERIDO
+                    </a>
                 </div>
             </div>
         </div>

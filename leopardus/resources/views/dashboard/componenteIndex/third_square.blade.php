@@ -1,155 +1,46 @@
-@php
-
-    use Carbon\Carbon;
-
-    $ano = Carbon::now()->format('Y')
-
-@endphp
-
-<div class="col-12">
-
-    {{-- linea 1 --}}
-
-    <div class="row">
-
-        {{-- grafica de comisiones e ingresos --}}
-
-        <div class="col-12 col-md-12 mt-2">
-
-            <div class="card h-100">
-
-                <div class="card-header">
-
-                    <h4 class="card-title">Comisión - {{$ano}}</h4>
-
-                </div>
-
-                <div class="card-content">
-
-                    <div class="card-body">
-
-                        <div id="ingresocomision">
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- {{-- grafica de pagos --}}
-
-        <div class="col-12 col-md-4 mt-2">
-
-            <div class="card h-100">
-
-                <div class="card-header">
-
-                    <h4 class="card-title">Resumen de Pagos</h4>
-
-                </div>
-
-                <div class="card-content">
-
-                    <div class="card-body">
-
-                        <div id="pagos">
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>-->
-
-    </div>
-
-    {{-- linea 2 --}}
-
-    <div class="row">
-
-        {{-- grafica de usuarios --}}
-
-        <div class="col-12 col-md-8 mt-2">
-
-            <div class="card h-100">
-
-                <div class="card-header">
-
-                    <h4 class="card-title">Crecimiento Anual - {{$ano}}</h4>
-
-                </div>
-
-                <div class="card-content">
-
-                    <div class="card-body">
-
-                        <div id="usuarios">
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {{-- listado de nuevos miembros --}}
-
-        <div class="col-12 col-md-4 mt-2">
-
-            <div class="card h-100">
-
-                <div class="card-header">
-
-                    <h4 class="card-title">Nuevos Miembros</h4>
-
-                </div>
-
-                <div class="card-content">
-
-                    <div class="card-body">
-
-                        @foreach ($new_member as $member)
-
-                        <div class="d-flex justify-content-start align-items-center mb-1">
-
-                            <div class="avatar mr-50">
-
-                                <img src="{{asset('avatar/'.$member['avatar'])}}" alt="avtar img holder" height="35" width="35">
-
+<div class="row">
+    <div class="col-12 mt-1">
+        <h2 class="divide-dashboard-title">Red de referidos</h2>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-start pb-2">
+                            <div>
+                                <h2 class="text-bold-700">0</h2>
+                                <p class="mb-0">Referidos directos</p>
                             </div>
-
-                            <div class="user-page-info">
-
-                                <h6 class="mb-0">{{$member['nombre']}}</h6>
-
-                                <span class="font-small-2">{{date('d-m-Y', strtotime($member['fecha']))}}</span>
-
+                            <div class="avatar bg-rgba-primary p-50">
+                                <div class="avatar-content">
+                                    <i class="feather icon-users text-primary font-medium-5"></i>
+                                </div>
                             </div>
-
-                            {{-- <button type="button" class="btn btn-primary btn-icon ml-auto"><i class="feather icon-user-plus"></i></button> --}}
-
                         </div>
-
-                        @endforeach
-
+                        {{-- <div class="card-content">
+                            <div id="line-area-chart-5"></div>
+                        </div> --}}
                     </div>
-
                 </div>
-
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-start pb-2">
+                            <div>
+                                <h2 class="text-bold-700">0</h2>
+                                <p class="mb-0">Referidos en red</p>
+                            </div>
+                            <div class="avatar bg-rgba-danger p-50">
+                                <div class="avatar-content">
+                                    <i class="fa fa-users text-danger font-medium-5"></i>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- <div class="card-content">
+                            <div id="line-area-chart-6"></div>
+                        </div> --}}
+                    </div>
+                </div>
             </div>
-
         </div>
-
     </div>
 
 </div>

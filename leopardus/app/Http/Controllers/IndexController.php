@@ -60,16 +60,6 @@ class IndexController extends Controller
         return $trees;
     }
 
-    /**
-     * Obtiene lo nuevos miembros de un usuario
-     */
-    public function newMembers($iduser)
-    {
-        $TodosUsuarios = $this->getChidrens2($iduser, [], 1, 'referred_id', 0);
-        $TodosUsuarios = $this->ordenarArreglosMultiDimensiones($TodosUsuarios, 'ID', 'numero');
-        return array_slice($TodosUsuarios, 0, 7);
-    }
-
 
     /**
      * Permite obtener a todos mis hijos y los hijos de mis hijos

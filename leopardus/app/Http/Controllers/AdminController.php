@@ -11,14 +11,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-use App\Rol;
 use App\User;
 use App\Wallet;
-use App\Permiso;
-use App\Monedas;
 use App\Settings;
 use App\Notification;
-use App\SettingsEstructura;
+
 
 use App\Http\Controllers\IndexController;
 
@@ -41,8 +38,42 @@ class AdminController extends Controller
     public function index()
     {
 
-        return view('dashboard.index');
+        $data = $this->getDataDashboard(Auth::user()->ID);
+        return view('dashboard.index', compact('data'));
 
+    }
+
+    public function getDataDashboard($iduser)
+    {
+        $directos = count($this->indexControl->getChidrens2($iduser, [], 1, 'referred_id', 1));
+        $indirecto = count($this->indexControl->getChidrens2($iduser, [], 1, 'referred_id', 0));
+
+        $user = User::find($iduser);
+
+        $comisiones = 0;
+        $ordenes = 0;
+        $wallet = 0;
+        if ($user->rol_id == 0) {
+            $ordenes = count($this->indexControl->getAllCompras());
+            $comisiones = Wallet::where('debito', '!=', 0)->sum('debito');
+        }else{
+            $ordenes = count($this->indexControl->getShopping($iduser));
+            $wallet = $user->wallet_amount;
+            $comisiones = Wallet::where([
+                ['debito', '!=', 0],
+                ['iduser', '!=', $iduser]
+            ])->sum('debito');
+        }
+
+        $data = [
+            'directo' => $directos,
+            'indirecto' => $indirecto,
+            'wallet' => $wallet,
+            'comisiones' => $comisiones,
+            'ordenes' => $ordenes
+        ];
+
+        return $data;
     }
 
     public function direct_records(){

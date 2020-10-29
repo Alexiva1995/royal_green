@@ -64,7 +64,7 @@
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6ac1ff', endColorstr='#68ff71', GradientType=1 );
 
             color: #FFFFFF;
-        } 
+        }
 
         .btn-outline-primary {
 
