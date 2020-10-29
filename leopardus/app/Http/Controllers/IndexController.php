@@ -7,6 +7,10 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use stdClass;
+use CoinbaseCommerce\ApiClient;
+use CoinbaseCommerce\Resources\Charge;
+use App\Http\Controllers\ActivacionController;
+
 class IndexController extends Controller
 {
 
@@ -475,6 +479,36 @@ class IndexController extends Controller
             }
         }
         return $arreCompras;
+    }
+
+    /**
+     * Permite verificar las compras procesadas
+     * y pagar los bonos y activar los usuarios
+     *
+     * @return void
+     */
+    public function ordenesSistema()
+    {
+        $tienda = new TiendaController;
+        $apiKey = env('COINBASE_API_KEY');
+        ApiClient::init($apiKey);
+        $solicitudes = $tienda->ArregloCompra();
+        foreach ($solicitudes as $solicitud) {
+            if (!empty($solicitud['code_coinbase']) && !empty($solicitud['id_coinbase']) && $solicitud['estado'] != 'Completado') {
+                $retrievedCharge = Charge::retrieve($solicitud['id_coinbase']);
+                if (count($retrievedCharge->timeline) > 0) {
+                    foreach ($retrievedCharge->timeline as $item) {
+                        if ($item['status'] == 'COMPLETED') {
+                            $tienda->actualizarBD($solicitud['idcompra'], 'wc-completed');
+                            $comisiones = new ComisionesController;
+                            $activacion = new ActivacionController;
+                            $comisiones->payBonus();
+                            $activacion->activarUsuarios($solicitud['iduser']);
+                        }
+                    }   
+                }
+            }
+        }
     }
 
 }

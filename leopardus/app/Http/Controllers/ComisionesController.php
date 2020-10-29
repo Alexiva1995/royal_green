@@ -28,6 +28,19 @@ class ComisionesController extends Controller
     }
 
     /**
+     * Llama a la funciones para el pago de las mismas
+     *
+     * @return void
+     */
+    public function payBonus()
+    {
+        $this->bonoDirecto();
+        $this->bonoIndirecto();
+        $this->puntosBinarios();
+        $this->puntosRangos();
+    }
+
+    /**
      * Permite guardar la comisiones ganadas
      *
      * @param integer $iduser - id del usuario

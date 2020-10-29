@@ -44,12 +44,9 @@ class BonoBinary extends Command
     public function handle()
     {
         try {
-            $comision = new ComisionesController;
-            $users = User::where('rol_id', '!=', 0)->get();
-            foreach ($users as $user) {
-                // $comision->bonoLiderazgo($user->ID);
-                $comision->bonoPorPuntos($user->ID);
-            }
+            $comision = new ComisionesController;    
+            $comision->bonoBinario();
+
             $horaActual = Carbon::now()->format('Y-m-d H:i');
             $this->info('Bono Pagado Correctamente '.$horaActual);
         } catch (\Throwable $th) {

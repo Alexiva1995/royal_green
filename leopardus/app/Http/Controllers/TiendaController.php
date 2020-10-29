@@ -441,9 +441,12 @@ class TiendaController extends Controller
                 'usuario' => (!empty($user->display_name)) ? $user->display_name : 'Does not apply',
                 'idcompra' => $compra->post_id,
                 'total' => $datos['total'],
+                'iduser' => $datos['iduser'],
                 'billetera' => (!empty($user->wallet_amount)) ? $user->wallet_amount : 0,
                 'fecha' => $compra->post_date,
                 'estado' => $estadoEntendible,
+                'code_coinbase' => $compra->code_coinbase,
+                'id_coinbase' => $compra->id_coinbase,
             ]);
         }
         if (!empty($arregloCompras)) {

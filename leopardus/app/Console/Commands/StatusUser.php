@@ -47,12 +47,8 @@ class StatusUser extends Command
         try {
             $users = User::where('rol_id', '!=', 0)->get();
             $activacion = new ActivacionController;
-            $comisiones = new ComisionesController;
-            $GLOBALS['settingsComision'] = SettingsComision::find(1);
             foreach ($users as $user ) {
-                $activacion->activarUsuarios($user->ID);  
-                // $comisiones->bonoDirecto($user->ID);
-                // $comisiones->generarComision($user->ID);
+                $activacion->activarUsuarios($user->ID);                
             }
             $this->info('Usuarios Verificados Correctamente '.Carbon::now());
         } catch (\Throwable $th) {

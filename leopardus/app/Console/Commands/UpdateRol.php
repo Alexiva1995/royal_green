@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Console\Commands;
-use DB;
+
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 use Illuminate\Console\Command;
@@ -42,10 +43,10 @@ class UpdateRol extends Command
     {
 
         \Log::info('Ejecutado');
-           $usuarios = DB::table('wp_users')->select('id')->where('rol_id', '>=', 1)->get();
-           $rango=new RangoController();
+           $usuarios = DB::table('wp_users')->select('ID')->where('rol_id', '>=', 1)->get();
+           $rango = new RangoController();
            foreach($usuarios as $usuario){
-            $rango->ValidarRango($usuario->id);
+            $rango->checkRango($usuario->ID);
            }
         $this->info('Rango Actualizados '.Carbon::now());
     }

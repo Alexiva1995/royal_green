@@ -10,7 +10,7 @@
 
                 <div class="brand-logo2" style="width: 100%;">
 
-                    <img src="https://comunidadlevelup.com/assets/imgLanding/logo.png" style="width: 100%;">
+                    <img src="{{asset('assets/imgLanding/logo2.png')}}" style="width: 100%;">
                    
 
                 </div>

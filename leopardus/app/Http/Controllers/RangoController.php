@@ -19,8 +19,14 @@ class RangoController extends Controller
 	{
 		
     }
-    
-	public function CheckRango(int $iduser)
+	
+	/**
+	 * Permite verificar el rango de los usuarios
+	 *
+	 * @param integer $iduser
+	 * @return void
+	 */
+	public function checkRango(int $iduser)
 	{
 		$user = User::find($iduser);
 		$rangonew = $user->rol_id + 1;
