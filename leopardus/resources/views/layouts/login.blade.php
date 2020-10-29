@@ -64,7 +64,7 @@
             filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6ac1ff', endColorstr='#68ff71', GradientType=1 );
 
             color: #FFFFFF;
-        }
+        } 
 
         .btn-outline-primary {
 
@@ -75,7 +75,7 @@
             border-color: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
             border-color: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
             border-color: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            
+
             border: 1px solid;
             background-color: transparent;
             color: #6AC1FF;
