@@ -79,7 +79,7 @@
     }
 
     .bg-blue-2{
-        background: #6AC1FF !important;
+        background: #06171B !important;
     }
 
     .bg-green-2{
@@ -96,7 +96,13 @@
 
     }
 
-
+.bg-gradient-danger {
+    background: #640064;
+    color: #FFFFFF;
+    background-image: -webkit-linear-gradient(60deg, #EA5455, rgba(234, 84, 85, 0.5));
+    background-image: linear-gradient(30deg, #0a343e, rgba(42, 223, 192, 0.5)) !important;
+    background-repeat: repeat-x;
+}
 
     .bg-orange-alt-2 {
 

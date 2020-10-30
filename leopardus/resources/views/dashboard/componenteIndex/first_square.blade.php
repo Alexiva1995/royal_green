@@ -3,12 +3,6 @@
         <div class="card bg-analytics bg-blue-2 text-white h-100">
             <div class="card-content">
                 <div class="card-body text-center">
-                    <img src="{{asset('assets/img/sistema/ban-der.svg')}}" class="img-left" alt="card-img-left">
-                    <img src="{{asset('assets/img/sistema/ban-izq.svg')}}" class="img-right" alt="card-img-right">
-                    <img src="{{asset('assets/img/sistema/confe-der.svg')}}" class="img-left" alt="card-img-left"
-                        style="height: 100%">
-                    <img src="{{asset('assets/img/sistema/confe-izq.svg')}}" class="img-right" alt="card-img-right"
-                        style="height: 100%">
                     <div class="avatar avatar-xl bg-green-2 shadow m-0 mb-1">
                         <img src="{{asset('assets/img/sistema/usuario.png')}}" alt="card-img-left">
                         {{-- <div class="avatar-content">
@@ -17,10 +11,6 @@
                     </div>
                     <div class="text-center">
                         <h1 class="mb-2 text-white">Bienvenido {{Auth::user()->display_name}}</h1>
-                        {{-- <p class="m-auto w-75">
-                            Tu saldo actual es $ {{number_format(Auth::user()->wallet, '2', ',', '.')}} <br>
-                            ¿Qué tal recargar tu saldo?
-                        </p> --}}
                     </div>
                 </div>
             </div>

@@ -1,6 +1,6 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
 
-    <div class="navbar-header" style="background-color: #00646d;">
+    <div class="navbar-header" style="background-color: #06171B;">
 
         <ul class="nav navbar-nav flex-row">
 
