@@ -24,10 +24,13 @@
                         class="float-right px-1">
                     <p class="card-text mt-3">Invita a tus amigos <br> y gana una comision</p>
                     <h4 class="card-title text-white">¡Todo es mejor con <br> amigos!</h4>
-                    <a href="{{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}" target="_blank"
+                    <a href="javascript:;" onclick="copyToClipboard('copy')"
                         class="btn btn-primary padding-button-short bg-white mt-1 waves-effect waves-light">
                         LINK REFERIDO
                     </a>
+                    <p class="d-none" id="copy">
+                        {{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}
+                    </p>
                 </div>
             </div>
         </div>

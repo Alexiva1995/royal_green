@@ -38,6 +38,12 @@
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/extensions/tether-theme-arrows.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/extensions/tether.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/extensions/shepherd-theme-default.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/extensions/sweetalert2.min.css')}}">
+<style>
+	#tippy-1{
+		display: none;
+	}
+</style>
 @endpush
 
 {{-- page css --}}
@@ -52,6 +58,7 @@
 <script src="{{asset('app-assets/vendors/js/charts/apexcharts.min.js')}}"></script>
 <script src="{{asset('app-assets/vendors/js/extensions/tether.min.js')}}"></script>
 <script src="{{asset('app-assets/vendors/js/extensions/shepherd.min.js')}}"></script>
+<script src="{{asset('app-assets/vendors/js/extensions/sweetalert2.all.min.js')}}"></script>
 @endpush
 
 {{-- page js --}}
