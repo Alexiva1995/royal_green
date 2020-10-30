@@ -424,6 +424,24 @@ class IndexController extends Controller
     }
 
     /**
+     * Permite obtener el numero total de compras
+     *
+     * @return float
+     */
+    public function getAllComprasAdmin():float
+    {
+        $settings = Settings::first();
+        $compras = DB::table($settings->prefijo_wp.'posts')
+                    ->select('*')
+                    ->where([
+                        ['post_type', '=', 'shop_order'],
+                    ])
+                    ->get();
+
+        return count($compras);
+    }
+
+    /**
      * Permite Obtener las ultimas compras realizadas en los ultimos 30 dias, para pagar los bonos correspondientes
      *
      * @return array

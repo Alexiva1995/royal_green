@@ -46,7 +46,7 @@
         {{-- TRANSACCIONES --}}
         <li class="nav-item">
             <a href="javascript:;" class="nav-link nav-toggle">
-                <i class="feather "></i>
+                <i class="feather icon-share-2" style="transform: rotate(90deg)"></i>
                 <span class="title">Arboles</span>
                 <span class="arrow"></span>
             </a>
@@ -57,12 +57,12 @@
                         <span class="title">Arbol Unilever</span>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{route('referraltree', 'matriz')}}" class="nav-link">
                         <i class="feather icon-circle"></i>
                         <span class="title">Arbol Binario</span>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </li>
         {{--FIN TRANSACCIONES --}}

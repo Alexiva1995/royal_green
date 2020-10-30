@@ -28,6 +28,11 @@ class ReferralTreeController extends Controller
         
         $funcione = new IndexController();
 
+        $check = count($funcione->getShopping(Auth::user()->ID));
+        if ($check == 0) {
+            return redirect()->route('tienda-index')->with('msj', 'Por favor realice una compra primero');
+        }
+
         $trees = $funcione->getDataEstructura(Auth::id(), $type);
         // $type = ucfirst($type);
         $base = Auth::user();

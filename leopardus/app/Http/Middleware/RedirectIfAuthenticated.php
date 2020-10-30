@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\IndexController;
 
 class RedirectIfAuthenticated
 {
@@ -19,17 +20,12 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
-            if ($request->getPathInfo() != '/mioficina/admin/user/update') {
-                if ($request->getPathInfo() != '/mioficina/admin/user/edit') {
-                    $check = DB::table('user_campo')->where([
-                        ['ID', '=', Auth::user()->ID],
-                        ['firstname', '!=', ''],
-                        ['lastname', '!=', ''],
-                        ['direccion', '!=', ''],
-                        ['paypal', '!=', '']
-                    ])->first();
-                    if ($check == null) {
-                        return redirect()->route('admin.user.edit')->with('msj4', 'Por favor llene su informacion personal, para poder hacer uso del sistema, nombre, apellido, direcion y su direccion en la billetera');
+            $funcionesIndex = new IndexController;
+            if ($request->getPathInfo() != '/mioficina/tienda/savecompra') {
+                if ($request->getPathInfo() != '/mioficina/tienda') {
+                    $check = count($funcionesIndex->getShopping(Auth::user()->ID));
+                    if ($check == 0) {
+                        return redirect()->route('tienda-index')->with('msj', 'Por favor realice una compra primero');
                     }
                 }
             }

@@ -53,7 +53,7 @@ class ActualizarController extends Controller
             'rol' => Rol::find($user->rol_id),
             'referido' => (Auth::user()->rol_id != 0) ? User::find($user->referred_id)->only('display_name') : ['display_name' => 'Administrador'] ,
             'controler' => 'ActualizarController@updateProfile',
-            'urlqr' => $this->createUserUrlQR($user)
+            // 'urlqr' => $this->createUserUrlQR($user)
         ];
 
         $data['segundo'] = $data['segundo'][0];
@@ -196,17 +196,17 @@ class ActualizarController extends Controller
         }elseif($request->data == 'password'){
             $validate = $request->validate([
                 'clave' => 'confirmed',
-                'code' => 'required'
+                // 'code' => 'required'
             ]);
 
-            if ((new Google2FA())->verifyKey(Auth::user()->toke_google, $request->code)) {
+            // if ((new Google2FA())->verifyKey(Auth::user()->toke_google, $request->code)) {
                 $user->user_pass = md5($request->clave);
                 $user->password = bcrypt($request->clave);
                 $user->clave = encrypt($request->clave);
                 $user->save();
-            }else{
-                return redirect()->back()->with('msj3', 'el codigo es incorrecto');
-            }
+            // }else{
+            //     return redirect()->back()->with('msj3', 'el codigo es incorrecto');
+            // }
             
         }elseif ($request->data == 'social'){
             DB::table('user_campo')

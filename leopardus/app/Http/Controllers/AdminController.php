@@ -54,14 +54,14 @@ class AdminController extends Controller
         $ordenes = 0;
         $wallet = 0;
         if ($user->rol_id == 0) {
-            $ordenes = count($this->indexControl->getAllCompras());
-            $comisiones = Wallet::where('debito', '!=', 0)->sum('debito');
+            $ordenes = $this->indexControl->getAllComprasAdmin();
+            $comisiones = Wallet::where('debito', '>', 0)->sum('debito');
         }else{
             $ordenes = count($this->indexControl->getShopping($iduser));
             $wallet = $user->wallet_amount;
             $comisiones = Wallet::where([
-                ['debito', '!=', 0],
-                ['iduser', '!=', $iduser]
+                ['iduser', '=', $iduser],
+                ['debito', '>', 0]
             ])->sum('debito');
         }
 

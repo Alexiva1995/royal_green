@@ -87,12 +87,12 @@
                             <span class="title">Arbol Unilever</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{route('referraltree', 'matriz')}}" class="nav-link">
                             <i class="feather icon-circle"></i>
                             <span class="title">Arbol Binario</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </li>
             {{-- FIN ARBOLES --}}
