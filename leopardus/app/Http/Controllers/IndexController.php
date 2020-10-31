@@ -508,10 +508,6 @@ class IndexController extends Controller
                     foreach ($retrievedCharge->timeline as $item) {
                         if ($item['status'] == 'COMPLETED') {
                             $tienda->actualizarBD($solicitud['idcompra'], 'wc-completed');
-                            $comisiones = new ComisionesController;
-                            $activacion = new ActivacionController;
-                            $comisiones->payBonus();
-                            $activacion->activarUsuarios($solicitud['iduser']);
                         }
                     }   
                 }

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ActivacionController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ComisionesController;
 use Carbon\Carbon;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
@@ -438,7 +439,7 @@ class TiendaController extends Controller
             
             $user = User::find($datos['iduser']);
             array_push($arregloCompras,[
-                'usuario' => (!empty($user->display_name)) ? $user->display_name : 'Does not apply',
+                'usuario' => (!empty($user->display_name)) ? $user->display_name : 'Usuario No Disponibles',
                 'idcompra' => $compra->post_id,
                 'total' => $datos['total'],
                 'iduser' => $datos['iduser'],
@@ -471,9 +472,11 @@ class TiendaController extends Controller
             
             $activacion = new ActivacionController;
             $activacion->activarUsuarios($datoscompra['iduser']);
+            $comisiones = new ComisionesController;
+            $comisiones->payBonus();
         }
         $this->actualizarBD($id, $estado);
-        return redirect('tienda/solicitudes')->with('msj', 'Estado de la Solicitud Actualizada con Exito');
+        return redirect()->route('tienda-solicitudes')->with('msj', 'Estado de la Solicitud Actualizada con Exito');
     }
     /**
      * Actualiza la informacion de la ordenes de compra en el wp

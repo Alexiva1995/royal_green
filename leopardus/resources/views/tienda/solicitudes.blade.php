@@ -34,9 +34,6 @@
                                 Fecha Compra
                             </th>
                             <th class="text-center">
-                                Estado Coinpayment
-                            </th>
-                            <th class="text-center">
                                 Estado
                             </th>
                             <th class="text-center">
@@ -49,6 +46,7 @@
                         $cont = 0;
                         @endphp
                         @foreach($solicitudes as $solicitud)
+                        @if ($solicitud['estado'] == 'En Espera')
                         @php
                         $cont++;
                         @endphp
@@ -84,27 +82,18 @@
                                 {{ date('d-m-Y', strtotime($solicitud['fecha'])) }}
                             </td>
                             <td class="text-center">
-                                {{$solicitud['coinpayment']}}
-                            </td>
-                            <td class="text-center">
                                 {{$solicitud['estado']}}
                             </td>
                             <td class="text-center">
-                                
                                     @if($solicitud['estado'] == 'En Espera')
                                     <a href="{{route('tienda-accion-solicitud', ['id' => $solicitud['idcompra'], 'estado' => 'wc-completed'])}}"
                                         class="btn btn-primary">Aprobar</a>
                                     <a href="{{route('tienda-accion-solicitud', ['id' => $solicitud['idcompra'], 'estado' => 'wc-cancelled'])}}"
                                         class="btn btn-danger">Rechazar</a>
-                                    @else
-                                    <a href="{{route('tienda-accion-solicitud', ['id' => $solicitud['idcompra'], 'estado' => 'wc-completed'])}}"
-                                        class="btn btn-primary" disabled>Aprobar</a>
-                                    <a href="{{route('tienda-accion-solicitud', ['id' => $solicitud['idcompra'], 'estado' => 'wc-cancelled'])}}"
-                                        class="btn btn-danger" disabled>Rechazar</a>
                                     @endif
-                                
                             </td>
                         </tr>
+                        @endif
                         @endforeach
                     </tbody>
                 </table>

@@ -112,9 +112,9 @@ class ComisionesController extends Controller
                         foreach ($sponsors as $sponsor) {
                             if ($sponsor->nivel == 1) {
                                 $userReferido = User::find($compra['idusuario']);
-                                $pagar = ($compra->total * 0.10);
+                                $pagar = ($compra['total'] * 0.10);
                                 $concepto = 'Bono Directo, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->email_user, 1, $concepto, 'Bono Directo');
+                                $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
                             }
                         }
                     }
@@ -142,19 +142,23 @@ class ComisionesController extends Controller
                             $paquete = json_decode($sponsor->paquete);
                             $nivel = -1;
                             $porcentaje = 0;
-                            if ($paquete->idproducto >= 5653 && $paquete->idproducto < 5655) {
-                                $nivel = 2;
-                                $porcentaje = 0.03;
-                            }
-                            if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
-                                $nivel = 3;
-                                $porcentaje = 0.02;
+                            if (!empty($paquete)) {
+                                if (!empty($paquete->idproducto)) {
+                                    if ($paquete->idproducto >= 5653 && $paquete->idproducto < 5655) {
+                                        $nivel = 2;
+                                        $porcentaje = 0.03;
+                                    }
+                                    if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
+                                        $nivel = 3;
+                                        $porcentaje = 0.02;
+                                    }
+                                }
                             }
                             if ($sponsor->nivel == $nivel) {
                                 $userReferido = User::find($compra['idusuario']);
                                 $pagar = ($compra->total * $porcentaje);
                                 $concepto = 'Bono Indirecto, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->email_user, 1, $concepto, 'Bono Directo');
+                                $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
                             }
                         }
                     }
@@ -224,7 +228,7 @@ class ComisionesController extends Controller
                     if (!empty($sponsors)) {
                         $userReferido = User::find($compra['idusuario']);
                         $side = $userReferido->ladomatrix;
-                        $concepto = 'Puntos Rango, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['id'];
+                        $concepto = 'Puntos Rango, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['idcompra'];
                         foreach ($sponsors as $sponsor) {
                             if ($sponsor->nivel > 0) {
                                 $this->savePoints($compra['total'], $sponsor->ID, $concepto, 'R', $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
@@ -253,7 +257,7 @@ class ComisionesController extends Controller
                     if (!empty($sponsors)) {
                         $userReferido = User::find($compra['idusuario']);
                         $side = $userReferido->ladomatrix;
-                        $concepto = 'Puntos Binarios, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['id'];
+                        $concepto = 'Puntos Binarios, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['idcompra'];
                         foreach ($sponsors as $sponsor) {
                             if ($sponsor->nivel > 0) {
                                 $this->savePoints($compra['total'], $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
@@ -283,6 +287,7 @@ class ComisionesController extends Controller
     public function savePoints(int $puntos, int $iduser, string $concepto, string $side, int $idcompra, int $referred_level, string $referred_email)
     {
         try {
+            $this->checkExictPoint($iduser);
             $user = User::find($iduser);
             $puntosUser = json_decode($user->puntos);
             $punto_izq = 0; $punto_der = 0; $punto_rank = 0;
@@ -359,8 +364,7 @@ class ComisionesController extends Controller
                 'rank' => 0,
             ];
             if (empty($user->puntos)) {
-                $user->puntos = json_encode($puntos);
-                $user->save();
+                User::where('ID', $iduser)->update(['puntos' => json_encode($puntos)]);
             }
         } catch (\Throwable $th) {
             dd($th);

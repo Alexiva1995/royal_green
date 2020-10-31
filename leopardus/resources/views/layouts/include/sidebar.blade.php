@@ -63,11 +63,11 @@
                             <span class="title">Productos</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a href="{{route('tienda-solicitudes')}}" class="nav-link">
-                            <span class="title">Solicitudes</span>
+                            <span class="title">Activacion Manual</span>
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </li>
             {{-- FIN TIENDA INTERNA --}}
