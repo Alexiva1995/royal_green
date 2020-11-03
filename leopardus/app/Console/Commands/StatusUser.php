@@ -7,9 +7,7 @@ use App\User;
 use Carbon\Carbon;
 use App\Http\Controllers\ActivacionController;
 use App\Http\Controllers\ComisionesController;
-use App\Http\Controllers\TiendaController;
-use App\Http\Controllers\RangoController;
-use App\SettingsComision;
+
 
 class StatusUser extends Command
 {
@@ -51,6 +49,11 @@ class StatusUser extends Command
                 $activacion->activarUsuarios($user->ID);                
             }
             $this->info('Usuarios Verificados Correctamente '.Carbon::now());
+
+            $comision = new ComisionesController;    
+            $comision->payBonus();
+            $this->info('Bonos Pagados Correctamente '.Carbon::now());
+
         } catch (\Throwable $th) {
             $this->info($th);
         }

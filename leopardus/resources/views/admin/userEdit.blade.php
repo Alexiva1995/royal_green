@@ -120,10 +120,10 @@
                     <a class="nav-link" id="pagos-tab" data-toggle="tab" href="#pagos" role="tab" aria-controls="pagos"
                         aria-selected="false">Pagos</a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" id="bancaria-tab" data-toggle="tab" href="#bancaria" role="tab"
                         aria-controls="bancaria" aria-selected="false">Verificacion de Segundo Factor</a>
-                </li>
+                </li> --}}
             </ul>
             <!-- Aquí es informacion personal -->
 
@@ -153,9 +153,9 @@
                 <!-- Termina Perfil Social -->
 
                 <!-- Empieza Informaion Bancaria -->
-                <div class="tab-pane fade" id="bancaria" role="tabpanel" aria-labelledby="bancaria-tab">
+                {{-- <div class="tab-pane fade" id="bancaria" role="tabpanel" aria-labelledby="bancaria-tab">
                     @include('dashboard.formEdit.2fact', ['controler' => $data['controler']])
-                </div>
+                </div> --}}
                 <!-- Termina Informaion Bancaria -->
 
                 <!-- Empieza Pagos -->

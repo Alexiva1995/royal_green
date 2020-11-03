@@ -84,7 +84,7 @@
                     <li class="nav-item">
                         <a href="{{route('referraltree', 'tree')}}" class="nav-link">
                             <i class="feather icon-circle"></i>
-                            <span class="title">Arbol Unilever</span>
+                            <span class="title">Arbol Unilevel</span>
                         </a>
                     </li>
                     {{-- <li class="nav-item">

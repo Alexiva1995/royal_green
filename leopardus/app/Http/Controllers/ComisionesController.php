@@ -75,6 +75,8 @@ class ComisionesController extends Controller
         
                 if ($concepto != 'sin comision') {
                     $user = User::find($iduser);
+                    $user->wallet_amount = ($user->wallet_amount + $totalComision);
+                    $user->save();
                     $datos = [
                         'iduser' => $iduser,
                         'usuario' => $user->display_name,
@@ -83,7 +85,7 @@ class ComisionesController extends Controller
                         'puntosI' => 0,
                         'puntosD' => 0,
                         'descuento' => 0,
-                        'debito' => 0,
+                        'debito' => $totalComision,
                         'credito' => 0,
                         'balance' => $user->wallet_amount,
                         'tipotransacion' => 2
@@ -114,7 +116,9 @@ class ComisionesController extends Controller
                                 $userReferido = User::find($compra['idusuario']);
                                 $pagar = ($compra['total'] * 0.10);
                                 $concepto = 'Bono Directo, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                if ($pagar > 0) {
+                                    $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                }
                             }
                         }
                     }
@@ -158,7 +162,9 @@ class ComisionesController extends Controller
                                 $userReferido = User::find($compra['idusuario']);
                                 $pagar = ($compra->total * $porcentaje);
                                 $concepto = 'Bono Indirecto, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                if ($pagar) {
+                                    $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                }
                             }
                         }
                     }
@@ -306,7 +312,7 @@ class ComisionesController extends Controller
                 $idcomision = $idcompra.'30';
             }
 
-            $user->puntos = json_encode($puntos);
+            $user->puntos = json_encode($puntosUser);
 
             $checkComision = Commission::where([
                 ['user_id', '=', $iduser],
