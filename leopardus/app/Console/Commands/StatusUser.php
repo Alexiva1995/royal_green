@@ -43,10 +43,12 @@ class StatusUser extends Command
     public function handle()
     {
         try {
-            $users = User::where('rol_id', '!=', 0)->get();
+            $users = User::all();
             $activacion = new ActivacionController;
             foreach ($users as $user ) {
-                $activacion->activarUsuarios($user->ID);                
+                if ($user->rol_id != 0) {
+                    $activacion->activarUsuarios($user->ID);
+                }
             }
             $this->info('Usuarios Verificados Correctamente '.Carbon::now());
 

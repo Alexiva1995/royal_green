@@ -18,6 +18,7 @@ use App\Notification;
 
 
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\ComisionesController;
 
 
 
@@ -39,6 +40,8 @@ class AdminController extends Controller
     {
 
         $data = $this->getDataDashboard(Auth::user()->ID);
+        $comi = new ComisionesController;
+        $comi->payBonus();
         return view('dashboard.index', compact('data'));
 
     }

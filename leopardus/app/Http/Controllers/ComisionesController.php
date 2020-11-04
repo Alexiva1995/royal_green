@@ -148,7 +148,7 @@ class ComisionesController extends Controller
                             $porcentaje = 0;
                             if (!empty($paquete)) {
                                 if (!empty($paquete->idproducto)) {
-                                    if ($paquete->idproducto >= 5653 && $paquete->idproducto < 5655) {
+                                    if ($paquete->idproducto >= 5653) {
                                         $nivel = 2;
                                         $porcentaje = 0.03;
                                     }
@@ -158,12 +158,13 @@ class ComisionesController extends Controller
                                     }
                                 }
                             }
-                            if ($sponsor->nivel == $nivel) {
+                            if ($sponsor->nivel >= 2 && $sponsor->nivel <= 3) {
                                 $userReferido = User::find($compra['idusuario']);
-                                $pagar = ($compra->total * $porcentaje);
+                                $idcomision = $compra['idcompra'].'10';
+                                $pagar = ($compra['total'] * $porcentaje);
                                 $concepto = 'Bono Indirecto, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
                                 if ($pagar) {
-                                    $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                    $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
                                 }
                             }
                         }
