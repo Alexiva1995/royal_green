@@ -56,6 +56,7 @@ class AdminController extends Controller
         $comisiones = 0;
         $ordenes = 0;
         $wallet = 0;
+        $paquete = 'Sin Paquete';
         if ($user->rol_id == 0) {
             $ordenes = $this->indexControl->getAllComprasAdmin();
             $comisiones = Wallet::where('debito', '>', 0)->sum('debito');
@@ -68,15 +69,39 @@ class AdminController extends Controller
             ])->sum('debito');
         }
 
+        if (!empty($user->paquete)) {
+            $paquetetmp = json_decode($user->paquete);
+            $paquete = $paquetetmp->nombre;
+        }
+
+        $masinfo = $this->masInfo($iduser);
+        
+
+
         $data = [
             'directo' => $directos,
             'indirecto' => $indirecto,
             'wallet' => $wallet,
             'comisiones' => $comisiones,
-            'ordenes' => $ordenes
+            'ordenes' => $ordenes,
+            'nombreuser' => $masinfo->firstname.' '.$masinfo->lastname,
+            'paquete' => $paquete
         ];
 
         return $data;
+    }
+
+
+    /**
+     * Permite obtener mas informacion de un usuario
+     *
+     * @param integer $iduser
+     * @return object
+     */
+    public function masInfo($iduser):object
+    {
+        $masinfo = DB::table('user_campo')->where('ID', $iduser)->first();
+        return $masinfo;
     }
 
     public function direct_records(){
@@ -266,20 +291,8 @@ class AdminController extends Controller
                         ->where('post_id', '=', $order_id)
                         ->where('meta_key', '=', '_order_total')
                         ->first();
-        $nombreOrden = DB::table($settings->prefijo_wp.'postmeta')
-                        ->select('meta_value')
-                        ->where('post_id', '=', $order_id)
-                        ->where('meta_key', '=', '_billing_first_name')
-                        ->first();
-        $apellidoOrden = DB::table($settings->prefijo_wp.'postmeta')
-                        ->select('meta_value')
-                        ->where('post_id', '=', $order_id)
-                        ->where('meta_key', '=', '_billing_last_name')
-                        ->first();
 		$nombreCompleto = $nombre;
-        if (!empty($nombreOrden->meta_value) && !empty($apellidoOrden->meta_value)) {
-    	$nombreCompleto = $nombreOrden->meta_value." ".$apellidoOrden->meta_value;
-        }
+        
         $itemsOrden = DB::table($settings->prefijo_wp.'woocommerce_order_items')
                         ->select('order_item_name')
                         ->where('order_id', '=', $order_id)
@@ -320,10 +333,26 @@ class AdminController extends Controller
         if (!empty($fecha)) {
             $fechaCompra = new Carbon($fechaOrden->post_date);
             if ($fechaCompra->format('ymd') >= $fecha['primero']->format('ymd') && $fechaCompra->format('ymd') <= $fecha['segundo']->format('ymd')) {
-                array_push($array_datos, array($order_id, $nombreCompleto, $fechaOrden->post_date, $items, $totalOrden->meta_value, $level, $estadoEntendible) );
+                array_push($array_datos, array(
+                    'idorden' =>$order_id, 
+                    'nombreusuario' => $nombreCompleto, 
+                    'fechacompra' => $fechaOrden->post_date, 
+                    'producto' => $items, 
+                    'total' => $totalOrden->meta_value, 
+                    'nivel' => $level, 
+                    'estado' => $estadoEntendible) 
+                );
             }
         } else {
-            array_push($array_datos, array($order_id, $nombreCompleto, $fechaOrden->post_date, $items, $totalOrden->meta_value, $level, $estadoEntendible) );
+            array_push($array_datos, array(
+                'idorden' =>$order_id, 
+                'nombreusuario' => $nombreCompleto, 
+                'fechacompra' => $fechaOrden->post_date, 
+                'producto' => $items, 
+                'total' => $totalOrden->meta_value, 
+                'nivel' => $level, 
+                'estado' => $estadoEntendible) 
+            );
         }
         
         
@@ -376,7 +405,7 @@ class AdminController extends Controller
 
             foreach ($ordenes as $orden){
 
-                $compras = $this->getDetailsOrder($orden->post_id, $compras, '1', $user['nombre'], $fecha);
+                $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha);
 
             }
 
@@ -443,7 +472,7 @@ class AdminController extends Controller
                             ->orderBy('post_id', 'DESC')
                             ->get();
             foreach ($ordenes as $orden){
-                $compras = $this->getDetailsOrder($orden->post_id, $compras, '1', $user['nombre'], $fecha);
+                $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha);
             }
         }
     }

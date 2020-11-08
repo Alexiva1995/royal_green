@@ -23,7 +23,7 @@
                                     <input type="hidden" id="title2" name="name">
                                     <input type="hidden" id="price2" name="precio">
                                     <input type="hidden" name="tipo" value="">
-                                    <button type="submit" class="btn btn-info">Comprar</button>
+                                    <button type="submit" class="btn btn-info" id="pagarcompra">Comprar</button>
                                 </form>
                             </h6>
                         </div>

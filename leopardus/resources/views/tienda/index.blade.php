@@ -1,16 +1,6 @@
 @extends('layouts.dashboard')
 
 @section('content')
-{{-- <style>
-    .title-producto {
-        border-bottom: 2px double #ffb103 !important;
-        margin: 10px;
-        padding: 5px;
-        font-size: 14px;
-        font-weight: 800;
-        color: #ffb103;
-    }
-</style> --}}
 
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
@@ -29,7 +19,7 @@
                     <div class="card-content">
                         <img src="{{$item->imagen}}" alt="{{$item->post_title}}" class="card-img img-fluid">
                         <div class="card-img-overlay d-flex justify-content-center align-items-end">
-                        <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}})">Visualizar</a>
+                        <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}})">Comprar</a>
                         </div>
                     </div>
                 </div>
@@ -53,7 +43,8 @@
         $('#content').html(product.post_content)
         $('#price').html('$ '+product.meta_value)
         $('#price2').val(product.meta_value)
-        $('#myModal1').modal('show')
+        $('#pagarcompra').click()
+        // $('#myModal1').modal('show')
     }
 </script>
 @endsection

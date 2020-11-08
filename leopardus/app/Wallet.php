@@ -13,7 +13,7 @@ class Wallet extends Model
      */
     protected $fillable = [
          'iduser', 'usuario', 'descripcion', 'debito', 'credito', 'balance', 'descuento', 'tipotransacion', 'puntos',
-         'puntosI', 'puntosD', 'tantechcoin', 'creditocoin'
+         'puntosI', 'puntosD', 'tantechcoin', 'creditocoin', 'email_referred'
     ];
     public function user(){
         return $this->belongsTo('App\User');

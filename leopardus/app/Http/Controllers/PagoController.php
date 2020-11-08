@@ -225,6 +225,7 @@ class PagoController extends Controller
 			'puntos' => 0,
 			'puntosI' => 0,
 			'puntosD' => 0,
+			'email_referred' => $user->user_email,
 			'debito' => $resta,
 			'credito' => 0,
 			'balance' => $user->wallet_amount,

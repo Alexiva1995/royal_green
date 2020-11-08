@@ -10,7 +10,9 @@
                         </div> --}}
                     </div>
                     <div class="text-center">
-                        <h1 class="mb-2 text-white">Bienvenido {{Auth::user()->display_name}}</h1>
+                        <h1 class="mb-2 text-white">Bienvenido</h1>
+                        <h3 class="mb-2 text-white">{{$data['nombreuser']}}</h3>
+                        <h3 class="mb-2 text-white">Paquete - {{$data['paquete']}}</h3>
                     </div>
                 </div>
             </div>

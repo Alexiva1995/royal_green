@@ -29,6 +29,9 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                                 Usuario
                             </th>
                             <th class="text-center">
+                                Email Referido
+                            </th>
+                            <th class="text-center">
                                 Fecha
                             </th>
                             <th class="text-center">
@@ -56,6 +59,9 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                             </td>
                             <td class="text-center">
                                 {{$wallet->usuario}}
+                            </td>
+                            <td class="text-center">
+                                {{$wallet->email_referred}}
                             </td>
                             <td class="text-center">
                                 {{date('d-m-Y', strtotime($wallet->created_at))}}

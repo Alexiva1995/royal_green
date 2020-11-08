@@ -285,6 +285,8 @@ class RegisterController extends Controller
 
             'user_status' => '0',
 
+            'display_name' => $data['firstname'].' '.$data['lastname'],
+
             'user_registered' => Carbon::now(),
 
             'user_pass' => md5($data['password']),
