@@ -122,6 +122,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
 @include('wallet/componentes/formRetiro', ['disponible' => Auth::user()->wallet_amount, 'tipowallet' => 1])
 @include('wallet/componentes/formTransferencia')
 
+@push('custom_js')
 <script>
     $(document).ready(function () {
         $('.retirarbtn').click(function () {
@@ -170,14 +171,13 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
     }
 
     function totalRetiro(valor) {
+        console.log(valor);
         let resul = valor
-        // if ($('#tipo').val() == 1) {
-        //     let tmp = valor * $('#comisionH').val()
-        //     resul = valor - tmp
-        // } else {
-        //     resul = valor - $('#comisionH').val()
-        // }
+        let tmp = valor * $('#comisionH').val()
+        resul = valor - tmp
+        console.log(resul);
         $('#total').val(resul)
     }
 </script>
+@endpush
 @endsection

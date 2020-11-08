@@ -22,27 +22,26 @@
               <label>Monto Disponible</label>
               <input class="form-control" type="text" name="montodisponible" readonly value="{{$disponible}}"/>
             </div>
-            {{-- <div class="form-group col-12 col-sm-6">
+            <div class="form-group col-12 col-sm-6">
               <label id="lblcomision">Comision por Retiro</label>
               <input id="comision" class="form-control" type="text" name="comision" readonly value=""/>
               <input id="comisionH" class="form-control" type="hidden"/>
               <input id="tipo" class="form-control" type="hidden"/>
               <input class="form-control" type="hidden" name="tipowallet" value="{{$tipowallet}}"/>
-            </div> --}}
+            </div>
             <div class="form-group col-12 col-sm-6">
               <label>Cantidad a Retirar</label>
               <input class="form-control" type="number" name="monto" step="any" required onkeyup="totalRetiro(this.value)"/>
-              <input id="total" type="hidden" class="form-control" name="total" readonly/>
+              {{-- <input id="total" type="hidden" class="form-control" name="total" readonly/> --}}
             </div>
             {{-- <div class="form-group col-12 col-sm-6">
                 <label>Monto minimo a Retirar</label>
                 <input id="monto_min" class="form-control" name="monto_min" readonly/>
               </div> --}}
-            {{-- <div class="form-group col-12 col-sm-6">
+            <div class="form-group col-12 col-sm-6">
               <label>Monto final a Retirar</label>
-              
-              <input id="descuento" type="hidden" name="descuento"/>
-            </div> --}}
+              <input id="total" class="form-control" name="total" readonly/>
+            </div>
             {{-- <div class="form-group col-12 col-sm-6" id="correo" style="display:none;">
               <label>Correo de la cuenta a asociada el metodo de pago</label>
               <input type="email" class="form-control" name="metodocorreo" required/>

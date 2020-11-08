@@ -33,6 +33,33 @@
                     <p class="d-none" id="copy">
                         {{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}
                     </p>
+                    <h6>
+                        <small class="text-white">Lado activo de registro binario</small>
+                    </h6>
+                    <ul class="list-unstyled mb-0 d-flex">
+                        <li class="d-inline-block mr-2">
+                            <fieldset>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="customRadio"
+                                        id="customRadio1" @if (Auth::user()->ladoregistrar == 'D') checked
+                                    @endif onclick="updateSideBinary('D')">
+                                    <label class="custom-control-label text-white"
+                                        for="customRadio1">Derecha</label>
+                                </div>
+                            </fieldset>
+                        </li>
+                        <li class="d-inline-block mr-2">
+                            <fieldset>
+                                <div class="custom-control custom-radio">
+                                    <input type="radio" class="custom-control-input" name="customRadio"
+                                        id="customRadio2" @if (Auth::user()->ladoregistrar == 'I') checked
+                                    @endif onclick="updateSideBinary('I')">
+                                    <label class="custom-control-label text-white"
+                                        for="customRadio2">Izquierda</label>
+                                </div>
+                            </fieldset>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

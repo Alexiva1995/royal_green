@@ -75,7 +75,7 @@ Route::group(['prefix' => 'tienda', 'middleware' => ['auth', 'licencia', 'guest'
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']], function() {
 
-  Route::put('changeside', 'HomeController@changeSide')->name('change.side');
+  Route::post('changeside', 'HomeController@changeSide')->name('change.side');
 
     // Actualiza todos la informacion para los usuarios
 

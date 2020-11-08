@@ -199,7 +199,7 @@ class WalletController extends Controller
                         $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
                     }
                     $metodo = MetodoPago::find($datos->metodopago);
-                    // if ($resta > $datos->monto_min) {
+                    if ($resta > $datos->monto_min) {
 						// DB::table('user_campo')->where('ID', Auth::user()->ID)->update(['paypal' => $datos->metodowallet]);
 						$user = Auth::user();
 						$user->wallet_amount = ($user->wallet_amount - $resta);
@@ -232,9 +232,9 @@ class WalletController extends Controller
 							'estado' => 0
 						]);
 						return redirect()->back()->with('msj', 'El Retiro ha sido procesado');
-					// } else {
-					// 	return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor la monto minimo');	
-					// }
+					} else {
+						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor la monto minimo');	
+					}
                 }else{
                     return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
                 }

@@ -18,7 +18,7 @@
 
     <div class="form-group" style="margin-bottom: 15px;">
 
-        <label>Wallet (ETH)</label>
+        <label>Wallet (BTC)</label>
 
 
 
