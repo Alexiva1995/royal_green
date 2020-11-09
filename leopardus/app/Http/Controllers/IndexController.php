@@ -511,7 +511,8 @@ class IndexController extends Controller
                 if (count($retrievedCharge->timeline) > 0) {
                     foreach ($retrievedCharge->timeline as $item) {
                         if ($item['status'] == 'COMPLETED') {
-                            $tienda->actualizarBD($solicitud['idcompra'], 'wc-completed');
+                            $tienda->accionSolicitud($solicitud['idcompra'], 'wc-completed', 'Coinbase');
+                            $tienda->actualizarBD($solicitud['idcompra'], 'wc-completed', 'Coinbase');
                         }
                     }   
                 }

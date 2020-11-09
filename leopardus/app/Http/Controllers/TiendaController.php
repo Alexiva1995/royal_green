@@ -458,14 +458,16 @@ class TiendaController extends Controller
         }
         return $arregloCompras;
     }
+    
     /**
      * Actualiza las solicitude pendientes
-     * 
-     * @access public
-     * @param int $id - id compra, string $estado - el estado al que va a pasar la compra
-     * @return view
+     *
+     * @param integer $id
+     * @param string $estado
+     * @param string $activacion
+     * @return void
      */
-    public function accionSolicitud($id, $estado)
+    public function accionSolicitud($id, $estado, $activacion = null)
     {
         if ($estado == 'wc-completed') {
             $datoscompra = $this->getDatos($id);
@@ -475,16 +477,22 @@ class TiendaController extends Controller
             $comisiones = new ComisionesController;
             $comisiones->payBonus();
         }
-        $this->actualizarBD($id, $estado);
-        return redirect()->route('tienda-solicitudes')->with('msj', 'Estado de la Solicitud Actualizada con Exito');
+
+        if ($activacion == null) {
+            $this->actualizarBD($id, $estado, 'Manual');
+            return redirect()->route('tienda-solicitudes')->with('msj', 'Estado de la Solicitud Actualizada con Exito');
+        }
     }
+    
     /**
      * Actualiza la informacion de la ordenes de compra en el wp
      *
-     * @access public 
-     * @param int $id - id Compra, string $estado - estado de la compra
+     * @param integer $id
+     * @param string $estado
+     * @param string $activacion
+     * @return void
      */
-    public function actualizarBD($id, $estado)
+    public function actualizarBD($id, $estado, $activacion)
     {
         $settings = Settings::first();
         DB::table($settings->prefijo_wp.'posts')
@@ -493,6 +501,7 @@ class TiendaController extends Controller
                 'post_status' => $estado,
                 'post_modified' => Carbon::now(),
                 'post_modified_gmt' => Carbon::now(),
+                'to_ping' => $activacion,
             ]);
         $order_key = DB::table($settings->prefijo_wp.'postmeta')->where(['post_id' => $id, 'meta_key' => '_orden_key'])
                             ->select('meta_value')->first();

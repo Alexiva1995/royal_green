@@ -13,42 +13,43 @@
 			<div class="table-responsive">
 				<table id="mytable" class="table zero-configuration">
 					<thead>
-						<tr>
+						<tr class="text-center">
 							<th>Numero de Orden</th>
 							<th>Usuario</th>
+							@if (Auth::user()->ID == 1)
+							<th>Correo</th>
+							@endif
 							<th>Fecha</th>
 							<th>Concepto</th>
 							<th>Total</th>
+							@if (Auth::user()->ID != 1)
 							<th>Generacion</th>
+							@endif
 							<th>Estado</th>
+							@if (Auth::user()->ID == 1)
+							<th>Tipo Activacion</th>
+							@endif
 						</tr>
 					</thead>
 					<tbody>
-						@php
-						$cont = 0;
-						@endphp
 						@foreach ($compras as $compra)
-						@php
-						$cont++;
-						$cont2 = 0;
-						@endphp
-						<tr>
-							@foreach ($compra as $dato)
-							@php
-							$cont2++;
-							@endphp
-							@if ($cont2 == 3)
-							<td>{{ date('Y-m-d', strtotime($dato)) }}</td>
-							@elseif ($cont2 == 5)
-							<td>$ {{ $dato }}</td>
-							@elseif ($cont2 == 6)
-							<td> Nivel {{ $dato }}</td>
-							@else
-							<td> {{ $dato }}</td>
-							@endif
-
-							@endforeach
-						</tr>
+							<tr class="text-center">
+								<th>{{$compra['idorden']}}</th>
+								<th>{{$compra['nombreusuario']}}</th>
+								@if (Auth::user()->ID == 1)
+								<th>{{$compra['correouser']}}</th>
+								@endif
+								<th>{{date('Y-m-d', strtotime($compra['fechacompra']))}}</th>
+								<th>{{$compra['producto']}}</th>
+								<th>{{$compra['total']}}</th>
+								@if (Auth::user()->ID != 1)
+								<th>{{$compra['nivel']}}</th>
+								@endif
+								<th>{{$compra['estado']}}</th>
+								@if (Auth::user()->ID == 1)
+								<th>{{$compra['activacion']}}</th>
+								@endif
+							</tr>
 						@endforeach
 					</tbody>
 				</table>

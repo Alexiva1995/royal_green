@@ -270,12 +270,16 @@ class AdminController extends Controller
 
     /**
      * Genera la Informacion de las ordenes de la red
-     * 
-     * @access public
-     * @param int $order_id - orden de la compra, array $array_datos - informacion de las compras, int $level - nivel del usuario
-     * @return array
+     *
+     * @param integer $order_id
+     * @param array $array_datos
+     * @param integer $level
+     * @param string $nombre
+     * @param array $fecha
+     * @param string $correo
+     * @return void
      */
-    public function getDetailsOrder($order_id, $array_datos, $level, $nombre, $fecha){
+    public function getDetailsOrder($order_id, $array_datos, $level, $nombre, $fecha, $correo){
         $settings = Settings::first();
         $numOrden = DB::table($settings->prefijo_wp.'postmeta')
                         ->select('meta_value')
@@ -284,6 +288,11 @@ class AdminController extends Controller
                         ->first();
         $fechaOrden = DB::table($settings->prefijo_wp.'posts')
                         ->select('post_date')
+                        ->where('ID', '=', $order_id)
+                        ->first();
+
+        $type_activacion = DB::table($settings->prefijo_wp.'posts')
+                        ->select('to_ping')
                         ->where('ID', '=', $order_id)
                         ->first();
         $totalOrden = DB::table($settings->prefijo_wp.'postmeta')
@@ -336,10 +345,12 @@ class AdminController extends Controller
                 array_push($array_datos, array(
                     'idorden' =>$order_id, 
                     'nombreusuario' => $nombreCompleto, 
+                    'correouser' => $correo,
                     'fechacompra' => $fechaOrden->post_date, 
                     'producto' => $items, 
                     'total' => $totalOrden->meta_value, 
                     'nivel' => $level, 
+                    'activacion' => $type_activacion->to_ping,
                     'estado' => $estadoEntendible) 
                 );
             }
@@ -347,11 +358,13 @@ class AdminController extends Controller
             array_push($array_datos, array(
                 'idorden' =>$order_id, 
                 'nombreusuario' => $nombreCompleto, 
+                'correouser' => $correo,
                 'fechacompra' => $fechaOrden->post_date, 
                 'producto' => $items, 
                 'total' => $totalOrden->meta_value, 
                 'nivel' => $level, 
-                'estado' => $estadoEntendible) 
+                'activacion' => $type_activacion->to_ping,
+                'estado' => $estadoEntendible)
             );
         }
         
@@ -405,7 +418,7 @@ class AdminController extends Controller
 
             foreach ($ordenes as $orden){
 
-                $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha);
+                $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
 
             }
 
@@ -472,7 +485,7 @@ class AdminController extends Controller
                             ->orderBy('post_id', 'DESC')
                             ->get();
             foreach ($ordenes as $orden){
-                $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha);
+                $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
             }
         }
     }
