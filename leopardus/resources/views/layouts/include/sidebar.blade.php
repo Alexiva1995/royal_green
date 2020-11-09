@@ -147,11 +147,11 @@
                             <span class="title">Historial de Retiro</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a href="{{url('mioficina/admin/price/confirmar')}}" class="nav-link">
                             <span class="title">Confirmar Pagos</span>
                         </a>
-                    </li> --}}
+                    </li>
                 </ul>
             </li>
             {{--FIN TRANSACCIONES --}}

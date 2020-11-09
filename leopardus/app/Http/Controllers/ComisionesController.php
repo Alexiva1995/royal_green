@@ -374,7 +374,7 @@ class ComisionesController extends Controller
     public function checkExictPoint(int $iduser)
     {
         try {
-            $user = User::find($iduser)->only('puntos');
+            $user = User::find($iduser);
             $puntos = [
                 'binario_izq' => 0,
                 'binario_der' => 0,
