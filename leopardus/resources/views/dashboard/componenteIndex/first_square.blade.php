@@ -24,8 +24,8 @@
                 <div class="card-body pb-0 pt-1">
                     <img src="{{asset('assets/img/sistema/card-img.svg')}}" alt="element 03" width="250" height="250"
                         class="float-right px-1">
-                    <p class="card-text mt-3">Invita a tus amigos <br> y gana una comision</p>
-                    <h4 class="card-title text-white">¡Todo es mejor con <br> amigos!</h4>
+                    <p class="card-text mt-3">¡En Equipo llegas mas lejos!</p>
+                    <h4 class="card-title text-white">Refiere y Gana <br> bonos ilimitados</h4>
                     <a href="javascript:;" onclick="copyToClipboard('copy')"
                         class="btn btn-primary padding-button-short bg-white mt-1 waves-effect waves-light">
                         LINK REFERIDO

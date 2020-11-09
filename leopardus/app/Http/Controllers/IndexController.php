@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use stdClass;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
+use App\Http\Controllers\ComisionesController;
 use App\Http\Controllers\ActivacionController;
 
 class IndexController extends Controller
@@ -92,6 +93,7 @@ class IndexController extends Controller
      */
     private function getData($id, $nivel, $typeTree) : object
     {
+        $comisioncontroller = new ComisionesController;
         $resul = User::where($typeTree, '=', $id)->get();
         foreach ($resul as $user) {
             $patrocinado = User::find($user->referred_id);
@@ -99,6 +101,8 @@ class IndexController extends Controller
             $user->nivel = $nivel;
             $user->ladomatriz = $user->ladomatrix;
             $user->patrocinador = $patrocinado->display_name;
+            $comisioncontroller->checkExictPoint($user->ID);
+            $user->puntos = json_decode($user->puntos);
         }
         return $resul;
     }

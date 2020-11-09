@@ -25,10 +25,10 @@
                             Patrocinador: <strong>{{$data->patrocinador}}</strong>
                         </h6>
                         <h6>
-                            Pto. Izq: <strong>{{$data->puntosizq}}</strong>
+                            Pto. Izq: <strong>{{$data->puntos->binario_izq}}</strong>
                         </h6>
                         <h6>
-                            Pto. Dzq: <strong>{{$data->puntosder}}</strong>
+                            Pto. Dzq: <strong>{{$data->puntos->binario_der}}</strong>
                         </h6>
                     </div>
                 </div>

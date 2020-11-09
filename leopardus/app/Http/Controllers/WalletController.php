@@ -201,7 +201,7 @@ class WalletController extends Controller
                     $metodo = MetodoPago::find($datos->metodopago);
                     if ($resta > $datos->monto_min) {
 						// DB::table('user_campo')->where('ID', Auth::user()->ID)->update(['paypal' => $datos->metodowallet]);
-						$user = Auth::user();
+						$user = User::find(Auth::user()->ID);
 						$user->wallet_amount = ($user->wallet_amount - $resta);
 						$datosW = [
 							'iduser' => $user->ID,
@@ -211,7 +211,7 @@ class WalletController extends Controller
 							'puntos' => 0,
 							'puntosI' => 0,
 							'puntosD' => 0,
-							'email_referred' => $user->email_user,
+							'email_referred' => $user->user_email,
 							'debito' => 0,
 							'credito' => $datos->monto,
 							'balance' => $user->wallet_amount,

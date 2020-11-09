@@ -311,14 +311,14 @@ class ComisionesController extends Controller
             $tipo_comision = 'Puntos Binarios';
             if ($side == 'I') {
                 $punto_izq = $puntos;
-                $puntosUser->binario_izq = ($puntosUser->binario_izq + $puntos);
+                $puntosUser->binario_izq = ((float) $puntosUser->binario_izq + (float) $puntos);
             }elseif ($side == 'D') {
                 $punto_der = $puntos;
-                $puntosUser->binario_der = ($puntosUser->binario_der + $puntos);
+                $puntosUser->binario_der = ((float) $puntosUser->binario_der + (float) $puntos);
             }else{
                 $tipo_comision = 'Puntos Rango';
                 $punto_rank = $puntos;
-                $puntosUser->rank = ($puntosUser->rank + $puntos);
+                $puntosUser->rank = ((float) $puntosUser->rank + (float) $puntos);
                 $idcomision = $idcompra.'30';
             }
 

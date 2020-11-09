@@ -2,6 +2,7 @@
 
 namespace Modules\ReferralTree\Http\Controllers;
 
+
 use App\Http\Controllers\IndexController;
 use Illuminate\Routing\Controller;
 use App\SettingsEstructura;
@@ -11,6 +12,7 @@ use App\User;
 
 class ReferralTreeController extends Controller
 {
+
     function __construct()
     {
         // TITLE
