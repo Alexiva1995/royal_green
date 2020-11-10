@@ -35,12 +35,14 @@ class ReferralTreeController extends Controller
             return redirect()->route('tienda-index')->with('msj', 'Por favor realice una compra primero');
         }
 
+        $puntos = json_decode(Auth::user()->puntos);
+
         $trees = $funcione->getDataEstructura(Auth::id(), $type);
         // $type = ucfirst($type);
         $base = Auth::user();
         $base->children = User::where('position_id', '=', $base->ID)->get();
         $base->avatar = asset('avatar/'.$base->avatar);
-        return view('referraltree::matriz')->with(compact('base', 'trees', 'type'));
+        return view('referraltree::matriz')->with(compact('base', 'trees', 'type', 'puntos'));
         // return view('genealogy.tree', compact('trees', 'base'));
 
     }
@@ -60,10 +62,11 @@ class ReferralTreeController extends Controller
         $id = base64_decode($id);
         $trees = $funcione->getDataEstructura($id, $type);
         // $type = ucfirst($type);
+        $puntos = json_decode(Auth::user()->puntos);
         $base = User::find($id);
         $base->children = User::where('position_id', '=', $base->ID)->get();
         $base->avatar = asset('avatar/'.$base->avatar);
-        return view('referraltree::matriz')->with(compact('base', 'trees', 'type'));
+        return view('referraltree::matriz')->with(compact('base', 'trees', 'type', 'puntos'));
     }
 
 

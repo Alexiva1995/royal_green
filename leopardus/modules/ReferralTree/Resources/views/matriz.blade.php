@@ -202,93 +202,101 @@ right connector from last child*/
 @endif
 
 <div class="col-12 text-center">
-	<div class="padre tree">
-		<ul>
-			<li>
-				<img title="{{ ucwords($base->display_name) }}" src="{{ $base->avatar }}" style="width:64px">
-				{{-- Nivel 1 --}}
+	<div class="card mt-5">
+		<div class="card-header">
+			<span class="border border-dark p-1 float-left">Puntos Izquierdos: <strong>{{$puntos->binario_izq}}</strong></span>
+			<span class="border border-dark p-1 float-right">Puntos Derechos: <strong>{{$puntos->binario_der}}</strong></span>
+		</div>
+		<div class="card-body">
+			<div class="padre tree">
 				<ul>
-					@foreach ($trees as $child)
-					{{-- lado Derecho --}}
-					@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($base->children)])
 					<li>
-						@include('referraltree::infouser', ['data' => $child])
-						@if (!empty($child->children))
-						{{-- nivel 2 --}}
+						<img title="{{ ucwords($base->display_name) }}" src="{{ $base->avatar }}" style="width:64px">
+						{{-- Nivel 1 --}}
 						<ul>
-							@foreach ($child->children as $child2)
+							@foreach ($trees as $child)
 							{{-- lado Derecho --}}
-							@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child->children)])
+							@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($base->children)])
 							<li>
-								
-								@include('referraltree::infouser', ['data' => $child2])
-								@if (!empty($child2->children))
-								{{-- nivel 3 --}}
+								@include('referraltree::infouser', ['data' => $child])
+								@if (!empty($child->children))
+								{{-- nivel 2 --}}
 								<ul>
-									@foreach ($child2->children as $child3)
+									@foreach ($child->children as $child2)
 									{{-- lado Derecho --}}
-									@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child2->children)])
+									@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child->children)])
 									<li>
-										@include('referraltree::infouser', ['data' => $child3])
-										@if (!empty($child3->children))
-										{{-- nivel 4 --}}
+										
+										@include('referraltree::infouser', ['data' => $child2])
+										@if (!empty($child2->children))
+										{{-- nivel 3 --}}
 										<ul>
-											@foreach ($child3->children as $child4)
+											@foreach ($child2->children as $child3)
 											{{-- lado Derecho --}}
-											@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child3->children)])
+											@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child2->children)])
 											<li>
-												@include('referraltree::infouser', ['data' => $child4])
-
-												@if (!empty($child4->children))
-												{{-- nivel 5 --}}
+												@include('referraltree::infouser', ['data' => $child3])
+												@if (!empty($child3->children))
+												{{-- nivel 4 --}}
 												<ul>
-													@foreach ($child4->children as $child5)
+													@foreach ($child3->children as $child4)
 													{{-- lado Derecho --}}
-													@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child4->children)])
+													@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child3->children)])
 													<li>
-														@include('referraltree::infouser', ['data' => $child5])
+														@include('referraltree::infouser', ['data' => $child4])
+		
+														@if (!empty($child4->children))
+														{{-- nivel 5 --}}
+														<ul>
+															@foreach ($child4->children as $child5)
+															{{-- lado Derecho --}}
+															@include('referraltree::sideempty', ['side' => 'D', 'cant' => count($child4->children)])
+															<li>
+																@include('referraltree::infouser', ['data' => $child5])
+															</li>
+															{{-- lado Izquierdo --}}
+															@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child4->children)])
+															@endforeach
+														</ul>
+														{{-- fin nivel 5 --}}
+														@endif
 													</li>
 													{{-- lado Izquierdo --}}
-													@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child4->children)])
+													@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child3->children)])
 													@endforeach
 												</ul>
-												{{-- fin nivel 5 --}}
+												{{-- fin nivel 4 --}}
 												@endif
 											</li>
 											{{-- lado Izquierdo --}}
-											@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child3->children)])
+											@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child2->children)])
 											@endforeach
 										</ul>
-										{{-- fin nivel 4 --}}
+										{{-- fin nivel 3 --}}
 										@endif
 									</li>
 									{{-- lado Izquierdo --}}
-									@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child2->children)])
+									@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child->children)])
 									@endforeach
 								</ul>
-								{{-- fin nivel 3 --}}
+								{{-- fin nivel 2 --}}
 								@endif
 							</li>
 							{{-- lado Izquierdo --}}
-							@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($child->children)])
+							@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($base->children)])
 							@endforeach
 						</ul>
-						{{-- fin nivel 2 --}}
-						@endif
+						{{-- fin nivel 1 --}}
 					</li>
-					{{-- lado Izquierdo --}}
-					@include('referraltree::sideempty', ['side' => 'I', 'cant' => count($base->children)])
-					@endforeach
 				</ul>
-				{{-- fin nivel 1 --}}
-			</li>
-		</ul>
+			</div>
+			@if (Auth::id() != $base->ID)
+			<div class="col-12 text-center">
+				<a class="btn btn-info" href="{{route('referraltree', strtolower($type))}}">Regresar a mi arbol</a>
+			</div>
+			@endif
+		</div>
 	</div>
-	@if (Auth::id() != $base->ID)
-	<div class="col-12 text-center">
-		<a class="btn btn-info" href="{{route('referraltree', strtolower($type))}}">Regresar a mi arbol</a>
-	</div>
-	@endif
 </div>
 
 <script>
