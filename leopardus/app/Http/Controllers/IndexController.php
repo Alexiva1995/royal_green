@@ -458,7 +458,8 @@ class IndexController extends Controller
                     ->select('*')
                     ->where([
                         ['post_type', '=', 'shop_order'],
-                        ['post_status', '=', 'wc-completed']
+                        ['post_status', '=', 'wc-completed'],
+                        ['to_ping', '=', 'Coinbase']
                     ])
                     ->whereDate('post_date', '>', $fecha->subDay(30))
                     ->get();
