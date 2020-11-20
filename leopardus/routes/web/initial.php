@@ -18,8 +18,8 @@ Route::prefix('mioficina')->group(function(){
 
 Route::get('/', function(){
     $landing = 0;
-    // return view('landing.index', compact('landing'));
-    return redirect()->route('login');
+     return view('landing.index', compact('landing'));
+    //return redirect()->route('login');
 })->name('landing');
 
 Route::get('/producto/legal', function(){
