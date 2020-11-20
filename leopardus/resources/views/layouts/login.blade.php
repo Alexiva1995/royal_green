@@ -34,14 +34,14 @@
 
     <style>
         html body.bg-full-screen-image{
-            background: url("{{asset('assets/mesa_trabajo.jpg')}}") no-repeat center center;
+            background: url("{{asset('assets/mesa_trabajo.png')}}") no-repeat center center;
             background-size: auto;
             background-size: cover;
         }
 
         @media screen and (max-width: 600px){
             html body.bg-full-screen-image{
-                background: url("{{asset('assets/mesa_trabajo_tlf.jpg')}}") no-repeat center center;
+                background: url("{{asset('assets/mesa_trabajo_tlf.png')}}") no-repeat center center;
             }
         }
 
@@ -79,6 +79,7 @@
             border: 1px solid;
             background-color: transparent;
             color: #6AC1FF;
+             text-align: left;
         }
     </style>
 
