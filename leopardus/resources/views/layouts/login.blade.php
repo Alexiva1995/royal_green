@@ -33,15 +33,17 @@
     <!-- END: Page CSS-->
 
     <style>
+        
         html body.bg-full-screen-image{
-            background: url("{{asset('assets/mesa_trabajo.png')}}") no-repeat center center;
-            background-size: auto;
+            background: url("{{asset('assets/fondo.jpg')}}") no-repeat center center;
             background-size: cover;
         }
 
-        @media screen and (max-width: 600px){
+        @media only screen and (max-width: 600px){
             html body.bg-full-screen-image{
-                background: url("{{asset('assets/mesa_trabajo_tlf.png')}}") no-repeat center center;
+                background: url("{{asset('assets/fondo-movil.jpg')}}") no-repeat center center;
+                background-size: cover;
+
             }
         }
 
@@ -79,8 +81,14 @@
             border: 1px solid;
             background-color: transparent;
             color: #6AC1FF;
-             text-align: left;
         }
+
+        col-md-6 {
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
     </style>
 
     <!-- BEGIN: Custom CSS-->
@@ -88,10 +96,18 @@
     <!-- END: Custom CSS-->
 
 
+    <div class="navbar-wrapper">
+        <button type="button" class="btn btn-default btn-lg text-white">
+        <span class="glyphicon glyphicon-arrow-left"></span>   
+            🡠 Regresar al inicio 
+        </button>
+    </div>
+ 
+
 </head>
 
 <body
-    class="vertical-layout vertical-menu-modern 1-column  navbar-floating footer-static bg-full-screen-image  blank-page blank-page"
+    class="vertical-layout vertical-menu-modern 1-column  navbar-floating bg-full-screen-image  blank-page blank-page "
     data-open="click" data-menu="vertical-menu-modern" data-col="1-column">
     <!-- BEGIN: Content-->
     <div class="app-content content">
@@ -102,10 +118,23 @@
             </div>
             <div class="content-body">
                 @yield('content')
-            </div>
-        </div>
+       
+       <!-- START FOOTER Light-->
+    <footer class="bg-dark bg-full-screen-image">  
+        <button type="button" class="btn btn-default waves-effect waves-light">  © Royal Green </button>
+         <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-twitter"></i></button>
+         <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-instagram"></i></button>
+         <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-youtube"></i></button>
+         <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-facebook"></i></button>
+    </footer>
+<!-- END FOOTER Light-->
+ </div>
+</div>
     </div>
+
 </body>
+
+
 
 <!-- BEGIN: Vendor JS-->
 <script src="{{asset('/app-assets/vendors/js/vendors.min.js')}}"></script>
@@ -122,5 +151,4 @@
 
 <!-- BEGIN: Page JS-->
 <!-- END: Page JS-->
-
 </html>
