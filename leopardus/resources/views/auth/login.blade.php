@@ -110,9 +110,6 @@
         </div>
     </div>
       </div>
-
-
-
 </div>
 <div class="col-md-3 d-flex justify-content-center ">
         </div>
@@ -122,7 +119,10 @@
     <button type="button " class="btn btn-icon rounded-circle btn-default bg-dark text-white ">
         <i class="font-medium-5 fa fa-paper-plane-o mr-50"></i> 
     </button>
-</div>
+
+ </div>
+
+      
 </section>
 
 <script type="text/javascript">

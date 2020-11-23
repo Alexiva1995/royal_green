@@ -35,7 +35,10 @@
     <style>
         
         html body.bg-full-screen-image{
-            background: url("{{asset('assets/fondo.jpg')}}") no-repeat center center;
+            background: url("{{asset('assets/fondo.jpg')}}") no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
             background-size: cover;
         }
 
@@ -45,8 +48,8 @@
                 background-size: cover;
 
             }
-        }
 
+         
         .btn-primary{
             border-color: rgba(106,193,255,1);
             border-color: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
@@ -82,13 +85,6 @@
             background-color: transparent;
             color: #6AC1FF;
         }
-
-        col-md-6 {
-  width: 50%;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
     </style>
 
     <!-- BEGIN: Custom CSS-->
@@ -120,7 +116,7 @@
                 @yield('content')
        
        <!-- START FOOTER Light-->
-    <footer class="bg-dark bg-full-screen-image">  
+    <footer class=" navbar-wrapper bg-dark bg-full-screen-image">  
         <button type="button" class="btn btn-default waves-effect waves-light">  © Royal Green </button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-twitter"></i></button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-instagram"></i></button>
