@@ -10,12 +10,12 @@
 
         <div class="col-md-3 d-flex justify-content-center ">
 
-           <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class=" m-auto branding logo" height="130" width="130">
+           <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class=" m-auto branding logo" height="190" width="190">
         </div>
        
             
 
-    <div class="col-md-4 col-11 d-flex justify-content-center">
+    <div class="col-md-4 col-11 d-flex justify-content-center"><div class="breadcrumb "></div>
         <div class="card bg-authentication rounded-0 mb-0" style="background: transparent;">
             <div class="card rounded-3 mb-0 px-2" style="background: transparent;">
                  
@@ -34,13 +34,13 @@
                             <div class="card-body pt-1">
                                 {{-- registro --}}
 
-                                <form class="login-form inicio" method="POST"
+                                <form class="login-form inicio " method="POST"
                                     action="{{ route('autenticacion-login') }}">
                                     {{ csrf_field() }}
-<div class="card-title text-left">
-                     <h4 class="mb-0 text-white text-left"> INICIAR SESIÓN</h4>
-                   </div>
-                                    
+                                    <div class="card-title text-left">
+                                         <h4 class="mb-0 text-white text-left"> INICIAR SESIÓN</h4>
+                                       </div>
+
                                     <fieldset class="form-label-group form-group position-relative has-icon-left">
                                         <input type="text" class="form-control" id="user-name" placeholder="Username"
                                             required value="{{ old('user_email') }}" name="user_email">
@@ -58,7 +58,7 @@
                                         </div>
                                         <label for="user-password">Clave</label>
 
-                                        <button type="submit" class="btn btn-primary float-right btn-inline col-12 mt-2">CONECTAR</button>
+                                        <button type="submit" class="btn btn-primary float-right btn-inline col-12 mt-2"> <strong> CONECTAR  </strong>  </button>
                                     </fieldset>
                                     
 

@@ -45,6 +45,7 @@
 
         }
 
+       
         [class*="col-"] {
           padding-top: 1rem;
           padding-bottom: 1rem;
@@ -71,12 +72,12 @@
          
         .btn-primary{
             border-color: rgba(106,193,255,1);
-            border-color: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 0%);
             border-color: -webkit-gradient(left top, right top, color-stop(0%, rgba(106,193,255,1)), color-stop(100%, rgba(104,255,113,1)));
-            border-color: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            border-color: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            border-color: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            border-color: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
+            border-color: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 0%);
+            border-color: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 0%);
+            border-color: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 0%);
+            border-color: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 0%);
 
             background: #66FFCC 0% 0% no-repeat padding-box;
             background: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
@@ -86,6 +87,7 @@
             background: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
             border-radius: 4px;
             opacity: 1;
+            background: #66FFCC !important;
         }
 
         .btn-conectar{
@@ -138,7 +140,7 @@
                 @yield('content')
 
       <button type="button " class="btn btn-icon rounded-circle btn-default bg-dark text-white ">
-        <i class="font-medium-5 fa fa-paper-plane-o mr-50"></i> 
+        <i class="font-medium-5 fa fa-paper-plane-o mr-50 float-left"></i> 
     </button>
        <!-- START FOOTER Light-->
     <footer class=" navbar-wrapper">  
