@@ -1,6 +1,5 @@
 @extends('layouts.login')
 @section('content')
-
 <section class="row flexbox-container box-shadow" >
 
 <div class="container">      
@@ -33,14 +32,14 @@
                         {{-- alertas --}}
                         @include('dashboard.componentView.alert')
 
-                        <div class="card-content breadcrumb">
+                        <div class="card-content">
                             <div class="card-body pt-1">
                                 {{-- registro --}}
                                 <form class="login-form inicio" method="POST"
                                     action="{{ route('autenticacion-login') }}">
                                     {{ csrf_field() }}
-                                    <fieldset class="form-label-group form-group position-relative has-icon-left ">
-                                        <input type="text-white" class="form-control btn-outline-primary" id="user-name" placeholder="Usuario"
+                                    <fieldset class="form-label-group form-group position-relative has-icon-left">
+                                        <input type="text" class="form-control" id="user-name" placeholder="Username"
                                             required value="{{ old('user_email') }}" name="user_email">
                                         <div class="form-control-position">
                                             <i class="feather icon-user"></i>
@@ -49,13 +48,17 @@
                                     </fieldset>
 
                                     <fieldset class="form-label-group position-relative has-icon-left">
-                                        <input type="password" class="form-control btn-outline-primary" id="user-password"
-                                            placeholder="Contraseña" required name="password" style="placeholder">
+                                        <input type="password" class="form-control" id="user-password"
+                                            placeholder="Password" required name="password">
                                         <div class="form-control-position">
                                             <i class="feather icon-lock"></i>
                                         </div>
                                         <label for="user-password">Clave</label>
+
+                                        <button type="submit" class="btn btn-primary float-right btn-inline col-12 mt-2">CONECTAR</button>
                                     </fieldset>
+                                    
+
                                     <div class="form-group d-flex justify-content-between align-items-center">
                                         <div class="text-left d-none">
                                             <fieldset class="checkbox">
@@ -70,22 +73,20 @@
                                                 </div>
                                             </fieldset>
                                         </div>
-                                        
-                                    </div><button type="submit" class="btn btn-primary float-right btn-inline col-12 mt-2"> CONECTAR
-                                    </button>
-                                    {{-- <div class="row">
-                                        <a href="{{route('autenticacion.new-register')}}"
-                                        class="btn btn-outline-primary float-left btn-inline col-12">Registro</a> 
-                                    </div> --}}
-                                    <div class="text-left">
+                                        <div class="text-right">
                                             <a class="card-link" onclick="toggle()" href="javascript:;">
                                                 ¿Olvidaste tu Clave?
                                             </a>
-                                       
                                         </div>
-
+                                    </div>
+                                    <div class="row">
+                                        <a href="{{route('autenticacion.new-register')}}"
+                                        class="btn btn-outline-primary float-left btn-inline col-12" style="display: none">Registro</a>
+                                    
+                                    </div>
+                                    
                                 </form>
-                                {{-- reset password 
+                                {{-- reset password --}}
                                 <form class="forget-form recuperar" action="{{route('autenticacion.clave')}}"
                                     method="post" style="display:none;">
                                     {{ csrf_field() }}
@@ -100,29 +101,25 @@
                                     <div class="float-md-left d-block mb-1 col-12">
                                         <a href="javascript:;" class="btn btn-outline-primary btn-block px-75"
                                             onclick="toggle()">Regresar al Login</a>
-                                    
                                     </div>
                                 </form>
-                                --}}
-
+                            </div>
                         </div>
+                        <hr>
+                        
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-      </div>
-</div>
-<div class="col-md-3 d-flex justify-content-center ">
-        </div>
 
-
-<div class=" col-md-12 text-right">
+    <div class=" col-md-12 text-right">
     <button type="button " class="btn btn-icon rounded-circle btn-default bg-dark text-white ">
         <i class="font-medium-5 fa fa-paper-plane-o mr-50"></i> 
     </button>
 
  </div>
 
-      
 </section>
 
 <script type="text/javascript">

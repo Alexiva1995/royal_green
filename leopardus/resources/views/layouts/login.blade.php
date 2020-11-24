@@ -33,9 +33,18 @@
     <!-- END: Page CSS-->
 
     <style>
-<<<<<<< Updated upstream
-        
-=======
+
+     footer{
+
+            background: #11262C 0% 0% no-repeat padding-box;
+            opacity: 1;
+            position: fixed;
+            bottom:0;
+            right:0;
+            width: 100%;
+
+        }
+
         [class*="col-"] {
           padding-top: 1rem;
           padding-bottom: 1rem;
@@ -43,7 +52,6 @@
           border: 1px solid rgba(86,61,124,.2);
         }
 
->>>>>>> Stashed changes
         html body.bg-full-screen-image{
             background: url("{{asset('assets/fondo.jpg')}}") no-repeat center center fixed;
             -webkit-background-size: cover;
@@ -59,6 +67,7 @@
 
             }
 
+            
          
         .btn-primary{
             border-color: rgba(106,193,255,1);
@@ -69,16 +78,19 @@
             border-color: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
             border-color: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
 
-            background: rgba(106,193,255,1);
+            background: #66FFCC 0% 0% no-repeat padding-box;
             background: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
             background: -webkit-gradient(left top, right top, color-stop(0%, rgba(106,193,255,1)), color-stop(100%, rgba(104,255,113,1)));
             background: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
             background: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
             background: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            background: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6ac1ff', endColorstr='#68ff71', GradientType=1 );
+            border-radius: 4px;
+            opacity: 1;
+        }
 
-            color: #FFFFFF;
+        .btn-conectar{
+
+            color: #66FFCC;
         }
 
         .btn-outline-primary {
@@ -124,16 +136,21 @@
             </div>
             <div class="content-body">
                 @yield('content')
-       
+
+      <button type="button " class="btn btn-icon rounded-circle btn-default bg-dark text-white ">
+        <i class="font-medium-5 fa fa-paper-plane-o mr-50"></i> 
+    </button>
        <!-- START FOOTER Light-->
-    <footer class=" navbar-wrapper bg-dark bg-full-screen-image">  
+    <footer class=" navbar-wrapper">  
         <button type="button" class="btn btn-default waves-effect waves-light">  © Royal Green </button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-twitter"></i></button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-instagram"></i></button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-youtube"></i></button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-facebook"></i></button>
     </footer>
-<!-- END FOOTER Light-->
+
+    <!-- END FOOTER Light-->
+
  </div>
 </div>
     </div>

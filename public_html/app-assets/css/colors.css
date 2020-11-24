@@ -1372,8 +1372,10 @@ input:focus ~ .bg-primary {
 
 .btn-primary {
   border-color : #00646d!important;
-  background-color : #00646d!important;
-  color : #FFFFFF;
+  background-color : #66FFCC!important;
+  border-radius: 4px;
+  opacity: 1;
+  color : #11262C;
 }
 .btn-primary:hover {
   border-color : #5E50EE !important;
