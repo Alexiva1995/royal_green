@@ -10,14 +10,14 @@
 
         <div class="col-md-3 d-flex justify-content-center ">
 
-           <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class=" m-auto branding logo" height="190" width="190">
+           <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class=" m-auto branding logo" height="200" width="200">
         </div>
        
             
 
     <div class="col-md-4 col-11 d-flex justify-content-center"><div class="breadcrumb "></div>
         <div class="card bg-authentication rounded-0 mb-0" style="background: transparent;">
-            <div class="card rounded-3 mb-0 px-2" style="background: transparent;">
+            <div class="card rounded-3 " style="background: transparent;">
                  
                  {{--Cabecera --}}
                  <div class="card-header pb-1">
@@ -115,14 +115,7 @@
             </div>
         </div>
     </div>
-
-    <div class=" col-md-12 text-right">
-    <button type="button " class="btn btn-icon rounded-circle btn-default bg-dark text-white ">
-        <i class="font-medium-5 fa fa-paper-plane-o mr-50"></i> 
-    </button>
-
- </div>
-
+    
 </section>
 
 <script type="text/javascript">

@@ -34,6 +34,20 @@
 
     <style>
 
+        .btn-whatsapp {
+           display:block;
+           width:100px;
+           height:100px;
+           color:#fff;
+           position: fixed;
+           right:20px;
+           bottom:20px;
+           border-radius:50%;
+           line-height:80px;
+           text-align:center;
+           z-index:999;
+    }
+
      footer{
 
             background: #11262C 0% 0% no-repeat padding-box;
@@ -109,6 +123,14 @@
             background-color: transparent;
             color: #6AC1FF;
         }
+
+        btn-defaul{
+            background: #11262C 0% 0% no-repeat padding-box;
+            border-radius: 32px;
+            opacity: 1;
+        }
+
+
     </style>
 
     <!-- BEGIN: Custom CSS-->
@@ -123,7 +145,6 @@
         </button>
     </div>
  
-
 </head>
 
 <body
@@ -139,11 +160,11 @@
             <div class="content-body">
                 @yield('content')
 
-      <button type="button " class="btn btn-icon rounded-circle btn-default bg-dark text-white ">
-        <i class="font-medium-5 fa fa-paper-plane-o mr-50 float-left"></i> 
-    </button>
+      
+      
        <!-- START FOOTER Light-->
-    <footer class=" navbar-wrapper">  
+    <footer class=" navbar-wrapper background-color">  
+
         <button type="button" class="btn btn-default waves-effect waves-light">  © Royal Green </button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-twitter"></i></button>
          <button type="button" class="btn btn-icon waves-effect waves-light float-right"><i class="feather icon-instagram"></i></button>
@@ -154,10 +175,25 @@
     <!-- END FOOTER Light-->
 
  </div>
+
+
 </div>
+    
+
     </div>
 
+
+<div class="btn-whatsapp">
+<a href="https://t.me/ALIAS" target="_blank">
+ <button type="button " class="btn btn-icon rounded-circle btn-defaul" style="background: #11262C;">
+        <i class="font-medium-5 fa fa-paper-plane-o"></i> 
+    </button>
+</a>
+</div>
+
+
 </body>
+
 
 
 
