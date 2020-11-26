@@ -17,56 +17,73 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
 
     @include('layouts.include.styles')
+    <link href="https://localhost/royal_green/public_html/app-assets/css/css-circular-prog-bar.css" rel="stylesheet">
+
 
 </head>
 <!-- END: Head-->
 
+<style type="text/css">
+
+    
+    [class*="col"] {
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+          border: 1px solid rgba(86,61,124,.2);
+        }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+
+
+</style>
+
 <!-- BEGIN: Body-->
 
-<body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  " data-open="click"
-    data-menu="vertical-menu-modern" data-col="2-columns">
-    {{-- header  --}}
-    @include('layouts.include.header')
 
-    {{-- menu --}}
+    {{-- header 
+    @include('layouts.include.header')
+ --}}
+    {{-- menu 
     @if (Auth::user()->rol_id == 0)
         @include('layouts.include.sidebar')
     @else
         @include('layouts.include.sidebar2')
-    @endauth
+    @endauth--}}
 
     {{-- contenido --}}
     <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
+
+     <body data-menu="vertical-menu-modern" class="vertical-layout vertical-menu-modern 2-columns navbar-sticky fixed-footer menu-expanded">
+
+    <!-- fixed-top-->
+    <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top navbar-light navbar-shadow ">
+            @include('layouts.include.header')
+
+    </nav>
+
+    <!-- BEGIN Navigation-->
+    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow expanded bg-transparent">
+          @include('layouts.include.sidebar2')
+    </div>
+    <!-- END Navigation-->
+
+    <!-- BEGIN Content-->
+    <div class="app-content content ">
         <div class="content-wrapper">
-            <div class="content-header row">
-                {{-- <div class="content-header-left col-12 mb-2">
-                    <div class="row breadcrumbs-top">
-                        <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">{{$title}}</h2>
-                            {{-- <div class="breadcrumb-wrapper col-12">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#">Forms</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">Form Validation
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
+            <div class="content-body bg-dark">
+                
+               @yield('content') 
             </div>
-            <div class="content-body">
-                @yield('content')
-            </div>
+            
         </div>
     </div>
+    <!-- END Content-->
+
+
+  </body>
     <!-- END: Content-->
-</body>
 <!-- END: Body-->
 
 @include('layouts.include.scripts')
