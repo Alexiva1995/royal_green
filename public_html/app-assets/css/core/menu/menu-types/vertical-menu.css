@@ -56,7 +56,7 @@ body.vertical-layout.vertical-menu-modern .main-menu {
 
 body.vertical-layout.vertical-menu-modern.menu-expanded .navbar .navbar-header {
   float : left;
-  width : 260px;
+  width : 400px;
 }
 
 body.vertical-layout.vertical-menu-modern.menu-expanded .navbar .navbar-brand .brand-text {
@@ -65,7 +65,7 @@ body.vertical-layout.vertical-menu-modern.menu-expanded .navbar .navbar-brand .b
 }
 
 body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
-  width : 260px;
+  width : 450px;
 }
 body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation .navigation-header .icon-minus {
   display : none;

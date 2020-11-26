@@ -118,7 +118,7 @@ a.btn.btn-info.waves-effect.waves-light {
 
 button.btn.btn-primary.waves-effect.waves-light {
 
-    margin-bottom: 10px;
+    margin-bottom: 0px;
 
 }
 
@@ -5622,9 +5622,9 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-outline-primary {
 
-  color : #7367F0;
+  color : #66FFCC;
 
-  border-color : #7367F0;
+  border-color : #66FFCC;
 
 }
 

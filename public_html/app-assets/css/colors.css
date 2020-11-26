@@ -423,7 +423,7 @@ input:focus ~ .bg-black {
 }
 
 .bg-dark {
-  background-color : #1E1E1E !important;
+  background-color :#11262C !important;
 }
 .bg-dark .card-header, .bg-dark .card-footer {
   background-color : transparent;
@@ -1371,11 +1371,12 @@ input:focus ~ .bg-primary {
 }
 
 .btn-primary {
-  border-color : #00646d!important;
-  background-color : #66FFCC!important;
-  border-radius: 4px;
-  opacity: 1;
-  color : #11262C;
+   background: #66FFCC 0% 0% no-repeat padding-box;
+            border-radius: 4px;
+            opacity: 1;
+            letter-spacing: 0px;
+            color: #06171B;
+            opacity: 1;
 }
 .btn-primary:hover {
   border-color : #5E50EE !important;
@@ -1415,9 +1416,14 @@ input:focus ~ .bg-primary {
 }
 
 .btn-outline-primary {
-  border : 1px solid #00646d;
+  border: 1px solid #66FFCC;
+  border-radius: 4px;
+  opacity: 2;
   background-color : transparent;
-  color : #00646d;
+  text-align: left;
+  letter-spacing: 0px;
+  color: #FFFFFF;
+  opacity: 1;
 }
 .btn-outline-primary:hover {
   background-color : rgba(115, 103, 240, 0.08);

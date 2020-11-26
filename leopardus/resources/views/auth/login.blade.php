@@ -84,7 +84,7 @@
                                     </div>
                                     <div class="row">
                                         <a href="{{route('autenticacion.new-register')}}"
-                                        class="btn btn-outline-primary float-left btn-inline col-12" style="display: none">Registro</a>
+                                        class="btn btn-outline-primary float-left btn-inline col-12" style="display:none;">Registro</a>
                                     
                                     </div>
                                     
