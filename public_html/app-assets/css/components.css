@@ -23,7 +23,7 @@ html body .content {
   -webkit-backface-visibility : hidden;
           backface-visibility : hidden;
   min-height : calc(100% - 4rem);
-  margin-left : 260px;
+  margin-left : 400px;
 }
 html body .content.app-content {
   overflow : hidden;
@@ -117,8 +117,14 @@ html body.navbar-sticky .app-content .navbar-container .search-input .search-lis
   left : 1%;
 }
 html body.navbar-sticky .app-content .content-wrapper {
-  padding : 45px 20px 0px 200px;
-  margin-top : 6rem;
+ width: (100% - 250px);
+  margin-top: 60px;
+  padding: 20px;
+  margin-left: 200px;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  transition: 0.5s;
 }
 html body.navbar-sticky .main-menu .navbar-container {
   padding-left : 0 !important;
@@ -3620,5 +3626,90 @@ tr.group {
     -webkit-justify-content : center;
     -ms-flex-pack : center;
             justify-content : center;
+  }
+}
+
+/* Responsive CSS */
+
+@media screen and (max-width: 780px){
+  .sidebar{
+    display: none;
+  }
+
+  #sidebar_btn{
+    display: none;
+  }
+
+  .content{
+    margin-left: 0;
+    margin-top: 0;
+    padding: 10px 20px;
+    transition: 0s;
+  }
+
+  #check:checked ~ .content{
+    margin-left: 0;
+  }
+
+  .mobile_nav{
+    display: block;
+    width: calc(100% - 0%);
+  }
+
+  .nav_bar{
+    background: #222;
+    width: (100% - 0px);
+    margin-top: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+
+  .nav_bar .mobile_profile_image{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+
+  .nav_bar .nav_btn{
+    color: #fff;
+    font-size: 22px;
+    cursor: pointer;
+    transition: 0.5s;
+    transition-property: color;
+  }
+
+  .nav_bar .nav_btn:hover{
+    color: #19B3D3;
+  }
+
+  .mobile_nav_items{
+    background: #2F323A;
+    display: none;
+  }
+
+  .mobile_nav_items a{
+    color: #fff;
+    display: block;
+    text-align: center;
+    letter-spacing: 1px;
+    line-height: 60px;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: 0.5s;
+    transition-property: background;
+  }
+
+  .mobile_nav_items a:hover{
+    background: #19B3D3;
+  }
+
+  .mobile_nav_items i{
+    padding-right: 10px;
+  }
+
+  .active{
+    display: block;
   }
 }

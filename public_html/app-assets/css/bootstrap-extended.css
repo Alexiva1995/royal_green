@@ -3094,10 +3094,10 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   margin-bottom : 1rem;
 }
 .progress.progress-xl {
-  height : 1.14rem;
+  height :50px;
 }
 .progress.progress-lg {
-  height : 0.857rem;
+  height : 30px;
 }
 .progress.progress-md {
   height : 0.57rem;
