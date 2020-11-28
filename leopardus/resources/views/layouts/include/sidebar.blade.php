@@ -1,3 +1,15 @@
+<div class="navbar-header " style="background-color: #06171B;">
+
+        <ul class="nav navbar-nav flex-row">
+
+            {{-- <li class="nav-item mr-auto"> --}}
+
+            <a class="navbar-brand" href="" href="" style="width: 100%;margin: 0px; margin-top: 1rem;">
+                <div class="brand-logo2" style="width: 100%;">
+                    <img src="{{asset('assets/imgLanding/logo3.png')}}" style="width: 100%;">
+                </div>
+            </a>
+        </ul>
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
 
     <div class="navbar-header" style="background-color: #06171B;">
@@ -22,27 +34,19 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
             {{-- <li class="nav-item d-flex justify-content-center">
-
                 <div>
-
                     <div id="diseng" class="color-example"
-
                         style="background: url('{{ asset('avatar/'.Auth::user()->avatar) }}')">
-
                     </div>
-
-                    <h5 class="text-center">Hola {{Auth::user()->user_nicename}}</h5>
-
+                    <h5 class="text-center">Hola XXX {{Auth::user()->user_nicename}}</h5>
                     <h6 class="text-center">{{Auth::user()->user_email}}</h6>
-
                 </div>
-
             </li> --}}
 
             {{-- INICIO --}}
             <li class="nav-item">
                 <a href="{{url('mioficina/admin')}}" class="nav-link nav-toggle">
-                    <span class="title">Estadisticas</span>
+                    <span class="title">Estadisticas DD</span>
                 </a>
             </li>
             @if (Auth::user()->ID == 1)
@@ -177,12 +181,9 @@
             </li>
 
             {{-- <li>
-
                 <a href="{{route('admin.userinactive')}}" class="nav-link nav-toggle">
-
                     <span class="title">Usuarios Inactivos</span>
                 </a>
-
             </li> --}}
 
             {{-- FIN LISTA DE USUARIOS --}}
@@ -288,33 +289,19 @@
             {{-- INICIO TICKETS --}}
 
             {{-- <li class="nav-item">
-
                 <a href="javascript:;" class="nav-link nav-toggle">
-
                    
-
                     <span class="title">Soporte</span>
-
                     <span class="arrow"></span>
-
                 </a>
-
                 <ul class="sub-menu">
-
                     <li class="nav-item">
-
                         <a href="{{url('mioficina/admin/ticket/todosticket')}}" class="nav-link">
-
                            
-
                             <span class="title">Todos los Tickets</span>
-
                         </a>
-
                     </li>
-
                 </ul>
-
             </li> --}}
 
             {{-- FIN TICKETS --}}
@@ -322,29 +309,19 @@
             @if (Auth::user()->ID == 1)
 
             {{-- <li class="nav-item">
-
                 <a href="{{ route('admin.user.edit') }}" class="nav-link nav-toggle">
-
             
-
             <span class="title">Editar Perfil</span>
-
             </a>
-
             </li> --}}
 
             {{-- LISTA DE USUARIOS--}}
 
             {{-- <li>
-
                 <a href="{{route('setting-change-porcent')}}" class="nav-link nav-toggle">
-
                  
-
                     <span class="title">Configuracion de Porcentajes</span>
-
                 </a>
-
             </li> --}}
 
             {{-- FIN LISTA DE USUARIOS --}}
@@ -378,3 +355,6 @@
     </div>
 
 </div>
+    </div>
+
+   

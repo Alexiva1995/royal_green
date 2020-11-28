@@ -1714,7 +1714,8 @@ button, html [type='button'], [type='reset'], [type='submit'] {
   margin : 1.3rem 2.2rem 0;
   border-radius : 0.5rem;
   position : fixed;
-  width : calc(100% - calc(2.2rem * 2) - 260px);
+  left: 0;
+  top: 0;
   z-index : 12;
   right : 0;
 }
@@ -2380,7 +2381,7 @@ body[data-col='1-column'] .header-navbar.floating-nav {
           transition : all 0.3s ease-in-out;
 }
 .card .card {
-  box-shadow : none !important;
+  
 }
 .card .card-subtitle {
   margin-top : 0.5rem;
@@ -2621,9 +2622,10 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   font-size : 1rem;
   font-family : 'Montserrat', Helvetica, Arial, serif;
   background-color : transparent;
-  padding : 0.5rem 0 0.5rem 1rem !important;
-  border-left : 1px solid #D6DCE1;
+  padding : 0.5rem 0 0.5rem 4rem !important;
+  border-left : 1px solid #999999;
   border-radius : 0;
+  opacity: 1;
   /* .breadcrumb-item:first-child{
         a{
             &:after{

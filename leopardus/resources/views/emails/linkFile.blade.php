@@ -12,8 +12,10 @@
         background: black;
         color: #ffb102;
         display: flex;
-        align-items: center;
+        justify-content: space-between;
         padding: 0 20px;
+         position: fixed;
+        
     }
 
     .header div:first-child {

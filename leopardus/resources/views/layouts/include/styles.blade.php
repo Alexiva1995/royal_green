@@ -145,26 +145,28 @@
     }
 
     .btn-primary{
-            border-color: rgba(106,193,255,1);
-            border-color: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            border-color: -webkit-gradient(left top, right top, color-stop(0%, rgba(106,193,255,1)), color-stop(100%, rgba(104,255,113,1)));
-            border-color: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            border-color: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            border-color: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            border-color: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-
-            background: rgba(106,193,255,1);
-            background: -moz-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            background: -webkit-gradient(left top, right top, color-stop(0%, rgba(106,193,255,1)), color-stop(100%, rgba(104,255,113,1)));
-            background: -webkit-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            background: -o-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            background: -ms-linear-gradient(left, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            background: linear-gradient(to right, rgba(106,193,255,1) 0%, rgba(104,255,113,1) 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6ac1ff', endColorstr='#68ff71', GradientType=1 );
-
-            color: #FFFFFF;
+            background: #66FFCC 0% 0% no-repeat padding-box;
+            border-radius: 4px;
+            opacity: 1;
+            letter-spacing: 0px;
+            color: #06171B;
+            opacity: 1;
         }
 
+
+.page-head{
+
+    background: #11262C;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+
+}
 </style>
 
 @stack('custom_css')

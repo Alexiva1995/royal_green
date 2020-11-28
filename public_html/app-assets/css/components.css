@@ -8,9 +8,10 @@ html {
 }
 html body {
   height : 100%;
-  background-color : #EDEEF2;
+  background-color: #11262C ;
   direction : ltr;
-  /*
+  font-family: 'Montserrat', 'Helvetica Neue', Helvetica, sans-serif;
+    /*
         * Blank page
         */
 }
@@ -65,7 +66,7 @@ html body .content.app-content .content-area-wrapper .content-wrapper {
 }
 html body .content .content-wrapper {
   padding : calc(2.2rem - 0.4rem) 2.2rem 0;
-  margin-top : 4rem;
+  margin-top : 8rem;
 }
 html body .content .content-wrapper .content-header-title {
   font-weight : 500;
@@ -116,8 +117,8 @@ html body.navbar-sticky .app-content .navbar-container .search-input .search-lis
   left : 1%;
 }
 html body.navbar-sticky .app-content .content-wrapper {
-  padding : 2.2rem;
-  margin-top : 4.65rem;
+  padding : 45px 20px 0px 200px;
+  margin-top : 6rem;
 }
 html body.navbar-sticky .main-menu .navbar-container {
   padding-left : 0 !important;
@@ -356,14 +357,14 @@ body.fixed-footer footer.footer-dark {
 ==========================================================================================*/
 .main-menu {
   z-index : 1031;
-  position : absolute;
+  position : fixed;
   display : table-cell;
   height : 100%;
   overflow : hidden;
 }
 .main-menu.menu-light {
   color : #626262;
-  background : #FFFFFF;
+  background : #11262C;
 }
 .main-menu.menu-light .main-menu-header {
   padding : 20px;
@@ -377,7 +378,15 @@ body.fixed-footer footer.footer-dark {
   border-color : #D9D9D9;
 }
 .main-menu.menu-light .navigation {
-  background : #FFFFFF;
+
+width: auto;
+height: auto;
+background: #2ADEC0 0% 0% no-repeat padding-box;
+border-radius: 30px;
+opacity: 1;
+    margin-left: 50px;
+    margin-right: 50px;
+}
 }
 .main-menu.menu-light .navigation .navigation-header {
   color : #999999;
@@ -395,7 +404,7 @@ body.fixed-footer footer.footer-dark {
 }
 .main-menu.menu-light .navigation li a {
   color : #565656;
-  padding : 10px 15px 10px 45px;
+  padding : 25px 50px 10px 50px;
   line-height : 1.45;
   -webkit-transition : padding 0.35s ease 0s !important;
           transition : padding 0.35s ease 0s !important;
@@ -770,6 +779,7 @@ body.fixed-footer footer.footer-dark {
 .main-menu .main-menu-content {
   height : calc(100% - 12rem) !important;
   position : relative;
+      width: fit-content;
 }
 .main-menu ul {
   list-style : none;
