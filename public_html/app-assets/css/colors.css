@@ -1379,9 +1379,10 @@ input:focus ~ .bg-primary {
             opacity: 1;
 }
 .btn-primary:hover {
-  border-color : #5E50EE !important;
-  color : #FFFFFF !important;
-  box-shadow : 0 8px 25px -8px #00646d;
+    border: 1px solid #66FFCC !important;
+    color: #FFFFFF !important;
+    box-shadow: none;
+    background-color: transparent;
 }
 .btn-primary:focus, .btn-primary:active {
   color : #FFFFFF !important;

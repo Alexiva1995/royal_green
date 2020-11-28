@@ -33,12 +33,8 @@
 
              <a class="btn btn-outline-primary btn-inline m-2"> Invertir </a>
 
-             <i class="m-auto">Ult. vez 14/14/20 16:45</i>
                 {{-- BEGIN Boton Logout --}}
-              
-              <a class="nav-link nav-link-label" href="#" data-toggle="dropdown" style="color: #2ADEC0;">
-                  <i class="ficon feather icon-bell fa-2x m-2"></i>
-                </a>
+           
                <a class="btn btn-outline-primary btn-inline m-auto" href="{{ route('logout') }}"
                 onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                 <i class="feather icon-log-out"></i> Logout {{ Auth::user()->display_name }}

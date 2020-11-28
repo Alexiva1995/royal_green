@@ -64,7 +64,7 @@
     </nav>
 
     <!-- BEGIN Navigation-->
-    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow expanded bg-transparent">
+    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow expanded bg-transparent col-sm-2">
           @include('layouts.include.sidebar2')
     </div>
     <!-- END Navigation-->

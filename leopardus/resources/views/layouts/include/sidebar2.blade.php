@@ -1,21 +1,12 @@
 
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow bg-transparent" data-scroll-to-active="true">
-   
-<div class="navbar-header" >
-    <a class="navbar-brand" href="" href="">
-        <div class="brand-logo2" >
-            <img src="{{asset('assets/imgLanding/logo-transparente.png')}}" style="width: 220px;">
-        </div>
-    </a>
-</div>
-
- ​
+    ​
 <div class="main-menu-content">
 
     <div class=" img-circle text-center">
-<img src="{{asset('assets/imgLanding/foto.png')}}" class="rounded-circle"" alt="..." style="width: 150px; height: 150px; margin-bottom: 30px;">
-<h2 class="brand-text mb-0 white">{{ Auth::user()->display_name }}</h2>
-<p style="color: #999999">{{ Auth::user()->user_email}}</p>
+<img src="{{asset('assets/imgLanding/foto.png')}}" class="rounded-circle" alt="..." style="width: 40%; margin-bottom: 10px;">
+<h4 class="brand-text mb-0 white">{{ Auth::user()->display_name }}</h4>
+<h6 style="color: #999999">{{ Auth::user()->user_email}}</h6>
 </div>
     
 

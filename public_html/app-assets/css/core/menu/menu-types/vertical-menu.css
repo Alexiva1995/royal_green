@@ -64,9 +64,7 @@ body.vertical-layout.vertical-menu-modern.menu-expanded .navbar .navbar-brand .b
           animation : 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) 0s normal forwards 1 fadein;
 }
 
-body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
-  width : 450px;
-}
+
 body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation .navigation-header .icon-minus {
   display : none;
 }
@@ -84,6 +82,16 @@ body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation >
 body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation > li > a > span.badge {
   position : absolute;
   right : 20px;
+}
+.main-menu.menu-fixed.menu-light.menu-accordion.menu-shadow.bg-transparent.expanded {
+    width: 100%;
+        padding: 0px !important;
+}
+.main-menu-content.ps.ps--active-y {
+    width: 100%;
+        margin-top: 55px;
+        padding: 10px;
+
 }
 body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation li.has-sub > a:not(.mm-next):after {
   content : '\f105';
@@ -298,9 +306,7 @@ body.vertical-layout.vertical-menu-modern.menu-collapsed.menu-flipped .footer {
 }
 
 @media (min-width: 992px) {
-  body.vertical-layout.vertical-menu-modern .main-menu {
-    width : 260px;
-  }
+
   body.vertical-layout.vertical-menu-modern .main-menu .navigation li.navigation-header .icon-minus {
     display : none;
   }
