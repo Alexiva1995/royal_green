@@ -1,79 +1,125 @@
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item mr-auto">
+                {{-- <a class="navbar-brand" href="../../../html/ltr/vertical-menu-template/index.html">
+                    <div class="brand-logo"></div>
+                    <h2 class="brand-text mb-0">Vuexy</h2>
+                </a> --}}
 
-<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow bg-transparent" data-scroll-to-active="true">
-    ​
-<div class="main-menu-content">
+                <a class="navbar-brand modern-nav-toggle m-0 mb-2" href="" href="" data-toggle="collapse">
+                    <div class="brand-logo2">
+                        <img src="{{asset('assets/imgLanding/logo3.png')}}" style="width: 100%;">
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="main-menu-content">
+        <div class=" img-circle text-center">
+            <img src="{{asset('assets/imgLanding/foto.png')}}" class="rounded-circle" alt=" ..."
+                style="width: 150px; height: 150px; margin-bottom: 30px;">
+        </div>
+        <h2 class="brand-text mb-0 white text-center">{{ Auth::user()->display_name }}</h2>
+        <p style="color: #999999" class="text-center">{{ Auth::user()->user_email}}</p>
 
-    <div class=" img-circle text-center">
-<img src="{{asset('assets/imgLanding/foto.png')}}" class="rounded-circle" alt="..." style="width: 40%; margin-bottom: 10px;">
-<h4 class="brand-text mb-0 white">{{ Auth::user()->display_name }}</h4>
-<h6 style="color: #999999">{{ Auth::user()->user_email}}</h6>
-</div>
-    
+        <div class="row d-lg-none">
+            <div class="col-12 text-center text-white">
+                <p>
+                    Saldo Disponible <strong>Total:
+                        ${{number_format(Auth::user()->wallet_amount, 2, ',', '.')}}</strong>
+                </p>
+            </div>
+            <div class="col-12 text-center">
+                <div class="row">
+                    <div class="col-6 text center">
+                        <a class="btn btn-primary btn-inline" href="{{route('wallet-index')}}">
+                            Retirar
+                        </a>
+                    </div>
+                    <div class="col-6 text center">
+                        <a class="btn btn-outline-primary btn-inline" href="{{route('tienda-index')}}">
+                            Invertir
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center mb-3">
+                <i>Ult. vez 14/14/20 16:45</i>
+            </div>
+        </div>
 
-    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-        {{-- INICIO --}}
-        <li class="nav-item">
-            <a href="{{url('mioficina/admin')}}" class="nav-link nav-toggle">
-                <span class="title">Resumen</span>
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class="nav-item">
+                <a href="{{route('index')}}">
+                    <span class="menu-title" data-i18n="Resumen">
+                        Resumen
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('tienda-index')}}">
+                    <span class="menu-title" data-i18n="Paquete de Inversion">
+                        Paquete de Inversion
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('index')}}">
+                    <span class="menu-title" data-i18n="Historial de Transaciones">
+                        Historial de Transaciones
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('index')}}">
+                    <span class="menu-title" data-i18n="Historial de Referidos">
+                        Historial de Referidos
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('referraltree', 'tree')}}">
+                    <span class="menu-title" data-i18n="Arbol">
+                        Arbol
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('wallet-index')}}">
+                    <span class="menu-title" data-i18n="Billetera">
+                        Billetera
+                    </span>
+                </a>
+            <li class=" nav-item">
+                <a href="javascript:;" onclick="copyToClipboard('copy')">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Link de Referidos
+                    </span>
+                </a>
+            </li>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('admin.user.edit')}}">
+                    <span class="menu-title" data-i18n="Perfil">
+                        Perfil
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('index')}}">
+                    <span class="menu-title" data-i18n="Soporte">
+                        Soporte
+                    </span>
+                </a>
+            </li>
+        </ul>
+        <div class="text-center mt-2">
+            <a class="btn btn-primary btn-inline" href="{{ route('logout') }}"
+                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                <i class="feather icon-log-out"></i>
+                Logout
             </a>
-        </li>
-        {{-- RANKING --}}
-        <li class="nav-item">
-            <a href="{{url('mioficina/tienda')}}" class="nav-link nav-toggle">
-                <span class="title">Paquetes  de inversion</span>
-            </a>
-        </li>
-        {{--FIN RANKING --}}
-
-        {{-- TRANSACCIONES --}}
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <span class="title"> Historial de transaciones</span>
-                <span class="arrow"></span>
-            </a>
-            
-        </li>
-        {{--FIN TRANSACCIONES --}}
-
-        {{-- GEONOLOGIA --}}
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <span class="title">Historial de referidos</span>
-                <span class="arrow"></span>
-            </a>
-            
-        </li>
-        {{-- FIN GENEALOGIA --}}
-
-        {{-- TRANSACCIONES --}}
-        <li class="nav-item">
-            <a href="javascript:;" class="nav-link nav-toggle">
-                <span class="title">Link referidos</span>
-                <span class="arrow"></span>
-            </a>
-            
-        </li>
-        {{--FIN TRANSACCIONES --}}
-
-        {{--INICIO BILLETERA --}}
-        <li class="nav-item">
-            <a href="{{url('mioficina/admin/wallet/')}}" class="nav-link nav-toggle">
-                <span class="title"> Perfil </span>
-            </a>
-        </li>
-        {{-- FIN BILLETERA --}}
-
-        {{-- CERRAR SESIÓN --}}
-        <li class="nav-item" style="margin-bottom: 30px;">
-            <a href="{{ route('logout') }}"
-                onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link">
-                <span class="title">Soporte</span>
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
-        </li>
-        {{-- FIN CERRAR SESIÓN --}}
-    </ul>
-</div>
+        </div>
+    </div>
 </div>

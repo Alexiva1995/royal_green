@@ -17,73 +17,45 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600" rel="stylesheet">
 
     @include('layouts.include.styles')
-    <link href="https://localhost/royal_green/public_html/app-assets/css/css-circular-prog-bar.css" rel="stylesheet">
 
 
 </head>
-<!-- END: Head-->
-
-<style type="text/css">
-
-    
-    [class*="col"] {
-          padding-top: 1rem;
-          padding-bottom: 1rem;
-          border: 1px solid rgba(86,61,124,.2);
-        }
-
-    body {
-      font-family: 'Montserrat', sans-serif;
-    }
 
 
-</style>
+<body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  " data-open="click"
+    data-menu="vertical-menu-modern" data-col="2-columns">
 
-<!-- BEGIN: Body-->
-
-
-    {{-- header 
     @include('layouts.include.header')
- --}}
-    {{-- menu 
-    @if (Auth::user()->rol_id == 0)
-        @include('layouts.include.sidebar')
-    @else
-        @include('layouts.include.sidebar2')
-    @endauth--}}
 
-    {{-- contenido --}}
-    <!-- BEGIN: Content-->
-
-     <body data-menu="vertical-menu-modern" class="vertical-layout vertical-menu-modern 2-columns navbar-sticky fixed-footer menu-expanded">
-
-    <!-- fixed-top-->
-    <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu fixed-top navbar-light navbar-shadow ">
-            @include('layouts.include.header')
-
-    </nav>
 
     <!-- BEGIN Navigation-->
-    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow expanded bg-transparent col-sm-2">
-          @include('layouts.include.sidebar2')
-    </div>
+
+    @include('layouts.include.sidebar2')
     <!-- END Navigation-->
 
     <!-- BEGIN Content-->
     <div class="app-content content ">
         <div class="content-wrapper">
             <div class="content-body bg-dark">
-                
-               @yield('content') 
+
+                @yield('content')
+                {{-- Copiar Link --}}
+                <p class="d-none" id="copy">
+                    {{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}
+                </p>
+                {{-- Salir del sistema --}}
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    {{ csrf_field() }}
+                </form>
             </div>
-            
+
         </div>
     </div>
     <!-- END Content-->
 
 
-  </body>
-    <!-- END: Content-->
+</body>
+<!-- END: Content-->
 <!-- END: Body-->
 
 @include('layouts.include.scripts')
