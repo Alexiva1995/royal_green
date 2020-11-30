@@ -76,7 +76,7 @@ class ProductController extends Controller
                         'wp.post_content',
                         'wpm.meta_value',)
                     ->first();
-        return $result;
+        return $result; 
     }
 
     public function saveProduct(Request $request)
