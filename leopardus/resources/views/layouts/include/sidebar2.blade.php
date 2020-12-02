@@ -17,7 +17,7 @@
     </div>
     <div class="main-menu-content">
         <div class=" img-circle text-center">
-            <img src="{{asset('assets/imgLanding/foto.png')}}" class="rounded-circle" alt=" ..."
+            <img src="https://royalgreen.company/avatar/avatar.png" class="rounded-circle" alt=" ..."
                 style="width: 150px; height: 150px; margin-bottom: 30px;">
         </div>
         <h2 class="brand-text mb-0 white text-center">{{ Auth::user()->display_name }}</h2>
