@@ -23,9 +23,11 @@
                         </div>
                     </div>
                 </div>
-            <h6 class="text-center indicate" style="color: #66ffcc; {{ ($paquete->id != $data['paquetes'][0]->id) ? 'display:none;' : 'display:block;'}}" id="paquete{{$paquete->id}}"> 
+                @if (count($data['paquetes'] > 0))
+                <h6 class="text-center indicate" style="color: #66ffcc; {{ ($paquete->id != $data['paquetes'][0]->id) ? 'display:none;' : 'display:block;'}}" id="paquete{{$paquete->id}}"> 
                     <i class="feather icon-minus"></i> 
                 </h6>
+                @endif
             </div>
             @endforeach
         </div>
@@ -35,25 +37,25 @@
         <div class="card card-green-alt">
             <div class="card-body">
                 <h3 class="text-white">
-                    <img src="{{$data['paquetes'][0]->detalles_producto->img}}" alt="" height="100" id="imgpaquete">
+                    <img src="{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->detalles_producto->img : ''}}" alt="" height="100" id="imgpaquete">
                     @if (Auth::user()->ID == 1)
                     <small>
                         <strong>- ID user:  
-                            <span id="userpaquete">{{$data['paquetes'][0]->iduser}}</span> 
+                            <span id="userpaquete">{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->iduser : 0}}</span> 
                         </strong>
                     </small>
                     @endif
                 </h3>
-                <p>Ganacia Actual: $ <span id="ganaciaPaquete">{{$data['paquetes'][0]->ganado}}</span></p>
+                <p>Ganacia Actual: $ <span id="ganaciaPaquete">{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->ganado : 0}}</span></p>
                 <div class="row">
                     <div class="col-10">
                             <div class="progress progress-bar-primary progress-xl m-0">
-                                <div id="pogrepaquete" class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{$data['paquetes'][0]->progreso}}%"></div>
+                                <div id="pogrepaquete" class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->progreso : 0}}%"></div>
                             </div>
                     </div>
                     <div class="col-2">
                         <span class="text-white">
-                            <strong><span id="porcepaquete">{{$data['paquetes'][0]->progreso}}</span> %</strong>
+                            <strong><span id="porcepaquete">{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->progreso : 0}}</span> %</strong>
                         </span>
 
                     </div>
