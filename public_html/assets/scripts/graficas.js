@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  // carruselRango()
+  carruselRango()
+  carruselPaquetes()
   graphicReferred()    
 })
 
@@ -11,6 +12,38 @@ function carruselRango() {
     infinite: true,
     centerMode: true,
     centerPadding: '80px',
+    variableWidth: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 3
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+}
+
+function carruselPaquetes() {
+  $('.carrusel_paquete').slick({
+    infinite: true,
+    centerMode: true,
+    centerPadding: '20px',
     variableWidth: true,
     slidesToShow: 3,
     slidesToScroll: 1,

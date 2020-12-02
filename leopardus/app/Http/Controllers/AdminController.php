@@ -30,7 +30,6 @@ class AdminController extends Controller
 	{
         // TITLE
         view()->share('title', 'Panel de administración');
-        
         $this->indexControl = new IndexController;
 	}
 
@@ -48,44 +47,19 @@ class AdminController extends Controller
 
     public function getDataDashboard($iduser)
     {
-        $directos = count($this->indexControl->getChidrens2($iduser, [], 1, 'referred_id', 1));
-        $indirecto = count($this->indexControl->getChidrens2($iduser, [], 1, 'referred_id', 0));
-
         $user = User::find($iduser);
 
-        $comisiones = 0;
-        $ordenes = 0;
-        $wallet = 0;
-        $paquete = 'Sin Paquete';
-        if ($user->rol_id == 0) {
-            $ordenes = $this->indexControl->getAllComprasAdmin();
-            $comisiones = Wallet::where('debito', '>', 0)->sum('debito');
-        }else{
-            $ordenes = count($this->indexControl->getShopping($iduser));
-            $wallet = $user->wallet_amount;
-            $comisiones = Wallet::where([
-                ['iduser', '=', $iduser],
-                ['debito', '>', 0]
-            ])->sum('debito');
+        $paquetes = DB::table('log_rentabilidad')->get();
+        if ($user->ID != 1) {
+            $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->get();
         }
 
-        if (!empty($user->paquete)) {
-            $paquetetmp = json_decode($user->paquete);
-            $paquete = $paquetetmp->nombre;
+        foreach ($paquetes as $paquete) {
+            $paquete->detalles_producto = json_decode($paquete->detalles_producto);
         }
-
-        $masinfo = $this->masInfo($iduser);
-        
-
 
         $data = [
-            'directo' => $directos,
-            'indirecto' => $indirecto,
-            'wallet' => $wallet,
-            'comisiones' => $comisiones,
-            'ordenes' => $ordenes,
-            'nombreuser' => $masinfo->firstname.' '.$masinfo->lastname,
-            'paquete' => $paquete
+            'paquetes' => $paquetes
         ];
 
         return $data;

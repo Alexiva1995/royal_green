@@ -161,7 +161,7 @@
     }
 
     .btn-primary{
-        background: #66FFCC 0% 0% no-repeat padding-box;
+        background: #66FFCC 0% 0% no-repeat padding-box !important;
         border-radius: 4px;
         opacity: 1;
         letter-spacing: 0px;

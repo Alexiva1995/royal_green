@@ -1,15 +1,15 @@
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto">
+            <li class="nav-item m-auto">
                 {{-- <a class="navbar-brand" href="../../../html/ltr/vertical-menu-template/index.html">
                     <div class="brand-logo"></div>
                     <h2 class="brand-text mb-0">Vuexy</h2>
                 </a> --}}
 
-                <a class="navbar-brand modern-nav-toggle m-0 mb-2" href="" href="" data-toggle="collapse">
+                <a class="navbar-brand modern-nav-toggle m-0" href="" href="" data-toggle="collapse">
                     <div class="brand-logo2">
-                        <img src="{{asset('assets/imgLanding/logo3.png')}}" style="width: 100%;">
+                        <img src="{{asset('assets/imgLanding/logo3.png')}}" style="width: 100%;" height="80">
                     </div>
                 </a>
             </li>
@@ -65,14 +65,14 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{route('index')}}">
+                <a href="{{route('personalorders')}}">
                     <span class="menu-title" data-i18n="Historial de Transaciones">
                         Historial de Transaciones
                     </span>
                 </a>
             </li>
             <li class=" nav-item">
-                <a href="{{route('index')}}">
+                <a href="{{route('networkrecords')}}">
                     <span class="menu-title" data-i18n="Historial de Referidos">
                         Historial de Referidos
                     </span>
@@ -98,6 +98,15 @@
                     </span>
                 </a>
             </li>
+            @if (Auth::user()->ID == 1)
+            <li class=" nav-item">
+                <a href="javascript:;" onclick="$('#modalRentabilidad').modal('show')">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Pagar Rentabilidad
+                    </span>
+                </a>
+            </li>
+            @endif
             </li>
             <li class=" nav-item">
                 <a href="{{route('admin.user.edit')}}">

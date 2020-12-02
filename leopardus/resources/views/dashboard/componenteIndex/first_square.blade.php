@@ -2,18 +2,32 @@
     {{-- Inversiones --}}
     <div class="col-12">
         <h5 class="text-white">PAQUETE DE INVERSION</h5>
-        <div class="row">
-            @for ($i = 1; $i < 4; $i++) 
-            <div class="col-3 text-center">
-                <div class="progress progress-bar-info rotate-progress m-0">
-                    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{ $i * 20}}%">
+        <div class="carrusel_paquete">
+            @foreach ($data['paquetes'] as $paquete)
+            <div class="text-center ml-2 mr-2" onclick="updatePaqueteInfo('{{json_encode($paquete)}}')">
+                <h6 class="text-center" style="color: #66ffcc">
+                    <small>
+                        <strong>
+                        {{$paquete->detalles_producto->nombre}}
+                        @if (Auth::user()->ID == 1)
+                        <br>
+                        ID User - {{$paquete->iduser}}
+                        @endif
+                        </strong>
+                    </small>
+                </h6>
+                <div class="progress progress-bar-info rotate-progress m-auto">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{$paquete->progreso}}%">
                         <div class="progress-circular">
-                            <strong>{{ $i * 20}} %</strong>
+                            <strong>{{$paquete->progreso}} %</strong>
                         </div>
                     </div>
                 </div>
+            <h6 class="text-center indicate" style="color: #66ffcc; {{ ($paquete->id != $data['paquetes'][0]->id) ? 'display:none;' : 'display:block;'}}" id="paquete{{$paquete->id}}"> 
+                    <i class="feather icon-minus"></i> 
+                </h6>
             </div>
-        @endfor
+            @endforeach
         </div>
     </div>
     {{-- Inversion activa --}}
@@ -21,19 +35,25 @@
         <div class="card card-green-alt">
             <div class="card-body">
                 <h3 class="text-white">
-                    <img src="{{asset('assets/imgLanding/logo-mini.png')}}" alt="" height="30">
-                    <strong>- 50000</strong>
+                    <img src="{{$data['paquetes'][0]->detalles_producto->img}}" alt="" height="100" id="imgpaquete">
+                    @if (Auth::user()->ID == 1)
+                    <small>
+                        <strong>- ID user:  
+                            <span id="userpaquete">{{$data['paquetes'][0]->iduser}}</span> 
+                        </strong>
+                    </small>
+                    @endif
                 </h3>
-                <p>Ganacia Actual: $ {{number_format('70000', 2, ',', '.')}}</p>
+                <p>Ganacia Actual: $ <span id="ganaciaPaquete">{{$data['paquetes'][0]->ganado}}</span></p>
                 <div class="row">
                     <div class="col-10">
                             <div class="progress progress-bar-primary progress-xl m-0">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:50%"></div>
+                                <div id="pogrepaquete" class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{$data['paquetes'][0]->progreso}}%"></div>
                             </div>
                     </div>
                     <div class="col-2">
                         <span class="text-white">
-                            <strong>50%</strong>
+                            <strong><span id="porcepaquete">{{$data['paquetes'][0]->progreso}}</span> %</strong>
                         </span>
 
                     </div>

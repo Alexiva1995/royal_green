@@ -63,6 +63,10 @@
 		-moz-transition: all 0.5s;
 	}
 
+	.padre > ul{
+		overflow-x: auto;
+	}
+
 	.padre ul ul {
 		padding-left: 0;
 	}

@@ -11,6 +11,7 @@ use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use App\Http\Controllers\ComisionesController;
 use App\Http\Controllers\ActivacionController;
+use XdgBaseDir\Xdg;
 
 class IndexController extends Controller
 {
@@ -428,21 +429,49 @@ class IndexController extends Controller
     }
 
     /**
-     * Permite obtener el numero total de compras
+     * Obtener todas las compras para la rentabilidad
      *
-     * @return float
+     * @return array
      */
-    public function getAllComprasAdmin():float
+    public function getAllComprasRentabilidad(): array
     {
         $settings = Settings::first();
         $compras = DB::table($settings->prefijo_wp.'posts')
                     ->select('*')
                     ->where([
                         ['post_type', '=', 'shop_order'],
+                        ['post_status', '=', 'wc-completed'],
+                        ['to_ping', '=', 'Coinbase']
                     ])
                     ->get();
-
-        return count($compras);
+        $arreCompras = [];
+        foreach ($compras as $compra) {
+            $arregProducto = $this->getProductos($compra->ID);
+            $iduser = $this->getIdUser($compra->ID);
+            if ($arregProducto->null) {
+                $productos = [];
+                foreach ($arregProducto as $product) {
+                    $idProducto = $this->getIdProductos($product->order_item_id);
+                    $detalleProduct = $this->getProductDetails($idProducto);
+                    if ($detalleProduct->null) {
+                        $productos [] = [
+                            'idproducto' => $idProducto,
+                            'precio' => $this->getTotalProductos($product->order_item_id),
+                            'nombre' => $detalleProduct->post_title,
+                            'img' => $detalleProduct->post_excerpt,
+                        ];
+                    }
+                }
+                $arreCompras [] = [
+                    'idusuario' => $iduser,
+                    'idcompra' => $compra->ID,
+                    'fecha' => $compra->post_date,
+                    'productos' => $productos,
+                    'total' => $this->getShoppingTotal($compra->ID),
+                ];
+            }
+        }
+        return $arreCompras;
     }
 
     /**
