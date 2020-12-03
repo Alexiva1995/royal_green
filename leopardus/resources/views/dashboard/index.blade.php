@@ -2,6 +2,7 @@
 
 @section('content')
 <section id="dashboard-analytics">
+	@include('dashboard.componentView.alert')
 	<div class="row">
 		{{-- primeros cuadro --}}
 		@include('dashboard.componenteIndex.first_square')
@@ -57,6 +58,20 @@
 			}
 		})
 	}
+
+	function updatePaqueteInfo(paquete) {
+		paquete = JSON.parse(paquete)
+		let fecha = new Date(paquete.created_at)
+		let fecha_string = fecha.getFullYear()+'/'+(fecha.getMonth()+1)+'/'+fecha.getDate()
+		$('.indicate').css('display', 'none')
+		$('#imgpaquete').attr('src', paquete.detalles_producto.img)
+		$('#userpaquete').html(paquete.iduser)
+		$('#ganaciaPaquete').html(new Intl.NumberFormat('de-DE').format(paquete.ganado))
+		$('#pogrepaquete').css('width', paquete.progreso, '%')
+		$('#porcepaquete').html(paquete.progreso)
+		$('#activepaquete').html(fecha_string)
+		$('#paquete'+paquete.id).css('display', 'block')
+	}
 </script>
 @endpush
 
@@ -86,6 +101,10 @@
 		left: 5px;
 		transform: rotate(180deg);
 		font-size: 1.2rem;
+	}
+
+	.progress-bar-info .progress-bar{
+		background: #01e4f9 !important;
 	}
 
 	.rotate-progress{
@@ -131,13 +150,13 @@
 		border-top: 0px !important;
 	}
 
-	.slick-list.draggable{
+	.carrusel_rango .slick-list.draggable{
 		padding-top: 20px !important;
 		padding-bottom: 20px !important;
 		transition: all 0.8s;
 	}
 
-	.text-center.slick-slide.slick-current.slick-active.slick-center{
+	.carrusel_rango .text-center.slick-slide.slick-current.slick-active.slick-center{
 		transform: scale(1.2);
 		transition: all 0.8s;
 		box-shadow: 0px 0px 40px 70px #11262c;

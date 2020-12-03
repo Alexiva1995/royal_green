@@ -482,5 +482,160 @@ class ComisionesController extends Controller
         
         return $valor;
     }
+
+    /**
+     * Permite procesar las rentabilida obtenida por los usuarios
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function process_rentabilidad(Request $request)
+    {
+        $validate = $request->validate([
+            'porcentage' => 'required'
+        ]);
+
+        try {
+            if($validate){
+                $porcentaje = $request->porcentage;
+                $ordenes = $this->funciones->getAllComprasRentabilidad();
+                foreach ($ordenes as $orden) {
+                    foreach ($orden['productos'] as $producto) {
+                        $this->saveRentabilidad($orden['idcompra'], $orden['idusuario'], $producto, $porcentaje);
+                    }
+                }
+
+                return redirect()->route('index')->with('msj', 'Rentabilidad pagada con exito');
+            }
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+    /**
+     * Permite actualizar la informacion de la rentabilidad
+     *
+     * @param integer $idorden
+     * @param integer $iduser
+     * @param array $paquete
+     * @param [type] $porcentaje
+     * @return void
+     */
+    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, $porcentaje)
+    {
+        $checkRentabilidad = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['idcompra', '=', $idorden],
+            ['idproducto', '=', $paquete['idproducto']]
+        ])->first();
+
+        $porc = ($porcentaje / 100);
+        $ganado = ($paquete['precio'] * $porc);
+        $balance = $ganado;
+        $idRentabilidad = 0;
+        $finalizado = 0;
+
+        if ($checkRentabilidad == null) {
+            $detallaPaquete = [
+                'nombre' => $paquete['nombre'],
+                'img' => $paquete['img']
+            ];
+            $limite = ($paquete['precio'] * 2);
+            $progreso = (($ganado * 100) / $limite);
+
+            $dataRentabilidad = [
+                'iduser' => $iduser,
+                'idcompra' => $idorden,
+                'idproducto' => $paquete['idproducto'],
+                'detalles_producto' => json_encode($detallaPaquete),
+                'precio' => $paquete['precio'],
+                'limite' => $limite,
+                'ganado' => $ganado,
+                'progreso' => $progreso
+            ];
+
+            $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
+        }else{
+            $totalGanado = ($checkRentabilidad->ganado + $ganado);
+            $finalizacion = 0;
+            if ($totalGanado >= $checkRentabilidad->limite) {
+                if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+                    $totalGanado = $checkRentabilidad->limite;
+                    $ganado = ($totalGanado - $checkRentabilidad->ganado);
+                }else{
+                    $finalizacion = 1;
+                    $finalizado = 1;
+                }
+            }
+            if ($finalizacion == 0) {    
+                $progreso = (($totalGanado * $checkRentabilidad->limite) / 100);
+                $balance = $totalGanado;
+                $dataRentabilidad = [
+                    'ganado' => $totalGanado,
+                    'progreso' => $progreso
+                ];
+                DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+                $idRentabilidad = $checkRentabilidad->id;
+            }
+        }
+
+        $user = User::find($iduser);
+
+        $dataLogRentabilidadPay = [
+            'iduser' => $iduser,
+            'id_log_renta' => $idRentabilidad,
+            'porcentaje' => $porcentaje,
+            'debito' => $ganado,
+            'balance' => $balance,
+            'fecha_pago' => Carbon::now(),
+            'concepto' => 'Rentabilidad pagada de la compra '.$idorden.', del producto '.$paquete['nombre'].', al usuario '.$user->display_name
+        ];
+
+        if ($finalizado == 0) {
+            DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+        }
+    }
+
+    /**
+     * Permite registrar las paquetes comprados en la tabla de rentabilidad
+     *
+     * @param integer $iduser
+     * @return void
+     */
+    public function registePackageToRentabilizar($iduser)
+    {
+        $ordenes = $this->funciones->getInforShopping($iduser);
+        foreach ($ordenes as $orden) {
+            foreach ($orden['productos'] as $paquete) {
+
+                $checkRentabilidad = DB::table('log_rentabilidad')->where([
+                    ['iduser', '=', $iduser],
+                    ['idcompra', '=', $orden['idcompra']],
+                    ['idproducto', '=', $paquete['idproducto']]
+                ])->first();
+
+                if ($checkRentabilidad == null) {
+                    $detallaPaquete = [
+                        'nombre' => $paquete['nombre'],
+                        'img' => $paquete['img']
+                    ];
+                    $limite = ($paquete['precio'] * 2);
+        
+                    $dataRentabilidad = [
+                        'iduser' => $iduser,
+                        'idcompra' => $orden['idcompra'],
+                        'idproducto' => $paquete['idproducto'],
+                        'detalles_producto' => json_encode($detallaPaquete),
+                        'precio' => $paquete['precio'],
+                        'limite' => $limite,
+                        'ganado' => 0,
+                        'progreso' => 0
+                    ];
+    
+                    DB::table('log_rentabilidad')->insert($dataRentabilidad);
+                }
+            }
+        }
+    }
 }
 

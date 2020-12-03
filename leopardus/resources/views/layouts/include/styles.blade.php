@@ -161,12 +161,20 @@
     }
 
     .btn-primary{
-        background: #66FFCC 0% 0% no-repeat padding-box;
+        background: #66FFCC 0% 0% no-repeat padding-box !important;
         border-radius: 4px;
         opacity: 1;
         letter-spacing: 0px;
         color: #06171B;
         opacity: 1;
+    }
+
+    .card{
+        background-color: #11262c;
+    }
+
+    .card h1, .card h2, .card h3, .card h4, .card h5, .card h6, .card td, .card label{
+        color: #ffffff !important;
     }
 
     .page-head{

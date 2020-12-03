@@ -1,6 +1,11 @@
 $(document).ready(function () {
-  // carruselRango()
-  graphicReferred()    
+  carruselRango()
+  carruselPaquetes()
+  let url = 'admin/chart/usuarios'
+  $.get(url, function(data){
+    data = JSON.parse(data)
+    graphicReferred(data)
+  })
 })
 
 /**
@@ -11,6 +16,40 @@ function carruselRango() {
     infinite: true,
     centerMode: true,
     centerPadding: '80px',
+    variableWidth: true,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    touchMove: false,
+    accessibility: false,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 3
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 1
+        }
+      }
+    ]
+  });
+}
+
+function carruselPaquetes() {
+  $('.carrusel_paquete').slick({
+    infinite: true,
+    centerMode: true,
+    centerPadding: '20px',
     variableWidth: true,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -38,7 +77,7 @@ function carruselRango() {
   });
 }
 
-function graphicReferred() {
+function graphicReferred(data) {
 
   var themeColors = ['#19BAFD'];
 
@@ -64,13 +103,13 @@ function graphicReferred() {
     },
     series: [{
       name: 'Referidos',
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
+      data: data
     }],
     legend: {
       offsetY: -10
     },
     xaxis: {
-      categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
+      categories: ['Jua', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     },
     yaxis: {
       title: {

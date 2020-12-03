@@ -8,8 +8,8 @@
             </div>
         </div>
         <h4 class="text-white">{{ ucwords($data['nombre']) }}</h4>
-        <div class="card-content">
-            <div class="card-body text-center" style="background:#ffffff !important">
+        <div class="card-content" >
+            <div class="card-body text-center" style="background:#11262c !important">
                 {{-- <p class="">Backend Dev</p> --}}
                 {{-- <div class="card-btns d-flex justify-content-between">
                 <button class="btn gradient-light-primary">Follow</button>
