@@ -4,7 +4,7 @@
         <div class="row">
             {{-- carrusel --}}
             <div class="col-12 no_tocar">
-                <input type="hidden" id="id_rango_carruse" value="{{Auth::user()->rol_id}}">
+                <input type="hidden" id="id_rango_carruse" value="{{(Auth::user()->rol_id == 0) ? 1 : Auth::user()->rol_id}}">
                 <div class="carrusel_rango">
                     @foreach ($data['rangospoints']['rangos'] as $rango)
                     {{-- @if (Auth::user()->rol_id == $rango->id) --}}
