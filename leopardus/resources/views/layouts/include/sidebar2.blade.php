@@ -93,7 +93,7 @@
                 </a>
             </li>
             <li class=" nav-item">
-                <a href="{{route('wallet-index')}}">
+                <a href="{{route('wallet')}}">
                     <span class="menu-title" data-i18n="Billetera">
                         Billetera
                     </span>

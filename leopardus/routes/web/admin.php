@@ -93,9 +93,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
     // Billetera
 
     Route::group(['prefix' => 'wallet'], function(){
-        Route::get('/', 'WalletController@index')->name('wallet-index');
-        Route::get('/tantechcoins', 'WalletController@indexTantech')->name('wallet-index');
-        Route::get('/tantechcoinspersonal', 'WalletController@indexTantechPersonal')->name('wallet-index');
+        Route::get('/', 'WalletController@index')->name('wallet');
+        // Route::get('/tantechcoins', 'WalletController@indexTantech')->name('wallet-index');
+        // Route::get('/tantechcoinspersonal', 'WalletController@indexTantechPersonal')->name('wallet-index');
         Route::get('/puntos', 'WalletController@indexPuntos')->name('wallet-index');
         Route::post('/transferencia', 'WalletController@transferencia')->name('wallet-transferencia');
         Route::get('/obtenermetodo/{id}', 'WalletController@datosMetodo')->name('wallet-metodo');
