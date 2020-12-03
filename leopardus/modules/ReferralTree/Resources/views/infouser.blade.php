@@ -1,7 +1,7 @@
 <img title="{{ ucwords($data->display_name) }}" src="{{ $data->avatar }}" style="width:64px"
     onclick="nuevoreferido('{{base64_encode($data->ID)}}', '{{$type}}')">
 <div class="inforuser">
-    <div class="card mb-0" style="background:#cf6046 !important">
+    <div class="card mb-0" style="background:#66FFCC !important">
         <div class="card-header mx-auto">
             <div class="avatar avatar-xl">
                 <img class="img-fluid" src="{{ $data->avatar }}" alt="img placeholder">

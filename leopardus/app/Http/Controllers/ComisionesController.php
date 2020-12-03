@@ -538,7 +538,7 @@ class ComisionesController extends Controller
         if ($checkRentabilidad == null) {
             $detallaPaquete = [
                 'nombre' => $paquete['nombre'],
-                'img' => $paquete['img']
+                'img' => $paquete['img2']
             ];
             $limite = ($paquete['precio'] * 2);
             $progreso = (($ganado * 100) / $limite);
@@ -617,7 +617,7 @@ class ComisionesController extends Controller
                 if ($checkRentabilidad == null) {
                     $detallaPaquete = [
                         'nombre' => $paquete['nombre'],
-                        'img' => $paquete['img']
+                        'img' => $paquete['img2']
                     ];
                     $limite = ($paquete['precio'] * 2);
         

@@ -137,10 +137,6 @@ class RangoController extends Controller
 			if ($rolnuevo->grupal) {
 				$progresoRanfo = (($puntos * 100)  / $rolnuevo->grupal);
 			}
-			$data = [
-				'puntos' => $puntos,
-				'progreso' => $progresoRanfo
-			];
 		}
 		$rangos = Rol::where('id', '>', 0)->select('id', 'name', 'imagen')->get();
 		if ($iduser == 1) {
@@ -150,7 +146,8 @@ class RangoController extends Controller
 		$data = [
 			'puntos' => $puntos,
 			'progreso' => $progresoRanfo,
-			'rangos' => $rangos
+			'rangos' => $rangos,
+			'total' => $rolnuevo->grupal
 		];
 
 		return $data;

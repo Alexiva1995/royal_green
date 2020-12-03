@@ -30,7 +30,6 @@ class AdminController extends Controller
 	function __construct()
 	{
         // TITLE
-        view()->share('title', 'Panel de administración');
         $this->indexControl = new IndexController;
         $this->rangoControl = new RangoController;
 	}
@@ -40,6 +39,7 @@ class AdminController extends Controller
     public function index()
     {
         $data = $this->getDataDashboard(Auth::user()->ID);
+        view()->share('title', 'Resumen');
         return view('dashboard.index', compact('data'));
     }
 
@@ -63,7 +63,7 @@ class AdminController extends Controller
             ['iduser', '=', $iduser],
             ['credito', '!=', 0]
         ])
-        ->get()->take(10);
+        ->orderBy('id', 'DESC')->get()->take(10);
         $arrayWallet = [];
 
         foreach ($walletlast as $wallet) {

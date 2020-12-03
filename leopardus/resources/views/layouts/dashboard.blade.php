@@ -36,6 +36,10 @@
     <!-- BEGIN Content-->
     <div class="app-content content ">
         <div class="content-wrapper">
+
+            {{-- migaja de pan --}}
+            @include('layouts.include.breadcrum')
+
             <div class="content-body bg-dark">
                 @yield('content')
                 {{-- Copiar Link --}}

@@ -196,11 +196,13 @@ class IndexController extends Controller
                             $idProducto = $this->getIdProductos($product->order_item_id);
                             $detalleProduct = $this->getProductDetails($idProducto);
                             if ($detalleProduct->null) {
+                                $precio = $this->getTotalProductos($product->order_item_id);
                                 $productos [] = [
                                     'idproducto' => $idProducto,
-                                    'precio' => $this->getTotalProductos($product->order_item_id),
+                                    'precio' => $precio,
                                     'nombre' => $detalleProduct->post_title,
                                     'img' => $detalleProduct->post_excerpt,
+                                    'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
                                     'porc_binario' => $detalleProduct->bono_binario
                                 ];
                             }
@@ -455,11 +457,14 @@ class IndexController extends Controller
                     $idProducto = $this->getIdProductos($product->order_item_id);
                     $detalleProduct = $this->getProductDetails($idProducto);
                     if ($detalleProduct->null) {
+                        $precio = $this->getTotalProductos($product->order_item_id);
                         $productos [] = [
                             'idproducto' => $idProducto,
-                            'precio' => $this->getTotalProductos($product->order_item_id),
+                            'precio' => $precio,
                             'nombre' => $detalleProduct->post_title,
                             'img' => $detalleProduct->post_excerpt,
+                            'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
+                            'porc_binario' => $detalleProduct->bono_binario
                         ];
                     }
                 }
@@ -504,11 +509,14 @@ class IndexController extends Controller
                     $idProducto = $this->getIdProductos($product->order_item_id);
                     $detalleProduct = $this->getProductDetails($idProducto);
                     if ($detalleProduct->null) {
+                        $precio = $this->getTotalProductos($product->order_item_id);
                         $productos [] = [
                             'idproducto' => $idProducto,
-                            'precio' => $this->getTotalProductos($product->order_item_id),
+                            'precio' => $precio,
                             'nombre' => $detalleProduct->post_title,
                             'img' => $detalleProduct->post_excerpt,
+                            'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
+                            'porc_binario' => $detalleProduct->bono_binario
                         ];
                     }
                 }
@@ -559,7 +567,7 @@ class IndexController extends Controller
     public function chartUsuarios() : string
     {
         $iduser = Auth::user()->ID;
-        $allUser = $this->getChidrens2($iduser, [], 1, 'referred_id', 0);
+        $allUser = $this->getChidrens2($iduser, [], 1, 'referred_id', 1);
         $Ano_Actual = Carbon::now()->format('Y');
         $totalMeses = [];
         for ($i=1; $i < 13; $i++) {

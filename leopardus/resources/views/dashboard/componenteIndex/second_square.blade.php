@@ -1,12 +1,12 @@
 <div class="col-md-6 col-12">
-    <h5 class="text-white">NEGOCIO</h5>
+    <h5 class="text-white">PROXIMO RANGO</h5>
     <div class="card card-green-alt">
         <div class="row">
             {{-- carrusel --}}
-            <div class="col-12">
+            <div class="col-12" class="no_tocar">
                 <div class="carrusel_rango">
                     @foreach ($data['rangospoints']['rangos'] as $rango)
-                    @if (Auth::user()->rol_id == $rango->id)
+                    {{-- @if (Auth::user()->rol_id == $rango->id) --}}
                     <div class="text-center" style="background: #11262c;">
                         <img src="{{asset('assets/rango/'.$rango->imagen)}}" alt="" height="200" class="m-auto">
                         <h3 class="text-white mb-0">
@@ -14,7 +14,7 @@
                         </h3>
                         {{-- <span>17/11/20</span> --}}
                     </div>
-                    @endif
+                    {{-- @endif --}}
                     @endforeach
                 </div>
             </div>
@@ -37,14 +37,14 @@
                         </div>
                     </div>
                     <span>
-                        <small>Proximo rango</small>
+                        <small>Proximo rango = {{$data['rangospoints']['total']}}</small>
                     </span>
                 </div>
             </div>
             {{-- Grafica --}}
             <div class="col-12 mt-2">
                 <div class="col-12">
-                    <h5 class="text-white">Referidos</h5>
+                    <h5 class="text-white">Referidos - {{date('Y')}}</h5>
                     <div id="grafica_user"></div>
                 </div>
             </div>

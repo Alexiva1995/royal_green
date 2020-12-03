@@ -67,8 +67,8 @@
 		$('#imgpaquete').attr('src', paquete.detalles_producto.img)
 		$('#userpaquete').html(paquete.iduser)
 		$('#ganaciaPaquete').html(new Intl.NumberFormat('de-DE').format(paquete.ganado))
-		$('#pogrepaquete').css('width', paquete.progreso, '%')
-		$('#porcepaquete').html(paquete.progreso)
+		$('#pogrepaquete').css('width', paquete.progreso+'%')
+		$('#porcepaquete').html((paquete.progreso * 2))
 		$('#activepaquete').html(fecha_string)
 		$('#paquete'+paquete.id).css('display', 'block')
 	}

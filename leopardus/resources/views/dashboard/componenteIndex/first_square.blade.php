@@ -8,7 +8,7 @@
                 <h6 class="text-center" style="color: #66ffcc">
                     <small>
                         <strong>
-                        {{$paquete->detalles_producto->nombre}}
+                        {{substr($paquete->detalles_producto->nombre, 8)}}
                         @if (Auth::user()->ID == 1)
                         <br>
                         ID User - {{$paquete->iduser}}
@@ -19,7 +19,7 @@
                 <div class="progress progress-bar-info rotate-progress m-auto">
                     <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{$paquete->progreso}}%">
                         <div class="progress-circular">
-                            <strong>{{$paquete->progreso}} %</strong>
+                            <strong>{{($paquete->progreso * 2)}} %</strong>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
         <div class="card card-green-alt">
             <div class="card-body">
                 <h3 class="text-white">
-                    <img src="{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->detalles_producto->img : ''}}" alt="" height="100" id="imgpaquete">
+                    <img src="{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->detalles_producto->img : ''}}" alt="" height="50" id="imgpaquete">
                     @if (Auth::user()->ID == 1)
                     <small>
                         <strong>- ID user:  
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-2">
                         <span class="text-white">
-                            <strong><span id="porcepaquete">{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->progreso : 0}}</span> %</strong>
+                            <strong><span id="porcepaquete">{{(count($data['paquetes']) > 0) ? ($data['paquetes'][0]->progreso * 2) : 0}}</span> %</strong>
                         </span>
 
                     </div>
