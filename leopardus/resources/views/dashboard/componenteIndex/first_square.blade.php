@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                @if (count($data['paquetes'] > 0))
+                @if (count($data['paquetes']) > 0)
                 <h6 class="text-center indicate" style="color: #66ffcc; {{ ($paquete->id != $data['paquetes'][0]->id) ? 'display:none;' : 'display:block;'}}" id="paquete{{$paquete->id}}"> 
                     <i class="feather icon-minus"></i> 
                 </h6>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <span>
-                    <small>Activo 17/05/20</small>
+                    <small>Activo <span id="activepaquete">{{(count($data['paquetes']) > 0) ? date('Y-m-d', strtotime($data['paquetes'][0]->created_at)) : ''}}</span></small>
                 </span>
             </div>
         </div>
@@ -71,30 +71,32 @@
         <h5 class="text-white">Ultimas Transaciones</h5>
         <div class="card card-green-alt">
             <div class="card-body">
-                <table class="table table-index table-responsive">
-                    {{-- <tbody> --}}
-                        @for ($i = 1; $i < 9; $i++)
-                        <tr>
-                            <td>
-                                @if (($i%2) == 0)
-                                    <i class="feather icon-plus color-green-alt"></i>
-                                @else
-                                    <i class="feather icon-minus color-red-alt"></i>
-                                @endif
-                            </td>
-                            <td>
-                                0.00055555 BTC
-                            </td>
-                            <td>
-                                En Proceso
-                            </td>
-                            <td>
-                                17/11/20
-                            </td>
-                        </tr>
-                        @endfor
-                    {{-- </tbody> --}}
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-index table-striped">
+                        <tbody>
+                            @foreach ($data['wallets'] as $wallet)
+                            <tr class="text-center">
+                                <td>
+                                    @if ($wallet['signo'] == 0)
+                                        <i class="feather icon-plus color-green-alt"></i>
+                                    @else
+                                        <i class="feather icon-minus color-red-alt"></i>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{number_format($wallet['monto'], 2, ',', '.')}} $
+                                </td>
+                                <td>
+                                    {{$wallet['tipo']}}
+                                </td>
+                                <td>
+                                    {{$wallet['fecha']}}
+                                </td>
+                            </tr>
+                            @endforeach    
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

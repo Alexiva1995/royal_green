@@ -19,39 +19,60 @@ use App\Notification;
 
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ComisionesController;
-
+use App\Http\Controllers\RangoController;
 
 
 class AdminController extends Controller
 {
 
     public $indexControl;
+    public $rangoControl;
 	function __construct()
 	{
         // TITLE
         view()->share('title', 'Panel de administración');
         $this->indexControl = new IndexController;
+        $this->rangoControl = new RangoController;
 	}
 
 
 
     public function index()
     {
-
         $data = $this->getDataDashboard(Auth::user()->ID);
-        $comi = new ComisionesController;
-        $comi->payBonus();
         return view('dashboard.index', compact('data'));
-
     }
 
     public function getDataDashboard($iduser)
     {
         $user = User::find($iduser);
 
+        $comi = new ComisionesController;
+        $comi->payBonus();
+        $comi->registePackageToRentabilizar($iduser);
+
         $paquetes = DB::table('log_rentabilidad')->get();
         if ($user->ID != 1) {
             $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->get();
+        }
+
+        $walletlast = Wallet::where([
+            ['iduser', '=', $iduser],
+            ['debito', '!=', 0]
+        ])->orWhere([
+            ['iduser', '=', $iduser],
+            ['credito', '!=', 0]
+        ])
+        ->get()->take(10);
+        $arrayWallet = [];
+
+        foreach ($walletlast as $wallet) {
+            $arrayWallet [] = [
+                'signo' => ($wallet->tipotransacion == 2) ? 0 : 1,
+                'monto' => ($wallet->tipotransacion == 2) ? $wallet->debito : $wallet->credito,
+                'tipo' => ($wallet->tipotransacion == 2) ? 'Comision' : 'Retiro',
+                'fecha' => date('Y-m-d', strtotime($wallet->created_at))
+            ];
         }
 
         foreach ($paquetes as $paquete) {
@@ -59,7 +80,9 @@ class AdminController extends Controller
         }
 
         $data = [
-            'paquetes' => $paquetes
+            'paquetes' => $paquetes,
+            'wallets' => $arrayWallet,
+            'rangospoints' => $this->rangoControl->getPointRango($iduser)
         ];
 
         return $data;

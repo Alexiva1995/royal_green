@@ -541,7 +541,7 @@ class ComisionesController extends Controller
                 'img' => $paquete['img']
             ];
             $limite = ($paquete['precio'] * 2);
-            $progreso = (($ganado * $limite) / 100);
+            $progreso = (($ganado * 100) / $limite);
 
             $dataRentabilidad = [
                 'iduser' => $iduser,
@@ -594,6 +594,48 @@ class ComisionesController extends Controller
         if ($finalizado == 0) {
             DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
         }
-    }    
+    }
+
+    /**
+     * Permite registrar las paquetes comprados en la tabla de rentabilidad
+     *
+     * @param integer $iduser
+     * @return void
+     */
+    public function registePackageToRentabilizar($iduser)
+    {
+        $ordenes = $this->funciones->getInforShopping($iduser);
+        foreach ($ordenes as $orden) {
+            foreach ($orden['productos'] as $paquete) {
+
+                $checkRentabilidad = DB::table('log_rentabilidad')->where([
+                    ['iduser', '=', $iduser],
+                    ['idcompra', '=', $orden['idcompra']],
+                    ['idproducto', '=', $paquete['idproducto']]
+                ])->first();
+
+                if ($checkRentabilidad == null) {
+                    $detallaPaquete = [
+                        'nombre' => $paquete['nombre'],
+                        'img' => $paquete['img']
+                    ];
+                    $limite = ($paquete['precio'] * 2);
+        
+                    $dataRentabilidad = [
+                        'iduser' => $iduser,
+                        'idcompra' => $orden['idcompra'],
+                        'idproducto' => $paquete['idproducto'],
+                        'detalles_producto' => json_encode($detallaPaquete),
+                        'precio' => $paquete['precio'],
+                        'limite' => $limite,
+                        'ganado' => 0,
+                        'progreso' => 0
+                    ];
+    
+                    DB::table('log_rentabilidad')->insert($dataRentabilidad);
+                }
+            }
+        }
+    }
 }
 

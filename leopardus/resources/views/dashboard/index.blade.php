@@ -61,12 +61,15 @@
 
 	function updatePaqueteInfo(paquete) {
 		paquete = JSON.parse(paquete)
+		let fecha = new Date(paquete.created_at)
+		let fecha_string = fecha.getFullYear()+'/'+(fecha.getMonth()+1)+'/'+fecha.getDate()
 		$('.indicate').css('display', 'none')
 		$('#imgpaquete').attr('src', paquete.detalles_producto.img)
 		$('#userpaquete').html(paquete.iduser)
 		$('#ganaciaPaquete').html(new Intl.NumberFormat('de-DE').format(paquete.ganado))
 		$('#pogrepaquete').css('width', paquete.progreso, '%')
 		$('#porcepaquete').html(paquete.progreso)
+		$('#activepaquete').html(fecha_string)
 		$('#paquete'+paquete.id).css('display', 'block')
 	}
 </script>

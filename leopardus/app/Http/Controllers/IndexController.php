@@ -10,8 +10,9 @@ use stdClass;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use App\Http\Controllers\ComisionesController;
-use App\Http\Controllers\ActivacionController;
-use XdgBaseDir\Xdg;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class IndexController extends Controller
 {
@@ -548,6 +549,33 @@ class IndexController extends Controller
                 }
             }
         }
+    }
+
+    /**
+     * Permite obtener la cantidad de usuarios por mes
+     *
+     * @return string
+     */
+    public function chartUsuarios() : string
+    {
+        $iduser = Auth::user()->ID;
+        $allUser = $this->getChidrens2($iduser, [], 1, 'referred_id', 0);
+        $Ano_Actual = Carbon::now()->format('Y');
+        $totalMeses = [];
+        for ($i=1; $i < 13; $i++) {
+            $totalmes = 0;
+            foreach ($allUser as $user) {
+                $fecha_register = new Carbon($user->created_at);
+                if ($Ano_Actual == $fecha_register->format('Y')) {
+                    if ($fecha_register->format('m') == $i) {
+                        $totalmes++;
+                    }
+
+                }
+            }
+            $totalMeses [] = $totalmes;
+        }
+        return json_encode($totalMeses);
     }
 
 }

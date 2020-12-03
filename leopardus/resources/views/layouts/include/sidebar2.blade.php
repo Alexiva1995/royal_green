@@ -44,9 +44,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 text-center mb-3">
+            {{-- <div class="col-12 text-center mb-3">
                 <i>Ult. vez 14/14/20 16:45</i>
-            </div>
+            </div> --}}
         </div>
 
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -81,7 +81,14 @@
             <li class=" nav-item">
                 <a href="{{route('referraltree', 'tree')}}">
                     <span class="menu-title" data-i18n="Arbol">
-                        Arbol
+                        Arbol Unilevel
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('referraltree', 'matriz')}}">
+                    <span class="menu-title" data-i18n="Arbol">
+                        Arbol Binario
                     </span>
                 </a>
             </li>
@@ -116,7 +123,7 @@
                 </a>
             </li>
             <li class=" nav-item">
-                <a href="{{route('index')}}">
+                <a href="{{route('ticket')}}">
                     <span class="menu-title" data-i18n="Soporte">
                         Soporte
                     </span>
