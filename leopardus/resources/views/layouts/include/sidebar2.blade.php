@@ -105,15 +105,6 @@
                     </span>
                 </a>
             </li>
-            @if (Auth::user()->ID == 1)
-            <li class=" nav-item">
-                <a href="javascript:;" onclick="$('#modalRentabilidad').modal('show')">
-                    <span class="menu-title" data-i18n="Link de Referidos">
-                        Pagar Rentabilidad
-                    </span>
-                </a>
-            </li>
-            @endif
             </li>
             <li class=" nav-item">
                 <a href="{{route('admin.user.edit')}}">

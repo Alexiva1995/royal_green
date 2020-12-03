@@ -115,9 +115,16 @@
 		background: #ffffff !important;
 	}
 
-	/* .progress-circular::before{
-		content: ''
-	} */
+	.no_tocar::before{
+		content: '';
+		background: transparent;
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 5;
+	}
 
 	.progress-bar-primary{
 		background: #17967a !important;

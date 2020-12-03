@@ -138,10 +138,7 @@ class RangoController extends Controller
 				$progresoRanfo = (($puntos * 100)  / $rolnuevo->grupal);
 			}
 		}
-		$rangos = Rol::where('id', '>', 0)->select('id', 'name', 'imagen')->get();
-		if ($iduser == 1) {
-			$rangos = Rol::select('id', 'name', 'imagen')->get();
-		}
+		$rangos = Rol::where('id', '>', 0)->select('id', 'name', 'imagen')->orderBy('id', 'asc')->get();
 
 		$data = [
 			'puntos' => $puntos,

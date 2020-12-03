@@ -3,7 +3,8 @@
     <div class="card card-green-alt">
         <div class="row">
             {{-- carrusel --}}
-            <div class="col-12" class="no_tocar">
+            <div class="col-12 no_tocar">
+                <input type="hidden" id="id_rango_carruse" value="{{Auth::user()->ID}}">
                 <div class="carrusel_rango">
                     @foreach ($data['rangospoints']['rangos'] as $rango)
                     {{-- @if (Auth::user()->rol_id == $rango->id) --}}
