@@ -1,360 +1,154 @@
-<div class="navbar-header " style="background-color: #06171B;">
-
-        <ul class="nav navbar-nav flex-row">
-
-            {{-- <li class="nav-item mr-auto"> --}}
-
-            <a class="navbar-brand" href="" href="" style="width: 100%;margin: 0px; margin-top: 1rem;">
-                <div class="brand-logo2" style="width: 100%;">
-                    <img src="{{asset('assets/imgLanding/logo3.png')}}" style="width: 100%;">
-                </div>
-            </a>
-        </ul>
 <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-
-    <div class="navbar-header" style="background-color: #06171B;">
-
+    <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
+            <li class="nav-item m-auto">
+                {{-- <a class="navbar-brand" href="../../../html/ltr/vertical-menu-template/index.html">
+                    <div class="brand-logo"></div>
+                    <h2 class="brand-text mb-0">Vuexy</h2>
+                </a> --}}
 
-            {{-- <li class="nav-item mr-auto"> --}}
-
-            <a class="navbar-brand" href="" href="" style="width: 100%;margin: 0px; margin-top: 1rem;">
-                <div class="brand-logo2" style="width: 100%;">
-                    <img src="{{asset('assets/imgLanding/logo2.png')}}" style="width: 100%;">
-                </div>
-            </a>
+                <a class="navbar-brand modern-nav-toggle m-0" href="" href="" data-toggle="collapse">
+                    <div class="brand-logo2">
+                        <img src="{{asset('assets/imgLanding/logo3.png')}}" style="width: 100%;" height="80">
+                    </div>
+                </a>
+            </li>
         </ul>
-
     </div>
-
-    <div class="shadow-bottom"></div>
-
     <div class="main-menu-content">
+        <div class=" img-circle text-center">
+            <img src="https://royalgreen.company/avatar/avatar.png" class="rounded-circle" alt=" ..."
+                style="width: 150px; height: 150px; margin-bottom: 30px;">
+        </div>
+        <h2 class="brand-text mb-0 white text-center">{{ Auth::user()->display_name }}</h2>
+        <p style="color: #999999" class="text-center">{{ Auth::user()->user_email}}</p>
+
+        <div class="row d-lg-none">
+            <div class="col-12 text-center text-white">
+                <p>
+                    Saldo Disponible <strong>Total:
+                        ${{number_format(Auth::user()->wallet_amount, 2, ',', '.')}}</strong>
+                </p>
+            </div>
+            <div class="col-12 text-center">
+                <div class="row">
+                    <div class="col-6 text center">
+                        <a class="btn btn-primary btn-inline" href="{{route('wallet-index')}}">
+                            Retirar
+                        </a>
+                    </div>
+                    <div class="col-6 text center">
+                        <a class="btn btn-outline-primary btn-inline" href="{{route('tienda-index')}}">
+                            Invertir
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="col-12 text-center mb-3">
+                <i>Ult. vez 14/14/20 16:45</i>
+            </div> --}}
+        </div>
 
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-
-            {{-- <li class="nav-item d-flex justify-content-center">
-                <div>
-                    <div id="diseng" class="color-example"
-                        style="background: url('{{ asset('avatar/'.Auth::user()->avatar) }}')">
-                    </div>
-                    <h5 class="text-center">Hola XXX {{Auth::user()->user_nicename}}</h5>
-                    <h6 class="text-center">{{Auth::user()->user_email}}</h6>
-                </div>
-            </li> --}}
-
-            {{-- INICIO --}}
             <li class="nav-item">
-                <a href="{{url('mioficina/admin')}}" class="nav-link nav-toggle">
-                    <span class="title">Estadisticas DD</span>
+                <a href="{{route('index')}}">
+                    <span class="menu-title" data-i18n="Resumen">
+                        Resumen
+                    </span>
                 </a>
             </li>
-            @if (Auth::user()->ID == 1)
-            {{-- INICIO TIENDA INTERNA --}}
             <li class="nav-item">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <span class="title">E-commerce</span>
-                    <span class="arrow"></span>
+                <a href="{{route('tienda-index')}}">
+                    <span class="menu-title" data-i18n="Paquete de Inversion">
+                        Paquete de Inversion
+                    </span>
                 </a>
-                <ul class="sub-menu">
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/tienda')}}" class="nav-link">
-                            <span class="title">Tienda</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('listProduct')}}" class="nav-link">
-                            <span class="title">Productos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('tienda-solicitudes')}}" class="nav-link">
-                            <span class="title">Activacion Manual</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
-            {{-- FIN TIENDA INTERNA --}}
-
-            {{-- INICIO ARBOLES --}}
-
             <li class="nav-item">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <i class="feather "></i>
-                    <span class="title">Arboles</span>
-                    <span class="arrow"></span>
+                <a href="{{route('tienda-solicitudes')}}">
+                    <span class="menu-title">Activacion Manual</span>
                 </a>
-                <ul class="sub-menu">
-                    <li class="nav-item">
-                        <a href="{{route('referraltree', 'tree')}}" class="nav-link">
-                            <i class="feather icon-circle"></i>
-                            <span class="title">Arbol Unilevel</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{route('referraltree', 'matriz')}}" class="nav-link">
-                            <i class="feather icon-circle"></i>
-                            <span class="title">Arbol Binario</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
-            {{-- FIN ARBOLES --}}
-
-            {{-- RED DE USUARIO --}}
             <li class="nav-item">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <span class="title">Red de Usuarios</span>
-                    <span class="arrow"></span>
+                <a href="{{route('personalorders')}}">
+                    <span class="menu-title" data-i18n="Historial de Ordenes">
+                        Historial de Ordenes
+                    </span>
                 </a>
-                <ul class="sub-menu">
-                    <li class="nav-item">
-                        <a href="{{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}"
-                            class="nav-link">
-                            <span class="title">Nuevo Usuario</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/admin/network/directrecords')}}" class="nav-link">
-                            <span class="title">Lista de Directos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/admin/network/networkrecords')}}" class="nav-link">
-                            <span class="title">Usuarios en Red</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
-            {{-- FIN RED DE USUARIO --}}
-            @endif
-
-            {{-- TRANSACCIONES --}}
             <li class="nav-item">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                    <span class="title">Ordenes</span>
-                    <span class="arrow"></span>
+                <a href="{{route('price-confirmar')}}" >
+                    <span class="menu-title">Confirmar Pagos</span>
                 </a>
-                <ul class="sub-menu">
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/admin/transactions/networkorders')}}" class="nav-link">
-                            <span class="title">Ordenes de Red</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/admin/transactions/personalorders')}}" class="nav-link">
-                            <span class="title">Ordenes Personales</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/admin/price/historial')}}" class="nav-link">
-                            <span class="title">Historial de Retiro</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/admin/price/confirmar')}}" class="nav-link">
-                            <span class="title">Confirmar Pagos</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
-            {{--FIN TRANSACCIONES --}}
-
-            
-        {{--INICIO BILLETERA --}}
-        <li class="nav-item">
-            <a href="{{url('mioficina/admin/wallet/')}}" class="nav-link nav-toggle">
-                <span class="title">Billetera</span>
-            </a>
-        </li>
-        {{-- FIN BILLETERA --}}
-
-            {{-- LISTA DE USUARIOS--}}
-
-            <li>
-
-                <a href="{{url('mioficina/admin/userrecords')}}" class="nav-link nav-toggle">
-
-                    <span class="title">Lista de Usuarios</span>
+            <li class=" nav-item">
+                <a href="{{route('networkrecords')}}">
+                    <span class="menu-title" data-i18n="Historial de Referidos">
+                        Historial de Referidos
+                    </span>
                 </a>
-
             </li>
-
-            {{-- <li>
-                <a href="{{route('admin.userinactive')}}" class="nav-link nav-toggle">
-                    <span class="title">Usuarios Inactivos</span>
-                </a>
-            </li> --}}
-
-            {{-- FIN LISTA DE USUARIOS --}}
-
-            @if (Auth::user()->ID == 1)
-
-            {{-- INFORMES --}}
-
-            <li>
-
-                <a href="javascript:;" class="nav-link nav-toggle">
-
-                   
-
-                    <span class="title">Informes</span>
-
-                    <span class="arrow"></span>
-
-                </a>
-
-                <ul class="sub-menu">
-
-                    <li class="nav-item">
-
-                        <a href="{{url('mioficina/admin/info/perfil')}}" class="nav-link">
-
-                           
-
-                            <span class="title">Perfil</span>
-
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a href="{{url('mioficina/admin/info/ventas')}}" class="nav-link">
-
-                           
-
-                            <span class="title">Ventas</span>
-
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a href="{{url('mioficina/admin/info/rango')}}" class="nav-link">
-
-                            
-
-                            <span class="title">Rangos</span>
-
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a href="{{url('mioficina/admin/info/pagos')}}" class="nav-link">
-
-                            
-
-                            <span class="title">Pagos</span>
-
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a href="{{url('mioficina/admin/info/feed')}}" class="nav-link">
-
-                           
-
-                            <span class="title">Descuentos</span>
-
-                        </a>
-
-                    </li>
-
-                    <li class="nav-item">
-
-                        <a href="{{url('mioficina/admin/info/comisiones')}}" class="nav-link">
-
-                           
-
-                            <span class="title">Comisiones</span>
-
-                        </a>
-
-                    </li>
-
-                </ul>
-
-            </li>
-
-            {{-- FIN GESTION DE PERFILES --}}
-
-            @endif
-
-            {{-- INICIO TICKETS --}}
-
-            {{-- <li class="nav-item">
-                <a href="javascript:;" class="nav-link nav-toggle">
-                   
-                    <span class="title">Soporte</span>
-                    <span class="arrow"></span>
-                </a>
-                <ul class="sub-menu">
-                    <li class="nav-item">
-                        <a href="{{url('mioficina/admin/ticket/todosticket')}}" class="nav-link">
-                           
-                            <span class="title">Todos los Tickets</span>
-                        </a>
-                    </li>
-                </ul>
-            </li> --}}
-
-            {{-- FIN TICKETS --}}
-
-            @if (Auth::user()->ID == 1)
-
-            {{-- <li class="nav-item">
-                <a href="{{ route('admin.user.edit') }}" class="nav-link nav-toggle">
-            
-            <span class="title">Editar Perfil</span>
-            </a>
-            </li> --}}
-
-            {{-- LISTA DE USUARIOS--}}
-
-            {{-- <li>
-                <a href="{{route('setting-change-porcent')}}" class="nav-link nav-toggle">
-                 
-                    <span class="title">Configuracion de Porcentajes</span>
-                </a>
-            </li> --}}
-
-            {{-- FIN LISTA DE USUARIOS --}}
-
-            @endif
-
-            {{-- CERRAR SESIÓN --}}
-
             <li class="nav-item">
-
-                <a href="{{ route('logout') }}"
-
-                    onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="nav-link" style="padding: 10px 15px 10px 10px;">
-
-                    <i class="feather icon-log-out"></i>
-
-                    <span class="title">Cerrar Sesión</span>
-
+                <a href="{{route('admin.userrecords')}}">
+                    <span class="menu-title">Lista de Usuarios</span>
                 </a>
-
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-
-                    {{ csrf_field() }}
-
-                </form>
-
             </li>
-
+            <li class=" nav-item">
+                <a href="{{route('referraltree', 'tree')}}">
+                    <span class="menu-title" data-i18n="Arbol">
+                        Arbol Unilevel
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('referraltree', 'matriz')}}">
+                    <span class="menu-title" data-i18n="Arbol">
+                        Arbol Binario
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('wallet')}}">
+                    <span class="menu-title" data-i18n="Billetera">
+                        Billetera
+                    </span>
+                </a>
+            <li class=" nav-item">
+                <a href="javascript:;" onclick="copyToClipboard('copy')">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Link de Referidos
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="javascript:;" onclick="$('#modalRentabilidad').modal('show')">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Pagar Rentabilidad
+                    </span>
+                </a>
+            </li>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('admin.user.edit')}}">
+                    <span class="menu-title" data-i18n="Perfil">
+                        Perfil
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
+                <a href="{{route('todosticket')}}">
+                    <span class="menu-title" data-i18n="Soporte">
+                        Soporte
+                    </span>
+                </a>
+            </li>
         </ul>
-
+        <div class="text-center mt-2">
+            <a class="btn btn-primary btn-inline" href="{{ route('logout') }}"
+                onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                <i class="feather icon-log-out"></i>
+                Logout
+            </a>
+        </div>
     </div>
-
 </div>
-    </div>
-
-   

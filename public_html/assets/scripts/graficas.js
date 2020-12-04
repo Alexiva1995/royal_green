@@ -1,5 +1,6 @@
 $(document).ready(function () {
-  carruselRango()
+  let idrango = $('#id_rango_carruse').val()
+  carruselRango(idrango)
   carruselPaquetes()
   let url = 'admin/chart/usuarios'
   $.get(url, function(data){
@@ -11,7 +12,7 @@ $(document).ready(function () {
 /**
  * Permite inicializar el carrusel de los rangos
  */
-function carruselRango() {
+function carruselRango(idrango) {
   $('.carrusel_rango').slick({
     infinite: true,
     centerMode: true,
@@ -20,6 +21,7 @@ function carruselRango() {
     slidesToShow: 3,
     slidesToScroll: 1,
     touchMove: false,
+    initialSlide: (idrango - 1),
     accessibility: false,
     arrows: false,
     responsive: [
