@@ -515,7 +515,17 @@ class ComisionesController extends Controller
     }
 
     
-    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, int $porcentaje, string $tipo_cobro)
+    /**
+     * Permite actualizar las rentabilidades
+     *
+     * @param integer $idorden
+     * @param integer $iduser
+     * @param array $paquete
+     * @param double $porcentaje
+     * @param string $tipo_cobro
+     * @return void
+     */
+    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, $porcentaje, string $tipo_cobro)
     {
         $checkRentabilidad = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
@@ -563,12 +573,13 @@ class ComisionesController extends Controller
                 }
             }
             if ($finalizacion == 0) {    
-                $progreso = (($totalGanado * $checkRentabilidad->limite) / 100);
-                $balance = $totalGanado;
+                $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+                $balance = ($totalGanado - $checkRentabilidad->retirado);
                 $dataRentabilidad = [
                     'ganado' => $totalGanado,
                     'progreso' => $progreso,
-                    'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,  
+                    'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
+                    'balance' => $balance
                 ];
                 DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
                 $idRentabilidad = $checkRentabilidad->id;

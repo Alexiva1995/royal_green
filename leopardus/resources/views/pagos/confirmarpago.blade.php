@@ -40,36 +40,39 @@ $total = 0;
 			<div class="table-responsive">
 				<table id="mytable" class="table zero-configuration">
 					<thead>
-						<tr>
+						<tr class="text-center">
 							<th>
-								<center>#</center>
+								#
 							</th>
 							<th>
-								<center>Usuario</center>
+								Usuario
 							</th>
 							<th>
-								<center>Correo</center>
+								Correo
 							</th>
 							<th>
-								<center>Monto</center>
+								Monto
 							</th>
 							<th>
-								<center>Fecha</center>
+								Fecha
 							</th>
 							<th>
-								<center>Wallet de Retiro</center>
+								Wallet de Retiro
 							</th>
 							<th>
-								<center>Metodo</center>
+								Metodo
 							</th>
 							<th>
-								<center>Tipo de Metodo</center>
+								Tipo de Metodo
 							</th>
 							<th>
-								<center>Estado</center>
+								Tipo de Retiro
 							</th>
 							<th>
-								<center>Accion</center>
+								Estado
+							</th>
+							<th>
+								Accion
 							</th>
 						</tr>
 					</thead>
@@ -78,30 +81,30 @@ $total = 0;
 						@php
 						$total = ($total + $pago->monto);
 						@endphp
-						<tr>
+						<tr class="text-center">
 							<td>
-								<center>{{$pago->id}}</center>
+								{{$pago->id}}
 							</td>
 							<td>
-								<center>{{$pago->username}}</center>
+								{{$pago->username}}
 							</td>
 							<td>
-								<center>{{$pago->email}}</center>
+								{{$pago->email}}
 							</td>
 							<td>
-								<center>
+								
 									@if ($moneda->mostrar_a_d)
 									{{$moneda->simbolo}} {{$pago->monto}}
 									@else
 									{{$pago->monto}} {{$moneda->simbolo}}
 									@endif
-								</center>
+								
 							</td>
 							<td>
-								<center>{{$pago->fechasoli}}</center>
+								{{$pago->fechasoli}}
 							</td>
 							<td>
-								<center>
+								
 									@if ($pago->tipowallet == 0)
 									Point
 									@elseif($pago->tipowallet == 1)
@@ -109,28 +112,33 @@ $total = 0;
 									@else
 									Tantech
 									@endif
-								</center>
+								
 							</td>
 							<td>
-								<center>{{$pago->metodo}}</center>
+								{{$pago->metodo}}
 							</td>
 							<td>
-								<center>{{$pago->tipopago}}</center>
+								{{$pago->tipopago}}
 							</td>
 							<td>
-								<center>
-									@if ($pago->estado == 0)
-									Pendiente
-									@endif
-								</center>
+								@if ($pago->tipo_retiro == 1)
+									Billetera Normal
+								@elseif($pago->tipo_retiro == 2)
+									Rentabilidad
+								@endif
 							</td>
 							<td>
-								<center>
+								@if ($pago->estado == 0)
+								Pendiente
+								@endif
+							</td>
+							<td>
+								
 									<a class="btn btn-info" href="{{route('price-aprobar', [$pago->id])}}"><i
 											class="fas fa-check"></i></a>
 									<a class="btn btn-danger" href="{{route('price-rechazar', [$pago->id])}}"><i
 											class="fas fa-ban"></i></a>
-								</center>
+								
 							</td>
 						</tr>
 						@endforeach

@@ -177,7 +177,8 @@ class WalletController extends Controller
 			}
 			$checkPago = Pagos::where([
 				['iduser', '=', Auth::user()->ID],
-				['estado', '=', 0]
+				['estado', '=', 0],
+				['tipo_retiro', '=', 1]
 			])->first();
 			if (!empty($checkPago)) {
 				return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');

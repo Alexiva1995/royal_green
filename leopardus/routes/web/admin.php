@@ -107,6 +107,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::post('/pay_rentabilidad', 'ComisionesController@process_rentabilidad')->name('wallet.pay.rentabilidad');
     });
 
+    // Rentabilidad
+    Route::group(['prefix' => 'rentabilidad'], function ()
+    {
+        Route::get('/', 'RentabilidadController@index')->name('rentabilidad.index');
+        Route::post('retirar', 'RentabilidadController@retiro')->name('rentabilidad.retirar');
+    });
+
     
 
     // Pago
