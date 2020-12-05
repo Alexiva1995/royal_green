@@ -200,7 +200,7 @@ class ComisionesController extends Controller
                 $paquete = json_decode($user->paquete);
                 $pagar = 0;
                 $porcentaje = 0;
-                if ($puntos->binario_izq >= $puntos->binario_der) {
+                if ($puntos->binario_izq <= $puntos->binario_der) {
                     $pagar = $puntos->binario_izq;
                 }else{
                     $pagar = $puntos->binario_der;
@@ -500,11 +500,13 @@ class ComisionesController extends Controller
                 $porcentaje = $request->porcentage;
                 $ordenes = $this->funciones->getAllComprasRentabilidad();
                 foreach ($ordenes as $orden) {
-                    foreach ($orden['productos'] as $producto) {
-                        $this->saveRentabilidad($orden['idcompra'], $orden['idusuario'], $producto, $porcentaje);
+                    $user = User::find($orden['idusuario']);
+                    if (!empty($user)) {
+                        foreach ($orden['productos'] as $producto) {
+                            $this->saveRentabilidad($orden['idcompra'], $orden['idusuario'], $producto, $porcentaje, $orden['tipo_activacion']);
+                        }
                     }
                 }
-
                 return redirect()->route('index')->with('msj', 'Rentabilidad pagada con exito');
             }
         } catch (\Throwable $th) {
@@ -512,16 +514,8 @@ class ComisionesController extends Controller
         }
     }
 
-    /**
-     * Permite actualizar la informacion de la rentabilidad
-     *
-     * @param integer $idorden
-     * @param integer $iduser
-     * @param array $paquete
-     * @param [type] $porcentaje
-     * @return void
-     */
-    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, $porcentaje)
+    
+    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, int $porcentaje, string $tipo_cobro)
     {
         $checkRentabilidad = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
@@ -551,7 +545,8 @@ class ComisionesController extends Controller
                 'precio' => $paquete['precio'],
                 'limite' => $limite,
                 'ganado' => $ganado,
-                'progreso' => $progreso
+                'progreso' => $progreso,
+                'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
             ];
 
             $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
@@ -572,7 +567,8 @@ class ComisionesController extends Controller
                 $balance = $totalGanado;
                 $dataRentabilidad = [
                     'ganado' => $totalGanado,
-                    'progreso' => $progreso
+                    'progreso' => $progreso,
+                    'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,  
                 ];
                 DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
                 $idRentabilidad = $checkRentabilidad->id;
@@ -629,7 +625,8 @@ class ComisionesController extends Controller
                         'precio' => $paquete['precio'],
                         'limite' => $limite,
                         'ganado' => 0,
-                        'progreso' => 0
+                        'progreso' => 0,
+                        'nivel_minimo_cobro' => ($orden['tipo_activacion'] == 'Manual') ? 7 : 0,
                     ];
     
                     DB::table('log_rentabilidad')->insert($dataRentabilidad);

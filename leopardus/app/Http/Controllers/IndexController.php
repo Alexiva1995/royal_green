@@ -212,7 +212,8 @@ class IndexController extends Controller
                             'idcompra' => $compra->post_id,
                             'fecha' => $detallesCompra->post_date,
                             'productos' => $productos,
-                            'total' => $this->getShoppingTotal($compra->post_id)
+                            'total' => $this->getShoppingTotal($compra->post_id),
+                            'tipo_activacion' => $detallesCompra->to_ping
                         ];
                     }
                 }
@@ -265,7 +266,7 @@ class IndexController extends Controller
     {
         $settings = Settings::first();
 		$datosCompra = DB::table($settings->prefijo_wp.'posts')
-                        ->select('post_date')
+                        ->select('post_date', 'to_ping')
                         ->where('ID', '=', $shop_id)
                         ->where('post_status', '=', 'wc-completed')
                         ->first();
@@ -444,7 +445,6 @@ class IndexController extends Controller
                     ->where([
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],
-                        ['to_ping', '=', 'Coinbase']
                     ])
                     ->get();
         $arreCompras = [];
@@ -474,6 +474,7 @@ class IndexController extends Controller
                     'fecha' => $compra->post_date,
                     'productos' => $productos,
                     'total' => $this->getShoppingTotal($compra->ID),
+                    'tipo_activacion' => $compra->to_ping
                 ];
             }
         }

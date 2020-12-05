@@ -18,47 +18,6 @@
 @push('custom_js')
 <script src="{{asset('assets/scripts/graficas.js')}}"></script>
 <script type="text/javascript">
-
-	/**
-	* Permite modificar el lado binario donde se van a ir registrando los usuarios
-	*/
-	function updateSideBinary(value) {
-		let url = "{{route('change.side')}}"
-		let valor = value
-		let data = {
-			ladoregistrar: valor,
-			_token: "{{ csrf_token() }}",
-		}
-		let lado = (valor == 'D') ? 'Derecha' : 'Izquierda'
-		$.post(url, data, function(response){
-			if (response = 1) {
-				Swal.fire({
-				title: 'Lado Matrix Actualizado',
-				text: "Su nuevo lado de registro binario es por la "+ lado,
-				type: "success",
-				confirmButtonClass: 'btn btn-primary',
-				buttonsStyling: false,
-			}).then((value) => {
-				if (value) {
-					window.location.reload()
-				}
-			})
-			}else{
-				Swal.fire({
-				title: 'Error',
-				text: "No se pudo actualizar el lado a registrar intente de nuevo",
-				type: "danger",
-				confirmButtonClass: 'btn btn-primary',
-				buttonsStyling: false,
-			}).then((value) => {
-				if (value) {
-					window.location.reload()
-				}
-			})
-			}
-		})
-	}
-
 	function updatePaqueteInfo(paquete) {
 		paquete = JSON.parse(paquete)
 		let fecha = new Date(paquete.created_at)

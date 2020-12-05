@@ -98,12 +98,25 @@
                         Billetera
                     </span>
                 </a>
+            </li>
             <li class=" nav-item">
-                <a href="javascript:;" onclick="copyToClipboard('copy')">
+                <a href="javascripts:;">
                     <span class="menu-title" data-i18n="Link de Referidos">
-                        Link de Referidos
+                        Links de Referidos
                     </span>
                 </a>
+                <ul class="menu-content">
+                    <li onclick="updateSideBinary('I')">
+                        <a>
+                            <span class="menu-item" data-i18n="Lado Izquierdo">Lado Izquierdo</span>
+                        </a>
+                    </li>
+                    <li onclick="updateSideBinary('D')">
+                        <a>
+                            <span class="menu-item" data-i18n="Lado Derecho">Lado Derecho</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             </li>
             <li class=" nav-item">
