@@ -58,6 +58,22 @@
 
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 
+<style>
+    
+    .vertical-overlay-menu .main-menu .navigation li.has-sub > a:not(.mm-next)::after,
+    body.vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation li.has-sub > a:not(.mm-next)::after{
+        top: 0 !important;
+    }
+
+    .main-menu.menu-light .navigation > li.open > a{
+        background: #2adec0 !important;
+    }
+
+    .main-menu.menu-light .navigation > li > ul{
+        background: #2adec0 !important;
+    }
+</style>
+
 @stack('custom_css')
 
 <!-- END: Custom CSS-->

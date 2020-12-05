@@ -95,40 +95,40 @@ class PagoController extends Controller
 		$fecha = new Carbon;
 		$pagos = Pagos::find($id);
 		$user = User::find($pagos->iduser);
-		$campo_user = DB::table('user_campo')->where('ID', '=', $pagos->iduser)->select('paypal')->first();
+		// $campo_user = DB::table('user_campo')->where('ID', '=', $pagos->iduser)->select('paypal')->first();
 		$pagos->estado = 1;
 		$pagos->fechapago = $fecha->now();
-		$descuento = (!empty($pagos->descuento) ? $pagos->descuento : 0);
-		$resta = ($pagos->monto + $descuento);
+		// $descuento = (!empty($pagos->descuento) ? $pagos->descuento : 0);
+		// $resta = ($pagos->monto + $descuento);
 
 		// inicia el curl para conectarse a coinbase
-		$cURL = curl_init();
+		// $cURL = curl_init();
 		// toda la informacion del arreglo de coinbase
-		curl_setopt_array($cURL, array(
-            CURLOPT_URL => "https://api.coinbase.com/v2/exchange-rates",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => ['Content-Type: application/json']
-			));
+		// curl_setopt_array($cURL, array(
+        //     CURLOPT_URL => "https://api.coinbase.com/v2/exchange-rates",
+        //     CURLOPT_RETURNTRANSFER => true,
+        //     CURLOPT_ENCODING => "",
+        //     CURLOPT_MAXREDIRS => 10,
+        //     CURLOPT_TIMEOUT => 30,
+        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        //     CURLOPT_CUSTOMREQUEST => "GET",
+        //     CURLOPT_HTTPHEADER => ['Content-Type: application/json']
+		// 	));
 		// se ejecuta el curl
-		$tmpResult = curl_exec($cURL);
+		// $tmpResult = curl_exec($cURL);
 		// verifica si trae la informacion
-		if ($tmpResult !== false) {
-			$currency = json_decode($tmpResult);
-			$cmd = 'create_withdrawal';
+		// if ($tmpResult !== false) {
+			// $currency = json_decode($tmpResult);
+			// $cmd = 'create_withdrawal';
 			// creo el arreglo de la transacion en coipayment
-			$dataPago = [
-				'amount' => ($currency->data->rates->ETH * $resta),
-				'currency' => 'ETH',
-				'address' => $campo_user->paypal,
-			];
+			// $dataPago = [
+			// 	'amount' => ($currency->data->rates->ETH * $resta),
+			// 	'currency' => 'ETH',
+			// 	'address' => $campo_user->paypal,
+			// ];
 			// llamo la a la funcion que va a ser la transacion
-			$result = $this->coinpayments_api_call($cmd, $dataPago);
-			if (!empty($result['result'])) {
+			// $result = $this->coinpayments_api_call($cmd, $dataPago);
+			// if (!empty($result['result'])) {
 				// mando un correo una vez la transacion realizada
 				$dataCorreo = [
 					'monto' => $pagos->monto,
@@ -141,12 +141,12 @@ class PagoController extends Controller
 				});
 				$pagos->save();
 				return redirect('mioficina/admin/price/confirmar')->with('msj', 'Pago Aprobado sastifactoriamente');
-			}else{
-				return redirect('mioficina/admin/price/confirmar')->with('msj2', 'Ocurrio un erro al aprobar el pago, vuelva a intentar - Error: '.$result['error']);
-			}
-		}else{
-			return redirect('mioficina/admin/price/confirmar')->with('msj2', 'Ocurrio un erro al aprobar el pago, vuelva a intentar');
-		}
+			// }else{
+			// 	return redirect('mioficina/admin/price/confirmar')->with('msj2', 'Ocurrio un erro al aprobar el pago, vuelva a intentar - Error: '.$result['error']);
+			// }
+		// }else{
+		// 	return redirect('mioficina/admin/price/confirmar')->with('msj2', 'Ocurrio un erro al aprobar el pago, vuelva a intentar');
+		// }
 	}
 
 	/**
