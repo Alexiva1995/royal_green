@@ -72,8 +72,10 @@ class ComisionesController extends Controller
                     'referred_level' => $referred_level,
                     'status' => true,
                 ]);
-        
-                if ($concepto != 'sin comision') {
+
+                $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
+                // if ($concepto != 'sin comision') {
+                if ($rentabilidadActiva == 1) {
                     $user = User::find($iduser);
                     $user->wallet_amount = ($user->wallet_amount + $totalComision);
                     $user->save();
@@ -92,6 +94,9 @@ class ComisionesController extends Controller
                         'tipotransacion' => 2
                     ];
                     $this->wallet->saveWallet($datos);
+                    if ($tipo_comision == 'Bonos Binario') {
+
+                    }
                 }
             }
         } catch (\Throwable $th) {
@@ -342,22 +347,26 @@ class ComisionesController extends Controller
                     'status' => true,
                 ]);
 
-                $datos = [
-                    'iduser' => $iduser,
-                    'usuario' => $user->display_name,
-                    'descripcion' => $concepto,
-                    'puntos' => $punto_rank,
-                    'puntosI' => $punto_izq,
-                    'puntosD' => $punto_der,
-                    'email_referred' => $referred_email,
-                    'descuento' => 0,
-                    'debito' => 0,
-                    'credito' => 0,
-                    'balance' => 0,
-                    'tipotransacion' => 2
-                ];
-                $this->wallet->saveWallet($datos);
-                $user->save();
+                $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
+
+                if ($rentabilidadActiva == 1) {
+                    $datos = [
+                        'iduser' => $iduser,
+                        'usuario' => $user->display_name,
+                        'descripcion' => $concepto,
+                        'puntos' => $punto_rank,
+                        'puntosI' => $punto_izq,
+                        'puntosD' => $punto_der,
+                        'email_referred' => $referred_email,
+                        'descuento' => 0,
+                        'debito' => 0,
+                        'credito' => 0,
+                        'balance' => 0,
+                        'tipotransacion' => 2
+                    ];
+                    $this->wallet->saveWallet($datos);
+                    $user->save();
+                }
             }
         } catch (\Throwable $th) {
             dd($th);
@@ -604,6 +613,65 @@ class ComisionesController extends Controller
     }
 
     /**
+     * Permite pagar la rentabilida por medio del bono binario
+     *
+     * @param integer $iduser
+     * @param float $bono
+     * @return void
+     */
+    public function saveRentabilidaBono($iduser, $bono)
+    {
+        $checkRentabilidad = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['progreso', '<', 100]
+        ])->first();
+        if ($checkRentabilidad != null) {
+            $ganado = $bono;
+            $balance = $ganado;
+            $idRentabilidad = $checkRentabilidad->id;
+            $finalizado = 0;
+
+            $totalGanado = ($checkRentabilidad->ganado + $ganado);
+            $finalizacion = 0;
+            if ($totalGanado >= $checkRentabilidad->limite) {
+                if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+                    $totalGanado = $checkRentabilidad->limite;
+                    $ganado = ($totalGanado - $checkRentabilidad->ganado);
+                }else{
+                    $finalizacion = 1;
+                    $finalizado = 1;
+                }
+            }
+            if ($finalizacion == 0) {    
+                $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+                $balance = ($totalGanado - $checkRentabilidad->retirado);
+                $dataRentabilidad = [
+                    'ganado' => $totalGanado,
+                    'progreso' => $progreso,
+                    'balance' => $balance
+                ];
+                DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+            }
+
+            $user = User::find($iduser);
+
+            $dataLogRentabilidadPay = [
+                'iduser' => $iduser,
+                'id_log_renta' => $idRentabilidad,
+                'porcentaje' => 0,
+                'debito' => $ganado,
+                'balance' => $balance,
+                'fecha_pago' => Carbon::now(),
+                'concepto' => 'Rentabilidad pagada por medio del Bono Binario , al usuario '.$user->display_name
+            ];
+
+            if ($finalizado == 0) {
+                DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+            }
+        }
+    }
+
+    /**
      * Permite registrar las paquetes comprados en la tabla de rentabilidad
      *
      * @param integer $iduser
@@ -644,6 +712,25 @@ class ComisionesController extends Controller
                 }
             }
         }
+    }
+
+    /**
+     * Permite verificar si el usuario tiene un paquete activo o ya cerrado
+     *
+     * @param integer $iduser
+     * @return integer
+     */
+    public function checkstatusRentabilidad($iduser): int
+    {
+        $result = 0;
+        $check = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['progreso', '<', 100]
+        ])->first();
+        if ($check != null) {
+            $result = 1;
+        }
+        return $result;
     }
 }
 
