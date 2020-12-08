@@ -34,9 +34,9 @@ class RecuperarController extends Controller
           $msj->to($dato['email']);
       });
 
-      return redirect('mioficina/login')->with('msj2', 'Por favor cheque su correo');
+      return redirect('login')->with('msj2', 'Por favor cheque su correo');
     } else {
-      return redirect('mioficina/login')->with('msj3', 'El correo no esta registrado');
+      return redirect('login')->with('msj3', 'El correo no esta registrado');
     }
   }
 
@@ -47,7 +47,7 @@ class RecuperarController extends Controller
       $iduser = $user[0]['ID'];
       return view('auth.resetcorreo')->with(compact('iduser'));
     }else{
-      return redirect('mioficina/login')->with('msj3', 'El codigo de validacion ha expirado');
+      return redirect('login')->with('msj3', 'El codigo de validacion ha expirado');
     }
   }
 
@@ -60,7 +60,7 @@ class RecuperarController extends Controller
       $usuario = User::find($data['iduser']);
       $usuario->password = bcrypt($data['password']);
       $usuario->save();
-      return redirect('mioficina/login')->with('msj2', 'Clave Actualizada');
+      return redirect('login')->with('msj2', 'Clave Actualizada');
     }
   }
 
@@ -80,7 +80,7 @@ class RecuperarController extends Controller
       }else{
         $user = User::where('user_email', $datos['user_email'])->first();
         if (empty($user)) {
-          return redirect('mioficina/login')->with('msj3', 'Estas credenciales no coinciden');
+          return redirect('login')->with('msj3', 'Estas credenciales no coinciden');
         }
         $tmppass = $user->password;
         User::where('user_email', $datos['user_email'])->update([
@@ -111,7 +111,7 @@ class RecuperarController extends Controller
         $actividad->save();
         return redirect()->action('HomeController@index');
       } else {
-        return redirect('mioficina/login')->with('msj3', 'Estas credenciales no coinciden');
+        return redirect('login')->with('msj3', 'Estas credenciales no coinciden');
       }
     }
   }
@@ -129,6 +129,6 @@ class RecuperarController extends Controller
      $user->verificar_correo = $token;
      $user->save();
      
-     return redirect('mioficina/login')->with('msj2', 'Your email has been successfully validated, you can start the section');
+     return redirect('login')->with('msj2', 'Your email has been successfully validated, you can start the section');
   }
 }

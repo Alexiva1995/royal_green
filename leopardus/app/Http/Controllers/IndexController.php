@@ -96,7 +96,7 @@ class IndexController extends Controller
     private function getData($id, $nivel, $typeTree) : object
     {
         $comisioncontroller = new ComisionesController;
-        $resul = User::where($typeTree, '=', $id)->get();
+        $resul = User::where($typeTree, '=', $id)->orderBy('ladomatrix', 'desc')->get();
         foreach ($resul as $user) {
             $patrocinado = User::find($user->referred_id);
             $user->avatar = asset('avatar/'.$user->avatar);

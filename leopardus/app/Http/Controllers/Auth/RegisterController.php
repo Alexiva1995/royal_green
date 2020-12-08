@@ -342,7 +342,7 @@ class RegisterController extends Controller
             if (env('DB_USERNAME') != 'root') {
                 Mail::send('emails.plantilla',  ['data' => $mensaje, 'ruta' => ''], function($msj) use ($plantilla, $data){
 
-                    $msj->subject('Bienvenido a Level UP');
+                    $msj->subject('Bienvenido a RoyalGreen');
     
                     $msj->to($data['user_email']);
     
