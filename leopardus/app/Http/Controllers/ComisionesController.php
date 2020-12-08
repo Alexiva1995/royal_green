@@ -94,8 +94,8 @@ class ComisionesController extends Controller
                         'tipotransacion' => 2
                     ];
                     $this->wallet->saveWallet($datos);
-                    if ($tipo_comision == 'Bonos Binario') {
-
+                    if ($tipo_comision == 'Bonos Binario' && $tipo_comision == 'Bono Directo') {
+                        $this->saveRentabilidaBono($iduser, $totalComision, $tipo_comision);
                     }
                 }
             }
@@ -619,7 +619,7 @@ class ComisionesController extends Controller
      * @param float $bono
      * @return void
      */
-    public function saveRentabilidaBono($iduser, $bono)
+    public function saveRentabilidaBono($iduser, $bono, $concepto)
     {
         $checkRentabilidad = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
@@ -662,7 +662,7 @@ class ComisionesController extends Controller
                 'debito' => $ganado,
                 'balance' => $balance,
                 'fecha_pago' => Carbon::now(),
-                'concepto' => 'Rentabilidad pagada por medio del Bono Binario , al usuario '.$user->display_name
+                'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
             ];
 
             if ($finalizado == 0) {
