@@ -127,72 +127,79 @@ class TiendaController extends Controller
         ]); 
         $settings = Settings::first();
         if ($validate) {
-                $fecha = new Carbon();
-                $title = 'Orden&ndash;'.$fecha->now()->toFormattedDateString().' @ '.$fecha->now()->format('h:i A');
-                $tpmname = str_replace(' ', '-', $fecha->now()->toFormattedDateString());
-                $tpmname = str_replace(',', '', $tpmname);
-                $tpmname2 = str_replace(' ', '-', $fecha->now()->format('hi a'));
-                $name = 'perdido-'.$tpmname.'-'.$tpmname2;
-                $id = DB::table($settings->prefijo_wp.'posts')->insertGetId([
-                    'post_author' => 1,
-                    'post_date' => $fecha->now(),
-                    'post_date_gmt' => $fecha->now(),
-                    'post_content' => ' ',
-                    'post_title' => $title,
-                    'post_excerpt' => ' ',
-                    'post_status' => 'wc-on-hold',
-                    'comment_status' => 'open',
-                    'ping_status' => 'closed',
-                    'post_password' => 'order_'.base64_encode($fecha->now()),
-                    'post_name' => $name,
-                    'to_ping' => ' ',
-                    'pinged' => ' ',
-                    'post_modified' => $fecha->now(),
-                    'post_modified_gmt' => $fecha->now(),
-                    'post_content_filtered' => ' ',
-                    'post_parent' => 0,
-                    'menu_order' => 0,
-                    'post_type' => 'shop_order',
-                    'post_mime_type' => ' ',
-                    'comment_count' => 1,
-                    // 'id_coinbase' => $datos->id_coinbase,
-                    // 'code_coinbase' => $datos->code_coinbase,
-                ]);
-                $data = [
-                    '_order_key' => 'wc_order_'.base64_encode($fecha->now()),
-                    'ip' => $datos->ip(),
-                    'total' => $datos->precio.'.00',
-                    'idproducto' => $datos->idproducto
-                ];
-                $ruta = '';
-                if ($id) {
-                    $linkProducto = str_replace('mioficina', '?post_type=shop_order&#038;p=', $datos->root());
-                    DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
-                        'guid' => $linkProducto.$id
-                    ]);
 
-                    $this->saveOrdenPostmeta($id, $data, $datos->tipo);
-                    $this->saveOrderItems($id, $datos->name, $data);
-                    
-                    $contrProducto = new ProductController;
-                    $producto = $contrProducto->getOneProduct($datos->idproducto);
-                    if (!empty($producto)) {
-                        $link = $this->linkCoinPayMent($producto);
-                        if (!empty($link)) {
-                            DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
-                                'id_coinbase' => $link->id,
-                                'code_coinbase' => $link->code,
-                            ]);
-                            $ruta = $link->hosted_url;
-                        }
+            $comisionesController = new ComisionesController;
+            $rentabilidadActiva = $comisionesController->checkstatusRentabilidad(Auth::user()->ID);
+                
+            if ($rentabilidadActiva == 1) {
+                return redirect()->back()->with('msj', 'Tiene un paquete activo, hasta que no este completo, no podra realizar otra compra');
+            }
+
+            $fecha = new Carbon();
+            $title = 'Orden&ndash;'.$fecha->now()->toFormattedDateString().' @ '.$fecha->now()->format('h:i A');
+            $tpmname = str_replace(' ', '-', $fecha->now()->toFormattedDateString());
+            $tpmname = str_replace(',', '', $tpmname);
+            $tpmname2 = str_replace(' ', '-', $fecha->now()->format('hi a'));
+            $name = 'perdido-'.$tpmname.'-'.$tpmname2;
+            $id = DB::table($settings->prefijo_wp.'posts')->insertGetId([
+                'post_author' => 1,
+                'post_date' => $fecha->now(),
+                'post_date_gmt' => $fecha->now(),
+                'post_content' => ' ',
+                'post_title' => $title,
+                'post_excerpt' => ' ',
+                'post_status' => 'wc-on-hold',
+                'comment_status' => 'open',
+                'ping_status' => 'closed',
+                'post_password' => 'order_'.base64_encode($fecha->now()),
+                'post_name' => $name,
+                'to_ping' => ' ',
+                'pinged' => ' ',
+                'post_modified' => $fecha->now(),
+                'post_modified_gmt' => $fecha->now(),
+                'post_content_filtered' => ' ',
+                'post_parent' => 0,
+                'menu_order' => 0,
+                'post_type' => 'shop_order',
+                'post_mime_type' => ' ',
+                'comment_count' => 1,
+                // 'id_coinbase' => $datos->id_coinbase,
+                // 'code_coinbase' => $datos->code_coinbase,
+            ]);
+            $data = [
+                '_order_key' => 'wc_order_'.base64_encode($fecha->now()),
+                'ip' => $datos->ip(),
+                'total' => $datos->precio.'.00',
+                'idproducto' => $datos->idproducto
+            ];
+            $ruta = '';
+            if ($id) {
+                $linkProducto = str_replace('mioficina', '?post_type=shop_order&#038;p=', $datos->root());
+                DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
+                    'guid' => $linkProducto.$id
+                ]);
+
+                $this->saveOrdenPostmeta($id, $data, $datos->tipo);
+                $this->saveOrderItems($id, $datos->name, $data);
+                
+                $contrProducto = new ProductController;
+                $producto = $contrProducto->getOneProduct($datos->idproducto);
+                if (!empty($producto)) {
+                    $link = $this->linkCoinPayMent($producto);
+                    if (!empty($link)) {
+                        DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
+                            'id_coinbase' => $link->id,
+                            'code_coinbase' => $link->code,
+                        ]);
+                        $ruta = $link->hosted_url;
                     }
                 }
-                if (!empty($ruta)) {
-                    return redirect($ruta);
-                }else{
-                    return redirect()->back()->with('msj', 'Hubo Un Problema con el proceso de compra');
-                }
-                
+            }
+            if (!empty($ruta)) {
+                return redirect($ruta);
+            }else{
+                return redirect()->back()->with('msj', 'Hubo Un Problema con el proceso de compra');
+            }
         }
     }
 
@@ -467,20 +474,24 @@ class TiendaController extends Controller
      * @param string $activacion
      * @return void
      */
-    public function accionSolicitud($id, $estado, $activacion = null)
+    public function accionSolicitud($id, $estado, $activacion2 = null)
     {
-        if ($estado == 'wc-completed') {
-            $datoscompra = $this->getDatos($id);
-            
-            $activacion = new ActivacionController;
-            $activacion->activarUsuarios($datoscompra['iduser']);
-            $comisiones = new ComisionesController;
-            $comisiones->payBonus();
-        }
-
-        if ($activacion == null) {
-            $this->actualizarBD($id, $estado, 'Manual');
-            return redirect()->route('tienda-solicitudes')->with('msj', 'Estado de la Solicitud Actualizada con Exito');
+        try {
+            if ($estado == 'wc-completed') {
+                $datoscompra = $this->getDatos($id);
+                
+                $activacion = new ActivacionController;
+                $activacion->activarUsuarios($datoscompra['iduser']);
+                $comisiones = new ComisionesController;
+                $comisiones->payBonus();
+            }
+    
+            if ($activacion2 == null) {
+                $this->actualizarBD($id, $estado, 'Manual');
+                return redirect()->route('tienda-solicitudes')->with('msj', 'Estado de la Solicitud Actualizada con Exito');
+            }
+        } catch (\Throwable $th) {
+            return redirect()->route('tienda-solicitudes')->with('msj', 'Ocurrio un error con la actualizacion del estado de la solicitud, por favor contacte con el administrado');
         }
     }
     

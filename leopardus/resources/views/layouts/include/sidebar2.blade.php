@@ -100,6 +100,13 @@
                 </a>
             </li>
             <li class=" nav-item">
+                <a href="{{route('rentabilidad.index')}}">
+                    <span class="menu-title" data-i18n="Rentabilidad">
+                        Rentabilidad
+                    </span>
+                </a>
+            </li>
+            <li class=" nav-item">
                 <a href="javascripts:;">
                     <span class="menu-title" data-i18n="Link de Referidos">
                         Links de Referidos
