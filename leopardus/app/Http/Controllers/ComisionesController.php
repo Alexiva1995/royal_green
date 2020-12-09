@@ -37,7 +37,7 @@ class ComisionesController extends Controller
         $this->bonoDirecto();
         $this->bonoIndirecto();
         $this->puntosBinarios();
-        $this->puntosRangos();
+        // $this->puntosRangos();
     }
 
     /**
@@ -226,6 +226,8 @@ class ComisionesController extends Controller
                     $idcomision = '20'.$fecha->format('Ymd');
                     $this->guardarComision($user->ID, $idcomision, $totalcomision, $user->user_email, 0, 'Bonos Binario', 'Bono Binario');
                     $this->bonoConstrucion($user->ID, $totalcomision);
+                    $concepto = 'Puntos Rango, Obtenido por el pago del Bono Binario del dia'.$fecha->format('Y-m-d');
+                    $this->savePoints($totalcomision, $user->ID, $concepto, 'R', $idcomision, 1, $user->user_email);
                     $user->save();
                 }
             }

@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Route;
 | una nueva ruta principal.
 |
 */
-Route::prefix('mioficina')->group(function(){
+// Route::prefix('mioficina')->group(function(){
     Route::get('/', 'HomeController@index')->name('index');
-});
+// });
 
 // Route::get('/', function(){
 //     $landing = 0;

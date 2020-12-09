@@ -20,8 +20,8 @@ Route::get('vistaCorreo', function ()
   return view('emails.plantilla');
 });
 
-Route::prefix('mioficina')->group(function ()
-{
+// Route::prefix('mioficina')->group(function ()
+// {
   
 Route::group(['prefix' => 'autentication'], function (){
   Route::get('/register', 'Auth\RegisterController@newRegister')->name('autenticacion.new-register');
@@ -685,4 +685,4 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 });
 
 
-});
+// });
