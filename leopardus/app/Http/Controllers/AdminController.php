@@ -83,10 +83,13 @@ class AdminController extends Controller
 
         $this->rangoControl->checkRango($iduser);
 
+        $bienvenida = $this->indexControl->bonoBienvenida($iduser);
+
         $data = [
             'paquetes' => $paquetes,
             'wallets' => $arrayWallet,
-            'rangospoints' => $this->rangoControl->getPointRango($iduser)
+            'rangospoints' => $this->rangoControl->getPointRango($iduser),
+            'bienvenida' => $bienvenida
         ];
 
         return $data;
