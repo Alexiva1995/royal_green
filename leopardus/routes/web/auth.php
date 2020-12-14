@@ -1,10 +1,10 @@
 <?php
-Route::prefix('mioficina')->group(function ()
-{
+// Route::prefix('mioficina')->group(function ()
+// {
 	
 	Auth::routes();
 
-});
+// });
 Route::get('login/{driver}', 
 	'Auth\SocialAuthController@redirectToProvider')->name('social.oauth');
 

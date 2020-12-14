@@ -42,6 +42,30 @@
                     </span>
                 </div>
             </div>
+            {{-- Bono Bienvenidad --}}
+            <div class="col-12 mt-3">
+                <h5 class="pl-1">Bono de Bienvenida</h5>
+                <div class="col-12">
+                    <p>Bono Ganado: 
+                        <strong class="color-green-alt " style="font-size: 1.6em;">{{number_format($data['bienvenida']['bono'], 0, ',', '.')}}</strong>
+                    </p>
+                    <div class="row">
+                        <div class="col-10">
+                                <div class="progress progress-bar-primary progress-xl m-0">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{$data['bienvenida']['progreso']}}%"></div>
+                                </div>
+                        </div>
+                        <div class="col-2">
+                            <span class="text-white">
+                                <strong>{{$data['bienvenida']['progreso']}}%</strong>
+                            </span>
+                        </div>
+                    </div>
+                    <span>
+                        <small>Proximo Bono = {{$data['bienvenida']['requisito']}}</small>
+                    </span>
+                </div>
+            </div>
             {{-- Grafica --}}
             <div class="col-12 mt-2">
                 <div class="col-12">

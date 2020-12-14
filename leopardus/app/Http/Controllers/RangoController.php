@@ -40,7 +40,7 @@ class RangoController extends Controller
 				$cantRequisito++;
 				if ($this->verificarPuntos($iduser, $rolnuevo->grupal) == 1) {
 					$cantAprobado++;
-				};
+				}
 			}
 
 			// Verifica si cumple con los rangos necesario en su red
@@ -48,7 +48,7 @@ class RangoController extends Controller
 				$cantRequisito++;
 				if ($this->verificarRangosUser($iduser, $rolnuevo->rolnecesario, $rolnuevo->referidos) == 1) {
 					$cantAprobado++;
-				};
+				}
 			}
 
 			// Si cumple las condicion se actualiza el rango

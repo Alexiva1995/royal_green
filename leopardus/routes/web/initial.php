@@ -12,30 +12,30 @@ use Illuminate\Support\Facades\Route;
 | una nueva ruta principal.
 |
 */
-Route::prefix('mioficina')->group(function(){
+// Route::prefix('mioficina')->group(function(){
     Route::get('/', 'HomeController@index')->name('index');
-});
+// });
 
-Route::get('/', function(){
-    $landing = 0;
-     return view('landing.index', compact('landing'));
-    //return redirect()->route('login');
-})->name('landing');
+// Route::get('/', function(){
+//     $landing = 0;
+//      return view('landing.index', compact('landing'));
+//     //return redirect()->route('login');
+// })->name('landing');
 
-Route::get('/producto/legal', function(){
-    $landing = 3;
-    return view('landing.index', compact('landing'));
-})->name('product');
+// Route::get('/producto/legal', function(){
+//     $landing = 3;
+//     return view('landing.index', compact('landing'));
+// })->name('product');
 
-Route::get('/faq/legal', function(){
-    $landing = 2;
-    return view('landing.index', compact('landing'));
-})->name('faq');
+// Route::get('/faq/legal', function(){
+//     $landing = 2;
+//     return view('landing.index', compact('landing'));
+// })->name('faq');
 
-Route::get('{tipo}/legal', function($tipo){
-    $landing = 1;
-    return view('landing.index', compact('landing', 'tipo'));
-})->name('legal');
+// Route::get('{tipo}/legal', function($tipo){
+//     $landing = 1;
+//     return view('landing.index', compact('landing', 'tipo'));
+// })->name('legal');
 
 // Route::prefix('landing')->group(function(){
     

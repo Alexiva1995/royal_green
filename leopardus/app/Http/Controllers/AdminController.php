@@ -66,6 +66,8 @@ class AdminController extends Controller
         ->orderBy('id', 'DESC')->get()->take(10);
         $arrayWallet = [];
 
+        
+
         foreach ($walletlast as $wallet) {
             $arrayWallet [] = [
                 'signo' => ($wallet->tipotransacion == 2) ? 0 : 1,
@@ -79,10 +81,15 @@ class AdminController extends Controller
             $paquete->detalles_producto = json_decode($paquete->detalles_producto);
         }
 
+        $this->rangoControl->checkRango($iduser);
+
+        $bienvenida = $this->indexControl->bonoBienvenida($iduser);
+
         $data = [
             'paquetes' => $paquetes,
             'wallets' => $arrayWallet,
-            'rangospoints' => $this->rangoControl->getPointRango($iduser)
+            'rangospoints' => $this->rangoControl->getPointRango($iduser),
+            'bienvenida' => $bienvenida
         ];
 
         return $data;

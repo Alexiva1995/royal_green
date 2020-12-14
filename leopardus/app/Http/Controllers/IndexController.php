@@ -96,7 +96,7 @@ class IndexController extends Controller
     private function getData($id, $nivel, $typeTree) : object
     {
         $comisioncontroller = new ComisionesController;
-        $resul = User::where($typeTree, '=', $id)->get();
+        $resul = User::where($typeTree, '=', $id)->orderBy('ladomatrix', 'desc')->get();
         foreach ($resul as $user) {
             $patrocinado = User::find($user->referred_id);
             $user->avatar = asset('avatar/'.$user->avatar);
@@ -585,6 +585,74 @@ class IndexController extends Controller
             $totalMeses [] = $totalmes;
         }
         return json_encode($totalMeses);
+    }
+
+    /**
+     * Permite recibir el bono de bienvenidad
+     *
+     * @param integer $iduser
+     * @return array
+     */
+    public function bonoBienvenida($iduser): array
+    {
+
+        $user = User::find($iduser);
+
+        $fechaActual = Carbon::now();
+        $fechaActivacion = new Carbon($user->created_at);
+
+        $arrayBono = [
+            ['requisito' => 5000, 'bono' => 500],
+            ['requisito' => 10000, 'bono' => 1000],
+            ['requisito' => 20000, 'bono' => 2000],
+            ['requisito' => 30000, 'bono' => 3000],
+            ['requisito' => 40000, 'bono' => 4000],
+            ['requisito' => 50000, 'bono' => 5000],
+        ];
+
+        $directos = $this->getChidrens2($iduser, [], 1, 'referred_id', 1);
+
+        $totalCompra = 0;
+        foreach ($directos as $directo) {
+            $compras = $this->getInforShopping($directo->ID);
+            foreach ($compras as $compra) {
+                if ($compra['tipo_activacion'] == 'Coinbase') {
+                    $fechaCompra = new Carbon($compra['fecha']);
+                    if ($fechaCompra <= $fechaActivacion->addDays(30)) {
+                        $totalCompra = ($totalCompra + $compra['total']);
+                    }
+                }
+            }
+        }
+
+        $requisito = 0;
+        $bono = 0;
+        for ($i=0; $i < count($arrayBono); $i++) { 
+            if ($arrayBono[$i]['requisito'] <= $totalCompra) {
+                $bono = $arrayBono[$i]['bono'];
+                if ($i < 5) {
+                    $requisito = $arrayBono[$i+1]['requisito'];
+                }
+                if ($i == 5) {
+                    $requisito = $arrayBono[$i]['requisito'];
+                }
+            }
+            if ($i == 0) {
+                if ($arrayBono[$i]['requisito'] > $totalCompra) {
+                    $requisito = $arrayBono[$i]['requisito'];
+                }
+            }
+        }
+
+        $progreso = (($totalCompra / $requisito) * 100);
+
+        $arrayBienvenido = [
+            'bono' => $bono,
+            'requisito' => $requisito,
+            'progreso' => $progreso
+        ];
+
+        return $arrayBienvenido;
     }
 
 }

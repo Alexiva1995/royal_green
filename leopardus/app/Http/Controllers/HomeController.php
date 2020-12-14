@@ -29,7 +29,7 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::guest()){
-            return redirect('mioficina/login');
+            return redirect('login');
         }else{
             // if (empty(Auth::user()->verificar_correo)) {
                 // return redirect('login')->with('msj3', 'Your Email has not been Validated, check the email that registered in the system');
@@ -37,7 +37,7 @@ class HomeController extends Controller
                 if (Auth::user()->check_token_google == 1) {
                     return redirect()->route('autenticacion.2fact');
                 }else{
-                    return redirect('mioficina/admin');
+                    return redirect('admin');
                 }
             // }
             // $cliente = SettingCliente::find(1);
