@@ -140,6 +140,29 @@ class PagoController extends Controller
 					$msj->to($user->user_email);
 				});
 				$pagos->save();
+
+				//PASAR A VARIABLES
+				$email= $user->user_email;
+				$balance= $dataCorreo['monto'];
+				//FILTRO
+				// $nuevo="Es Primera vez";
+				// $viejo="Es cliente fijo";
+				//RESULTADO
+				$typo= 'Pagado al Cliente '.$user->display_name;
+				
+				$c = curl_init();
+				$url = "https://api.telegram.org/bot1125840777:AAFqBsth3BRNdemhXNm9Zb96K5bSYugUXVg/sendMessage";
+				$msg = "<b>NUEVA PAGO</b>\n Email: ".$email."\n Monto: ".$balance."\n";
+				//FILTRO
+				$msg.="<b>".$typo."</b>.";
+				
+				curl_setopt($c, CURLOPT_URL, $url);
+				curl_setopt($c, CURLOPT_POST, 1);
+				curl_setopt($c, CURLOPT_POSTFIELDS, "chat_id=-1001338125046&parse_mode=HTML&text=$msg");
+				curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+				$ejecutar = curl_exec($c);
+				curl_close($c);
+
 				return redirect('mioficina/admin/price/confirmar')->with('msj', 'Pago Aprobado sastifactoriamente');
 			// }else{
 			// 	return redirect('mioficina/admin/price/confirmar')->with('msj2', 'Ocurrio un erro al aprobar el pago, vuelva a intentar - Error: '.$result['error']);
