@@ -139,8 +139,8 @@
 
     <div class="navbar-wrapper">
         <button type="button" class="btn btn-default btn-lg text-white">
-        <span class="glyphicon glyphicon-arrow-left"></span>   
-            🡠 Regresar al inicio 
+        <span class="fa fa-arrow-left"></span>   
+             Regresar al inicio 
         </button>
     </div>
  
