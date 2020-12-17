@@ -9,6 +9,7 @@
     <div class="card-header">
         <h4 class="card-title">Artículos de la Tienda</h4>
     </div>
+
     <div class="card-content">
         <div class="card-body">
             <div class="row">
@@ -32,6 +33,7 @@
 
 {{-- modales --}}
 @include('tienda.modalCompra')
+@include('tienda.modalRegister')
 {{-- @include('tienda.modalCupon') --}}
 
 <script>
@@ -47,4 +49,10 @@
         // $('#myModal1').modal('show')
     }
 </script>
+@if (session('msj'))
+    <div class="alert alert-success">
+        {{ session('msj') }}
+    </div>
+@endif
+
 @endsection

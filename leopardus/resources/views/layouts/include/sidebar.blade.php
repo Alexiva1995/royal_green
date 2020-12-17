@@ -70,7 +70,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{route('personalorders')}}">
+                <a href="{{route('networkorders')}}">
                     <span class="menu-title" data-i18n="Historial de Ordenes">
                         Historial de Ordenes
                     </span>
