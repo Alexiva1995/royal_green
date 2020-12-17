@@ -78,7 +78,7 @@
                 <div class="d-flex justify-content-center ">
                     <div class="col-12 col-sm-10 co-md-10 col-lg-8">
                         <div class="card text-white card-alt"
-                            style="background: url('{{asset('assets/fondo-registro-inicio-de-sesin-.jpg')}}') ">
+                            style="background: url('{{asset('assets/mesa_trabajo.jpg')}}') ">
                             <h6 class="text-center">
                                 <img src="{{asset('assets/imgLanding/logo.png')}}" alt="logo" height="120"
                                 class="pt-2">
@@ -89,40 +89,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-12 text-center mt-3 text-alt-orange">
+                {{-- <div class="col-12 text-center mt-3 text-alt-orange">
                     <h4>
                         <strong>
                             @stack('quote')
                         </strong>
                     </h4>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 bg-alt-orange mt-5">
-        <div class="card bg-alt-orange text-white">
-            <div class="card-body">
-                <small>
-                    <p class="">
-                        Adquiere uno de nuestros planes <br>
-                        y desarrolla habilidades que te <br>
-                        permitan llevar a otras personas <br>
-                        a un siguiente nivel
-                    </p>
-                </small>
-                <div class="col-12 text-white">
-                    <h5>
-                        <a href="https://www.facebook.com/Level.upclubuppers/">
-                            <img src="{{asset('assets/imgLanding/icono_fb-09.png')}}" alt="" height="30" class="text-white">
-                        </a>
-                        <a href="https://www.instagram.com/level.upclub/">
-                            <img src="{{asset('assets/imgLanding/icono_instagram-09.png')}}" alt="" height="30" class="text-white">
-                        </a>
-                        <a href="http://">
-                            <img src="{{asset('assets/imgLanding/icono_telegram-09.png')}}" alt="" height="30" class="text-white">
-                        </a>
-                    </h5>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

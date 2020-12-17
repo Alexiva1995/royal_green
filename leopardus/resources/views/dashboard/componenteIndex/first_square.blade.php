@@ -1,65 +1,101 @@
-<div class="row">
-    <div class="col-lg-6 col-md-12 col-12 mt-1">
-        <div class="card bg-analytics bg-blue-2 text-white h-100">
-            <div class="card-content">
-                <div class="card-body text-center">
-                    <div class="avatar avatar-xl bg-green-2 shadow m-0 mb-1">
-                        <img src="{{asset('assets/img/sistema/usuario.png')}}" alt="card-img-left">
-                        {{-- <div class="avatar-content">
-                         <i class="feather icon-award white font-large-1"></i> 
-                        </div> --}}
-                    </div>
-                    <div class="text-center">
-                        <h1 class="mb-2 text-white">Bienvenido</h1>
-                        <h3 class="mb-2 text-white">{{$data['nombreuser']}}</h3>
-                        <h3 class="mb-2 text-white">Paquete - {{$data['paquete']}}</h3>
+<div class="col-md-6 col-12">
+    {{-- Inversiones --}}
+    <div class="col-12">
+        <h5 class="text-white">PAQUETE DE INVERSION</h5>
+        <div class="carrusel_paquete">
+            @foreach ($data['paquetes'] as $paquete)
+            <div class="text-center ml-2 mr-2" onclick="updatePaqueteInfo('{{json_encode($paquete)}}')">
+                <h6 class="text-center" style="color: #66ffcc">
+                    <small>
+                        <strong>
+                        {{substr($paquete->detalles_producto->nombre, 8)}}
+                        @if (Auth::user()->ID == 1)
+                        <br>
+                        ID User - {{$paquete->iduser}}
+                        @endif
+                        </strong>
+                    </small>
+                </h6>
+                <div class="progress progress-bar-info rotate-progress m-auto">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{$paquete->progreso}}%">
+                        <div class="progress-circular">
+                            <strong>{{($paquete->progreso * 2)}} %</strong>
+                        </div>
                     </div>
                 </div>
+                @if (count($data['paquetes']) > 0)
+                <h6 class="text-center indicate" style="color: #66ffcc; {{ ($paquete->id != $data['paquetes'][0]->id) ? 'display:none;' : 'display:block;'}}" id="paquete{{$paquete->id}}"> 
+                    <i class="feather icon-minus"></i> 
+                </h6>
+                @endif
+            </div>
+            @endforeach
+        </div>
+    </div>
+    {{-- Inversion activa --}}
+    <div class="col-12 mt-3">
+        <div class="card card-green-alt">
+            <div class="card-body">
+                <h3 class="text-white">
+                    <img src="{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->detalles_producto->img : ''}}" alt="" height="50" id="imgpaquete">
+                    @if (Auth::user()->ID == 1)
+                    <small>
+                        <strong>- ID user:  
+                            <span id="userpaquete">{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->iduser : 0}}</span> 
+                        </strong>
+                    </small>
+                    @endif
+                </h3>
+                <p>Ganacia Actual: $ <span id="ganaciaPaquete">{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->ganado : 0}}</span></p>
+                <div class="row">
+                    <div class="col-10">
+                            <div class="progress progress-bar-primary progress-xl m-0">
+                                <div id="pogrepaquete" class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{(count($data['paquetes']) > 0) ? $data['paquetes'][0]->progreso : 0}}%"></div>
+                            </div>
+                    </div>
+                    <div class="col-2">
+                        <span class="text-white">
+                            <strong><span id="porcepaquete">{{(count($data['paquetes']) > 0) ? ($data['paquetes'][0]->progreso * 2) : 0}}</span> %</strong>
+                        </span>
+
+                    </div>
+                </div>
+                <span>
+                    <small>Activo <span id="activepaquete">{{(count($data['paquetes']) > 0) ? date('Y-m-d', strtotime($data['paquetes'][0]->created_at)) : ''}}</span></small>
+                </span>
             </div>
         </div>
     </div>
-    <div class="col-lg-6 col-md-12 col-12 mt-1">
-        <div class="card text-white bg-gradient-danger bg-red-alt h-100">
-            <div class="card-content d-flex justify-contents-start align-items-center">
-                <div class="card-body pb-0 pt-1">
-                    <img src="{{asset('assets/img/sistema/card-img.svg')}}" alt="element 03" width="250" height="250"
-                        class="float-right px-1">
-                    <p class="card-text mt-3">¡En Equipo llegas mas lejos!</p>
-                    <h4 class="card-title text-white">Refiere y Gana <br> bonos ilimitados</h4>
-                    <a href="javascript:;" onclick="copyToClipboard('copy')"
-                        class="btn btn-primary padding-button-short bg-white mt-1 waves-effect waves-light">
-                        LINK REFERIDO
-                    </a>
-                    <p class="d-none" id="copy">
-                        {{route('autenticacion.new-register').'?referred_id='.Auth::user()->ID}}
-                    </p>
-                    <h6>
-                        <small class="text-white">Lado activo de registro binario</small>
-                    </h6>
-                    <ul class="list-unstyled mb-0 d-flex">
-                        <li class="d-inline-block mr-2">
-                            <fieldset>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="customRadio"
-                                        id="customRadio1" @if (Auth::user()->ladoregistrar == 'D') checked
-                                    @endif onclick="updateSideBinary('D')">
-                                    <label class="custom-control-label text-white"
-                                        for="customRadio1">Derecha</label>
-                                </div>
-                            </fieldset>
-                        </li>
-                        <li class="d-inline-block mr-2">
-                            <fieldset>
-                                <div class="custom-control custom-radio">
-                                    <input type="radio" class="custom-control-input" name="customRadio"
-                                        id="customRadio2" @if (Auth::user()->ladoregistrar == 'I') checked
-                                    @endif onclick="updateSideBinary('I')">
-                                    <label class="custom-control-label text-white"
-                                        for="customRadio2">Izquierda</label>
-                                </div>
-                            </fieldset>
-                        </li>
-                    </ul>
+    {{-- Transaciones --}}
+    <div class="col-12">
+        <h5 class="text-white">Ultimas Transaciones</h5>
+        <div class="card card-green-alt">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-index table-striped">
+                        <tbody>
+                            @foreach ($data['wallets'] as $wallet)
+                            <tr class="text-center">
+                                <td>
+                                    @if ($wallet['signo'] == 0)
+                                        <i class="feather icon-plus color-green-alt"></i>
+                                    @else
+                                        <i class="feather icon-minus color-red-alt"></i>
+                                    @endif
+                                </td>
+                                <td>
+                                    {{number_format($wallet['monto'], 2, ',', '.')}} $
+                                </td>
+                                <td>
+                                    {{$wallet['tipo']}}
+                                </td>
+                                <td>
+                                    {{$wallet['fecha']}}
+                                </td>
+                            </tr>
+                            @endforeach    
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

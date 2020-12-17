@@ -35,10 +35,15 @@
 						->where('meta_key', '=', '_order_key')
 						->first();
 
+						$fecha = null;
 						$fechaOrden = DB::table($settings->prefijo_wp.'posts')
 						->select('post_date')
 						->where('ID', '=', $orden->post_id)
 						->first();
+
+						if (!empty($fechaOrden)) {
+							$fecha = $fechaOrden->post_date;
+						}
 
 						$estado = DB::table($settings->prefijo_wp.'posts')
 						->select('post_status')
@@ -55,37 +60,39 @@
 						->select('order_item_name')
 						->where('order_id', '=', $orden->post_id)
 						->where('order_item_type', '=', 'line_item')
-						->get();
+						->get();						
 
 						$estadoEntendible = '';
-						switch ($estado->post_status) {
-						case 'wc-completed':
-						$estadoEntendible = 'Completado';
-						break;
-						case 'wc-pending':
-						$estadoEntendible = 'Pendiente de Pago';
-						break;
-						case 'wc-processing':
-						$estadoEntendible = 'Procesando';
-						break;
-						case 'wc-on-hold':
-						$estadoEntendible = 'En Espera';
-						break;
-						case 'wc-cancelled':
-						$estadoEntendible = 'Cancelado';
-						break;
-						case 'wc-refunded':
-						$estadoEntendible = 'Reembolsado';
-						break;
-						case 'wc-failed':
-						$estadoEntendible = 'Fallido';
-						break;
+						if (!empty($estado)) {
+							switch ($estado->post_status) {
+							case 'wc-completed':
+							$estadoEntendible = 'Completado';
+							break;
+							case 'wc-pending':
+							$estadoEntendible = 'Pendiente de Pago';
+							break;
+							case 'wc-processing':
+							$estadoEntendible = 'Procesando';
+							break;
+							case 'wc-on-hold':
+							$estadoEntendible = 'En Espera';
+							break;
+							case 'wc-cancelled':
+							$estadoEntendible = 'Cancelado';
+							break;
+							case 'wc-refunded':
+							$estadoEntendible = 'Reembolsado';
+							break;
+							case 'wc-failed':
+							$estadoEntendible = 'Fallido';
+							break;
+							}
 						}
 						@endphp
 
 						<tr>
 							<td>{{ $orden->post_id }}</td>
-							<td>{{ date('Y-m-d', strtotime($fechaOrden->post_date)) }}</td>
+							<td>{{ date('Y-m-d', strtotime($fecha)) }}</td>
 							<td>@foreach ($itemsOrden as $item)
 								{{ $item->order_item_name }}
 								@endforeach

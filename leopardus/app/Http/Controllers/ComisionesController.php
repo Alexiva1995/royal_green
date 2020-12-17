@@ -37,7 +37,7 @@ class ComisionesController extends Controller
         $this->bonoDirecto();
         $this->bonoIndirecto();
         $this->puntosBinarios();
-        $this->puntosRangos();
+        // $this->puntosRangos();
     }
 
     /**
@@ -72,8 +72,10 @@ class ComisionesController extends Controller
                     'referred_level' => $referred_level,
                     'status' => true,
                 ]);
-        
-                if ($concepto != 'sin comision') {
+
+                $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
+                // if ($concepto != 'sin comision') {
+                if ($rentabilidadActiva == 1) {
                     $user = User::find($iduser);
                     $user->wallet_amount = ($user->wallet_amount + $totalComision);
                     $user->save();
@@ -92,6 +94,9 @@ class ComisionesController extends Controller
                         'tipotransacion' => 2
                     ];
                     $this->wallet->saveWallet($datos);
+                    if ($tipo_comision == 'Bonos Binario' && $tipo_comision == 'Bono Directo') {
+                        $this->saveRentabilidaBono($iduser, $totalComision, $tipo_comision);
+                    }
                 }
             }
         } catch (\Throwable $th) {
@@ -200,7 +205,7 @@ class ComisionesController extends Controller
                 $paquete = json_decode($user->paquete);
                 $pagar = 0;
                 $porcentaje = 0;
-                if ($puntos->binario_izq >= $puntos->binario_der) {
+                if ($puntos->binario_izq <= $puntos->binario_der) {
                     $pagar = $puntos->binario_izq;
                 }else{
                     $pagar = $puntos->binario_der;
@@ -221,6 +226,8 @@ class ComisionesController extends Controller
                     $idcomision = '20'.$fecha->format('Ymd');
                     $this->guardarComision($user->ID, $idcomision, $totalcomision, $user->user_email, 0, 'Bonos Binario', 'Bono Binario');
                     $this->bonoConstrucion($user->ID, $totalcomision);
+                    $concepto = 'Puntos Rango, Obtenido por el pago del Bono Binario del dia'.$fecha->format('Y-m-d');
+                    $this->savePoints($totalcomision, $user->ID, $concepto, 'R', $idcomision, 1, $user->user_email);
                     $user->save();
                 }
             }
@@ -342,22 +349,26 @@ class ComisionesController extends Controller
                     'status' => true,
                 ]);
 
-                $datos = [
-                    'iduser' => $iduser,
-                    'usuario' => $user->display_name,
-                    'descripcion' => $concepto,
-                    'puntos' => $punto_rank,
-                    'puntosI' => $punto_izq,
-                    'puntosD' => $punto_der,
-                    'email_referred' => $referred_email,
-                    'descuento' => 0,
-                    'debito' => 0,
-                    'credito' => 0,
-                    'balance' => 0,
-                    'tipotransacion' => 2
-                ];
-                $this->wallet->saveWallet($datos);
-                $user->save();
+                $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
+
+                if ($rentabilidadActiva == 1) {
+                    $datos = [
+                        'iduser' => $iduser,
+                        'usuario' => $user->display_name,
+                        'descripcion' => $concepto,
+                        'puntos' => $punto_rank,
+                        'puntosI' => $punto_izq,
+                        'puntosD' => $punto_der,
+                        'email_referred' => $referred_email,
+                        'descuento' => 0,
+                        'debito' => 0,
+                        'credito' => 0,
+                        'balance' => 0,
+                        'tipotransacion' => 2
+                    ];
+                    $this->wallet->saveWallet($datos);
+                    $user->save();
+                }
             }
         } catch (\Throwable $th) {
             dd($th);
@@ -482,5 +493,273 @@ class ComisionesController extends Controller
         
         return $valor;
     }
-}
 
+    /**
+     * Permite procesar las rentabilida obtenida por los usuarios
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function process_rentabilidad(Request $request)
+    {
+        $validate = $request->validate([
+            'porcentage' => 'required'
+        ]);
+
+        try {
+            if($validate){
+                $porcentaje = $request->porcentage;
+                $ordenes = $this->funciones->getAllComprasRentabilidad();
+                foreach ($ordenes as $orden) {
+                    $user = User::find($orden['idusuario']);
+                    if (!empty($user)) {
+                        foreach ($orden['productos'] as $producto) {
+                            $this->saveRentabilidad($orden['idcompra'], $orden['idusuario'], $producto, $porcentaje, $orden['tipo_activacion']);
+                        }
+                    }
+                }
+                return redirect()->route('index')->with('msj', 'Rentabilidad pagada con exito');
+            }
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+    
+    /**
+     * Permite actualizar las rentabilidades
+     *
+     * @param integer $idorden
+     * @param integer $iduser
+     * @param array $paquete
+     * @param double $porcentaje
+     * @param string $tipo_cobro
+     * @return void
+     */
+    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, $porcentaje, string $tipo_cobro)
+    {
+        $checkRentabilidad = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['idcompra', '=', $idorden],
+            ['idproducto', '=', $paquete['idproducto']]
+        ])->first();
+
+        $porc = ($porcentaje / 100);
+        $ganado = ($paquete['precio'] * $porc);
+        $balance = $ganado;
+        $idRentabilidad = 0;
+        $finalizado = 0;
+
+        if ($checkRentabilidad == null) {
+            $detallaPaquete = [
+                'nombre' => $paquete['nombre'],
+                'img' => $paquete['img2']
+            ];
+            $limite = ($paquete['precio'] * 2);
+            $progreso = (($ganado * 100) / $limite);
+
+            $dataRentabilidad = [
+                'iduser' => $iduser,
+                'idcompra' => $idorden,
+                'idproducto' => $paquete['idproducto'],
+                'detalles_producto' => json_encode($detallaPaquete),
+                'precio' => $paquete['precio'],
+                'limite' => $limite,
+                'ganado' => $ganado,
+                'progreso' => $progreso,
+                'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
+            ];
+
+            $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
+        }else{
+            $totalGanado = ($checkRentabilidad->ganado + $ganado);
+            $finalizacion = 0;
+            if ($totalGanado >= $checkRentabilidad->limite) {
+                if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+                    $totalGanado = $checkRentabilidad->limite;
+                    $ganado = ($totalGanado - $checkRentabilidad->ganado);
+                }else{
+                    $finalizacion = 1;
+                    $finalizado = 1;
+                }
+            }
+            if ($finalizacion == 0) {    
+                $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+                $balance = ($totalGanado - $checkRentabilidad->retirado);
+                $dataRentabilidad = [
+                    'ganado' => $totalGanado,
+                    'progreso' => $progreso,
+                    'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
+                    'balance' => $balance
+                ];
+                DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+                $idRentabilidad = $checkRentabilidad->id;
+            }
+        }
+
+        $user = User::find($iduser);
+
+        $dataLogRentabilidadPay = [
+            'iduser' => $iduser,
+            'id_log_renta' => $idRentabilidad,
+            'porcentaje' => $porcentaje,
+            'debito' => $ganado,
+            'balance' => $balance,
+            'fecha_pago' => Carbon::now(),
+            'concepto' => 'Rentabilidad pagada de la compra '.$idorden.', del producto '.$paquete['nombre'].', al usuario '.$user->display_name
+        ];
+
+        if ($finalizado == 0) {
+            DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+        }
+    }
+
+    /**
+     * Permite pagar la rentabilida por medio del bono binario
+     *
+     * @param integer $iduser
+     * @param float $bono
+     * @return void
+     */
+    public function saveRentabilidaBono($iduser, $bono, $concepto)
+    {
+        $checkRentabilidad = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['progreso', '<', 100]
+        ])->first();
+        if ($checkRentabilidad != null) {
+            $ganado = $bono;
+            $balance = $ganado;
+            $idRentabilidad = $checkRentabilidad->id;
+            $finalizado = 0;
+
+            $totalGanado = ($checkRentabilidad->ganado + $ganado);
+            $finalizacion = 0;
+            if ($totalGanado >= $checkRentabilidad->limite) {
+                if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+                    $totalGanado = $checkRentabilidad->limite;
+                    $ganado = ($totalGanado - $checkRentabilidad->ganado);
+                }else{
+                    $finalizacion = 1;
+                    $finalizado = 1;
+                }
+            }
+            if ($finalizacion == 0) {    
+                $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+                $balance = ($totalGanado - $checkRentabilidad->retirado);
+                $dataRentabilidad = [
+                    'ganado' => $totalGanado,
+                    'progreso' => $progreso,
+                    'balance' => $balance
+                ];
+                DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+            }
+
+            $user = User::find($iduser);
+
+            $dataLogRentabilidadPay = [
+                'iduser' => $iduser,
+                'id_log_renta' => $idRentabilidad,
+                'porcentaje' => 0,
+                'debito' => $ganado,
+                'balance' => $balance,
+                'fecha_pago' => Carbon::now(),
+                'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
+            ];
+
+            if ($finalizado == 0) {
+                DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+            }
+        }
+    }
+
+    /**
+     * Permite registrar las paquetes comprados en la tabla de rentabilidad
+     *
+     * @param integer $iduser
+     * @return void
+     */
+    public function registePackageToRentabilizar($iduser)
+    {
+        $ordenes = $this->funciones->getInforShopping($iduser);
+        foreach ($ordenes as $orden) {
+            foreach ($orden['productos'] as $paquete) {
+
+                $checkRentabilidad = DB::table('log_rentabilidad')->where([
+                    ['iduser', '=', $iduser],
+                    ['idcompra', '=', $orden['idcompra']],
+                    ['idproducto', '=', $paquete['idproducto']]
+                ])->first();
+
+                if ($checkRentabilidad == null) {
+                    $detallaPaquete = [
+                        'nombre' => $paquete['nombre'],
+                        'img' => $paquete['img2']
+                    ];
+                    $limite = ($paquete['precio'] * 2);
+        
+                    $dataRentabilidad = [
+                        'iduser' => $iduser,
+                        'idcompra' => $orden['idcompra'],
+                        'idproducto' => $paquete['idproducto'],
+                        'detalles_producto' => json_encode($detallaPaquete),
+                        'precio' => $paquete['precio'],
+                        'limite' => $limite,
+                        'ganado' => 0,
+                        'progreso' => 0,
+                        'nivel_minimo_cobro' => ($orden['tipo_activacion'] == 'Manual') ? 7 : 0,
+                    ];
+    
+                    DB::table('log_rentabilidad')->insert($dataRentabilidad);
+                }
+            }
+        }
+    }
+
+    /**
+     * Permite verificar si el usuario tiene un paquete activo o ya cerrado
+     *
+     * @param integer $iduser
+     * @return integer
+     */
+    public function checkstatusRentabilidad($iduser): int
+    {
+        $result = 0;
+        $check = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['progreso', '<', 100]
+        ])->first();
+        if ($check != null) {
+            $result = 1;
+        }
+        return $result;
+    }
+
+    /**
+     * Permite reiniciar los bonos binarios cada mes
+     *
+     * @param integer $id
+     * @return integer
+     * @return void
+     */
+    public function cronjobBinario()
+    {
+        try {
+            $users = DB::table('wp_users')->where('status', '=', 1)->get();
+            foreach ($users as $p) {
+                $jsond = json_decode($p->puntos);
+                $puntos = [
+                    'binario_izq' => 0,
+                    'binario_der' => 0,
+                    'rank' => $jsond->rank,
+                ];
+                $dataid = $p->ID;
+                DB::table('wp_users')->where('ID', $dataid)->update(['puntos' => json_encode($puntos)]);
+            }
+
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+}

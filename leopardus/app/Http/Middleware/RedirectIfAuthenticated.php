@@ -21,8 +21,8 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             $funcionesIndex = new IndexController;
-            if ($request->getPathInfo() != '/mioficina/tienda/savecompra') {
-                if ($request->getPathInfo() != '/mioficina/tienda') {
+            if ($request->getPathInfo() != '/tienda/savecompra') {
+                if ($request->getPathInfo() != '/tienda') {
                     $check = count($funcionesIndex->getShopping(Auth::user()->ID));
                     if ($check == 0) {
                         return redirect()->route('tienda-index')->with('msj', 'Por favor realice una compra primero');

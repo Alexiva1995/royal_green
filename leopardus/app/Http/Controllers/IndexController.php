@@ -10,7 +10,9 @@ use stdClass;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use App\Http\Controllers\ComisionesController;
-use App\Http\Controllers\ActivacionController;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class IndexController extends Controller
 {
@@ -94,7 +96,7 @@ class IndexController extends Controller
     private function getData($id, $nivel, $typeTree) : object
     {
         $comisioncontroller = new ComisionesController;
-        $resul = User::where($typeTree, '=', $id)->get();
+        $resul = User::where($typeTree, '=', $id)->orderBy('ladomatrix', 'desc')->get();
         foreach ($resul as $user) {
             $patrocinado = User::find($user->referred_id);
             $user->avatar = asset('avatar/'.$user->avatar);
@@ -194,11 +196,13 @@ class IndexController extends Controller
                             $idProducto = $this->getIdProductos($product->order_item_id);
                             $detalleProduct = $this->getProductDetails($idProducto);
                             if ($detalleProduct->null) {
+                                $precio = $this->getTotalProductos($product->order_item_id);
                                 $productos [] = [
                                     'idproducto' => $idProducto,
-                                    'precio' => $this->getTotalProductos($product->order_item_id),
+                                    'precio' => $precio,
                                     'nombre' => $detalleProduct->post_title,
                                     'img' => $detalleProduct->post_excerpt,
+                                    'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
                                     'porc_binario' => $detalleProduct->bono_binario
                                 ];
                             }
@@ -208,7 +212,8 @@ class IndexController extends Controller
                             'idcompra' => $compra->post_id,
                             'fecha' => $detallesCompra->post_date,
                             'productos' => $productos,
-                            'total' => $this->getShoppingTotal($compra->post_id)
+                            'total' => $this->getShoppingTotal($compra->post_id),
+                            'tipo_activacion' => $detallesCompra->to_ping
                         ];
                     }
                 }
@@ -261,7 +266,7 @@ class IndexController extends Controller
     {
         $settings = Settings::first();
 		$datosCompra = DB::table($settings->prefijo_wp.'posts')
-                        ->select('post_date')
+                        ->select('post_date', 'to_ping')
                         ->where('ID', '=', $shop_id)
                         ->where('post_status', '=', 'wc-completed')
                         ->first();
@@ -428,21 +433,52 @@ class IndexController extends Controller
     }
 
     /**
-     * Permite obtener el numero total de compras
+     * Obtener todas las compras para la rentabilidad
      *
-     * @return float
+     * @return array
      */
-    public function getAllComprasAdmin():float
+    public function getAllComprasRentabilidad(): array
     {
         $settings = Settings::first();
         $compras = DB::table($settings->prefijo_wp.'posts')
                     ->select('*')
                     ->where([
                         ['post_type', '=', 'shop_order'],
+                        ['post_status', '=', 'wc-completed'],
                     ])
                     ->get();
-
-        return count($compras);
+        $arreCompras = [];
+        foreach ($compras as $compra) {
+            $arregProducto = $this->getProductos($compra->ID);
+            $iduser = $this->getIdUser($compra->ID);
+            if ($arregProducto->null) {
+                $productos = [];
+                foreach ($arregProducto as $product) {
+                    $idProducto = $this->getIdProductos($product->order_item_id);
+                    $detalleProduct = $this->getProductDetails($idProducto);
+                    if ($detalleProduct->null) {
+                        $precio = $this->getTotalProductos($product->order_item_id);
+                        $productos [] = [
+                            'idproducto' => $idProducto,
+                            'precio' => $precio,
+                            'nombre' => $detalleProduct->post_title,
+                            'img' => $detalleProduct->post_excerpt,
+                            'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
+                            'porc_binario' => $detalleProduct->bono_binario
+                        ];
+                    }
+                }
+                $arreCompras [] = [
+                    'idusuario' => $iduser,
+                    'idcompra' => $compra->ID,
+                    'fecha' => $compra->post_date,
+                    'productos' => $productos,
+                    'total' => $this->getShoppingTotal($compra->ID),
+                    'tipo_activacion' => $compra->to_ping
+                ];
+            }
+        }
+        return $arreCompras;
     }
 
     /**
@@ -474,11 +510,14 @@ class IndexController extends Controller
                     $idProducto = $this->getIdProductos($product->order_item_id);
                     $detalleProduct = $this->getProductDetails($idProducto);
                     if ($detalleProduct->null) {
+                        $precio = $this->getTotalProductos($product->order_item_id);
                         $productos [] = [
                             'idproducto' => $idProducto,
-                            'precio' => $this->getTotalProductos($product->order_item_id),
+                            'precio' => $precio,
                             'nombre' => $detalleProduct->post_title,
                             'img' => $detalleProduct->post_excerpt,
+                            'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
+                            'porc_binario' => $detalleProduct->bono_binario
                         ];
                     }
                 }
@@ -519,6 +558,101 @@ class IndexController extends Controller
                 }
             }
         }
+    }
+
+    /**
+     * Permite obtener la cantidad de usuarios por mes
+     *
+     * @return string
+     */
+    public function chartUsuarios() : string
+    {
+        $iduser = Auth::user()->ID;
+        $allUser = $this->getChidrens2($iduser, [], 1, 'referred_id', 1);
+        $Ano_Actual = Carbon::now()->format('Y');
+        $totalMeses = [];
+        for ($i=1; $i < 13; $i++) {
+            $totalmes = 0;
+            foreach ($allUser as $user) {
+                $fecha_register = new Carbon($user->created_at);
+                if ($Ano_Actual == $fecha_register->format('Y')) {
+                    if ($fecha_register->format('m') == $i) {
+                        $totalmes++;
+                    }
+
+                }
+            }
+            $totalMeses [] = $totalmes;
+        }
+        return json_encode($totalMeses);
+    }
+
+    /**
+     * Permite recibir el bono de bienvenidad
+     *
+     * @param integer $iduser
+     * @return array
+     */
+    public function bonoBienvenida($iduser): array
+    {
+
+        $user = User::find($iduser);
+
+        $fechaActual = Carbon::now();
+        $fechaActivacion = new Carbon($user->created_at);
+
+        $arrayBono = [
+            ['requisito' => 5000, 'bono' => 500],
+            ['requisito' => 10000, 'bono' => 1000],
+            ['requisito' => 20000, 'bono' => 2000],
+            ['requisito' => 30000, 'bono' => 3000],
+            ['requisito' => 40000, 'bono' => 4000],
+            ['requisito' => 50000, 'bono' => 5000],
+        ];
+
+        $directos = $this->getChidrens2($iduser, [], 1, 'referred_id', 1);
+
+        $totalCompra = 0;
+        foreach ($directos as $directo) {
+            $compras = $this->getInforShopping($directo->ID);
+            foreach ($compras as $compra) {
+                if ($compra['tipo_activacion'] == 'Coinbase') {
+                    $fechaCompra = new Carbon($compra['fecha']);
+                    if ($fechaCompra <= $fechaActivacion->addDays(30)) {
+                        $totalCompra = ($totalCompra + $compra['total']);
+                    }
+                }
+            }
+        }
+
+        $requisito = 0;
+        $bono = 0;
+        for ($i=0; $i < count($arrayBono); $i++) { 
+            if ($arrayBono[$i]['requisito'] <= $totalCompra) {
+                $bono = $arrayBono[$i]['bono'];
+                if ($i < 5) {
+                    $requisito = $arrayBono[$i+1]['requisito'];
+                }
+                if ($i == 5) {
+                    $requisito = $arrayBono[$i]['requisito'];
+                }
+            }
+            if ($i == 0) {
+                if ($arrayBono[$i]['requisito'] > $totalCompra) {
+                    $requisito = $arrayBono[$i]['requisito'];
+                }
+            }
+        }
+
+        $progreso = (($totalCompra / $requisito) * 100);
+
+        $arrayBienvenido = [
+            'bono' => $bono,
+            'requisito' => $requisito,
+            'progreso' => $progreso
+        ];
+
+        return $arrayBienvenido;
     }
 
 }

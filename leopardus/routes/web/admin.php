@@ -20,8 +20,8 @@ Route::get('vistaCorreo', function ()
   return view('emails.plantilla');
 });
 
-Route::prefix('mioficina')->group(function ()
-{
+// Route::prefix('mioficina')->group(function ()
+// {
   
 Route::group(['prefix' => 'autentication'], function (){
   Route::get('/register', 'Auth\RegisterController@newRegister')->name('autenticacion.new-register');
@@ -93,9 +93,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
     // Billetera
 
     Route::group(['prefix' => 'wallet'], function(){
-        Route::get('/', 'WalletController@index')->name('wallet-index');
-        Route::get('/tantechcoins', 'WalletController@indexTantech')->name('wallet-index');
-        Route::get('/tantechcoinspersonal', 'WalletController@indexTantechPersonal')->name('wallet-index');
+        Route::get('/', 'WalletController@index')->name('wallet');
+        // Route::get('/tantechcoins', 'WalletController@indexTantech')->name('wallet-index');
+        // Route::get('/tantechcoinspersonal', 'WalletController@indexTantechPersonal')->name('wallet-index');
         Route::get('/puntos', 'WalletController@indexPuntos')->name('wallet-index');
         Route::post('/transferencia', 'WalletController@transferencia')->name('wallet-transferencia');
         Route::get('/obtenermetodo/{id}', 'WalletController@datosMetodo')->name('wallet-metodo');
@@ -104,7 +104,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::post('/historialfechas', 'WalletController@historial_fechas')->name('wallet-historial-fechas');
         Route::get('/cobros', 'WalletController@cobros')->name('wallet-cobros');
         Route::post('/cobrosfechas', 'WalletController@cobros_fechas')->name('wallet-cobros-fechas');
-        
+        Route::post('/pay_rentabilidad', 'ComisionesController@process_rentabilidad')->name('wallet.pay.rentabilidad');
+    });
+
+    // Rentabilidad
+    Route::group(['prefix' => 'rentabilidad'], function ()
+    {
+        Route::get('/', 'RentabilidadController@index')->name('rentabilidad.index');
+        Route::post('retirar', 'RentabilidadController@retiro')->name('rentabilidad.retirar');
     });
 
     
@@ -678,4 +685,4 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 });
 
 
-});
+// });

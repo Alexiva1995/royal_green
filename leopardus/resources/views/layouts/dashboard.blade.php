@@ -18,55 +18,46 @@
 
     @include('layouts.include.styles')
 
-</head>
-<!-- END: Head-->
 
-<!-- BEGIN: Body-->
+</head>
+
 
 <body class="vertical-layout vertical-menu-modern 2-columns  navbar-floating footer-static  " data-open="click"
     data-menu="vertical-menu-modern" data-col="2-columns">
-    {{-- header  --}}
+
     @include('layouts.include.header')
 
-    {{-- menu --}}
-    @if (Auth::user()->rol_id == 0)
-        @include('layouts.include.sidebar')
-    @else
-        @include('layouts.include.sidebar2')
-    @endauth
 
-    {{-- contenido --}}
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-        <div class="content-overlay"></div>
-        <div class="header-navbar-shadow"></div>
+    <!-- BEGIN Navigation-->
+
+    @if (Auth::user()->ID != 1)
+    @include('layouts.include.sidebar2')
+    @else
+    @include('layouts.include.sidebar')
+    @endif
+    <!-- END Navigation-->
+
+    <!-- BEGIN Content-->
+    <div class="app-content content ">
         <div class="content-wrapper">
-            <div class="content-header row">
-                {{-- <div class="content-header-left col-12 mb-2">
-                    <div class="row breadcrumbs-top">
-                        <div class="col-12">
-                            <h2 class="content-header-title float-left mb-0">{{$title}}</h2>
-                            {{-- <div class="breadcrumb-wrapper col-12">
-                                <ol class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
-                                    </li>
-                                    <li class="breadcrumb-item"><a href="#">Forms</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">Form Validation
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
-            </div>
-            <div class="content-body">
+
+            {{-- migaja de pan --}}
+            @include('layouts.include.breadcrum')
+
+            <div class="content-body bg-dark">
                 @yield('content')
+                
+                {{-- acciones globales --}}
+                @include('layouts.include.acciones_globales')
             </div>
+
         </div>
     </div>
-    <!-- END: Content-->
+    <!-- END Content-->
+
+
 </body>
+<!-- END: Content-->
 <!-- END: Body-->
 
 @include('layouts.include.scripts')

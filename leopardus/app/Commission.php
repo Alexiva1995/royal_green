@@ -12,7 +12,7 @@ class Commission extends Model
      * @var array
      */
     protected $fillable = [
-         'user_id', 'compra_id', 'date', 'total', 'referred_email', 'referred_level', 'status', 'concepto'
+         'user_id', 'compra_id', 'date', 'total', 'referred_email', 'referred_level', 'status', 'concepto', 'tipo_comision'
     ];
     public function user(){
         return $this->belongsTo('App\User');

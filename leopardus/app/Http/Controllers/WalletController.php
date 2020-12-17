@@ -33,8 +33,6 @@ class WalletController extends Controller
 		$moneda = Monedas::where('principal', 1)->get()->first();
 		$metodopagos = MetodoPago::all();
 		$comisiones = SettingsComision::select('comisionretiro', 'comisiontransf')->where('id', 1)->get();
-		$funciones = new ComisionesController;
-		$funciones->bonoDirecto();
 		$cuentawallet = '';
 		$pagosPendientes = false;
 			$validarPagos = Pagos::where([
@@ -69,8 +67,6 @@ class WalletController extends Controller
 		$moneda = Monedas::where('principal', 1)->get()->first();
 		$metodopagos = MetodoPago::all();
 		$comisiones = SettingsComision::select('comisionretiro', 'comisiontransf')->where('id', 1)->get();
-		$funciones = new ComisionesController;
-		$funciones->ObtenerUsuarios();
 		$cuentawallet = '';
 		if (Auth::user()->rol_id == 0) {
 			$wallets = Wallet::where('puntos', '=', 0)->get();;
@@ -181,7 +177,8 @@ class WalletController extends Controller
 			}
 			$checkPago = Pagos::where([
 				['iduser', '=', Auth::user()->ID],
-				['estado', '=', 0]
+				['estado', '=', 0],
+				['tipo_retiro', '=', 1]
 			])->first();
 			if (!empty($checkPago)) {
 				return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');

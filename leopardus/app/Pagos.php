@@ -13,7 +13,8 @@ class Pagos extends Model
      * @var array
      */
     protected $fillable = [
-         'iduser', 'username', 'email', 'monto', 'fechasoli', 'fechapago', 'metodo', 'estado', 'tipopago', 'descuento', 'tipowallet'
+         'iduser', 'username', 'email', 'monto', 'fechasoli', 'fechapago', 'metodo',
+         'estado', 'tipopago', 'descuento', 'tipowallet', 'tipo_retiro', 'idrentabilidad'
     ];
     
      public function scopeSearch($query, $iduser){

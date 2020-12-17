@@ -1,30 +1,46 @@
 @extends('layouts.login')
 @section('content')
-<section class="row flexbox-container">
-    <div class="col-xl-8 col-11 d-flex justify-content-center">
+<section class="row flexbox-container box-shadow" >
+
+<div class="container">      
+  <div class="row">
+
+        <div class="col-md-3 d-flex justify-content-center ">
+        </div>
+
+        <div class="col-md-3 d-flex justify-content-center ">
+
+           <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class=" m-auto branding logo" height="200" width="200">
+        </div>
+       
+            
+
+    <div class="col-md-4 col-11 d-flex justify-content-center"><div class="breadcrumb "></div>
         <div class="card bg-authentication rounded-0 mb-0" style="background: transparent;">
-            <div class="row m-0">
-                <div class="col-12 p-0">
-                    <div class="card rounded-0 mb-0 px-2" style="background: transparent;">
-                        <img src="{{asset('assets/imgLanding/logo2.png')}}" alt="" class="m-auto branding logo" height="130" width="130">
-                        <div class="card-header pb-1">
-                            <div class="card-title inicio m-auto">
-                                <h4 class="mb-0 text-white">Sesion</h4>
-                            </div>
-                            <div class="card-title recuperar" style="display:none;">
-                                <h4 class="mb-0 text-white">Recuperar tu clave</h4>
-                            </div>
-                        </div>
+            <div class="card rounded-3 " style="background: transparent;">
+                 
+                 {{--Cabecera --}}
+                 <div class="card-header pb-1">
+                  
+            
+                  <div class="card-title recuperar" style="display:none;">
+                     <h4 class="mb-0 text-white">Recuperar tu clave</h4>
+                  </div>
+              </div>
                         {{-- alertas --}}
                         @include('dashboard.componentView.alert')
 
-                        {{-- <p class="px-2">Welcome back, please login to your account.</p> --}}
                         <div class="card-content">
                             <div class="card-body pt-1">
                                 {{-- registro --}}
-                                <form class="login-form inicio" method="POST"
+
+                                <form class="login-form inicio " method="POST"
                                     action="{{ route('autenticacion-login') }}">
                                     {{ csrf_field() }}
+                                    <div class="card-title text-left">
+                                         <h4 class="mb-0 text-white text-left"> INICIAR SESIÓN</h4>
+                                       </div>
+
                                     <fieldset class="form-label-group form-group position-relative has-icon-left">
                                         <input type="text" class="form-control" id="user-name" placeholder="Username"
                                             required value="{{ old('user_email') }}" name="user_email">
@@ -41,7 +57,11 @@
                                             <i class="feather icon-lock"></i>
                                         </div>
                                         <label for="user-password">Clave</label>
+
+                                        <button type="submit" class="btn btn-primary float-right btn-inline col-12 mt-2"> <strong> CONECTAR  </strong>  </button>
                                     </fieldset>
+                                    
+
                                     <div class="form-group d-flex justify-content-between align-items-center">
                                         <div class="text-left d-none">
                                             <fieldset class="checkbox">
@@ -64,8 +84,8 @@
                                     </div>
                                     <div class="row">
                                         <a href="{{route('autenticacion.new-register')}}"
-                                        class="btn btn-outline-primary float-left btn-inline col-12">Registro</a>
-                                    <button type="submit" class="btn btn-primary float-right btn-inline col-12 mt-2">Iniciar Sesión</button>
+                                        class="btn btn-outline-primary float-left btn-inline col-12" style="display:none;">Registro</a>
+                                    
                                     </div>
                                     
                                 </form>
@@ -89,22 +109,13 @@
                             </div>
                         </div>
                         <hr>
-                        {{-- <div class="login-footer">
-                            <div class="divider">
-                                <div class="divider-text">OR</div>
-                            </div>
-                            <div class="footer-btn d-inline">
-                                <a href="#" class="btn btn-facebook"><span class="fa fa-facebook"></span></a>
-                                <a href="#" class="btn btn-twitter white"><span class="fa fa-twitter"></span></a>
-                                <a href="#" class="btn btn-google"><span class="fa fa-google"></span></a>
-                                <a href="#" class="btn btn-github"><span class="fa fa-github-alt"></span></a>
-                            </div>
-                        </div> --}}
+                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </section>
 
 <script type="text/javascript">

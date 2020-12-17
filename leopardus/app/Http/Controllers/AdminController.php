@@ -19,73 +19,77 @@ use App\Notification;
 
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ComisionesController;
-
+use App\Http\Controllers\RangoController;
 
 
 class AdminController extends Controller
 {
 
     public $indexControl;
+    public $rangoControl;
 	function __construct()
 	{
         // TITLE
-        view()->share('title', 'Panel de administración');
-        
         $this->indexControl = new IndexController;
+        $this->rangoControl = new RangoController;
 	}
 
 
 
     public function index()
     {
-
         $data = $this->getDataDashboard(Auth::user()->ID);
-        $comi = new ComisionesController;
-        $comi->payBonus();
+        view()->share('title', 'Resumen');
         return view('dashboard.index', compact('data'));
-
     }
 
     public function getDataDashboard($iduser)
     {
-        $directos = count($this->indexControl->getChidrens2($iduser, [], 1, 'referred_id', 1));
-        $indirecto = count($this->indexControl->getChidrens2($iduser, [], 1, 'referred_id', 0));
-
         $user = User::find($iduser);
 
-        $comisiones = 0;
-        $ordenes = 0;
-        $wallet = 0;
-        $paquete = 'Sin Paquete';
-        if ($user->rol_id == 0) {
-            $ordenes = $this->indexControl->getAllComprasAdmin();
-            $comisiones = Wallet::where('debito', '>', 0)->sum('debito');
-        }else{
-            $ordenes = count($this->indexControl->getShopping($iduser));
-            $wallet = $user->wallet_amount;
-            $comisiones = Wallet::where([
-                ['iduser', '=', $iduser],
-                ['debito', '>', 0]
-            ])->sum('debito');
+        $comi = new ComisionesController;
+        $comi->payBonus();
+        $comi->registePackageToRentabilizar($iduser);
+
+        $paquetes = DB::table('log_rentabilidad')->get();
+        if ($user->ID != 1) {
+            $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->get();
         }
 
-        if (!empty($user->paquete)) {
-            $paquetetmp = json_decode($user->paquete);
-            $paquete = $paquetetmp->nombre;
-        }
+        $walletlast = Wallet::where([
+            ['iduser', '=', $iduser],
+            ['debito', '!=', 0]
+        ])->orWhere([
+            ['iduser', '=', $iduser],
+            ['credito', '!=', 0]
+        ])
+        ->orderBy('id', 'DESC')->get()->take(10);
+        $arrayWallet = [];
 
-        $masinfo = $this->masInfo($iduser);
         
 
+        foreach ($walletlast as $wallet) {
+            $arrayWallet [] = [
+                'signo' => ($wallet->tipotransacion == 2) ? 0 : 1,
+                'monto' => ($wallet->tipotransacion == 2) ? $wallet->debito : $wallet->credito,
+                'tipo' => ($wallet->tipotransacion == 2) ? 'Comision' : 'Retiro',
+                'fecha' => date('Y-m-d', strtotime($wallet->created_at))
+            ];
+        }
+
+        foreach ($paquetes as $paquete) {
+            $paquete->detalles_producto = json_decode($paquete->detalles_producto);
+        }
+
+        $this->rangoControl->checkRango($iduser);
+
+        $bienvenida = $this->indexControl->bonoBienvenida($iduser);
 
         $data = [
-            'directo' => $directos,
-            'indirecto' => $indirecto,
-            'wallet' => $wallet,
-            'comisiones' => $comisiones,
-            'ordenes' => $ordenes,
-            'nombreuser' => $masinfo->firstname.' '.$masinfo->lastname,
-            'paquete' => $paquete
+            'paquetes' => $paquetes,
+            'wallets' => $arrayWallet,
+            'rangospoints' => $this->rangoControl->getPointRango($iduser),
+            'bienvenida' => $bienvenida
         ];
 
         return $data;

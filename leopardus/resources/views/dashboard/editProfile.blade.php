@@ -116,10 +116,10 @@
                     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
                         aria-controls="contact" aria-selected="false">Perfiles Sociales</a>
                 </li> --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" id="pagos-tab" data-toggle="tab" href="#pagos" role="tab" aria-controls="pagos"
                         aria-selected="false">Pagos</a>
-                </li>
+                </li> --}}
                 {{-- <li class="nav-item">
                     <a class="nav-link" id="bancaria-tab" data-toggle="tab" href="#bancaria" role="tab"
                         aria-controls="bancaria" aria-selected="false">Verificacion de Segundo Factor</a>
