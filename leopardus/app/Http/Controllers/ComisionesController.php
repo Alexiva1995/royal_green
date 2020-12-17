@@ -734,5 +734,32 @@ class ComisionesController extends Controller
         }
         return $result;
     }
-}
 
+    /**
+     * Permite reiniciar los bonos binarios cada mes
+     *
+     * @param integer $id
+     * @return integer
+     * @return void
+     */
+    public function cronjobBinario()
+    {
+        try {
+            $users = DB::table('wp_users')->where('status', '=', 1)->get();
+            foreach ($users as $p) {
+                $jsond = json_decode($p->puntos);
+                $puntos = [
+                    'binario_izq' => 0,
+                    'binario_der' => 0,
+                    'rank' => $jsond->rank,
+                ];
+                $dataid = $p->ID;
+                DB::table('wp_users')->where('ID', $dataid)->update(['puntos' => json_encode($puntos)]);
+            }
+
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+}

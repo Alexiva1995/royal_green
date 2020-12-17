@@ -72,6 +72,10 @@
     .main-menu.menu-light .navigation > li > ul{
         background: #2adec0 !important;
     }
+
+    .dataterms{
+        text-align: justify;
+    }
 </style>
 
 @stack('custom_css')

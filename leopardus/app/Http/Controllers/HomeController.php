@@ -98,7 +98,7 @@ class HomeController extends Controller
                             ['wp.post_type', '=', 'product'],
                             ['wp.ID', '=', $request->paquete]
                         ])
-                        ->select('wp.ID', 'wp.post_title', 'wp.to_ping as porcentaje', 'wp.post_password as nivel_pago', 'wpm.meta_value',)
+                        ->select('wp.ID', 'wp.post_title', 'wp.to_ping as porcentaje', 'wp.post_password as nivel_pago', 'wpm.meta_value')
                         ->first();
             $paquete = [
                 'nombre' => $product->post_title,

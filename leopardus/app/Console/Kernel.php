@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use DB;
+use App\User;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -32,7 +34,10 @@ class Kernel extends ConsoleKernel
                     ->everyMinute();
                 
         $schedule->command('update:roles')
-                  ->everyMinute();            
+                  ->everyMinute();
+        
+        // $schedule->command('cron:job')
+        //           ->monthlyOn(1, '00:00');	
     }
 
     /**
