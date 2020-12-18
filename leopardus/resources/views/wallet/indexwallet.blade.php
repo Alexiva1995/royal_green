@@ -55,53 +55,53 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                         @foreach ($wallets as $wallet)
                         <tr>
                             <td class="text-center">
-                                {{$wallet->id}}
+                                {{$wallet['id']}}
                             </td>
                             <td class="text-center">
-                                {{$wallet->usuario}}
+                                {{$wallet['usuario']}}
                             </td>
                             <td class="text-center">
-                                {{$wallet->email_referred}}
+                                {{$wallet['email']}}
                             </td>
                             <td class="text-center">
-                                {{date('d-m-Y', strtotime($wallet->created_at))}}
+                                {{$wallet['fecha']}}
                             </td>
                             <td class="text-center">
-                                {{$wallet->descripcion}}
+                                {{$wallet['descripcion']}}
                             </td>
                             <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->debito}}
+                                    {{$moneda->simbolo}} {{$wallet['debito']}}
                                     @else
-                                    {{$wallet->debito}} {{$moneda->simbolo}}
+                                    {{$wallet['debito']}} {{$moneda->simbolo}}
                                     @endif
                                 
                             </td>
                             <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->credito}}
+                                    {{$moneda->simbolo}} {{$wallet['credito']}}
                                     @else
-                                    {{$wallet->credito}} {{$moneda->simbolo}}
+                                    {{$wallet['credito']}} {{$moneda->simbolo}}
                                     @endif
                                 
                             </td>
                             <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->descuento}}
+                                    {{$moneda->simbolo}} {{$wallet['descuento']}}
                                     @else
-                                    {{$wallet->descuento}} {{$moneda->simbolo}}
+                                    {{$wallet['descuento']}} {{$moneda->simbolo}}
                                     @endif
                                 
                             </td>
                             <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->balance}}
+                                    {{$moneda->simbolo}} {{$wallet['balance']}}
                                     @else
-                                    {{$wallet->balance}} {{$moneda->simbolo}}
+                                    {{$wallet['balance']}} {{$moneda->simbolo}}
                                     @endif
                                 
                             </td>

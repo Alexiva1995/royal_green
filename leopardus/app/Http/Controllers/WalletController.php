@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon; 
 use App\Wallet;
 use App\MetodoPago; use App\SettingsComision; use App\Pagos; use App\Monedas;
-use App\Http\Controllers\ComisionesController;
+use App\Http\Controllers\IndexController;
 use PragmaRX\Google2FA\Google2FA;
 
 
@@ -34,23 +34,57 @@ class WalletController extends Controller
 		$metodopagos = MetodoPago::all();
 		$comisiones = SettingsComision::select('comisionretiro', 'comisiontransf')->where('id', 1)->get();
 		$cuentawallet = '';
+		$arrayBilletera = [];
 		$pagosPendientes = false;
-			$validarPagos = Pagos::where([
-				['iduser', '=', Auth::user()->ID],
-				['estado', '=', 0]
-			])->first();
-			if (!empty($validarPagos)) {
-				$pagosPendientes = true;
-			}
-			$wallets = Wallet::where([
-				['iduser', '=', Auth::user()->ID], 
-				['debito', '!=', 0],
-			])->orWhere([
-				['iduser', '=', Auth::user()->ID], 
-				['credito', '!=', 0]
-				])->get();
-			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
-			$cuentawallet = $cuentawallet->paypal;
+		$validarPagos = Pagos::where([
+			['iduser', '=', Auth::user()->ID],
+			['estado', '=', 0]
+		])->first();
+		if (!empty($validarPagos)) {
+			$pagosPendientes = true;
+		}
+		$wallets = Wallet::where([
+			['iduser', '=', Auth::user()->ID], 
+			['debito', '!=', 0],
+		])->orWhere([
+			['iduser', '=', Auth::user()->ID], 
+			['credito', '!=', 0]
+			])->get();
+		$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
+		$cuentawallet = $cuentawallet->paypal;
+
+		$walletRentabilida = DB::table('log_rentabilidad_pay')->where('iduser', Auth::user()->ID)->get();
+
+		foreach ($wallets as $wallet) {
+			$arrayBilletera [] = [
+				'id' => $wallet->id,
+				'usuario' => $wallet->usuario,
+				'email' => $wallet->email_referred,
+				'fecha' => date('d-m-Y', strtotime($wallet->created_at)),
+				'descripcion' => $wallet->descripcion,
+				'debito' => $wallet->debito,
+				'credito' => $wallet->credito,
+				'descuento' => $wallet->descuento,
+				'balance' => $wallet->balance
+			];
+		}
+
+		foreach ($walletRentabilida as $wallet) {
+			$arrayBilletera [] = [
+				'id' => $wallet->id,
+				'usuario' => 'Rentabilidad',
+				'email' => '',
+				'fecha' => date('d-m-Y', strtotime($wallet->created_at)),
+				'descripcion' => $wallet->concepto,
+				'debito' => $wallet->debito,
+				'credito' => $wallet->credito,
+				'descuento' => 0,
+				'balance' => $wallet->balance
+			];
+		}
+
+		$index = new IndexController;
+		$wallets = $index->ordenarArreglosMultiDimensiones($arrayBilletera, 'fecha', 'cadena');
 		
 	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes'));
 	}
