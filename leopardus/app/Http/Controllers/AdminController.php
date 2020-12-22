@@ -464,6 +464,70 @@ class AdminController extends Controller
 
     }
 
+
+        /**
+
+     * Genera todas las ordenes de red de usuarios
+
+     * 
+
+     * @access public
+
+     * @return view - vista de transacciones
+
+     */
+
+    public function network_orders_filtre(Request $request){
+
+        view()->share('title', 'Ordenes de Red');
+
+        $settings = Settings::first();
+
+        $TodosUsuarios = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
+
+        $compras = array();
+
+        $fecha = [];
+
+         if (!empty($TodosUsuarios)) {
+
+        foreach($TodosUsuarios as $user){
+
+            $ordenes = DB::table($settings->prefijo_wp.'postmeta')
+
+                            ->select('post_id')
+
+                            ->where('meta_key', '=', '_customer_user')
+
+                            ->where('meta_value', '=', $user['ID'])
+
+                            ->orderBy('post_id', 'DESC')
+
+                            ->get();
+
+
+
+            foreach ($ordenes as $orden){
+
+                $type_activacion = DB::table($settings->prefijo_wp.'posts')
+                        ->select('to_ping')
+                        ->where('ID', '=', $orden->post_id)
+                        ->first();
+
+                if ($type_activacion->to_ping == $request->filtro) {
+                    $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
+                }
+
+            }
+
+        }
+
+    }
+
+        return view('dashboard.networkOrders')->with(compact('compras'));
+
+    }
+
     
 
     

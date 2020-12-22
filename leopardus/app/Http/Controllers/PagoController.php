@@ -92,84 +92,46 @@ class PagoController extends Controller
 	 */
 	public function aprobarPago($id)
 	{
-		$fecha = new Carbon;
-		$pagos = Pagos::find($id);
-		$user = User::find($pagos->iduser);
-		// $campo_user = DB::table('user_campo')->where('ID', '=', $pagos->iduser)->select('paypal')->first();
-		$pagos->estado = 1;
-		$pagos->fechapago = $fecha->now();
-		// $descuento = (!empty($pagos->descuento) ? $pagos->descuento : 0);
-		// $resta = ($pagos->monto + $descuento);
+		try {
+			$fecha = new Carbon;
+			$pagos = Pagos::find($id);
+			$user = User::find($pagos->iduser);
+			$pagos->estado = 1;
+			$pagos->fechapago = $fecha->now();
+			$dataCorreo = [
+				'monto' => $pagos->monto,
+				'fecha' => Carbon::now()->format('d-m-Y'),
+				'hora' => Carbon::now()->format('h:i:s')
+			];
+			Mail::send('emails.retiro',  ['data' => $dataCorreo], function($msj) use ($user){
+				$msj->subject('Retiro exitoso');
+				$msj->to($user->user_email);
+			});
 
-		// inicia el curl para conectarse a coinbase
-		// $cURL = curl_init();
-		// toda la informacion del arreglo de coinbase
-		// curl_setopt_array($cURL, array(
-        //     CURLOPT_URL => "https://api.coinbase.com/v2/exchange-rates",
-        //     CURLOPT_RETURNTRANSFER => true,
-        //     CURLOPT_ENCODING => "",
-        //     CURLOPT_MAXREDIRS => 10,
-        //     CURLOPT_TIMEOUT => 30,
-        //     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        //     CURLOPT_CUSTOMREQUEST => "GET",
-        //     CURLOPT_HTTPHEADER => ['Content-Type: application/json']
-		// 	));
-		// se ejecuta el curl
-		// $tmpResult = curl_exec($cURL);
-		// verifica si trae la informacion
-		// if ($tmpResult !== false) {
-			// $currency = json_decode($tmpResult);
-			// $cmd = 'create_withdrawal';
-			// creo el arreglo de la transacion en coipayment
-			// $dataPago = [
-			// 	'amount' => ($currency->data->rates->ETH * $resta),
-			// 	'currency' => 'ETH',
-			// 	'address' => $campo_user->paypal,
-			// ];
-			// llamo la a la funcion que va a ser la transacion
-			// $result = $this->coinpayments_api_call($cmd, $dataPago);
-			// if (!empty($result['result'])) {
-				// mando un correo una vez la transacion realizada
-				$dataCorreo = [
-					'monto' => $pagos->monto,
-					'fecha' => Carbon::now()->format('d-m-Y'),
-					'hora' => Carbon::now()->format('h:i:s')
-				];
-				Mail::send('emails.retiro',  ['data' => $dataCorreo], function($msj) use ($user){
-					$msj->subject('Retiro exitoso');
-					$msj->to($user->user_email);
-				});
-				$pagos->save();
+			//PASAR A VARIABLES
+			$email= $user->user_email;
+			$balance= $dataCorreo['monto'];
+			$typo= 'Pagado al Cliente '.$user->display_name;
+			
+			$c = curl_init();
+			$url = "https://api.telegram.org/bot1125840777:AAFqBsth3BRNdemhXNm9Zb96K5bSYugUXVg/sendMessage";
+			$msg = "<b>NUEVA PAGO</b>\n Email: ".$email."\n Monto: ".$balance."\n";
+			//FILTRO
+			$msg.="<b>".$typo."</b>.";
+			
+			curl_setopt($c, CURLOPT_URL, $url);
+			curl_setopt($c, CURLOPT_POST, 1);
+			curl_setopt($c, CURLOPT_POSTFIELDS, "chat_id=-1001338125046&parse_mode=HTML&text=$msg");
+			curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
+			$ejecutar = curl_exec($c);
+			curl_close($c);
 
-				//PASAR A VARIABLES
-				$email= $user->user_email;
-				$balance= $dataCorreo['monto'];
-				//FILTRO
-				// $nuevo="Es Primera vez";
-				// $viejo="Es cliente fijo";
-				//RESULTADO
-				$typo= 'Pagado al Cliente '.$user->display_name;
-				
-				$c = curl_init();
-				$url = "https://api.telegram.org/bot1125840777:AAFqBsth3BRNdemhXNm9Zb96K5bSYugUXVg/sendMessage";
-				$msg = "<b>NUEVA PAGO</b>\n Email: ".$email."\n Monto: ".$balance."\n";
-				//FILTRO
-				$msg.="<b>".$typo."</b>.";
-				
-				curl_setopt($c, CURLOPT_URL, $url);
-				curl_setopt($c, CURLOPT_POST, 1);
-				curl_setopt($c, CURLOPT_POSTFIELDS, "chat_id=-1001338125046&parse_mode=HTML&text=$msg");
-				curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-				$ejecutar = curl_exec($c);
-				curl_close($c);
+			$pagos->save();
 
-				return redirect('mioficina/admin/price/confirmar')->with('msj', 'Pago Aprobado sastifactoriamente');
-			// }else{
-			// 	return redirect('mioficina/admin/price/confirmar')->with('msj2', 'Ocurrio un erro al aprobar el pago, vuelva a intentar - Error: '.$result['error']);
-			// }
-		// }else{
-		// 	return redirect('mioficina/admin/price/confirmar')->with('msj2', 'Ocurrio un erro al aprobar el pago, vuelva a intentar');
-		// }
+			return redirect()->back()->with('msj', 'Pago Aprobado sastifactoriamente');
+		} catch (\Throwable $th) {
+			dd($th);
+		}
 	}
 
 	/**

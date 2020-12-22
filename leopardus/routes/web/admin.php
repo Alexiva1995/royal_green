@@ -645,6 +645,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::get('/networkorders', 'AdminController@network_orders')->name('networkorders');
 
+        Route::post('/filtreorders', 'AdminController@network_orders_filtre')->name('networkorders_filtre');
+
          Route::post('/buscarpersonalorder','AdminController@buscarpersonalorder')->name('buscarpersonalorder');
 
           Route::post('/buscarnetworkorder','AdminController@buscarnetworkorder')->name('buscarnetworkorder');
