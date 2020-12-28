@@ -20,7 +20,11 @@
                     <div class="card-content">
                         <img src="{{$item->imagen}}" alt="{{$item->post_title}}" class="card-img img-fluid">
                         <div class="card-img-overlay d-flex justify-content-center align-items-end">
-                        <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}})">Comprar</a>
+                        @if ($item->meta_value > 0)
+                            <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}})">Comprar</a>
+                        @else
+                            <button class="btn btn-info mt-1 text-white" disabled>Comprar</button>
+                        @endif
                         </div>
                     </div>
                 </div>

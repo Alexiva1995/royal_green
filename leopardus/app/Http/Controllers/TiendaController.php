@@ -70,10 +70,31 @@ class TiendaController extends Controller
                     ->select('wp.ID', 'wp.post_title', 'wp.post_content', 'wp.guid', 'wpm.meta_value', 'wp.post_excerpt as imagen')
                     ->get();
         $cont = 0;
+
+        $iduser = Auth::user()->ID;
+
+        $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['idproducto', '=', 5658],
+            ['progreso', '=', 100]
+        ])->first();
+
+        $checkRentabilidad = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+        ])->first();
+        
+        $resta = 0;
+        if ($checkRentabilidad1 == null) {
+            if ($checkRentabilidad != null) {
+                $resta = $checkRentabilidad->precio;
+            }    
+        }
+        
+
         foreach ($result as $element) {
                 // $restante = ($result[$cont]->meta_value * 0.10);
                 // $valor = ($result[$cont]->meta_value + $restante);
-                $result[$cont]->meta_value = $result[$cont]->meta_value;
+                $result[$cont]->meta_value = ($result[$cont]->meta_value - $resta);
                 $result[$cont]->link = '';
             $cont++;
         }  
@@ -92,6 +113,25 @@ class TiendaController extends Controller
         $apiClientObj = ApiClient::init($apiKey);
         $apiClientObj->setTimeout(6);
 
+        $iduser = Auth::user()->ID;
+
+        $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+            ['idproducto', '=', 5658],
+            ['progreso', '=', 100]
+        ])->first();
+
+        $checkRentabilidad = DB::table('log_rentabilidad')->where([
+            ['iduser', '=', $iduser],
+        ])->first();
+        
+        $resta = 0;
+        if ($checkRentabilidad1 == null) {
+            if ($checkRentabilidad != null) {
+                $resta = $checkRentabilidad->precio;
+            }    
+        }
+
         $chargerData = [
             'description' => $producto->post_content,
             'metadata' => $producto,
@@ -99,7 +139,7 @@ class TiendaController extends Controller
             'redirect_url' => route('tienda.estado', ['pendiente']),
             'cancel_url' => route('tienda.estado', ['cancelada']),
             'local_price' => [
-                'amount' => $producto->meta_value,
+                'amount' => ($producto->meta_value - $resta),
                 'currency' => 'USD'
             ],
             'name' => 'Producto '.$producto->post_title,
@@ -128,11 +168,30 @@ class TiendaController extends Controller
         $settings = Settings::first();
         if ($validate) {
 
-            $comisionesController = new ComisionesController;
-            $rentabilidadActiva = $comisionesController->checkstatusRentabilidad(Auth::user()->ID);
+            // $comisionesController = new ComisionesController;
+            // $rentabilidadActiva = $comisionesController->checkstatusRentabilidad(Auth::user()->ID);
                 
-            if ($rentabilidadActiva == 1) {
-                return redirect()->back()->with('msj', 'Tiene un paquete activo, hasta que no este completo, no podra realizar otra compra');
+            // if ($rentabilidadActiva == 1) {
+            //     return redirect()->back()->with('msj', 'Tiene un paquete activo, hasta que no este completo, no podra realizar otra compra');
+            // }
+
+            $iduser = Auth::user()->ID;
+
+            $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+                ['iduser', '=', $iduser],
+                ['idproducto', '=', 5658],
+                ['progreso', '=', 100]
+            ])->first();
+    
+            $checkRentabilidad = DB::table('log_rentabilidad')->where([
+                ['iduser', '=', $iduser],
+            ])->first();
+            
+            $suma = 0;
+            if ($checkRentabilidad1 == null) {
+                if ($checkRentabilidad != null) {
+                    $suma = $checkRentabilidad->precio;
+                }    
             }
 
             $fecha = new Carbon();
@@ -169,7 +228,7 @@ class TiendaController extends Controller
             $data = [
                 '_order_key' => 'wc_order_'.base64_encode($fecha->now()),
                 'ip' => $datos->ip(),
-                'total' => $datos->precio.'.00',
+                'total' => ($datos->precio + $suma).'.00',
                 'idproducto' => $datos->idproducto
             ];
             $ruta = '';

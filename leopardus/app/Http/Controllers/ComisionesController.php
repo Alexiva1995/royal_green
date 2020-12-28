@@ -94,7 +94,7 @@ class ComisionesController extends Controller
                         'tipotransacion' => 2
                     ];
                     $this->wallet->saveWallet($datos);
-                    if ($tipo_comision == 'Bonos Binario' && $tipo_comision == 'Bono Directo') {
+                    if ($tipo_comision == 'Bono Binario' || $tipo_comision == 'Bono Directo') {
                         $this->saveRentabilidaBono($iduser, $totalComision, $tipo_comision);
                     }
                 }
@@ -513,6 +513,7 @@ class ComisionesController extends Controller
                 foreach ($ordenes as $orden) {
                     $user = User::find($orden['idusuario']);
                     if (!empty($user)) {
+                        $this->registePackageToRentabilizar($orden['idusuario']);
                         foreach ($orden['productos'] as $producto) {
                             $this->saveRentabilidad($orden['idcompra'], $orden['idusuario'], $producto, $porcentaje, $orden['tipo_activacion']);
                         }
@@ -685,13 +686,27 @@ class ComisionesController extends Controller
         foreach ($ordenes as $orden) {
             foreach ($orden['productos'] as $paquete) {
 
-                $checkRentabilidad = DB::table('log_rentabilidad')->where([
+                $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
                     ['iduser', '=', $iduser],
-                    ['idcompra', '=', $orden['idcompra']],
-                    ['idproducto', '=', $paquete['idproducto']]
+                    ['idproducto', '=', 5658],
+                    ['progreso', '=', 100]
                 ])->first();
 
+                $checkRentabilidad = DB::table('log_rentabilidad')->where([
+                    ['iduser', '=', $iduser],
+                ])->first();
+                
+                $compraN = 0;
+                if ($checkRentabilidad1 != null) {
+                    if ($orden['idcompra'] > $checkRentabilidad1->idcompra) {
+                        $compraN = 1;
+                    }
+                }
                 if ($checkRentabilidad == null) {
+                    $compraN = 1;
+                }
+
+                if ($compraN == 1) {
                     $detallaPaquete = [
                         'nombre' => $paquete['nombre'],
                         'img' => $paquete['img2']
@@ -711,6 +726,38 @@ class ComisionesController extends Controller
                     ];
     
                     DB::table('log_rentabilidad')->insert($dataRentabilidad);
+                }else{
+                    $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+                        ['iduser', '=', $iduser],
+                    ])->first();
+
+
+                    $actualizar = 0;
+                    if ($checkRentabilidad1 != null) {
+                        if ($orden['idcompra'] > $checkRentabilidad1->idcompra) {
+                            $actualizar = 1;
+                        }
+                    }
+                    
+                    if ($actualizar == 1) {
+                        $detallaPaquete = [
+                            'nombre' => $paquete['nombre'],
+                            'img' => $paquete['img2']
+                        ];
+                        $limite = ($paquete['precio'] * 2);
+                        $progreso = (($checkRentabilidad1->ganado / $limite) * 100);
+            
+                        $dataRentabilidad = [
+                            'idcompra' => $orden['idcompra'],
+                            'idproducto' => $paquete['idproducto'],
+                            'detalles_producto' => json_encode($detallaPaquete),
+                            'precio' => $paquete['precio'],
+                            'limite' => $limite,
+                            'progreso' => $progreso,
+                        ];
+
+                        DB::table('log_rentabilidad')->where('id', $checkRentabilidad1->id)->update($dataRentabilidad);
+                    }
                 }
             }
         }
@@ -762,4 +809,25 @@ class ComisionesController extends Controller
         }
     }
 
+    /**
+     * Permite pagar a la rentabilidad los bonos que no fueron pagados
+     *
+     * @param integer $iduser
+     * @return void
+     */
+    public function scriptArreglarPagosRentabilidad($iduser)
+    {
+
+        $comisiones = Commission::where([
+            ['user_id', '=', $iduser],
+            ['tipo_comision', '=', 'Bono Binario']
+        ])->orWhere([
+            ['user_id', '=', $iduser],
+            ['tipo_comision', '=', 'Bono Directo']
+        ])->get();
+        
+        foreach ($comisiones as $comision) {
+            // $this->saveRentabilidaBono($iduser, $comision->total, $comision->tipo_comision);
+        }
+    }
 }
