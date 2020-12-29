@@ -81,6 +81,11 @@
                     <span class="menu-title">Confirmar Pagos</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{route('price-historial')}}" >
+                    <span class="menu-title">Historial de Pagos</span>
+                </a>
+            </li>
             <li class=" nav-item">
                 <a href="{{route('networkrecords')}}">
                     <span class="menu-title" data-i18n="Historial de Referidos">

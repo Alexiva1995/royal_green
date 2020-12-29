@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -48,6 +46,10 @@ class AdminController extends Controller
         $user = User::find($iduser);
 
         $comi = new ComisionesController;
+        // if ($iduser == 1) {
+        //     $comi->ArreglarWallet();
+        //     dd('parar');
+        // }
         $comi->payBonus();
         $comi->registePackageToRentabilizar($iduser);
         // if ($iduser == 502) {

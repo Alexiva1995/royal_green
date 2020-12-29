@@ -53,14 +53,25 @@ class WalletController extends Controller
 		$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
 		$cuentawallet = $cuentawallet->paypal;
 
-		$walletRentabilida = DB::table('log_rentabilidad_pay')->where('iduser', Auth::user()->ID)->get();
+		$disponible = Auth::user()->wallet_amount;
+		$walletRentabilida = DB::table('log_rentabilidad')->where([
+			['iduser', '=', Auth::user()->ID],
+			['limite', '>', 'retirado']
+		])->first();
+		if (Auth::user()->rol_id < $walletRentabilida->nivel_minimo_cobro) {
+			$walletCreditar = Wallet::where([
+				['iduser', '=', Auth::user()->ID],
+				['descripcion', 'like', '%Pago de utilidades%']
+			])->get()->sum('debito');
+			$disponible = (Auth::user()->wallet_amount - $walletCreditar);
+		}
 
 		foreach ($wallets as $wallet) {
 			$arrayBilletera [] = [
 				'id' => $wallet->id,
 				'usuario' => $wallet->usuario,
 				'email' => $wallet->email_referred,
-				'fecha' => date('d-m-Y', strtotime($wallet->created_at)),
+				'fecha' => date('Y-m-d', strtotime($wallet->created_at)),
 				'descripcion' => $wallet->descripcion,
 				'debito' => $wallet->debito,
 				'credito' => $wallet->credito,
@@ -69,24 +80,26 @@ class WalletController extends Controller
 			];
 		}
 
-		foreach ($walletRentabilida as $wallet) {
-			$arrayBilletera [] = [
-				'id' => $wallet->id,
-				'usuario' => 'Rentabilidad',
-				'email' => '',
-				'fecha' => date('d-m-Y', strtotime($wallet->created_at)),
-				'descripcion' => $wallet->concepto,
-				'debito' => $wallet->debito,
-				'credito' => $wallet->credito,
-				'descuento' => 0,
-				'balance' => $wallet->balance
-			];
-		}
+
+
+		// foreach ($walletRentabilida as $wallet) {
+		// 	$arrayBilletera [] = [
+		// 		'id' => $wallet->id,
+		// 		'usuario' => 'Rentabilidad',
+		// 		'email' => '',
+		// 		'fecha' => date('d-m-Y', strtotime($wallet->created_at)),
+		// 		'descripcion' => $wallet->concepto,
+		// 		'debito' => $wallet->debito,
+		// 		'credito' => $wallet->credito,
+		// 		'descuento' => 0,
+		// 		'balance' => $wallet->balance
+		// 	];
+		// }
 
 		$index = new IndexController;
 		$wallets = $index->ordenarArreglosMultiDimensiones($arrayBilletera, 'fecha', 'cadena');
 		
-	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes'));
+	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'disponible'));
 	}
 
 
@@ -218,6 +231,14 @@ class WalletController extends Controller
 				return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');
 			}
             if($resta > 0){
+				$rentabilidad = DB::table('log_rentabilidad')->where([
+					['iduser', Auth::user()->ID],
+					['limite', '>', 'retirado']
+				])->first();
+				$disponible = ($rentabilidad->limite - $rentabilidad->retirado);
+				if ($resta > $disponible) {
+					return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
+				}
                 if($resta <= $datos->montodisponible){
                     $tipopago = '';
                     if(!empty($datos->metodocorreo)){
@@ -233,7 +254,7 @@ class WalletController extends Controller
                     if ($resta > $datos->monto_min) {
 						// DB::table('user_campo')->where('ID', Auth::user()->ID)->update(['paypal' => $datos->metodowallet]);
 						$user = User::find(Auth::user()->ID);
-						$user->wallet_amount = ($user->wallet_amount - $resta);
+						$user->wallet_amount = ($user->wallet_amount - $datos->monto);
 						$datosW = [
 							'iduser' => $user->ID,
 							'usuario' => $user->display_name,
@@ -244,12 +265,37 @@ class WalletController extends Controller
 							'puntosD' => 0,
 							'email_referred' => $user->user_email,
 							'debito' => 0,
-							'credito' => $datos->monto,
+							'credito' => $resta,
 							'balance' => $user->wallet_amount,
 							'tipotransacion' => 1,
 						];
 						$this->saveWallet($datosW);
 						$user->save();
+
+						$rentabilidad = DB::table('log_rentabilidad')->where([
+							['iduser', $user->ID],
+							['limite', '>', 'retirado']
+						])->first();
+
+                        $dataUpdate = [
+                            'balance' => $user->wallet_amount,
+                            'retirado' => $datos->monto
+                        ];
+                        
+                        $dataLogRentabilidadPay = [
+                            'iduser' => Auth::user()->ID,
+                            'id_log_renta' => $rentabilidad->id,
+                            'porcentaje' => 0,
+                            'debito' => 0,
+                            'credito' => $datos->monto,
+                            'balance' => $user->wallet_amount,
+                            'fecha_pago' => Carbon::now(),
+                            'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$datos->monto
+                        ];
+
+                        DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+                        DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+
 						Pagos::create([
 							'iduser' => Auth::user()->ID,
 							'username' => Auth::user()->display_name,

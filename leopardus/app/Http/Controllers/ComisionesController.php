@@ -34,9 +34,9 @@ class ComisionesController extends Controller
      */
     public function payBonus()
     {
-        $this->bonoDirecto();
-        $this->bonoIndirecto();
-        $this->puntosBinarios();
+        // $this->bonoDirecto();
+        // $this->bonoIndirecto();
+        // $this->puntosBinarios();
         // $this->puntosRangos();
     }
 
@@ -61,42 +61,42 @@ class ComisionesController extends Controller
             ])->first();
 
             if ($checkComision == null) {
-                $comision = Commission::create([
-                    'user_id' => $iduser,
-                    'compra_id' => $idcompra,
-                    'date' => Carbon::now(),
-                    'total' => $totalComision,
-                    'concepto' => $concepto,
-                    'tipo_comision' => $tipo_comision,
-                    'referred_email' => $referred_email,
-                    'referred_level' => $referred_level,
-                    'status' => true,
-                ]);
+                // $comision = Commission::create([
+                //     'user_id' => $iduser,
+                //     'compra_id' => $idcompra,
+                //     'date' => Carbon::now(),
+                //     'total' => $totalComision,
+                //     'concepto' => $concepto,
+                //     'tipo_comision' => $tipo_comision,
+                //     'referred_email' => $referred_email,
+                //     'referred_level' => $referred_level,
+                //     'status' => true,
+                // ]);
 
                 $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
                 // if ($concepto != 'sin comision') {
                 if ($rentabilidadActiva == 1) {
-                    $user = User::find($iduser);
-                    $user->wallet_amount = ($user->wallet_amount + $totalComision);
-                    $user->save();
-                    $datos = [
-                        'iduser' => $iduser,
-                        'usuario' => $user->display_name,
-                        'descripcion' => $concepto,
-                        'puntos' => 0,
-                        'puntosI' => 0,
-                        'puntosD' => 0,
-                        'email_referred' => $referred_email,
-                        'descuento' => 0,
-                        'debito' => $totalComision,
-                        'credito' => 0,
-                        'balance' => $user->wallet_amount,
-                        'tipotransacion' => 2
-                    ];
-                    $this->wallet->saveWallet($datos);
-                    if ($tipo_comision == 'Bono Binario' || $tipo_comision == 'Bono Directo') {
-                        $this->saveRentabilidaBono($iduser, $totalComision, $tipo_comision);
-                    }
+                    // $user = User::find($iduser);
+                    // $user->wallet_amount = ($user->wallet_amount + $totalComision);
+                    // $user->save();
+                    // $datos = [
+                    //     'iduser' => $iduser,
+                    //     'usuario' => $user->display_name,
+                    //     'descripcion' => $concepto,
+                    //     'puntos' => 0,
+                    //     'puntosI' => 0,
+                    //     'puntosD' => 0,
+                    //     'email_referred' => $referred_email,
+                    //     'descuento' => 0,
+                    //     'debito' => $totalComision,
+                    //     'credito' => 0,
+                    //     'balance' => $user->wallet_amount,
+                    //     'tipotransacion' => 2
+                    // ];
+                    // $this->wallet->saveWallet($datos);
+                    
+                    $this->saveRentabilidaBono($iduser, $totalComision, $tipo_comision, $referred_email);
+                    
                 }
             }
         } catch (\Throwable $th) {
@@ -571,7 +571,7 @@ class ComisionesController extends Controller
                 'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
             ];
 
-            $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
+            // $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
         }else{
             $totalGanado = ($checkRentabilidad->ganado + $ganado);
             $finalizacion = 0;
@@ -593,25 +593,44 @@ class ComisionesController extends Controller
                     'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
                     'balance' => $balance
                 ];
-                DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+                // DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
                 $idRentabilidad = $checkRentabilidad->id;
             }
         }
 
         $user = User::find($iduser);
+        $user->wallet_amount = ($user->wallet_amount + $ganado);
+        $user->save();
 
         $dataLogRentabilidadPay = [
             'iduser' => $iduser,
             'id_log_renta' => $idRentabilidad,
             'porcentaje' => $porcentaje,
             'debito' => $ganado,
-            'balance' => $balance,
+            'balance' => $user->wallet_amount,
             'fecha_pago' => Carbon::now(),
             'concepto' => 'Rentabilidad pagada de la compra '.$idorden.', del producto '.$paquete['nombre'].', al usuario '.$user->display_name
         ];
 
+        $concepto = 'Pago de utilidades, '.$porcentaje.'%';
+        $datosComisions = [
+            'iduser' => $iduser,
+            'usuario' => $user->display_name,
+            'descripcion' => $concepto,
+            'puntos' => 0,
+            'puntosI' => 0,
+            'puntosD' => 0,
+            'email_referred' => $user->user_email,
+            'descuento' => 0,
+            'debito' => $ganado,
+            'credito' => 0,
+            'balance' => $user->wallet_amount,
+            'tipotransacion' => 2
+        ];
+
         if ($finalizado == 0) {
             DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+            $this->wallet->saveWallet($datosComisions);
         }
     }
 
@@ -620,9 +639,11 @@ class ComisionesController extends Controller
      *
      * @param integer $iduser
      * @param float $bono
+     * @param string $concepto
+     * @param string $referido
      * @return void
      */
-    public function saveRentabilidaBono($iduser, $bono, $concepto)
+    public function saveRentabilidaBono($iduser, $bono, $concepto, $referido)
     {
         $checkRentabilidad = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
@@ -657,6 +678,8 @@ class ComisionesController extends Controller
             }
 
             $user = User::find($iduser);
+            $user->wallet_amount = ($user->wallet_amount + $ganado);
+            $user->save();
 
             $dataLogRentabilidadPay = [
                 'iduser' => $iduser,
@@ -668,8 +691,24 @@ class ComisionesController extends Controller
                 'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
             ];
 
+            $datosComisions = [
+                'iduser' => $iduser,
+                'usuario' => $user->display_name,
+                'descripcion' => $concepto,
+                'puntos' => 0,
+                'puntosI' => 0,
+                'puntosD' => 0,
+                'email_referred' => $user->user_email,
+                'descuento' => 0,
+                'debito' => $ganado,
+                'credito' => 0,
+                'balance' => $user->wallet_amount,
+                'tipotransacion' => 2
+            ];
+
             if ($finalizado == 0) {
                 DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+                $this->wallet->saveWallet($datosComisions);
             }
         }
     }
@@ -830,4 +869,41 @@ class ComisionesController extends Controller
             // $this->saveRentabilidaBono($iduser, $comision->total, $comision->tipo_comision);
         }
     }
+
+
+    /**
+     * Permite obtener arreglar el de balance disponible
+     *
+     * @return void
+     */
+    // public function ArreglarWallet()
+	// {
+    //     try {
+    //         $users = User::orderBy('id', 'asc')->get();
+    //         foreach ($users as $user) {
+    //             $ganado = DB::table('walletlog')->where([
+    //                 ['iduser', '=', $user->ID],
+    //                 ['debito', '>', 0]
+    //             ])->get()->sum('debito');
+    //             $retirado = DB::table('pagos')->where('iduser', '=', $user->ID)->select(DB::raw('sum(monto+descuento) as total'))->get()[0];
+    //             $retirado2 = ($retirado->total != null) ? $retirado->total : 0;
+    //             $balace = ($ganado - $retirado2);
+    //             dump('Usuario: '.$user->display_name.' - ID: '.$user->ID.' - Ganado: '.$ganado.' - Retirado: '.$retirado2.' - Balance: '.$balace);
+    //             $rentabilidad = DB::table('log_rentabilidad')->where('iduser', $user->ID)->first();
+    //             if ($rentabilidad != null) {
+    //                 $progreso = (($ganado / $rentabilidad->limite) * 100);
+    //                 DB::table('log_rentabilidad')->where('iduser', $user->ID)->update([
+    //                     'ganado' => $ganado,
+    //                     'retirado' => $retirado2,
+    //                     'progreso' =>$progreso,
+    //                     'balance' => $balace,
+    //                 ]);
+    //                 User::where('ID', $user->ID)->update(['wallet_amount' => $balace]);
+    //                 dump('Usuario: '.$user->display_name.' - ID: '.$user->ID.' - Listo ');
+    //             }
+    //         }
+    //     } catch (\Throwable $th) {
+    //         dd($th);
+    //     }
+	// }
 }

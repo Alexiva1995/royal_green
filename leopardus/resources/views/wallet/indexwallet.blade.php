@@ -22,18 +22,19 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                 <table id="mytable" class="table zero-configuration">
                     <thead>
                         <tr>
-                            <th class="text-center">
+                            {{-- <th class="text-center">
                                 #
-                            </th>
-                            <th class="text-center">
-                                Usuario
-                            </th>
-                            <th class="text-center">
-                                Email Referido
-                            </th>
+                            </th> --}}
                             <th class="text-center">
                                 Fecha
                             </th>
+                            {{-- <th class="text-center">
+                                Usuario
+                            </th> --}}
+                            <th class="text-center">
+                                Email Referido
+                            </th>
+                            
                             <th class="text-center">
                                 Descripción
                             </th>
@@ -46,26 +47,27 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                             <th class="text-center">
                                 Feed
                             </th>
-                            <th class="text-center">
+                            {{-- <th class="text-center">
                                 Balance
-                            </th>
+                            </th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($wallets as $wallet)
                         <tr>
-                            <td class="text-center">
+                            {{-- <td class="text-center">
                                 {{$wallet['id']}}
-                            </td>
-                            <td class="text-center">
-                                {{$wallet['usuario']}}
-                            </td>
-                            <td class="text-center">
-                                {{$wallet['email']}}
-                            </td>
+                            </td> --}}
                             <td class="text-center">
                                 {{$wallet['fecha']}}
                             </td>
+                            {{-- <td class="text-center">
+                                {{$wallet['usuario']}}
+                            </td> --}}
+                            <td class="text-center">
+                                {{$wallet['email']}}
+                            </td>
+                            
                             <td class="text-center">
                                 {{$wallet['descripcion']}}
                             </td>
@@ -96,7 +98,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                                     @endif
                                 
                             </td>
-                            <td class="text-center">
+                            {{-- <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
                                     {{$moneda->simbolo}} {{$wallet['balance']}}
@@ -104,7 +106,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                                     {{$wallet['balance']}} {{$moneda->simbolo}}
                                     @endif
                                 
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>
@@ -119,7 +121,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
     </div>
 </div>
 
-@include('wallet/componentes/formRetiro', ['disponible' => Auth::user()->wallet_amount, 'tipowallet' => 1])
+@include('wallet/componentes/formRetiro', ['disponible' => $disponible, 'tipowallet' => 1])
 @include('wallet/componentes/formTransferencia')
 
 @push('custom_js')
