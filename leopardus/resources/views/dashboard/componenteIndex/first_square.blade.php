@@ -19,7 +19,7 @@
                 <div class="progress progress-bar-info rotate-progress m-auto">
                     <div class="progress-bar" role="progressbar" aria-valuenow="20" aria-valuemin="20" aria-valuemax="100" style="width:{{$paquete->progreso}}%">
                         <div class="progress-circular">
-                            <strong>{{($paquete->progreso * 2)}} %</strong>
+                            <small><strong>{{number_format($paquete->progreso * 2, 2, ',', '.')}} %</strong></small>
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                     </div>
                     <div class="col-2">
                         <span class="text-white">
-                            <strong><span id="porcepaquete">{{(count($data['paquetes']) > 0) ? ($data['paquetes'][0]->progreso * 2) : 0}}</span> %</strong>
+                            <strong><span id="porcepaquete">{{(count($data['paquetes']) > 0) ? number_format($data['paquetes'][0]->progreso * 2, 2, ',', '.') : 0}}</span> %</strong>
                         </span>
 
                     </div>

@@ -593,7 +593,7 @@ class ComisionesController extends Controller
                     'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
                     'balance' => $balance
                 ];
-                // DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+                DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
                 $idRentabilidad = $checkRentabilidad->id;
             }
         }
@@ -727,9 +727,8 @@ class ComisionesController extends Controller
 
                 $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
                     ['iduser', '=', $iduser],
-                    ['idproducto', '=', 5658],
                     ['progreso', '=', 100]
-                ])->first();
+                ])->orderBy('id', 'desc')->first();
 
                 $checkRentabilidad = DB::table('log_rentabilidad')->where([
                     ['iduser', '=', $iduser],
@@ -739,6 +738,14 @@ class ComisionesController extends Controller
                 if ($checkRentabilidad1 != null) {
                     if ($orden['idcompra'] > $checkRentabilidad1->idcompra) {
                         $compraN = 1;
+                        $checkRentabilidad2 = DB::table('log_rentabilidad')->where([
+                            ['iduser', '=', $iduser],
+                            ['idcompra', '=', $orden['idcompra']],
+                            ['progreso', '<', 100]
+                        ])->orderBy('id', 'desc')->first();
+                        if ($checkRentabilidad2 != null) {
+                            $compraN = 0;
+                        }
                     }
                 }
                 if ($checkRentabilidad == null) {
@@ -768,6 +775,7 @@ class ComisionesController extends Controller
                 }else{
                     $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
                         ['iduser', '=', $iduser],
+                        ['progreso', '<', 100]
                     ])->first();
 
 

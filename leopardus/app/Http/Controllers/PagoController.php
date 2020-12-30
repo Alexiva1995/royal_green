@@ -202,54 +202,53 @@ class PagoController extends Controller
 			$pagos->fechapago = $fecha->now();
 			$descuento = (!empty($pagos->descuento) ? $pagos->descuento : 0);
 			$resta = ($pagos->monto + $descuento);
-			if ($pagos->tipo_retiro == 1) {
-				$user->wallet_amount = ($user->wallet_amount + $resta);
-				$datos = [
-					'iduser' => $user->ID,
-					'usuario' => $user->display_name,
-					'descripcion' => 'Pago Rechazado por el Administrador',
-					'descuento' => $descuento,
-					'puntos' => 0,
-					'puntosI' => 0,
-					'puntosD' => 0,
-					'email_referred' => $user->user_email,
-					'debito' => $resta,
-					'credito' => 0,
-					'balance' => $user->wallet_amount,
-					'tipotransacion' => 2,
-				];
-				$wallet = new WalletController;
-				$wallet->saveWallet($datos);
-				$user->save();
-			} elseif($pagos->tipo_retiro == 2) {
-				$rentabilidad = DB::table('log_rentabilidad')->where('id', $pagos->idrentabilidad)->first();
+			$user->wallet_amount = ($user->wallet_amount + $resta);
+			$datos = [
+				'iduser' => $user->ID,
+				'usuario' => $user->display_name,
+				'descripcion' => 'Pago Rechazado por el Administrador',
+				'descuento' => $descuento,
+				'puntos' => 0,
+				'puntosI' => 0,
+				'puntosD' => 0,
+				'email_referred' => $user->user_email,
+				'debito' => $resta,
+				'credito' => 0,
+				'balance' => $user->wallet_amount,
+				'tipotransacion' => 2,
+			];
+			$wallet = new WalletController;
+			$wallet->saveWallet($datos);
+			$user->save();
 
-				$ganado = $rentabilidad->ganado;
-				$retirado = ($rentabilidad->retirado - $resta);
-				$balance = ($ganado - $retirado);
+			$rentabilidad = DB::table('log_rentabilidad')->where('id', $pagos->idrentabilidad)->first();
 
-				$dataUpdate = [
-					'balance' => $balance,
-					'retirado' => $retirado
-				];
-				
-				$dataLogRentabilidadPay = [
-					'iduser' => $user->ID,
-					'id_log_renta' => $pagos->idrentabilidad,
-					'porcentaje' => 0,
-					'debito' => $resta,
-					'credito' => 0,
-					'balance' => $balance,
-					'fecha_pago' => Carbon::now(),
-					'concepto' => 'Reposicion del retiro de la rentabilidad '.$pagos->idrentabilidad.', por un monto de'.$resta
-				];
+			$ganado = $rentabilidad->ganado;
+			$retirado = ($rentabilidad->retirado - $resta);
+			$balance = ($ganado - $retirado);
 
-				DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
-				DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
-			}
+			$dataUpdate = [
+				'balance' => $balance,
+				'retirado' => $retirado
+			];
+			
+			$dataLogRentabilidadPay = [
+				'iduser' => $user->ID,
+				'id_log_renta' => $pagos->idrentabilidad,
+				'porcentaje' => 0,
+				'debito' => $resta,
+				'credito' => 0,
+				'balance' => $user->wallet_amount,
+				'fecha_pago' => Carbon::now(),
+				'concepto' => 'Reposicion del retiro de la rentabilidad '.$pagos->idrentabilidad.', por un monto de'.$resta
+			];
+
+			DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+			DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+			
 			
 			$pagos->save();
-			return redirect('mioficina/admin/price/confirmar')->with('msj', 'Pago Rechado sastifactoriamente');
+			return redirect('/admin/price/confirmar')->with('msj', 'Pago Rechado sastifactoriamente');
 		} catch (\Throwable $th) {
 			return redirect()->back()->with('msj2', 'Ocurrio un error al momento de retirar, por favor comunicarse con el administrado');
 		}

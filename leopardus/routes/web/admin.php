@@ -544,46 +544,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
      //herramientas subida de archivos
 
      Route::group(['prefix' => 'archivo'], function(){
+        Route::get('/subir','ArchivoController@subir')->name('archivo.subir');
+        Route::post('/subida','ArchivoController@subida')->name('archivo.subida');
+        Route::get('/ver','ArchivoController@ver')->name('archivo.ver');
+        Route::get('/{id}/destruir',['uses' => 'ArchivoController@destruir','as' => 'archivo.destruir']);
 
-          Route::get('/subir','ArchivoController@subir')->name('archivo.subir');
-
-           Route::post('/subida','ArchivoController@subida')->name('archivo.subida');
-
-          Route::get('/ver','ArchivoController@ver')->name('archivo.ver');
-
-          Route::get('/{id}/destruir',[
-
-           'uses' => 'ArchivoController@destruir',
-
-            'as' => 'archivo.destruir'
-
-	                                 ]);
-
-	
-
-	//gestion de noticias
-
-	Route::get('/noticias', 'ArchivoController@noticias')->name('archivo.noticias');
-
-	Route::post('/guardar',[
-
-'uses' => 'ArchivoController@guardar',
-
-'as' => 'archivo.guardar'
-
-	]);
-
-	
-
-	Route::get('/contenido', 'ArchivoController@contenido')->name('archivo.contenido');
-
-	Route::get('/{id}/eliminar', 'ArchivoController@eliminar')->name('archivo.eliminar');
-
-		Route::get('/{id}/actualizar', 'ArchivoController@actualizar')->name('archivo.actualizar');
-
-		Route::put('/{id}/modificar', 'ArchivoController@modificar')->name('archivo.modificar');
-
-     });
+        //gestion de noticias
+        Route::get('/noticias', 'ArchivoController@noticias')->name('archivo.noticias');
+        Route::post('/guardar',['uses' => 'ArchivoController@guardar', 'as' => 'archivo.guardar']);
+        Route::get('/contenido', 'ArchivoController@contenido')->name('archivo.contenido');
+        Route::get('/{id}/eliminar', 'ArchivoController@eliminar')->name('archivo.eliminar');
+        Route::get('/{id}/actualizar', 'ArchivoController@actualizar')->name('archivo.actualizar');
+        Route::put('/{id}/modificar', 'ArchivoController@modificar')->name('archivo.modificar');
+    });
 
 
 

@@ -75,19 +75,12 @@ class TiendaController extends Controller
 
         $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
-            ['idproducto', '=', 5658],
-            ['progreso', '=', 100]
-        ])->first();
-
-        $checkRentabilidad = DB::table('log_rentabilidad')->where([
-            ['iduser', '=', $iduser],
+            ['progreso', '<', 100]
         ])->first();
         
         $resta = 0;
-        if ($checkRentabilidad1 == null) {
-            if ($checkRentabilidad != null) {
-                $resta = $checkRentabilidad->precio;
-            }    
+        if ($checkRentabilidad1 != null) {
+            $resta = $checkRentabilidad1->precio;
         }
         
 
@@ -95,6 +88,7 @@ class TiendaController extends Controller
                 // $restante = ($result[$cont]->meta_value * 0.10);
                 // $valor = ($result[$cont]->meta_value + $restante);
                 $result[$cont]->meta_value = ($result[$cont]->meta_value - $resta);
+                $result[$cont]->actualizar = ($resta == 0) ? 'Comprar' : 'Actualizar';
                 $result[$cont]->link = '';
             $cont++;
         }  
@@ -117,19 +111,12 @@ class TiendaController extends Controller
 
         $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
-            ['idproducto', '=', 5658],
-            ['progreso', '=', 100]
+            ['progreso', '<', 100]
         ])->first();
 
-        $checkRentabilidad = DB::table('log_rentabilidad')->where([
-            ['iduser', '=', $iduser],
-        ])->first();
-        
         $resta = 0;
-        if ($checkRentabilidad1 == null) {
-            if ($checkRentabilidad != null) {
-                $resta = $checkRentabilidad->precio;
-            }    
+        if ($checkRentabilidad1 != null) {
+            $resta = $checkRentabilidad1->precio;
         }
 
         $chargerData = [
@@ -179,19 +166,12 @@ class TiendaController extends Controller
 
             $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
                 ['iduser', '=', $iduser],
-                ['idproducto', '=', 5658],
-                ['progreso', '=', 100]
-            ])->first();
-    
-            $checkRentabilidad = DB::table('log_rentabilidad')->where([
-                ['iduser', '=', $iduser],
+                ['progreso', '<', 100]
             ])->first();
             
             $suma = 0;
-            if ($checkRentabilidad1 == null) {
-                if ($checkRentabilidad != null) {
-                    $suma = $checkRentabilidad->precio;
-                }    
+            if ($checkRentabilidad1 != null) {
+                $suma = $checkRentabilidad1->precio;
             }
 
             $fecha = new Carbon();

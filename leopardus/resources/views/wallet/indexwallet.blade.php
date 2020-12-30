@@ -115,7 +115,12 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
         </div>
         @if (Auth::user()->rol_id != 0)
         <div class="col-xs-12 col-sm-6">
-            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalRetiro">Retiro</button>
+            @if (!empty($cuentawallet))
+                <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalRetiro">Retiro</button>
+            @else
+                <h5>No Tiene una billetera registrada por favor registrar, para poder seguir con el proceso de retiro</h5>
+                <a class="btn btn-primary btn-block" href="{{route('admin.user.edit')}}">Actualizar Billetera</a>
+            @endif
         </div>
         @endif
     </div>

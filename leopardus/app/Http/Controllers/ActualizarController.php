@@ -267,7 +267,7 @@ class ActualizarController extends Controller
       
 
         if (Auth::user()->rol_id != 0){
-            return redirect('mioficina/admin/user/edit')->with('msj', $concepto);
+            return redirect()->route('admin.user.edit')->with('msj', $concepto);
         }else{
             return redirect()->back()->with('msj', $concepto.' del usuario '.$user->display_name);
         }

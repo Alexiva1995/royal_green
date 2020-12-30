@@ -306,7 +306,8 @@ class WalletController extends Controller
 							'metodo' => $metodo->nombre,
 							'tipowallet' => $datos->tipowallet,
 							'tipopago' => $tipopago,
-							'estado' => 0
+							'estado' => 0,
+							'idrentabilidad' => $rentabilidad->id
 						]);
 						return redirect()->back()->with('msj', 'El Retiro ha sido procesado');
 					} else {
@@ -423,5 +424,84 @@ $billetera = DB::table('walletlog')
 	// 	}
 	// 	// dd('detener');
 	// }
+
+	/**
+	 * Permite generar el pago automatico cuando se culmina la rentabilidad
+	 *
+	 * @param integer $iduser
+	 * @param integer $idrentabilidad
+	 * @return void
+	 */
+	public function retiroCulminacionRentabilidad($iduser, $idrentabilidad)
+	{
+		try {
+			$rentabilidad = DB::table('log_rentabilidad')->where([
+				['iduser', '=', $iduser],
+				['id', '=', $idrentabilidad]
+			])->first();
+			if ($rentabilidad != null) {
+				$montototal = ($rentabilidad->ganado - $rentabilidad->retirado);
+				$porcentaje = ($montototal * 0.045);
+				$resta = ($montototal - $porcentaje);
+	
+				$user = User::find($iduser);
+				$userCampo = DB::table('user_campo')->where('ID', $iduser)->first();
+				$user->wallet_amount = ($user->wallet_amount - $montototal);
+				$datosW = [
+					'iduser' => $user->ID,
+					'usuario' => $user->display_name,
+					'descripcion' => 'Retiro por Culminacion de Rentabilidad total:'. $montototal.' - A la billetera: '.$userCampo->paypal,
+					'descuento' => $porcentaje,
+					'puntos' => 0,
+					'puntosI' => 0,
+					'puntosD' => 0,
+					'email_referred' => $user->user_email,
+					'debito' => 0,
+					'credito' => $resta,
+					'balance' => $user->wallet_amount,
+					'tipotransacion' => 1,
+				];
+				$this->saveWallet($datosW);
+				$user->save();
+	
+				$dataUpdate = [
+					'balance' => $user->wallet_amount,
+					'retirado' => $montototal
+				];
+				
+				$dataLogRentabilidadPay = [
+					'iduser' => $user->ID,
+					'id_log_renta' => $rentabilidad->id,
+					'porcentaje' => 0,
+					'debito' => 0,
+					'credito' => $montototal,
+					'balance' => $user->wallet_amount,
+					'fecha_pago' => Carbon::now(),
+					'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$montototal
+				];
+	
+				DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+				DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+	
+				$metodo = MetodoPago::find(1);
+	
+				Pagos::create([
+					'iduser' => $user->ID,
+					'username' => $user->display_name,
+					'email' => $user->user_email,
+					'monto' => $resta,
+					'descuento' => $porcentaje,
+					'fechasoli' => Carbon::now(),
+					'metodo' => $metodo->nombre,
+					'tipowallet' => 1,
+					'tipopago' => 'Wallet: '.$userCampo->paypal,
+					'estado' => 0,
+					'idrentabilidad' => $rentabilidad->id
+				]);
+			}
+		} catch (\Throwable $th) {
+			dd($th);
+		}
+	}
 
 }
