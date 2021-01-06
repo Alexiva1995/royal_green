@@ -43,27 +43,38 @@ class WalletController extends Controller
 		if (!empty($validarPagos)) {
 			$pagosPendientes = true;
 		}
-		$wallets = Wallet::where([
-			['iduser', '=', Auth::user()->ID], 
-			['debito', '!=', 0],
-		])->orWhere([
-			['iduser', '=', Auth::user()->ID], 
-			['credito', '!=', 0]
-			])->get();
-		$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
-		$cuentawallet = $cuentawallet->paypal;
-
-		$disponible = Auth::user()->wallet_amount;
-		$walletRentabilida = DB::table('log_rentabilidad')->where([
-			['iduser', '=', Auth::user()->ID],
-			['limite', '>', 'retirado']
-		])->first();
-		if (Auth::user()->rol_id < $walletRentabilida->nivel_minimo_cobro) {
-			$walletCreditar = Wallet::where([
+		if (Auth::user()->ID != 1) {
+			$wallets = Wallet::where([
+				['iduser', '=', Auth::user()->ID], 
+				['debito', '!=', 0],
+			])->orWhere([
+				['iduser', '=', Auth::user()->ID], 
+				['credito', '!=', 0]
+				])->get();
+			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
+			$cuentawallet = $cuentawallet->paypal;
+	
+			$disponible = Auth::user()->wallet_amount;
+			$walletRentabilida = DB::table('log_rentabilidad')->where([
 				['iduser', '=', Auth::user()->ID],
-				['descripcion', 'like', '%Pago de utilidades%']
-			])->get()->sum('debito');
-			$disponible = (Auth::user()->wallet_amount - $walletCreditar);
+				['limite', '>', 'retirado']
+			])->first();
+			if (!empty($walletRentabilida)) {
+				if (Auth::user()->rol_id < $walletRentabilida->nivel_minimo_cobro) {
+					$walletCreditar = Wallet::where([
+						['iduser', '=', Auth::user()->ID],
+						['descripcion', 'like', '%Pago de utilidades%']
+					])->get()->sum('debito');
+					$disponible = (Auth::user()->wallet_amount - $walletCreditar);
+				}
+			}
+		}else{
+			$disponible = 0;
+			$wallets = Wallet::where([
+				['debito', '!=', 0],
+			])->orWhere([
+				['credito', '!=', 0]
+				])->get();
 		}
 
 		foreach ($wallets as $wallet) {

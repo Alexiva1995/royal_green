@@ -34,9 +34,9 @@ class ComisionesController extends Controller
      */
     public function payBonus()
     {
-        // $this->bonoDirecto();
-        // $this->bonoIndirecto();
-        // $this->puntosBinarios();
+        $this->bonoDirecto();
+        $this->bonoIndirecto();
+        $this->puntosBinarios();
         // $this->puntosRangos();
     }
 
@@ -115,20 +115,22 @@ class ComisionesController extends Controller
             $compras = $this->funciones->getAllCompras();
             if (!empty($compras)) {
                 foreach ($compras as $compra) {
-                    $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
-                    if (!empty($sponsors)) {
-                        foreach ($sponsors as $sponsor) {
-                            if ($compra['idusuario'] != $sponsor->ID) {
-                                if ($sponsor->nivel == 1) {
-                                    $userReferido = User::find($compra['idusuario']);
-                                    $pagar = ($compra['total'] * 0.10);
-                                    $concepto = 'Bono Directo, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                    if ($pagar > 0) {
-                                        $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                    if ($compra['idcompra'] != 5964) {
+                        $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
+                        if (!empty($sponsors)) {
+                            foreach ($sponsors as $sponsor) {
+                                if ($compra['idusuario'] != $sponsor->ID) {
+                                    if ($sponsor->nivel == 1) {
+                                        $userReferido = User::find($compra['idusuario']);
+                                        $pagar = ($compra['total'] * 0.10);
+                                        $concepto = 'Bono Directo, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
+                                        if ($pagar > 0) {
+                                            $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                        }
                                     }
                                 }
                             }
-                        }
+                        }    
                     }
                 }
             }
@@ -148,36 +150,38 @@ class ComisionesController extends Controller
             $compras = $this->funciones->getAllCompras();
             if (!empty($compras)) {
                 foreach ($compras as $compra) {
-                    $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
-                    if (!empty($sponsors)) {
-                        foreach ($sponsors as $sponsor) {
-                            $paquete = json_decode($sponsor->paquete);
-                            $nivel = 0;
-                            $porcentaje = 0;
-                            if (!empty($paquete)) {
-                                if (!empty($paquete->idproducto)) {
-                                    if ($paquete->idproducto >= 5653) {
-                                        $nivel = 2;
-                                        $porcentaje = 0.03;
-                                    }
-                                    if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
-                                        $nivel = 3;
-                                        $porcentaje = 0.02;
-                                        if ($sponsor->nivel == 2) {
+                    if ($compra['idcompra'] != 5964) {
+                        $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
+                        if (!empty($sponsors)) {
+                            foreach ($sponsors as $sponsor) {
+                                $paquete = json_decode($sponsor->paquete);
+                                $nivel = 0;
+                                $porcentaje = 0;
+                                if (!empty($paquete)) {
+                                    if (!empty($paquete->idproducto)) {
+                                        if ($paquete->idproducto >= 5653) {
                                             $nivel = 2;
                                             $porcentaje = 0.03;
                                         }
+                                        if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
+                                            $nivel = 3;
+                                            $porcentaje = 0.02;
+                                            if ($sponsor->nivel == 2) {
+                                                $nivel = 2;
+                                                $porcentaje = 0.03;
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                            if ($nivel > 0) {
-                                if ($sponsor->nivel == $nivel) {
-                                    $userReferido = User::find($compra['idusuario']);
-                                    $idcomision = $compra['idcompra'].'10';
-                                    $pagar = ($compra['total'] * $porcentaje);
-                                    $concepto = 'Bono Indirecto, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                    if ($pagar) {
-                                        $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                if ($nivel > 0) {
+                                    if ($sponsor->nivel == $nivel) {
+                                        $userReferido = User::find($compra['idusuario']);
+                                        $idcomision = $compra['idcompra'].'10';
+                                        $pagar = ($compra['total'] * $porcentaje);
+                                        $concepto = 'Bono Indirecto, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
+                                        if ($pagar) {
+                                            $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                        }
                                     }
                                 }
                             }

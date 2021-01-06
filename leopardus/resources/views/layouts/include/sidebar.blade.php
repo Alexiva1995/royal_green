@@ -69,12 +69,28 @@
                     <span class="menu-title">Activacion Manual</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{route('networkorders')}}">
-                    <span class="menu-title" data-i18n="Historial de Ordenes">
-                        Historial de Ordenes
+            <li class=" nav-item">
+                <a href="javascripts:;">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Contabilidad
                     </span>
                 </a>
+                <ul class="menu-content">
+                    <li class="nav-item">
+                        <a href="{{route('networkorders')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Historial de Ordenes
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('wallet')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Historial de Comisiones
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a href="{{route('price-confirmar')}}" >
@@ -137,13 +153,13 @@
                         </li>
                     </ul>
                 </li>
+            </li>
             <li class=" nav-item">
                 <a href="javascript:;" onclick="$('#modalRentabilidad').modal('show')">
                     <span class="menu-title" data-i18n="Link de Referidos">
                         Pagar Rentabilidad
                     </span>
                 </a>
-            </li>
             </li>
             <li class=" nav-item">
                 <a href="{{route('admin.user.edit')}}">

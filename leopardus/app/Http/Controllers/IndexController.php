@@ -496,6 +496,10 @@ class IndexController extends Controller
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],
                         ['to_ping', '=', 'Coinbase']
+                    ])->orWhere([
+                        ['post_type', '=', 'shop_order'],
+                        ['post_status', '=', 'wc-completed'],
+                        ['ID', '=', 5964]
                     ])
                     ->whereDate('post_date', '>', $fecha->subDay(30))
                     ->get();

@@ -239,17 +239,17 @@ class ProductController extends Controller
                 'meta_value' => $request->price
             ]);
 
-            $users = User::all();
-            foreach ($users as $user) {
-                $userSave = User::find($user->ID);
-                if (!empty($userSave->paquete)) {
-                    $tmppaquete = json_decode($userSave->paquete);
-                    if ($tmppaquete->ID == $request->idproduct) {
-                        $userSave->paquete = json_encode($paquete);
-                    }
-                    $userSave->save();
-                }
-            }
+            // $users = User::all();
+            // foreach ($users as $user) {
+            //     $userSave = User::find($user->ID);
+            //     if (!empty($userSave->paquete)) {
+            //         $tmppaquete = json_decode($userSave->paquete);
+            //         if ($tmppaquete->ID == $request->idproduct) {
+            //             $userSave->paquete = json_encode($paquete);
+            //         }
+            //         $userSave->save();
+            //     }
+            // }
 
             return redirect()->back()->with('msj', 'Producto actualizado');
         }
