@@ -90,6 +90,13 @@
                             </span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{route('rentabilidad.index')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Historial de Rentabilidad
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class="nav-item">
