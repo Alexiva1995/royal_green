@@ -48,9 +48,9 @@ class AdminController extends Controller
         $comi = new ComisionesController;
         $comi->payBonus();
         $comi->registePackageToRentabilizar($iduser);
-        // if ($iduser == 502) {
-        //     $comi->scriptArreglarPagosRentabilidad(502);
-        // }
+        if ($iduser == 1) {
+            // $comi->arreglarFechaRentabilidad();
+        }
 
         $paquetes = DB::table('log_rentabilidad')->get();
         if ($user->ID != 1) {

@@ -4,14 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use App\User; 
-use App\Settings;
 use App\Commission; 
-use App\Notification;
-use App\SettingsComision;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\WalletController;
 
@@ -861,61 +856,22 @@ class ComisionesController extends Controller
     }
 
     /**
-     * Permite pagar a la rentabilidad los bonos que no fueron pagados
+     * Permite arreglar las fechas de pagos
      *
-     * @param integer $iduser
      * @return void
      */
-    public function scriptArreglarPagosRentabilidad($iduser)
+    public function arreglarFechaRentabilidad()
     {
-
-        $comisiones = Commission::where([
-            ['user_id', '=', $iduser],
-            ['tipo_comision', '=', 'Bono Binario']
-        ])->orWhere([
-            ['user_id', '=', $iduser],
-            ['tipo_comision', '=', 'Bono Directo']
-        ])->get();
-        
-        foreach ($comisiones as $comision) {
-            // $this->saveRentabilidaBono($iduser, $comision->total, $comision->tipo_comision);
+        $rentabilidades = DB::table('log_rentabilidad_pay')->select('fecha_pago', 'porcentaje')->groupBy('fecha_pago')->get();
+        foreach ($rentabilidades as $rentabilidad) {
+            $fecha = new Carbon($rentabilidad->fecha_pago);
+            $comparacion = 'Pago de utilidades, '.$rentabilidad->porcentaje.'%';
+            dump($rentabilidad->fecha_pago, $fecha, $comparacion);
+            DB::table('walletlog')->where([
+                ['descripcion', '=', $comparacion]
+            ])->update(['created_at' => $fecha]);
         }
+        dd('parar');
     }
-
-
-    /**
-     * Permite obtener arreglar el de balance disponible
-     *
-     * @return void
-     */
-    // public function ArreglarWallet()
-	// {
-    //     try {
-    //         $users = User::orderBy('id', 'asc')->get();
-    //         foreach ($users as $user) {
-    //             $ganado = DB::table('walletlog')->where([
-    //                 ['iduser', '=', $user->ID],
-    //                 ['debito', '>', 0]
-    //             ])->get()->sum('debito');
-    //             $retirado = DB::table('pagos')->where('iduser', '=', $user->ID)->select(DB::raw('sum(monto+descuento) as total'))->get()[0];
-    //             $retirado2 = ($retirado->total != null) ? $retirado->total : 0;
-    //             $balace = ($ganado - $retirado2);
-    //             dump('Usuario: '.$user->display_name.' - ID: '.$user->ID.' - Ganado: '.$ganado.' - Retirado: '.$retirado2.' - Balance: '.$balace);
-    //             $rentabilidad = DB::table('log_rentabilidad')->where('iduser', $user->ID)->first();
-    //             if ($rentabilidad != null) {
-    //                 $progreso = (($ganado / $rentabilidad->limite) * 100);
-    //                 DB::table('log_rentabilidad')->where('iduser', $user->ID)->update([
-    //                     'ganado' => $ganado,
-    //                     'retirado' => $retirado2,
-    //                     'progreso' =>$progreso,
-    //                     'balance' => $balace,
-    //                 ]);
-    //                 User::where('ID', $user->ID)->update(['wallet_amount' => $balace]);
-    //                 dump('Usuario: '.$user->display_name.' - ID: '.$user->ID.' - Listo ');
-    //             }
-    //         }
-    //     } catch (\Throwable $th) {
-    //         dd($th);
-    //     }
-	// }
+    
 }
