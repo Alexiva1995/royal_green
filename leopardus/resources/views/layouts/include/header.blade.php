@@ -34,7 +34,7 @@
               </a>
             </li>
             <li class="nav-item d-none d-lg-block mr-1">
-              <a class="nav-link btn btn-primary btn-inline" href="{{route('wallet-index')}}">
+              <a class="nav-link btn btn-primary btn-inline" href="{{route('wallet')}}">
                 Retirar
               </a>
             </li>

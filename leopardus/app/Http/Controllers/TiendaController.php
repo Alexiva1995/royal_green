@@ -68,6 +68,7 @@ class TiendaController extends Controller
                         ['wp.pinged', '=', 'Visible']
                     ])
                     ->select('wp.ID', 'wp.post_title', 'wp.post_content', 'wp.guid', 'wpm.meta_value', 'wp.post_excerpt as imagen')
+                    ->orderBy('ID', 'asc')
                     ->get();
         $cont = 0;
 

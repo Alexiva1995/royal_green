@@ -27,7 +27,8 @@ $picture = "avatares/Men/N/1.png";
   <div class="card-content">
     <div class="card-body">
       <div class="media">
-        <img src="{{asset('assets/img/'.$picture)}}" class="mr-1" alt="img placeholder" height="64" width="64">
+        {{-- <img src="{{asset('assets/img/'.$picture)}}" class="mr-1" alt="img placeholder" height="64" width="64"> --}}
+        <img src="https://royalgreen.company/mioficina/avatar/avatar.png" class="mr-1" alt="img placeholder" height="64" width="64">
         <div class="media-body">
           <h5 class="mt-0">{{$nombre}}</h5>
           <p>{!! $ticket->comentario !!}</p>
@@ -49,7 +50,8 @@ $picture = "avatares/Men/N/1.png";
           @endphp
           <div class="media mt-3">
             <a class="mr-1" href="#">
-              <img src="{{asset('assets/img/'.$picture)}}" alt="Generic placeholder image" height="64" width="64" />
+              {{-- <img src="{{asset('assets/img/'.$picture)}}" alt="Generic placeholder image" height="64" width="64" /> --}}
+              <img src="https://royalgreen.company/mioficina/avatar/avatar.png" alt="Generic placeholder image" height="64" width="64" />
             </a>
             <div class="media-body">
               <h5 class="mt-0">{{$buscar->user_nicename}}</h5>

@@ -251,16 +251,16 @@ class WalletController extends Controller
 					return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
 				}
                 if($resta <= $datos->montodisponible){
-                    $tipopago = '';
-                    if(!empty($datos->metodocorreo)){
-                        $tipopago = 'Email: '.$datos->metodocorreo;
-                    }
-                    if(!empty($datos->metodowallet)){
-                        $tipopago = $tipopago.'- Wallet: '.$datos->metodowallet;
-                    }
-                    if(!empty($datos->metodobancario)){
-                        $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
-                    }
+                    $tipopago = $datos->metodowallet;
+                    // if(!empty($datos->metodocorreo)){
+                    //     $tipopago = 'Email: '.$datos->metodocorreo;
+                    // }
+                    // if(!empty($datos->metodowallet)){
+                    //     $tipopago = $tipopago.'- Wallet: '.$datos->metodowallet;
+                    // }
+                    // if(!empty($datos->metodobancario)){
+                    //     $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
+                    // }
                     $metodo = MetodoPago::find($datos->metodopago);
                     if ($resta > $datos->monto_min) {
 						// DB::table('user_campo')->where('ID', Auth::user()->ID)->update(['paypal' => $datos->metodowallet]);

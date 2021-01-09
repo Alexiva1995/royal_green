@@ -87,9 +87,13 @@
                             <td class="text-center">
                                     @if($solicitud['estado'] == 'En Espera')
                                     <a href="{{route('tienda-accion-solicitud', ['id' => $solicitud['idcompra'], 'estado' => 'wc-completed'])}}"
-                                        class="btn btn-primary">Aprobar</a>
+                                        class="btn btn-primary">
+                                        <i class="fa fa-check"></i>
+                                    </a>
                                     <a href="{{route('tienda-accion-solicitud', ['id' => $solicitud['idcompra'], 'estado' => 'wc-cancelled'])}}"
-                                        class="btn btn-danger">Rechazar</a>
+                                        class="btn btn-danger">
+                                        <i class="fa fa-times"></i>
+                                    </a>
                                     @endif
                             </td>
                         </tr>

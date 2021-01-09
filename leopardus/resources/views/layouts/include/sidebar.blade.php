@@ -79,87 +79,109 @@
                     <li class="nav-item">
                         <a href="{{route('networkorders')}}">
                             <span class="menu-title" data-i18n="Historial de Ordenes">
-                                Historial de Ordenes
+                                Ordenes
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{route('wallet')}}">
                             <span class="menu-title" data-i18n="Historial de Ordenes">
-                                Historial de Comisiones
+                                Comisiones
                             </span>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a href="{{route('rentabilidad.index')}}">
                             <span class="menu-title" data-i18n="Historial de Ordenes">
-                                Historial de Rentabilidad
+                                Rentabilidad
+                            </span>
+                        </a>
+                    </li>
+                    <li class=" nav-item">
+                        <a href="{{route('networkrecords')}}">
+                            <span class="menu-title" data-i18n="Historial de Referidos">
+                                Referidos
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item">
+                <a href="javascripts:;">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Pago
+                    </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="nav-item">
+                        <a href="{{route('price-confirmar')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Confirmar
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('price-historial')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Historial
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class=" nav-item">
+                <a href="javascripts:;">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Arboles
+                    </span>
+                </a>
+                <ul class="menu-content">
+                    <li class="nav-item">
+                        <a href="{{route('referraltree', 'tree')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Unilevel
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('referraltree', 'matriz')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Binario
                             </span>
                         </a>
                     </li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a href="{{route('price-confirmar')}}" >
-                    <span class="menu-title">Confirmar Pagos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('price-historial')}}" >
-                    <span class="menu-title">Historial de Pagos</span>
-                </a>
-            </li>
-            <li class=" nav-item">
-                <a href="{{route('networkrecords')}}">
-                    <span class="menu-title" data-i18n="Historial de Referidos">
-                        Historial de Referidos
-                    </span>
-                </a>
-            </li>
-            <li class="nav-item">
                 <a href="{{route('admin.userrecords')}}">
                     <span class="menu-title">Lista de Usuarios</span>
                 </a>
             </li>
-            <li class=" nav-item">
-                <a href="{{route('referraltree', 'tree')}}">
-                    <span class="menu-title" data-i18n="Arbol">
-                        Arbol Unilevel
-                    </span>
-                </a>
-            </li>
-            <li class=" nav-item">
-                <a href="{{route('referraltree', 'matriz')}}">
-                    <span class="menu-title" data-i18n="Arbol">
-                        Arbol Binario
-                    </span>
-                </a>
-            </li>
-            <li class=" nav-item">
+            {{-- <li class=" nav-item">
                 <a href="{{route('wallet')}}">
                     <span class="menu-title" data-i18n="Billetera">
                         Billetera
                     </span>
                 </a>
-                <li class=" nav-item">
-                    <a href="javascripts:;">
-                        <span class="menu-title" data-i18n="Link de Referidos">
-                            Links de Referidos
-                        </span>
-                    </a>
-                    <ul class="menu-content">
-                        <li onclick="updateSideBinary('I')">
-                            <a>
-                                <span class="menu-item" data-i18n="Lado Izquierdo">Lado Izquierdo</span>
-                            </a>
-                        </li>
-                        <li onclick="updateSideBinary('D')">
-                            <a>
-                                <span class="menu-item" data-i18n="Lado Derecho">Lado Derecho</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+            </li> --}}
+            <li class=" nav-item">
+                <a href="javascripts:;">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Links de Referidos
+                    </span>
+                </a>
+                <ul class="menu-content">
+                    <li onclick="updateSideBinary('I')">
+                        <a>
+                            <span class="menu-item" data-i18n="Lado Izquierdo">Lado Izquierdo</span>
+                        </a>
+                    </li>
+                    <li onclick="updateSideBinary('D')">
+                        <a>
+                            <span class="menu-item" data-i18n="Lado Derecho">Lado Derecho</span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class=" nav-item">
                 <a href="javascript:;" onclick="$('#modalRentabilidad').modal('show')">

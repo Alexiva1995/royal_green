@@ -49,12 +49,12 @@ class AdminController extends Controller
         $comi->payBonus();
         $comi->registePackageToRentabilizar($iduser);
         if ($iduser == 1) {
-            // $comi->arreglarFechaRentabilidad();
+            // $comi->arraglarBilletera();
         }
 
         $paquetes = DB::table('log_rentabilidad')->get();
         if ($user->ID != 1) {
-            $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->get();
+            $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->orderBy('id', 'desc')->take(1)->get();
         }
 
         $walletlast = Wallet::where([

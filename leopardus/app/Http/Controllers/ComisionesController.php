@@ -56,19 +56,21 @@ class ComisionesController extends Controller
             ])->first();
 
             if ($checkComision == null) {
-                // $comision = Commission::create([
-                //     'user_id' => $iduser,
-                //     'compra_id' => $idcompra,
-                //     'date' => Carbon::now(),
-                //     'total' => $totalComision,
-                //     'concepto' => $concepto,
-                //     'tipo_comision' => $tipo_comision,
-                //     'referred_email' => $referred_email,
-                //     'referred_level' => $referred_level,
-                //     'status' => true,
-                // ]);
+
+                $comision = Commission::create([
+                    'user_id' => $iduser,
+                    'compra_id' => $idcompra,
+                    'date' => Carbon::now(),
+                    'total' => $totalComision,
+                    'concepto' => $concepto,
+                    'tipo_comision' => $tipo_comision,
+                    'referred_email' => $referred_email,
+                    'referred_level' => $referred_level,
+                    'status' => true,
+                ]);
 
                 $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
+
                 // if ($concepto != 'sin comision') {
                 if ($rentabilidadActiva == 1) {
                     // $user = User::find($iduser);
@@ -678,7 +680,6 @@ class ComisionesController extends Controller
 
             $user = User::find($iduser);
             $user->wallet_amount = ($user->wallet_amount + $ganado);
-            $user->save();
 
             $dataLogRentabilidadPay = [
                 'iduser' => $iduser,
@@ -706,6 +707,7 @@ class ComisionesController extends Controller
             ];
 
             if ($finalizado == 0) {
+                $user->save();
                 DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
                 $this->wallet->saveWallet($datosComisions);
             }
@@ -855,23 +857,43 @@ class ComisionesController extends Controller
         }
     }
 
-    /**
-     * Permite arreglar las fechas de pagos
-     *
-     * @return void
-     */
-    public function arreglarFechaRentabilidad()
-    {
-        $rentabilidades = DB::table('log_rentabilidad_pay')->select('fecha_pago', 'porcentaje')->groupBy('fecha_pago')->get();
-        foreach ($rentabilidades as $rentabilidad) {
-            $fecha = new Carbon($rentabilidad->fecha_pago);
-            $comparacion = 'Pago de utilidades, '.$rentabilidad->porcentaje.'%';
-            dump($rentabilidad->fecha_pago, $fecha, $comparacion);
-            DB::table('walletlog')->where([
-                ['descripcion', '=', $comparacion]
-            ])->update(['created_at' => $fecha]);
-        }
-        dd('parar');
-    }
+    // /**
+    //  * Permite arreglar las fechas de pagos
+    //  *
+    //  * @return void
+    //  */
+    // public function arreglarFechaRentabilidad()
+    // {
+    //     $rentabilidades = DB::table('log_rentabilidad_pay')->select('fecha_pago', 'porcentaje')->groupBy('fecha_pago')->get();
+    //     foreach ($rentabilidades as $rentabilidad) {
+    //         $fecha = new Carbon($rentabilidad->fecha_pago);
+    //         $comparacion = 'Pago de utilidades, '.$rentabilidad->porcentaje.'%';
+    //         dump($rentabilidad->fecha_pago, $fecha, $comparacion);
+    //         DB::table('walletlog')->where([
+    //             ['descripcion', '=', $comparacion]
+    //         ])->update(['created_at' => $fecha]);
+    //     }
+    //     dd('parar');
+    // }
+
+    // /**
+    //  * Permite restar un pago extra de rentabilidad
+    //  *
+    //  * @return void
+    //  */
+    // public function arraglarBilletera()
+    // {
+    //     $restar = DB::table('walletlog')->where([
+    //         ['descripcion', '=', 'Pago de utilidades, 0.47%']
+    //     ])->get();
+    //     foreach ($restar as $resta) {
+    //         $user = User::find($resta->iduser);
+    //         $user->wallet_amount = ($user->wallet_amount + $resta->debito);
+    //         $user->save();
+    //         dump($resta->id);
+    //         $restar = DB::table('walletlog')->where('id', $resta->id)->delete();
+    //     }
+    //     dd('parar');
+    // }
     
 }
