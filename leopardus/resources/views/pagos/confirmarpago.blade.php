@@ -85,9 +85,9 @@ $total = 0;
 							<td>
 								
 									@if ($moneda->mostrar_a_d)
-									{{$moneda->simbolo}} {{$pago->monto}}
+									{{$moneda->simbolo}} {{number_format($pago->monto, 2, ',', '.')}}
 									@else
-									{{$pago->monto}} {{$moneda->simbolo}}
+									{{number_format($pago->monto, 2, ',', '.')}} {{$moneda->simbolo}}
 									@endif
 								
 							</td>
