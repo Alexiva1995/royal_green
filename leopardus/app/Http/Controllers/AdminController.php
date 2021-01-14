@@ -315,37 +315,55 @@ class AdminController extends Controller
                         ->select('post_status')
                         ->where('ID', '=', $order_id)
                         ->first();
-        $estadoEntendible = '';
-        switch ($estadoOrden->post_status) {
-            case 'wc-completed':
-                $estadoEntendible = 'Completado';
-                break;
-            case 'wc-pending':
-                $estadoEntendible = 'Pendiente de Pago';
-                break;
-            case 'wc-processing':
-                $estadoEntendible = 'Procesando';
-                break;
-            case 'wc-on-hold':
-                $estadoEntendible = 'En Espera';
-                break;
-            case 'wc-cancelled':
-                $estadoEntendible = 'Cancelado';
-                break;
-            case 'wc-refunded':
-                $estadoEntendible = 'Reembolsado';
-                break;
-            case 'wc-failed':
-                $estadoEntendible = 'Fallido';
-                break;
+        $estadoEntendible = 'No Disponible';
+        if ($estadoOrden != null) {
+            switch ($estadoOrden->post_status) {
+                case 'wc-completed':
+                    $estadoEntendible = 'Completado';
+                    break;
+                case 'wc-pending':
+                    $estadoEntendible = 'Pendiente de Pago';
+                    break;
+                case 'wc-processing':
+                    $estadoEntendible = 'Procesando';
+                    break;
+                case 'wc-on-hold':
+                    $estadoEntendible = 'En Espera';
+                    break;
+                case 'wc-cancelled':
+                    $estadoEntendible = 'Cancelado';
+                    break;
+                case 'wc-refunded':
+                    $estadoEntendible = 'Reembolsado';
+                    break;
+                case 'wc-failed':
+                    $estadoEntendible = 'Fallido';
+                    break;
+            }
         }
+
         $items = "";
         foreach ($itemsOrden as $item){
             $items = $items." ".$item->order_item_name;
         }
-        if (!empty($fecha)) {
-            $fechaCompra = new Carbon($fechaOrden->post_date);
-            if ($fechaCompra->format('ymd') >= $fecha['primero']->format('ymd') && $fechaCompra->format('ymd') <= $fecha['segundo']->format('ymd')) {
+
+        if ($estadoEntendible != 'No Disponible') {
+            if (!empty($fecha)) {
+                $fechaCompra = new Carbon($fechaOrden->post_date);
+                if ($fechaCompra->format('ymd') >= $fecha['primero']->format('ymd') && $fechaCompra->format('ymd') <= $fecha['segundo']->format('ymd')) {
+                    array_push($array_datos, array(
+                        'idorden' =>$order_id, 
+                        'nombreusuario' => $nombreCompleto, 
+                        'correouser' => $correo,
+                        'fechacompra' => $fechaOrden->post_date, 
+                        'producto' => $items, 
+                        'total' => $totalOrden->meta_value, 
+                        'nivel' => $level, 
+                        'activacion' => $type_activacion->to_ping,
+                        'estado' => $estadoEntendible) 
+                    );
+                }
+            } else {
                 array_push($array_datos, array(
                     'idorden' =>$order_id, 
                     'nombreusuario' => $nombreCompleto, 
@@ -355,24 +373,10 @@ class AdminController extends Controller
                     'total' => $totalOrden->meta_value, 
                     'nivel' => $level, 
                     'activacion' => $type_activacion->to_ping,
-                    'estado' => $estadoEntendible) 
+                    'estado' => $estadoEntendible)
                 );
             }
-        } else {
-            array_push($array_datos, array(
-                'idorden' =>$order_id, 
-                'nombreusuario' => $nombreCompleto, 
-                'correouser' => $correo,
-                'fechacompra' => $fechaOrden->post_date, 
-                'producto' => $items, 
-                'total' => $totalOrden->meta_value, 
-                'nivel' => $level, 
-                'activacion' => $type_activacion->to_ping,
-                'estado' => $estadoEntendible)
-            );
         }
-        
-        
         return($array_datos);
     }
 
