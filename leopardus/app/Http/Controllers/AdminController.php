@@ -518,8 +518,10 @@ class AdminController extends Controller
                         ->where('ID', '=', $orden->post_id)
                         ->first();
 
-                if ($type_activacion->to_ping == $request->filtro) {
-                    $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
+                if ($type_activacion != null) {
+                    if ($type_activacion->to_ping == $request->filtro) {
+                        $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
+                    }
                 }
 
             }
