@@ -65,7 +65,7 @@ class WalletController extends Controller
 						['iduser', '=', Auth::user()->ID],
 						['descripcion', 'like', '%Pago de utilidades%']
 					])->get()->sum('debito');
-					$disponible = 0;
+					$disponible = ($disponible - $walletCreditar);
 				}
 			}
 		}else{
@@ -269,7 +269,7 @@ class WalletController extends Controller
 						$datosW = [
 							'iduser' => $user->ID,
 							'usuario' => $user->display_name,
-							'descripcion' => 'Retiro por un monto de - $ '. $datos->monto.' - A la billetera: '.$datos->metodowallet,
+							'descripcion' => 'Retiro - Wallet: '.$datos->metodowallet,
 							'descuento' => ($datos->monto - $resta),
 							'puntos' => 0,
 							'puntosI' => 0,

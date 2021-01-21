@@ -49,7 +49,7 @@ class AdminController extends Controller
         $comi->payBonus();
         $comi->registePackageToRentabilizar($iduser);
         if ($iduser == 1) {
-            // $comi->arraglarBilletera();
+            // $comi->arreglarDescripcionBonosWallet();
         }
 
         $paquetes = DB::table('log_rentabilidad')->get();
