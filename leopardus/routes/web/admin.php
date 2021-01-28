@@ -105,6 +105,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::get('/cobros', 'WalletController@cobros')->name('wallet-cobros');
         Route::post('/cobrosfechas', 'WalletController@cobros_fechas')->name('wallet-cobros-fechas');
         Route::post('/pay_rentabilidad', 'ComisionesController@process_rentabilidad')->name('wallet.pay.rentabilidad');
+        Route::get('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
     });
 
     // Rentabilidad

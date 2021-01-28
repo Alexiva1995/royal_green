@@ -515,4 +515,31 @@ $billetera = DB::table('walletlog')
 		}
 	}
 
+	/**
+	 * Permite revisar el historial de los puntos binarios
+	 *
+	 * @return void
+	 */
+	public function historialbinario()
+	{
+		$wallets = Wallet::where('puntosD', '>', 0)
+						->orWhere('puntosI', '>', 0)
+						->get();
+
+		foreach ($wallets as $wallet) {
+			$wallet->lado = '';
+			$wallet->tmppuntos = 0;
+			if ($wallet->puntosD > 0) {
+				$wallet->lado = 'D';
+				$wallet->tmppuntos = $wallet->puntosD;
+			} elseif($wallet->puntosI > 0) {
+				$wallet->lado = 'I';
+				$wallet->tmppuntos = $wallet->puntosI;
+			}
+			$wallet->email_user = User::find($wallet->iduser)->user_email;
+		}
+
+		return view('wallet.indexwalletpuntos', compact('wallets'));
+	}
+
 }

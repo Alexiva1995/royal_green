@@ -17,22 +17,16 @@
                     <thead>
                         <tr>
                             <th>
-                                <center>#</center>
+                                ID
                             </th>
                             <th>
-                                <center>Usuario</center>
+                                Referido
                             </th>
                             <th>
-                                <center>Fecha</center>
+                                Puntos
                             </th>
                             <th>
-                                <center>Descripción</center>
-                            </th>
-                            <th>
-                                <center>Puntos Derecha</center>
-                            </th>
-                            <th>
-                                <center>Puntos Izquierda</center>
+                                Lado
                             </th>
                         </tr>
                     </thead>
@@ -40,22 +34,16 @@
                         @foreach ($wallets as $wallet)
                         <tr>
                             <td>
-                                <center>{{$wallet->id}}</center>
+                                {{$wallet->iduser}}
                             </td>
                             <td>
-                                <center>{{$wallet->usuario}}</center>
+                                {{$wallet->email_referred}}
                             </td>
                             <td>
-                                <center>{{date('d-m-Y', strtotime($wallet->created_at))}}</center>
+                                {{$wallet->tmppuntos}}
                             </td>
                             <td>
-                                <center>{{$wallet->descripcion}}</center>
-                            </td>
-                            <td>
-                                <center>{{$wallet->puntosD}}</center>
-                            </td>
-                            <td>
-                                <center>{{$wallet->puntosI}}</center>
+                                {{$wallet->lado}}
                             </td>
                         </tr>
                         @endforeach
@@ -65,7 +53,7 @@
         </div>
     </div>
 </div>
-
+{{-- 
     @include('wallet/componentes/formRetiro', ['disponible' => 0, 'tipowallet' => 0])
     @include('wallet/componentes/formTransferencia')
 
@@ -114,5 +102,5 @@
             }
             $('#total').val(resul)
         }
-    </script>
+    </script> --}}
     @endsection

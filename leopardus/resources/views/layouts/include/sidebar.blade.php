@@ -104,6 +104,13 @@
                             </span>
                         </a>
                     </li>
+                    <li class=" nav-item">
+                        <a href="{{route('wallet.binario')}}">
+                            <span class="menu-title" data-i18n="Historial de Referidos">
+                                Historial de Puntos Binarios
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             <li class=" nav-item">
