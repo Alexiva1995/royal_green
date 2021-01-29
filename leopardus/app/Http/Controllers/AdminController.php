@@ -51,9 +51,7 @@ class AdminController extends Controller
         $comi->registePackageToRentabilizar($iduser);
         if ($iduser == 1) {
             // $comi->arreglarDescripcionBonosWallet();
-            $idcomision = '40'.Carbon::now()->format('Ymd');
-            $concepto = '(30)';
-            $comi->guardarComision(478, $idcomision, 30, 'leutarorodsman@gmail.com', 0, $concepto, 'Bono Binario');
+            // $comi->arreglar_puntos_rangos();            
         }
 
         $activacion = new ActivacionController;

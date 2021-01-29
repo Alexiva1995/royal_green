@@ -224,14 +224,13 @@ class ComisionesController extends Controller
 
                     $user->puntos = json_encode($puntos);
 
-                    
                     $totalcomision = ((float)$pagar * $porcentaje);
                     $idcomision = '20'.$fecha->format('Ymd');
                     $concepto = '('.$pagar.')';
                     $this->guardarComision($user->ID, $idcomision, $totalcomision, $user->user_email, 0, $concepto, 'Bono Binario');
                     $this->bonoConstrucion($user->ID, $totalcomision);
                     $concepto = 'Puntos Rango, Obtenido por el pago del Bono Binario del dia'.$fecha->format('Y-m-d');
-                    $this->savePoints($totalcomision, $user->ID, $concepto, 'R', $idcomision, 1, $user->user_email);
+                    $this->savePoints($pagar, $user->ID, $concepto, 'R', $idcomision, 1, $user->user_email);
                     $user->save();
                 }
             }
@@ -955,23 +954,30 @@ class ComisionesController extends Controller
         dd('parar');
     }
 
-    public function arreglarDescripcionBonosWallet()
+    /**
+     * Permite arreglar los puntos binarios
+     *
+     * @return void
+     */
+    public function arreglar_puntos_rangos()
     {
-        $wallets = Wallet::where('descripcion', 'Bono Directo')->get();
+        Wallet::where('puntos', '>', 0)->delete();
 
-        foreach ($wallets as $wallet) {
-            $comision = Commission::where([
-                ['user_id', '=', $wallet->iduser],
-                ['total', '=', $wallet->debito],
-            ])->first();
-            $data = [
-                'descripcion' => $comision->concepto,
-                'email_referred' => $comision->referred_email
-            ];
-            Wallet::where('id', $wallet->id)->update($data);
+        $binarios = Wallet::where([
+            ['descripcion', 'like', '%Binario%'],
+            ['debito', '>', 0]
+        ])->select(DB::raw('sum(debito) as total, iduser'))->groupBy('iduser')->get();
+        
+        foreach ($binarios as $binario) {
+            $user = User::find($binario->iduser);
+            $paquete = json_decode($user->paquete);
+            $porcentaje = $paquete->porc_binario;
+            $valor = ($binario->total / $porcentaje);
+
+            $concepto = 'Puntos Rango, Obtenido por el pago del Bono Binario del dia'.Carbon::now()->format('Y-m-d');
+            $idcomision = (float)Carbon::now()->format('Ymd');
+            $this->savePoints($valor, $user->ID, $concepto, 'R', $idcomision, 1, $user->user_email);
         }
-
-        dd('parar');
     }
     
 }
