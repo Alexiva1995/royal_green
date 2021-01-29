@@ -227,7 +227,7 @@ class ComisionesController extends Controller
                     
                     $totalcomision = ((float)$pagar * $porcentaje);
                     $idcomision = '20'.$fecha->format('Ymd');
-                    $concepto = '('.$totalcomision.')';
+                    $concepto = '('.$pagar.')';
                     $this->guardarComision($user->ID, $idcomision, $totalcomision, $user->user_email, 0, $concepto, 'Bono Binario');
                     $this->bonoConstrucion($user->ID, $totalcomision);
                     $concepto = 'Puntos Rango, Obtenido por el pago del Bono Binario del dia'.$fecha->format('Y-m-d');
