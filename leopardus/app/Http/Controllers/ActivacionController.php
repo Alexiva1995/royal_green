@@ -23,7 +23,7 @@ class ActivacionController extends Controller
         $user = User::find($userid);
         $fechaActual = Carbon::now();
         $paquete = [];
-        if (!$this->statusActivacion($user)) {
+        if (true) {
             $compras = $funciones->getInforShopping($user->ID);
             $fechaNueva = null;
             $activo = false;
@@ -64,10 +64,10 @@ class ActivacionController extends Controller
         if (empty($user->fecha_activacion)) {
             $result = false;
         }else{
-            $fechatmp = new Carbon($user->fecha_activacion);
-            if ($fechatmp < $fechaActual) {
+            // $fechatmp = new Carbon($user->fecha_activacion);
+            // if ($fechatmp < $fechaActual) {
                 $result = false;
-            }
+            // }
         }
         return $result;
     }

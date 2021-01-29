@@ -18,6 +18,7 @@ use App\Notification;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ComisionesController;
 use App\Http\Controllers\RangoController;
+use App\Http\Controllers\ActivacionController;
 
 
 class AdminController extends Controller
@@ -51,6 +52,9 @@ class AdminController extends Controller
         if ($iduser == 1) {
             // $comi->arreglarDescripcionBonosWallet();
         }
+
+        $activacion = new ActivacionController;
+        $activacion->activarUsuarios(Auth::user()->ID);
 
         $paquetes = DB::table('log_rentabilidad')->get();
         if ($user->ID != 1) {
