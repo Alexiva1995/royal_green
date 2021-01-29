@@ -8,6 +8,9 @@
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
 
+{{-- formulario de fecha  --}}
+@include('dashboard.componentView.formSearchSimple', ['route' => 'wallet.binario', 'name1' => 'id', 'type' => 'number', 'text' => 'ID Usuario'])
+
 
 <div class="card">
     <div class="card-content">
