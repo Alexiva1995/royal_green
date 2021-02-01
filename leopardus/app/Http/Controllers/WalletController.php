@@ -523,16 +523,50 @@ $billetera = DB::table('walletlog')
 	public function historialbinario()
 	{
 		$wallets = [];
+		$id = 0;
 		if (request()->id) {
-			$wallets = Wallet::where([
-				['puntosD', '>', 0],
-				['iduser', '=', request()->id]
-			])
-			->orWhere([
-				['puntosI', '>', 0],
-				['iduser', '=', request()->id]
-			])
-			->get();
+			session(['iduser' => request()->id]);
+			$id = request()->id;
+		}
+
+		$fechas = [];
+		if (request()->fecha1 && request()->fecha2) {
+			if (session('iduser')) {
+				$id = session('iduser');
+			}
+			$fechas = [
+				'fecha1' => new Carbon(request()->fecha1),
+				'fecha2' => new Carbon(request()->fecha2),
+			];
+		}
+
+		if ($id) {
+			
+			if ($fechas == []) {
+				$wallets = Wallet::where([
+					['puntosD', '>', 0],
+					['iduser', '=', $id]
+				])
+				->orWhere([
+					['puntosI', '>', 0],
+					['iduser', '=', $id]
+				])
+				->get();
+			}else{
+				$wallets = Wallet::where([
+					['puntosD', '>', 0],
+					['iduser', '=', $id],
+					['created_at', '>=', $fechas['fecha1']], 
+					['created_at', '<=', $fechas['fecha2']]
+				])
+				->orWhere([
+					['puntosI', '>', 0],
+					['iduser', '=', $id],
+					['created_at', '>=', $fechas['fecha1']], 
+					['created_at', '<=', $fechas['fecha2']]
+				])
+				->get();
+			}
 
 			foreach ($wallets as $wallet) {
 				$wallet->lado = '';

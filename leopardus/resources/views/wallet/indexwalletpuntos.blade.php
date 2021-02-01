@@ -8,9 +8,11 @@
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
 
-{{-- formulario de fecha  --}}
+{{-- formulario de id usuario  --}}
 @include('dashboard.componentView.formSearchSimple', ['route' => 'wallet.binario', 'name1' => 'id', 'type' => 'number', 'text' => 'ID Usuario'])
 
+{{-- formulario de fecha  --}}
+@include('dashboard.componentView.formSearch', ['route' => 'wallet.binario', 'name1' => 'fecha1', 'name2' => 'fecha2', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
 
 <div class="card">
     <div class="card-content">
@@ -18,7 +20,7 @@
             <div class="table-responsive">
                 <table id="mytable" class="table zero-configuration">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>
                                 ID
                             </th>
@@ -31,11 +33,14 @@
                             <th>
                                 Lado
                             </th>
+                            <th>
+                                Fecha
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($wallets as $wallet)
-                        <tr>
+                        <tr class="text-center">
                             <td>
                                 {{$wallet->iduser}}
                             </td>
@@ -47,6 +52,9 @@
                             </td>
                             <td>
                                 {{$wallet->lado}}
+                            </td>
+                            <td>
+                                {{date('Y-m-d', strtotime($wallet->created_at))}}
                             </td>
                         </tr>
                         @endforeach
