@@ -285,9 +285,11 @@ class ComisionesController extends Controller
                         $side = $userReferido->ladomatrix;
                         $concepto = 'Puntos Binarios, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['idcompra'];
                         foreach ($sponsors as $sponsor) {
-                            if ($sponsor->nivel > 0) {
-                                $this->savePoints($compra['total'], $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
-                                $side = $sponsor->ladomatrix;
+                            if ($this->verificarBinarioActivo($sponsor->ID) == 1) {
+                                if ($sponsor->nivel > 0) {
+                                    $this->savePoints($compra['total'], $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
+                                    $side = $sponsor->ladomatrix;
+                                }
                             }
                         }
                     }
@@ -296,6 +298,44 @@ class ComisionesController extends Controller
         } catch (\Throwable $th) {
             dd($th);
         }
+    }
+
+    /**
+     * Permite verificar si el usuario puede cobrar puntos o no 
+     *
+     * @param integer $iduser
+     * @return integer
+     */
+    public function verificarBinarioActivo(int $iduser): int
+    {
+        $result = 0;
+
+        $binarioIzq = $binarioDer = 0;
+        $directos = User::where('referred_id', $iduser)->get();
+        foreach ($directos as $direct) {
+            if ($direct->status == 1) {
+                $ordenes = $this->funciones->getInforShopping($direct->ID);    
+                // if ($iduser == 499) {
+                //     dump($ordenes);
+                // }
+                foreach ($ordenes as $orden) {
+                    if ($orden['tipo_activacion'] != 'Manual') {
+                        if ($direct->ladomatrix == 'D') {
+                            $binarioDer = 1;
+                        }
+                        if ($direct->ladomatrix == 'I') {
+                            $binarioIzq = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($binarioDer == 1 && $binarioIzq == 1) {
+            $result = 1;   
+        }
+
+        return $result;
     }
 
     /**
