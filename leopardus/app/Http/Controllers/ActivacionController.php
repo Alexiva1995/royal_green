@@ -27,12 +27,7 @@ class ActivacionController extends Controller
             $compras = $funciones->getInforShopping($user->ID);
             $fechaNueva = null;
             $activo = false;
-            $paqueteUser = null;
-            if ($user->paquete != null) {
-                $paqueteUser = json_decode($user->paquete);
-            }
             foreach ($compras as $compra) {
-                if ($paqueteUser == null || $user->status == 0) {
                     $fechaTmp = new Carbon($compra['fecha']);
                     $fechaNueva = $fechaTmp->addDay(365);
                     if ($fechaNueva > $fechaActual) {
@@ -43,31 +38,13 @@ class ActivacionController extends Controller
                     }else{
                         $activo = false;
                     }
-                }elseif($paqueteUser != null && $user->status == 1){
-                    $producto = null;
-                    foreach ($compra['productos'] as $product) {
-                        if ($product['idproducto'] > $paqueteUser->idproducto) {
-                            $producto = $product;
-                        }   
-                    }
-                    if ($producto != null) {
-                        $fechaTmp = new Carbon($compra['fecha']);
-                        $fechaNueva = $fechaTmp->addDay(365);
-                        if ($fechaNueva > $fechaActual) {
-                            $activo = true;
-                            $paquete = $producto;
-                        }else{
-                            $activo = false;
-                        }
-                    }
-                }
             }
             if ($activo) {
                 $user->paquete = json_encode($paquete);
                 $user->status = 1;
                 $user->fecha_activacion = $fechaNueva;
                 $user->save();
-            }elseif(!$this->statusActivacion($user)){
+            }else{
                 $user->paquete = null;
                 $user->status = 0;
                 $user->save();

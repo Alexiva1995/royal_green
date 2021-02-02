@@ -594,28 +594,29 @@ class ComisionesController extends Controller
         $idRentabilidad = 0;
         $finalizado = 0;
 
-        if ($checkRentabilidad == null) {
-            $detallaPaquete = [
-                'nombre' => $paquete['nombre'],
-                'img' => $paquete['img2']
-            ];
-            $limite = ($paquete['precio'] * 2);
-            $progreso = (($ganado * 100) / $limite);
+        // if ($checkRentabilidad == null) {
+            // $detallaPaquete = [
+            //     'nombre' => $paquete['nombre'],
+            //     'img' => $paquete['img2']
+            // ];
+            // $limite = ($paquete['precio'] * 2);
+            // $progreso = (($ganado * 100) / $limite);
 
-            $dataRentabilidad = [
-                'iduser' => $iduser,
-                'idcompra' => $idorden,
-                'idproducto' => $paquete['idproducto'],
-                'detalles_producto' => json_encode($detallaPaquete),
-                'precio' => $paquete['precio'],
-                'limite' => $limite,
-                'ganado' => $ganado,
-                'progreso' => $progreso,
-                'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
-            ];
+            // $dataRentabilidad = [
+            //     'iduser' => $iduser,
+            //     'idcompra' => $idorden,
+            //     'idproducto' => $paquete['idproducto'],
+            //     'detalles_producto' => json_encode($detallaPaquete),
+            //     'precio' => $paquete['precio'],
+            //     'limite' => $limite,
+            //     'ganado' => $ganado,
+            //     'progreso' => $progreso,
+            //     'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
+            // ];
 
             // $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
-        }else{
+        if($checkRentabilidad != null){
+
             $totalGanado = ($checkRentabilidad->ganado + $ganado);
             $finalizacion = 0;
             if ($totalGanado >= $checkRentabilidad->limite) {
@@ -638,42 +639,42 @@ class ComisionesController extends Controller
                 ];
                 DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
                 $idRentabilidad = $checkRentabilidad->id;
+
+                $user = User::find($iduser);
+                $user->wallet_amount = ($user->wallet_amount + $ganado);
+                $user->save();
+        
+                $dataLogRentabilidadPay = [
+                    'iduser' => $iduser,
+                    'id_log_renta' => $idRentabilidad,
+                    'porcentaje' => $porcentaje,
+                    'debito' => $ganado,
+                    'balance' => $user->wallet_amount,
+                    'fecha_pago' => Carbon::now(),
+                    'concepto' => 'Rentabilidad pagada de la compra '.$idorden.', del producto '.$paquete['nombre'].', al usuario '.$user->display_name
+                ];
+        
+                $concepto = 'Utilidad ('.$porcentaje.'%)';
+                $datosComisions = [
+                    'iduser' => $iduser,
+                    'usuario' => $user->display_name,
+                    'descripcion' => $concepto,
+                    'puntos' => 0,
+                    'puntosI' => 0,
+                    'puntosD' => 0,
+                    'email_referred' => $user->user_email,
+                    'descuento' => 0,
+                    'debito' => $ganado,
+                    'credito' => 0,
+                    'balance' => $user->wallet_amount,
+                    'tipotransacion' => 2
+                ];
+        
+                if ($finalizado == 0) {
+                    DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+                    $this->wallet->saveWallet($datosComisions);
+                }
             }
-        }
-
-        $user = User::find($iduser);
-        $user->wallet_amount = ($user->wallet_amount + $ganado);
-        $user->save();
-
-        $dataLogRentabilidadPay = [
-            'iduser' => $iduser,
-            'id_log_renta' => $idRentabilidad,
-            'porcentaje' => $porcentaje,
-            'debito' => $ganado,
-            'balance' => $user->wallet_amount,
-            'fecha_pago' => Carbon::now(),
-            'concepto' => 'Rentabilidad pagada de la compra '.$idorden.', del producto '.$paquete['nombre'].', al usuario '.$user->display_name
-        ];
-
-        $concepto = 'Utilidad ('.$porcentaje.'%)';
-        $datosComisions = [
-            'iduser' => $iduser,
-            'usuario' => $user->display_name,
-            'descripcion' => $concepto,
-            'puntos' => 0,
-            'puntosI' => 0,
-            'puntosD' => 0,
-            'email_referred' => $user->user_email,
-            'descuento' => 0,
-            'debito' => $ganado,
-            'credito' => 0,
-            'balance' => $user->wallet_amount,
-            'tipotransacion' => 2
-        ];
-
-        if ($finalizado == 0) {
-            DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
-            $this->wallet->saveWallet($datosComisions);
         }
     }
 
