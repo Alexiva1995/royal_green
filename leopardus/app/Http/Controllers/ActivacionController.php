@@ -27,27 +27,52 @@ class ActivacionController extends Controller
             $compras = $funciones->getInforShopping($user->ID);
             $fechaNueva = null;
             $activo = false;
+            $paqueteUser = null;
+            if ($user->paquete != null) {
+                $paqueteUser = json_decode($user->paquete);
+            }
             foreach ($compras as $compra) {
-                $fechaTmp = new Carbon($compra['fecha']);
-                $fechaNueva = $fechaTmp->addDay(365);
-                if ($fechaNueva > $fechaActual) {
-                    $activo = true;
-                    foreach ($compra['productos'] as $producto) {
-                        $paquete = $producto;
+                if ($paqueteUser == null || $user->status == 0) {
+                    $fechaTmp = new Carbon($compra['fecha']);
+                    $fechaNueva = $fechaTmp->addDay(365);
+                    if ($fechaNueva > $fechaActual) {
+                        $activo = true;
+                        foreach ($compra['productos'] as $producto) {
+                            $paquete = $producto;
+                        }
+                    }else{
+                        $activo = false;
                     }
-                }else{
-                    $activo = false;
+                }elseif($paqueteUser != null && $user->status == 1){
+                    $producto = null;
+                    foreach ($compra['productos'] as $product) {
+                        if ($product['idproducto'] > $paqueteUser->idproducto) {
+                            $producto = $product;
+                        }   
+                    }
+                    if ($producto != null) {
+                        $fechaTmp = new Carbon($compra['fecha']);
+                        $fechaNueva = $fechaTmp->addDay(365);
+                        if ($fechaNueva > $fechaActual) {
+                            $activo = true;
+                            $paquete = $producto;
+                        }else{
+                            $activo = false;
+                        }
+                    }
                 }
             }
             if ($activo) {
                 $user->paquete = json_encode($paquete);
                 $user->status = 1;
                 $user->fecha_activacion = $fechaNueva;
-            }else{
-                $user->fecha_activacion = null;
+                $user->save();
+            }elseif(!$this->statusActivacion($user)){
+                $user->paquete = null;
                 $user->status = 0;
+                $user->save();
             }
-            $user->save();
+            // $user->save();
         }
     }
 
@@ -64,12 +89,29 @@ class ActivacionController extends Controller
         if (empty($user->fecha_activacion)) {
             $result = false;
         }else{
-            // $fechatmp = new Carbon($user->fecha_activacion);
-            // if ($fechatmp < $fechaActual) {
+            $fechatmp = new Carbon($user->fecha_activacion);
+            if ($fechaActual > $fechatmp) {
                 $result = false;
-            // }
+            }
         }
         return $result;
+    }
+
+    /**
+     * Permite arreglar los paquetes activos 
+     *
+     * @return void
+     */
+    public function arreglarPaqueteActivado()
+    {
+        $users = User::where([
+            ['status', '=', 1],
+            ['ID', '!=', 1]
+        ])->select('ID')->get();
+
+        foreach ($users as $user) {
+            $this->activarUsuarios($user->ID);
+        }
     }
 
 }

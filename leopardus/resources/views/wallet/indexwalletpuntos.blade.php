@@ -12,7 +12,7 @@
 @include('dashboard.componentView.formSearchSimple', ['route' => 'wallet.binario', 'name1' => 'id', 'type' => 'number', 'text' => 'ID Usuario'])
 
 {{-- formulario de fecha  --}}
-@include('dashboard.componentView.formSearch', ['route' => 'wallet.binario', 'name1' => 'fecha1', 'name2' => 'fecha2', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
+@include('dashboard.componentView.formSearch', ['route' => 'wallet.binario', 'name1' => 'fecha1', 'name2' => 'fecha2', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
 <div class="card">
     <div class="card-content">

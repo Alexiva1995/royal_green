@@ -248,7 +248,7 @@ class PagoController extends Controller
 			
 			
 			$pagos->save();
-			return redirect('/admin/price/confirmar')->with('msj', 'Pago Rechado sastifactoriamente');
+			return redirect('/admin/price/confirmar')->with('msj', 'Pago Rechazado Satisfactoriamente');
 		} catch (\Throwable $th) {
 			return redirect()->back()->with('msj2', 'Ocurrio un error al momento de retirar, por favor comunicarse con el administrado');
 		}

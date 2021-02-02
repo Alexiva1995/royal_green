@@ -15,7 +15,7 @@
                         name="{{$name1}}" required style="background-color:f7f7f7;" />
                 </div>
                 <div class="col-12 col-sm-6 col-md-4">
-                    <label class="control-label " style="text-align: center; margin-top:4px;">{{$text1}}</label>
+                    <label class="control-label " style="text-align: center; margin-top:4px;">{{$text2}}</label>
                     <input class="form-control form-control-solid placeholder-no-fix" type="{{$type}}" autocomplete="off"
                         name="{{$name2}}" required style="background-color:f7f7f7;" />
                 </div>
