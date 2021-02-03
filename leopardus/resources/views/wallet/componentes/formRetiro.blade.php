@@ -34,10 +34,10 @@
               <input class="form-control" type="number" name="monto" step="any" required onkeyup="totalRetiro(this.value)"/>
               {{-- <input id="total" type="hidden" class="form-control" name="total" readonly/> --}}
             </div>
-            {{-- <div class="form-group col-12 col-sm-6">
+            <div class="form-group col-12 col-sm-6">
                 <label>Monto minimo a Retirar</label>
                 <input id="monto_min" class="form-control" name="monto_min" readonly/>
-              </div> --}}
+              </div>
             <div class="form-group col-12 col-sm-6">
               <label>Monto final a Retirar</label>
               <input id="total" class="form-control" name="total" readonly/>
@@ -48,14 +48,9 @@
             </div> --}}
             <div class="form-group col-12 col-sm-6" id="wallet" style="display:none;">
               <label>Wallet de la cuenta asociada al metodo de pago</label>
-              <input type="text" class="form-control" name="metodowallet" required value="{{$cuentawallet}}" readonly/>
+              <input type="text" class="form-control" name="metodowallet" required/>
             </div>
-            @if (Auth::user()->check_token_google == 1)
-            <div class="form-group col-12 col-sm-6">
-              <label>Codigo de Google Authenticador</label>
-              <input type="text" class="form-control" name="code" required/>
-            </div>
-            @endif
+
             <div class="form-group col-12" id="retirar" style="display:none;">
               <button type="submit" class="btn btn-success btn-block retirarbtn">Retirar</button>
             </div>

@@ -12,6 +12,7 @@ use App\Wallet;
 use App\MetodoPago; use App\SettingsComision; use App\Pagos; use App\Monedas;
 use App\Http\Controllers\IndexController;
 use PragmaRX\Google2FA\Google2FA;
+use Illuminate\Support\Facades\Mail;
 
 
 class WalletController extends Controller
@@ -38,8 +39,12 @@ class WalletController extends Controller
 		$pagosPendientes = false;
 		$validarPagos = Pagos::where([
 			['iduser', '=', Auth::user()->ID],
-			['estado', '=', 0]
+			['estado', '=', 10]
 		])->first();
+		$diaRetiro = false;
+		if (date("w", strtotime(Carbon::now())) == 4) {
+			$diaRetiro = true;
+		}
 		if (!empty($validarPagos)) {
 			$pagosPendientes = true;
 		}
@@ -110,7 +115,7 @@ class WalletController extends Controller
 		$index = new IndexController;
 		$wallets = $index->ordenarArreglosMultiDimensiones($arrayBilletera, 'fecha', 'cadena');
 		
-	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'disponible'));
+	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'disponible', 'diaRetiro'));
 	}
 
 
@@ -225,58 +230,121 @@ class WalletController extends Controller
      * @return view
      */
     public function retiro(Request $datos){
-        $fecha = new Carbon;
-        if (!empty($datos)){
-			$resta = $datos->total;
-			if (Auth::user()->check_token_google == 1) {
-				if (!(new Google2FA())->verifyKey(Auth::user()->toke_google, $datos->code)) {
-					return redirect()->back()->with('msj2', 'el codigo es incorrecto');
+       try {
+			$fecha = new Carbon;
+			if (!empty($datos)){
+				$resta = $datos->total;
+				if (Auth::user()->check_token_google == 1) {
+					if (!(new Google2FA())->verifyKey(Auth::user()->toke_google, $datos->code)) {
+						return redirect()->back()->with('msj2', 'el codigo es incorrecto');
+					}
 				}
-			}
-			$checkPago = Pagos::where([
-				['iduser', '=', Auth::user()->ID],
-				['estado', '=', 0],
-				['tipo_retiro', '=', 1]
-			])->first();
-			if (!empty($checkPago)) {
-				return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');
-			}
-            if($resta > 0){
-				$rentabilidad = DB::table('log_rentabilidad')->where([
-					['iduser', Auth::user()->ID],
-					['limite', '>', 'retirado']
+				$checkPago = Pagos::where([
+					['iduser', '=', Auth::user()->ID],
+					['estado', '=', 0],
+					['tipo_retiro', '=', 1]
 				])->first();
-				$disponible = ($rentabilidad->limite - $rentabilidad->retirado);
-				if ($resta > $disponible) {
-					return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
+				if (!empty($checkPago)) {
+					return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');
 				}
-                if($resta <= $datos->montodisponible){
-                    $tipopago = $datos->metodowallet;
-                    // if(!empty($datos->metodocorreo)){
-                    //     $tipopago = 'Email: '.$datos->metodocorreo;
-                    // }
-                    // if(!empty($datos->metodowallet)){
-                    //     $tipopago = $tipopago.'- Wallet: '.$datos->metodowallet;
-                    // }
-                    // if(!empty($datos->metodobancario)){
-                    //     $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
-                    // }
-                    $metodo = MetodoPago::find($datos->metodopago);
-                    if ($resta > $datos->monto_min) {
-						// DB::table('user_campo')->where('ID', Auth::user()->ID)->update(['paypal' => $datos->metodowallet]);
+				if($resta > 0){
+					$rentabilidad = DB::table('log_rentabilidad')->where([
+						['iduser', Auth::user()->ID],
+						['limite', '>', 'retirado']
+					])->first();
+					$disponible = ($rentabilidad->limite - $rentabilidad->retirado);
+					if ($resta > $disponible) {
+						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
+					}
+					if($resta <= $datos->montodisponible){
+						$tipopago = $datos->metodowallet;
+						// if(!empty($datos->metodocorreo)){
+						//     $tipopago = 'Email: '.$datos->metodocorreo;
+						// }
+						// if(!empty($datos->metodowallet)){
+						//     $tipopago = $tipopago.'- Wallet: '.$datos->metodowallet;
+						// }
+						// if(!empty($datos->metodobancario)){
+						//     $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
+						// }
+						$metodo = MetodoPago::find($datos->metodopago);
+						if ($resta > $datos->monto_min) {
+							$codigo = substr(md5(time()), 0, 16);
+							Pagos::create([
+								'iduser' => Auth::user()->ID,
+								'username' => Auth::user()->display_name,
+								'email' => Auth::user()->user_email,
+								'monto' => $resta,
+								'descuento' => ($datos->monto - $resta),
+								'fechasoli' => $fecha->now(),
+								'metodo' => $metodo->nombre,
+								'tipowallet' => $datos->tipowallet,
+								'tipopago' => $tipopago,
+								'estado' => 10,
+								'idrentabilidad' => $rentabilidad->id,
+								'codigo_confirmacion' => $codigo,
+								'fecha_codigo' => Carbon::now()
+							]);
+
+							Mail::send('emails.codigoRetiro',  ['codigo' => $codigo], function($msj){
+								$msj->subject('Codigo de Confirmación de Retiro');
+								$msj->to(Auth::user()->user_email);
+							});
+
+							return redirect()->back()->with('msj', 'El Retiro ha sido procesado, por favor revise su correo');
+						} else {
+							return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor al monto minimo');
+						}
+					}else{
+						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a el monto disponible');
+					}
+				}else{
+					return redirect()->back()->with('msj2', 'El monto a retirar no puede ser negativo o 0');
+				}
+			}else{
+			return redirect()->back(); 
+			}
+	   } catch (\Throwable $th) {
+			return redirect()->back()->with('msj2', 'ocurrio un error al procesar el retiro, consulte con el adminitrador');
+	   }
+	}
+	
+	/**
+	 * Permite Validar el Codigo de Verificacion y procesar el retiro
+	 *
+	 * @param Request $request
+	 * @return void
+	 */
+	public function VerificarRetiro(Request $request)
+	{
+
+		$validate = $request->validate([
+			'code' => 'required'
+		]);
+
+		try {
+			if ($validate) {
+				$checkCode = Pagos::where('codigo_confirmacion', $request->code)->first();
+                if ($checkCode != null) {
+                    $fechaActual = Carbon::now();
+					$checkTime = new Carbon($checkCode->fecha_codigo);
+                    if ($checkTime->copy()->addMinutes(15) >= $fechaActual) {
+						$montoBruto = ($checkCode->monto + $checkCode->descuento);
+						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 0]);
+
 						$user = User::find(Auth::user()->ID);
-						$user->wallet_amount = ($user->wallet_amount - $datos->monto);
+						$user->wallet_amount = ($user->wallet_amount - $montoBruto);
 						$datosW = [
 							'iduser' => $user->ID,
 							'usuario' => $user->display_name,
-							'descripcion' => 'Retiro - Wallet: '.$datos->metodowallet,
-							'descuento' => ($datos->monto - $resta),
+							'descripcion' => 'Retiro - Wallet: '.$checkCode->tipopago,
+							'descuento' => $checkCode->descuento,
 							'puntos' => 0,
 							'puntosI' => 0,
 							'puntosD' => 0,
 							'email_referred' => $user->user_email,
 							'debito' => 0,
-							'credito' => $resta,
+							'credito' => $checkCode->monto,
 							'balance' => $user->wallet_amount,
 							'tipotransacion' => 1,
 						];
@@ -288,52 +356,39 @@ class WalletController extends Controller
 							['limite', '>', 'retirado']
 						])->first();
 
-                        $dataUpdate = [
-                            'balance' => $user->wallet_amount,
-                            'retirado' => $datos->monto
-                        ];
-                        
-                        $dataLogRentabilidadPay = [
-                            'iduser' => Auth::user()->ID,
-                            'id_log_renta' => $rentabilidad->id,
-                            'porcentaje' => 0,
-                            'debito' => 0,
-                            'credito' => $datos->monto,
-                            'balance' => $user->wallet_amount,
-                            'fecha_pago' => Carbon::now(),
-                            'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$datos->monto
-                        ];
-
-                        DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
-                        DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
-
-						Pagos::create([
+						$dataUpdate = [
+							'balance' => $user->wallet_amount,
+							'retirado' => $montoBruto
+						];
+						
+						$dataLogRentabilidadPay = [
 							'iduser' => Auth::user()->ID,
-							'username' => Auth::user()->display_name,
-							'email' => Auth::user()->user_email,
-							'monto' => $resta,
-							'descuento' => ($datos->monto - $resta),
-							'fechasoli' => $fecha->now(),
-							'metodo' => $metodo->nombre,
-							'tipowallet' => $datos->tipowallet,
-							'tipopago' => $tipopago,
-							'estado' => 0,
-							'idrentabilidad' => $rentabilidad->id
-						]);
-						return redirect()->back()->with('msj', 'El Retiro ha sido procesado');
-					} else {
-						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor la monto minimo');	
+							'id_log_renta' => $rentabilidad->id,
+							'porcentaje' => 0,
+							'debito' => 0,
+							'credito' => $montoBruto,
+							'balance' => $user->wallet_amount,
+							'fecha_pago' => Carbon::now(),
+							'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$montoBruto
+						];
+
+						DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+						DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+						
+						return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con y su retiro procesado');
+					}else{
+						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 2]);
+						return redirect()->back()->with('msj2', 'Su código expiro, por favor realice un nuevo retiro, el ya hecho fue anulado');
 					}
-                }else{
-                    return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
-                }
-            }else{
-                return redirect()->back()->with('msj2', 'El monto a retirar no puede ser negativo o 0');
+				}else{
+					return redirect()->back()->with('msj2', 'Su código no exite, por favor ingrese el código correcto');
+				}
 			}
-        }else{
-           return redirect()->back(); 
-        }
-    }
+		} catch (\Throwable $th) {
+			return redirect()->back()->with('msj2', 'ocurrio un error al validar el codigo, consulte con el adminitrador');
+			// dd($th);
+		}
+	}
     
     /**
      * Permite Obtener por donde se procesara el pago al usuario

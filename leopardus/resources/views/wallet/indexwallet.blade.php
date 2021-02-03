@@ -113,21 +113,38 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                 </table>
             </div>
         </div>
-        @if (Auth::user()->rol_id != 0)
-        <div class="col-xs-12 col-sm-6">
-            @if (!empty($cuentawallet))
+        @if (Auth::user()->rol_id != 0 && !$pagosPendientes)
+            @if ($diaRetiro)
+            <div class="col-xs-12 col-sm-6">
                 <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalRetiro">Retiro</button>
-            @else
-                <h5>No Tiene una billetera registrada por favor registrar, para poder seguir con el proceso de retiro</h5>
-                <a class="btn btn-primary btn-block" href="{{route('admin.user.edit')}}">Actualizar Billetera</a>
+            </div>
+             @else
+             <h5>
+                 Los dias de retiro son todos los jueves
+             </h5>
             @endif
+        @endif
+        @if ($pagosPendientes)
+        <div class="col-xs-12 col-sm-6">
+            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalValidacion">Validar Retiro</button>
         </div>
         @endif
     </div>
 </div>
 
-{{-- @include('wallet/componentes/formRetiro', ['disponible' => $disponible, 'tipowallet' => 1])
-@include('wallet/componentes/formTransferencia') --}}
+@include('wallet/componentes/formRetiro', ['disponible' => $disponible, 'tipowallet' => 1])
+{{-- @include('wallet/componentes/formTransferencia') --}}
+@include('wallet/componentes/modalValidacion')
+
+@if ($pagosPendientes)
+@push('custom_js')
+<script>
+    $(document).ready(function () {
+        $('#myModalValidacion').modal('show');
+    })
+</script>
+@endpush
+@endif
 
 @push('custom_js')
 <script>

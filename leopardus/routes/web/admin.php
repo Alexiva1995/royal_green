@@ -107,6 +107,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::post('/pay_rentabilidad', 'ComisionesController@process_rentabilidad')->name('wallet.pay.rentabilidad');
         Route::get('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
         Route::post('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
+        Route::post('/validarretiro', 'WalletController@VerificarRetiro')->name('waller.confimacion');
     });
 
     // Rentabilidad

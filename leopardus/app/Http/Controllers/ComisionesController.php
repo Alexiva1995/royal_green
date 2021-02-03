@@ -898,5 +898,36 @@ class ComisionesController extends Controller
         } catch (\Throwable $th) {
             dd($th);
         }
-    }    
+    }
+
+    /**
+     * Permite arreglar la billetera con unos bonos demas
+     *
+     * @return void
+     */
+    public function arreglarBilletera()
+    {
+        $registros = DB::table('log_rentabilidad_pay')->where('id_log_renta', '=', 0)->get();
+
+        foreach ($registros as $registro) {
+            $wallets = DB::table('walletlog')->where([
+                ['descripcion', 'like', 'Pago de utilidades%'],
+                ['iduser', '=', $registro->iduser],
+                ['debito', '=', $registro->debito],
+            ])/* ->whereDate('created_at', $registro->fecha_pago) */->first();
+
+            $user = User::find($registro->iduser);
+            $wallet = ($user->wallet_amount - $registro->debito);
+            $user->wallet_amount = $wallet;
+            $user->save();
+            
+            if ($wallets != null) {
+                DB::table('walletlog')->where([
+                    ['descripcion', 'like', 'Pago de utilidades%'],
+                    ['iduser', '=', $registro->iduser],
+                    // ['debito', '=', (float)$registro->debito],
+                ])->whereDate('created_at', $registro->fecha_pago)->delete();
+            }
+        }
+    }
 }
