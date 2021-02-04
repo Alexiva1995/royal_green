@@ -46,9 +46,9 @@ class AdminController extends Controller
     {
         $user = User::find($iduser);
 
-        $comi = new ComisionesController;
-        $comi->payBonus();
-        $comi->registePackageToRentabilizar($iduser);
+        // $comi = new ComisionesController;
+        // $comi->payBonus();
+        // $comi->registePackageToRentabilizar($iduser);
         if ($iduser == 1) {
             // $comi->arreglarPuntos();
             // dd('parar');

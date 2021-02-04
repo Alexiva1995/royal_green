@@ -524,6 +524,7 @@ class TiendaController extends Controller
                 $activacion->activarUsuarios($datoscompra['iduser']);
                 $comisiones = new ComisionesController;
                 $comisiones->payBonus();
+                $comisiones->registePackageToRentabilizar($datoscompra['iduser']);
             }
     
             if ($activacion2 == null) {
