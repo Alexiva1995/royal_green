@@ -930,4 +930,63 @@ class ComisionesController extends Controller
             }
         }
     }
+
+    /**
+     * Permite arreglar los puntos binarios
+     *
+     * @return void
+     */
+    public function arreglarPuntos()
+    {
+        // $binarios = Wallet::where('descripcion', 'like', 'Bono Binario')
+        //                     ->select(DB::raw('SUM(debito) as binario, iduser'))
+        //                     ->groupBy('iduser')
+        //                     ->get();
+        // $arrayResta = [];
+        // foreach ($binarios as $binario) {
+        //     $user = User::Find($binario->iduser);
+        //     $paquete = json_decode($user->paquete);
+        //     $puntos = ($binario->binario / $paquete->porc_binario);
+        //     $arrayResta[$binario->iduser] = round($puntos);
+        // }
+
+        // whereDate('created_at', '=', '02022021')
+
+        // $puntos = Wallet::where('puntosD', '>', 0)
+        //                 ->orWhere('puntosI', '>', 0)
+        //                 ->select(DB::raw('SUM(puntosD) as der, SUM(puntosI) as izq, iduser'))
+        //                 ->groupBy('iduser')
+        //                 ->get();
+
+
+        // foreach ($puntos as $punto) {
+        //     $user = User::find($punto->iduser);
+        //     $paquete = json_decode($user->puntos);
+        //     $derecha = $punto->der;
+        //     $izquierda = $punto->izq;
+            
+        //     $paquete->binario_izq = $izquierda;
+        //     $paquete->binario_der = $derecha;
+        //     DB::table('wp_users')->where('ID', $user->ID)->update(['puntos' => json_encode($paquete)]);
+        // }
+
+        // $puntos2 = Wallet::whereDate('created_at', '=', '02022021')
+        //                 ->where('puntosD', '>', 0)
+        //                 ->orWhere('puntosI', '>', 0)
+        //                 ->select(DB::raw('SUM(puntosD) as der, SUM(puntosI) as izq, iduser'))
+        //                 ->groupBy('iduser')
+        //                 ->get();
+
+
+        // foreach ($puntos2 as $punto) {
+        //     $user = User::find($punto->iduser);
+        //     $paquete = json_decode($user->puntos);
+        //     $derecha = ($paquete->binario_der - $punto->der);
+        //     $izquierda = ($paquete->binario_izq - $punto->izq);
+            
+        //     $paquete->binario_izq = $izquierda;
+        //     $paquete->binario_der = $derecha;
+        //     DB::table('wp_users')->where('ID', $user->ID)->update(['puntos' => json_encode($paquete)]);
+        // }
+    }
 }
