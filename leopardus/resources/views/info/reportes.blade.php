@@ -18,7 +18,7 @@
 
 {{-- formulario de fecha  --}}
 @include('dashboard.componentView.formSearch', ['route' => 'info.repor-fecha', 'name1' => 'primero', 'name2' =>
-'segundo', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
+'segundo', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
 {{-- formulario de fecha  --}}
 @include('dashboard.componentView.formSearchSimple', ['route' => 'info.nombre-bus', 'name1' => 'nombre', 'type' =>

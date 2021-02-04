@@ -6,7 +6,7 @@
 
 {{-- formulario de fecha  --}}
 @include('dashboard.componentView.formSearch', ['route' => 'price-filtro', 'name1' => 'desde', 'name2' =>
-'hasta', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
+'hasta', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
 {{-- alertas --}}
 @include('dashboard.componentView.alert')

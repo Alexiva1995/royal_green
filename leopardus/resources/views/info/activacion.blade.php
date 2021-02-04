@@ -7,6 +7,6 @@
 
 {{-- formulario de fecha  --}}
 @include('dashboard.componentView.formSearch', ['route' => 'info.mostrar-activo', 'name1' => 'primer_id', 'name2' =>
-'segundo_id', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
+'segundo_id', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
 @endsection

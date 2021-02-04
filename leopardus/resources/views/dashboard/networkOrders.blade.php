@@ -6,7 +6,7 @@
 
 {{-- formulario de fecha  --}}
 @include('dashboard.componentView.formSearch', ['route' => 'buscarnetworkorder', 'name1' => 'fecha1', 'name2' =>
-'fecha2', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
+'fecha2', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 {{-- formulario simple --}}
 @if (Auth::user()->ID == 1)
 <div class="card">
