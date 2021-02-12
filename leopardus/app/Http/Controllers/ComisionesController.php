@@ -900,93 +900,175 @@ class ComisionesController extends Controller
         }
     }
 
-    /**
-     * Permite arreglar la billetera con unos bonos demas
-     *
-     * @return void
-     */
-    public function arreglarBilletera()
-    {
-        $registros = DB::table('log_rentabilidad_pay')->where('id_log_renta', '=', 0)->get();
+    // /**
+    //  * permite arreglar las billeteras de algunos usuarios
+    //  *
+    //  * @return void
+    //  */
+    // public function arreglarBilletera()
+    // {
+    //     try {
+    //         $usuarios =  $this->arregloUserArreglar();
+    //         foreach ($usuarios as $usuario ) {
+    //             $bono = $usuario['total'];
+    //             $user2 = User::where('user_email', $usuario['correo'])->first();
+    //             $iduser = $user2->ID;
+    //             $concepto = $usuario['concepto'];
 
-        foreach ($registros as $registro) {
-            $wallets = DB::table('walletlog')->where([
-                ['descripcion', 'like', 'Pago de utilidades%'],
-                ['iduser', '=', $registro->iduser],
-                ['debito', '=', $registro->debito],
-            ])/* ->whereDate('created_at', $registro->fecha_pago) */->first();
+    //             $checkRentabilidad = DB::table('log_rentabilidad')->where([
+    //                 ['iduser', '=', $iduser],
+    //                 ['progreso', '<', 100]
+    //             ])->first();
 
-            $user = User::find($registro->iduser);
-            $wallet = ($user->wallet_amount - $registro->debito);
-            $user->wallet_amount = $wallet;
-            $user->save();
-            
-            if ($wallets != null) {
-                DB::table('walletlog')->where([
-                    ['descripcion', 'like', 'Pago de utilidades%'],
-                    ['iduser', '=', $registro->iduser],
-                    // ['debito', '=', (float)$registro->debito],
-                ])->whereDate('created_at', $registro->fecha_pago)->delete();
-            }
-        }
-    }
+    //             if ($checkRentabilidad != null) {
+    //                 $ganado = $bono;
+    //                 $balance = $ganado;
+    //                 $idRentabilidad = $checkRentabilidad->id;
+    //                 $finalizado = 0;
 
-    /**
-     * Permite arreglar los puntos binarios
-     *
-     * @return void
-     */
-    public function arreglarPuntos()
-    {
-        // $binarios = Wallet::where('descripcion', 'like', 'Bono Binario')
-        //                     ->select(DB::raw('SUM(debito) as binario, iduser'))
-        //                     ->groupBy('iduser')
-        //                     ->get();
-        // $arrayResta = [];
-        // foreach ($binarios as $binario) {
-        //     $user = User::Find($binario->iduser);
-        //     $paquete = json_decode($user->paquete);
-        //     $puntos = ($binario->binario / $paquete->porc_binario);
-        //     $arrayResta[$binario->iduser] = round($puntos);
-        // }
+    //                 $debito = 0;
+    //                 $credito = 0;
+    //                 $totalRetirado = 0;
+        
+    //                 if ($usuario['accion'] == 'sumar') {
+    //                     $totalGanado = ($checkRentabilidad->ganado + $ganado);
+    //                 } elseif($usuario['accion'] == 'restar') {
+    //                     $totalGanado = ($checkRentabilidad->ganado - $ganado);
+    //                     $totalRetirado = ($checkRentabilidad->retirado + $ganado);
+    //                 }
+                    
+    //                 $finalizacion = 0;
+    //                 if ($totalGanado >= $checkRentabilidad->limite) {
+    //                     if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+    //                         $totalGanado = $checkRentabilidad->limite;
+    //                         $ganado = ($totalGanado - $checkRentabilidad->ganado);
+    //                     }else{
+    //                         $finalizacion = 1;
+    //                         $finalizado = 1;
+    //                     }
+    //                 }
+    //                 if ($finalizacion == 0) {    
+    //                     $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+    //                     $balance = ($totalGanado - $checkRentabilidad->retirado);
+    //                     $dataRentabilidad = [
+    //                         'ganado' => $totalGanado,
+    //                         'retirado' => $totalRetirado,
+    //                         'progreso' => $progreso,
+    //                         'balance' => $balance
+    //                     ];
+    //                     DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+    //                 }
+        
+    //                 $user = User::find($iduser);
+    //                 // $user->wallet_amount = ($user->wallet_amount + $ganado);
+    //                 if ($usuario['accion'] == 'sumar') {
+    //                     $user->wallet_amount = ($user->wallet_amount + $ganado);
+    //                     $debito = $ganado;
+    //                 } elseif($usuario['accion'] == 'restar') {
+    //                     $user->wallet_amount = ($user->wallet_amount - $ganado);
+    //                     $credito = $ganado;
+    //                 }
+        
+    //                 $dataLogRentabilidadPay = [
+    //                     'iduser' => $iduser,
+    //                     'id_log_renta' => $idRentabilidad,
+    //                     'porcentaje' => 0,
+    //                     'debito' => $debito,
+    //                     'credito' => $credito,
+    //                     'balance' => $balance,
+    //                     'fecha_pago' => Carbon::now(),
+    //                     'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
+    //                 ];
+        
+    //                 $datosComisions = [
+    //                     'iduser' => $iduser,
+    //                     'usuario' => $user->display_name,
+    //                     'descripcion' => $concepto,
+    //                     'puntos' => 0,
+    //                     'puntosI' => 0,
+    //                     'puntosD' => 0,
+    //                     'email_referred' => 'Sistema',
+    //                     'descuento' => 0,
+    //                     'debito' => $debito,
+    //                     'credito' => $credito,
+    //                     'balance' => $user->wallet_amount,
+    //                     'tipotransacion' => 2
+    //                 ];
+        
+    //                 if ($finalizado == 0) {
+    //                     $user->save();
+    //                     DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+    //                     $this->wallet->saveWallet($datosComisions);
+    //                 }
+    //             }
+    //         }
+    //     } catch (\Throwable $th) {
+    //         dd($th);
+    //     }
+    // }
 
-        // whereDate('created_at', '=', '02022021')
-
-        // $puntos = Wallet::where('puntosD', '>', 0)
-        //                 ->orWhere('puntosI', '>', 0)
-        //                 ->select(DB::raw('SUM(puntosD) as der, SUM(puntosI) as izq, iduser'))
-        //                 ->groupBy('iduser')
-        //                 ->get();
-
-
-        // foreach ($puntos as $punto) {
-        //     $user = User::find($punto->iduser);
-        //     $paquete = json_decode($user->puntos);
-        //     $derecha = $punto->der;
-        //     $izquierda = $punto->izq;
-            
-        //     $paquete->binario_izq = $izquierda;
-        //     $paquete->binario_der = $derecha;
-        //     DB::table('wp_users')->where('ID', $user->ID)->update(['puntos' => json_encode($paquete)]);
-        // }
-
-        // $puntos2 = Wallet::whereDate('created_at', '=', '02022021')
-        //                 ->where('puntosD', '>', 0)
-        //                 ->orWhere('puntosI', '>', 0)
-        //                 ->select(DB::raw('SUM(puntosD) as der, SUM(puntosI) as izq, iduser'))
-        //                 ->groupBy('iduser')
-        //                 ->get();
-
-
-        // foreach ($puntos2 as $punto) {
-        //     $user = User::find($punto->iduser);
-        //     $paquete = json_decode($user->puntos);
-        //     $derecha = ($paquete->binario_der - $punto->der);
-        //     $izquierda = ($paquete->binario_izq - $punto->izq);
-            
-        //     $paquete->binario_izq = $izquierda;
-        //     $paquete->binario_der = $derecha;
-        //     DB::table('wp_users')->where('ID', $user->ID)->update(['puntos' => json_encode($paquete)]);
-        // }
-    }
+    // /**
+    //  * Los usuarios y las cosas que tienes que hacer
+    //  *
+    //  * @return array
+    //  */
+    // public function arregloUserArreglar(): array
+    // {
+    //     return [
+    //         [
+    //             'correo' => 'entherfoundworld@gmail.com',
+    //             'accion' => 'sumar',
+    //             'concepto' => 'Retroactivo de rentabilidad',
+    //             'total' => 23.16
+    //         ],
+    //         [
+    //             'correo' => 'entherfoundworld@gmail.com',
+    //             'accion' => 'restar',
+    //             'concepto' => 'Reajuste de bono binario',
+    //             'total' => 4
+    //         ],
+    //         [
+    //             'correo' => 'multiclickworld@gmail.com',
+    //             'accion' => 'sumar',
+    //             'concepto' => 'Retroactivo de rentabilidad',
+    //             'total' => 11.58
+    //         ],
+    //         [
+    //             'correo' => 'equipo.mundial2018@gmail.com',
+    //             'accion' => 'sumar',
+    //             'concepto' => 'Retroactivo de rentabilidad',
+    //             'total' => 11.58
+    //         ],
+    //         [
+    //             'correo' => 'jtan17@hotmail.com',
+    //             'accion' => 'restar',
+    //             'concepto' => 'Reajuste de bono binario',
+    //             'total' => 100
+    //         ],
+    //         [
+    //             'correo' => 'Jessyeme02@gmail.com',
+    //             'accion' => 'sumar',
+    //             'concepto' => 'Retroactivo de bono binario',
+    //             'total' => 576
+    //         ],
+    //         [
+    //             'correo' => 'Juan.daniel0521@gmail.com',
+    //             'accion' => 'restar',
+    //             'concepto' => 'Reajuste de bono binario',
+    //             'total' => 90
+    //         ],
+    //         [
+    //             'correo' => 'Jogonzalezh0712@gmail.com',
+    //             'accion' => 'sumar',
+    //             'concepto' => 'Retroactivo de rentabilidad',
+    //             'total' => 17.4
+    //         ],
+    //         [
+    //             'correo' => 'nancyloaizandr@gmail.com',
+    //             'accion' => 'sumar',
+    //             'concepto' => 'Retroactivo de rentabilidad',
+    //             'total' => 42
+    //         ],
+    //     ];
+    // }
 }
