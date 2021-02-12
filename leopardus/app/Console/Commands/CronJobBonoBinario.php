@@ -25,7 +25,7 @@ class CronJobBonoBinario extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Permite borrar los puntos binarios de los usuarios';
 
     /**
      * Create a new command instance.
@@ -44,10 +44,10 @@ class CronJobBonoBinario extends Command
      */
     public function handle()
     {
-        $comision = new ComisionesController;    
-        $comision->cronjobBinario();
+        // $comision = new ComisionesController;    
+        // $comision->cronjobBinario();
 
-        $horaActual = Carbon::now()->format('Y-m-d H:i');
-        $this->info('Bonos binarios actualizados '.$horaActual);
+        // $horaActual = Carbon::now()->format('Y-m-d H:i');
+        // $this->info('Bonos binarios actualizados '.$horaActual);
     }
 }

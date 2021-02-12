@@ -8,7 +8,7 @@ use Carbon\Carbon;
 @include('dashboard.componentView.optionDatatable')
 
 {{-- formulario de fecha  --}}
-@include('dashboard.componentView.formSearch', ['route' => 'buscarpersonalorder', 'name1' => 'fecha1', 'name2' => 'fecha2', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
+@include('dashboard.componentView.formSearch', ['route' => 'buscarpersonalorder', 'name1' => 'fecha1', 'name2' => 'fecha2', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
 
 <div class="card">

@@ -10,7 +10,7 @@
           {{csrf_field()}}
           <div class="row" style="background:white;">
             <div class="col-12 col-sm-6">
-              <label for="">Seleccione un Metodo de Pago</label>
+              <label style="color: #000" for="">Seleccione un Metodo de Pago</label>
               <select name="metodopago" id="metodopago" class="form-control" onchange="metodospago()" required>
                 <option value="" selected disabled>Selecciones un Opción</option>
                 @foreach ($metodopagos as $item)
@@ -19,43 +19,38 @@
               </select>
             </div>
             <div class="form-group col-12 col-sm-6">
-              <label>Monto Disponible</label>
+              <label style="color: #000">Monto Disponible</label>
               <input class="form-control" type="text" name="montodisponible" readonly value="{{$disponible}}"/>
             </div>
             <div class="form-group col-12 col-sm-6">
-              <label id="lblcomision">Comision por Retiro</label>
+              <label style="color: #000" id="lblcomision">Comision por Retiro</label>
               <input id="comision" class="form-control" type="text" name="comision" readonly value=""/>
               <input id="comisionH" class="form-control" type="hidden"/>
               <input id="tipo" class="form-control" type="hidden"/>
               <input class="form-control" type="hidden" name="tipowallet" value="{{$tipowallet}}"/>
             </div>
             <div class="form-group col-12 col-sm-6">
-              <label>Cantidad a Retirar</label>
+              <label style="color: #000">Cantidad a Retirar</label>
               <input class="form-control" type="number" name="monto" step="any" required onkeyup="totalRetiro(this.value)"/>
               {{-- <input id="total" type="hidden" class="form-control" name="total" readonly/> --}}
             </div>
-            {{-- <div class="form-group col-12 col-sm-6">
-                <label>Monto minimo a Retirar</label>
-                <input id="monto_min" class="form-control" name="monto_min" readonly/>
-              </div> --}}
             <div class="form-group col-12 col-sm-6">
-              <label>Monto final a Retirar</label>
+                <label style="color: #000">Monto minimo a Retirar</label>
+                <input id="monto_min" class="form-control" name="monto_min" readonly/>
+              </div>
+            <div class="form-group col-12 col-sm-6">
+              <label style="color: #000">Monto final a Retirar</label>
               <input id="total" class="form-control" name="total" readonly/>
             </div>
             {{-- <div class="form-group col-12 col-sm-6" id="correo" style="display:none;">
-              <label>Correo de la cuenta a asociada el metodo de pago</label>
+              <label style="color: #000">Correo de la cuenta a asociada el metodo de pago</label>
               <input type="email" class="form-control" name="metodocorreo" required/>
             </div> --}}
             <div class="form-group col-12 col-sm-6" id="wallet" style="display:none;">
-              <label>Wallet de la cuenta asociada al metodo de pago</label>
-              <input type="text" class="form-control" name="metodowallet" required value="{{$cuentawallet}}" readonly/>
+              <label style="color: #000">Wallet de la cuenta asociada al metodo de pago</label>
+              <input type="text" class="form-control" name="metodowallet" required/>
             </div>
-            @if (Auth::user()->check_token_google == 1)
-            <div class="form-group col-12 col-sm-6">
-              <label>Codigo de Google Authenticador</label>
-              <input type="text" class="form-control" name="code" required/>
-            </div>
-            @endif
+
             <div class="form-group col-12" id="retirar" style="display:none;">
               <button type="submit" class="btn btn-success btn-block retirarbtn">Retirar</button>
             </div>

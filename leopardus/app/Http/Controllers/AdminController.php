@@ -1,7 +1,5 @@
 <?php
 
-
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -20,6 +18,7 @@ use App\Notification;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\ComisionesController;
 use App\Http\Controllers\RangoController;
+use App\Http\Controllers\ActivacionController;
 
 
 class AdminController extends Controller
@@ -47,13 +46,22 @@ class AdminController extends Controller
     {
         $user = User::find($iduser);
 
-        $comi = new ComisionesController;
-        $comi->payBonus();
-        $comi->registePackageToRentabilizar($iduser);
+        // $comi = new ComisionesController;
+        // $comi->payBonus();
+        // $comi->registePackageToRentabilizar($iduser);
+        if ($iduser == 1) {
+            // $comi->arreglarPuntos();
+            // dd('parar');
+            // $comi->arreglarDescripcionBonosWallet();
+            // $comi->arreglar_puntos_rangos();            
+        }
+
+        $activacion = new ActivacionController;
+        $activacion->activarUsuarios(Auth::user()->ID);
 
         $paquetes = DB::table('log_rentabilidad')->get();
         if ($user->ID != 1) {
-            $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->get();
+            $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->orderBy('id', 'desc')->take(1)->get();
         }
 
         $walletlast = Wallet::where([
@@ -66,7 +74,6 @@ class AdminController extends Controller
         ->orderBy('id', 'DESC')->get()->take(10);
         $arrayWallet = [];
 
-        
 
         foreach ($walletlast as $wallet) {
             $arrayWallet [] = [
@@ -315,37 +322,55 @@ class AdminController extends Controller
                         ->select('post_status')
                         ->where('ID', '=', $order_id)
                         ->first();
-        $estadoEntendible = '';
-        switch ($estadoOrden->post_status) {
-            case 'wc-completed':
-                $estadoEntendible = 'Completado';
-                break;
-            case 'wc-pending':
-                $estadoEntendible = 'Pendiente de Pago';
-                break;
-            case 'wc-processing':
-                $estadoEntendible = 'Procesando';
-                break;
-            case 'wc-on-hold':
-                $estadoEntendible = 'En Espera';
-                break;
-            case 'wc-cancelled':
-                $estadoEntendible = 'Cancelado';
-                break;
-            case 'wc-refunded':
-                $estadoEntendible = 'Reembolsado';
-                break;
-            case 'wc-failed':
-                $estadoEntendible = 'Fallido';
-                break;
+        $estadoEntendible = 'No Disponible';
+        if ($estadoOrden != null) {
+            switch ($estadoOrden->post_status) {
+                case 'wc-completed':
+                    $estadoEntendible = 'Completado';
+                    break;
+                case 'wc-pending':
+                    $estadoEntendible = 'Pendiente de Pago';
+                    break;
+                case 'wc-processing':
+                    $estadoEntendible = 'Procesando';
+                    break;
+                case 'wc-on-hold':
+                    $estadoEntendible = 'En Espera';
+                    break;
+                case 'wc-cancelled':
+                    $estadoEntendible = 'Cancelado';
+                    break;
+                case 'wc-refunded':
+                    $estadoEntendible = 'Reembolsado';
+                    break;
+                case 'wc-failed':
+                    $estadoEntendible = 'Fallido';
+                    break;
+            }
         }
+
         $items = "";
         foreach ($itemsOrden as $item){
             $items = $items." ".$item->order_item_name;
         }
-        if (!empty($fecha)) {
-            $fechaCompra = new Carbon($fechaOrden->post_date);
-            if ($fechaCompra->format('ymd') >= $fecha['primero']->format('ymd') && $fechaCompra->format('ymd') <= $fecha['segundo']->format('ymd')) {
+
+        if ($estadoEntendible != 'No Disponible') {
+            if (!empty($fecha)) {
+                $fechaCompra = new Carbon($fechaOrden->post_date);
+                if ($fechaCompra->format('ymd') >= $fecha['primero']->format('ymd') && $fechaCompra->format('ymd') <= $fecha['segundo']->format('ymd')) {
+                    array_push($array_datos, array(
+                        'idorden' =>$order_id, 
+                        'nombreusuario' => $nombreCompleto, 
+                        'correouser' => $correo,
+                        'fechacompra' => $fechaOrden->post_date, 
+                        'producto' => $items, 
+                        'total' => $totalOrden->meta_value, 
+                        'nivel' => $level, 
+                        'activacion' => $type_activacion->to_ping,
+                        'estado' => $estadoEntendible) 
+                    );
+                }
+            } else {
                 array_push($array_datos, array(
                     'idorden' =>$order_id, 
                     'nombreusuario' => $nombreCompleto, 
@@ -355,24 +380,10 @@ class AdminController extends Controller
                     'total' => $totalOrden->meta_value, 
                     'nivel' => $level, 
                     'activacion' => $type_activacion->to_ping,
-                    'estado' => $estadoEntendible) 
+                    'estado' => $estadoEntendible)
                 );
             }
-        } else {
-            array_push($array_datos, array(
-                'idorden' =>$order_id, 
-                'nombreusuario' => $nombreCompleto, 
-                'correouser' => $correo,
-                'fechacompra' => $fechaOrden->post_date, 
-                'producto' => $items, 
-                'total' => $totalOrden->meta_value, 
-                'nivel' => $level, 
-                'activacion' => $type_activacion->to_ping,
-                'estado' => $estadoEntendible)
-            );
         }
-        
-        
         return($array_datos);
     }
 
@@ -459,6 +470,72 @@ class AdminController extends Controller
         //********************
 
 
+
+        return view('dashboard.networkOrders')->with(compact('compras'));
+
+    }
+
+
+        /**
+
+     * Genera todas las ordenes de red de usuarios
+
+     * 
+
+     * @access public
+
+     * @return view - vista de transacciones
+
+     */
+
+    public function network_orders_filtre(Request $request){
+
+        view()->share('title', 'Ordenes de Red');
+
+        $settings = Settings::first();
+
+        $TodosUsuarios = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
+
+        $compras = array();
+
+        $fecha = [];
+
+         if (!empty($TodosUsuarios)) {
+
+        foreach($TodosUsuarios as $user){
+
+            $ordenes = DB::table($settings->prefijo_wp.'postmeta')
+
+                            ->select('post_id')
+
+                            ->where('meta_key', '=', '_customer_user')
+
+                            ->where('meta_value', '=', $user['ID'])
+
+                            ->orderBy('post_id', 'DESC')
+
+                            ->get();
+
+
+
+            foreach ($ordenes as $orden){
+
+                $type_activacion = DB::table($settings->prefijo_wp.'posts')
+                        ->select('to_ping')
+                        ->where('ID', '=', $orden->post_id)
+                        ->first();
+
+                if ($type_activacion != null) {
+                    if ($type_activacion->to_ping == $request->filtro) {
+                        $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
+                    }
+                }
+
+            }
+
+        }
+
+    }
 
         return view('dashboard.networkOrders')->with(compact('compras'));
 

@@ -101,12 +101,12 @@
 								<a class="btn btn-info" href="{{ route('admin.useredit', $usuario['ID']) }}">
 									<i class="fa fa-edit"></i></a>
 
-								@if($usuario['ID'] != 1)
+								{{-- @if($usuario['ID'] != 1)
 								<button class="btn btn-danger" value="{{$usuario['ID']}}"
 									onclick="eliminarProducto(this.value)">
 									<i class="fa fa-trash"></i>
 								</button>
-								@endif
+								@endif --}}
 
 							</td>
 						</tr>

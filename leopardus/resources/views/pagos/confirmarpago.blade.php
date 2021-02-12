@@ -6,7 +6,7 @@
 
 {{-- formulario de fecha  --}}
 @include('dashboard.componentView.formSearch', ['route' => 'price-filtro', 'name1' => 'desde', 'name2' =>
-'hasta', 'text1' => 'Fecha Desde', 'text1' => 'Fecha Hasta', 'type' => 'date'])
+'hasta', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
@@ -57,16 +57,7 @@ $total = 0;
 								Fecha
 							</th>
 							<th>
-								Wallet de Retiro
-							</th>
-							<th>
-								Metodo
-							</th>
-							<th>
-								Tipo de Metodo
-							</th>
-							<th>
-								Tipo de Retiro
+								Billetera
 							</th>
 							<th>
 								Estado
@@ -94,9 +85,9 @@ $total = 0;
 							<td>
 								
 									@if ($moneda->mostrar_a_d)
-									{{$moneda->simbolo}} {{$pago->monto}}
+									{{$moneda->simbolo}} {{number_format($pago->monto, 2, ',', '.')}}
 									@else
-									{{$pago->monto}} {{$moneda->simbolo}}
+									{{number_format($pago->monto, 2, ',', '.')}} {{$moneda->simbolo}}
 									@endif
 								
 							</td>
@@ -104,28 +95,7 @@ $total = 0;
 								{{$pago->fechasoli}}
 							</td>
 							<td>
-								
-									@if ($pago->tipowallet == 0)
-									Point
-									@elseif($pago->tipowallet == 1)
-									Cash
-									@else
-									Tantech
-									@endif
-								
-							</td>
-							<td>
-								{{$pago->metodo}}
-							</td>
-							<td>
 								{{$pago->tipopago}}
-							</td>
-							<td>
-								@if ($pago->tipo_retiro == 1)
-									Billetera Normal
-								@elseif($pago->tipo_retiro == 2)
-									Rentabilidad
-								@endif
 							</td>
 							<td>
 								@if ($pago->estado == 0)
@@ -134,10 +104,10 @@ $total = 0;
 							</td>
 							<td>
 								
-									<a class="btn btn-info" href="{{route('price-aprobar', [$pago->id])}}"><i
-											class="fas fa-check"></i></a>
-									<a class="btn btn-danger" href="{{route('price-rechazar', [$pago->id])}}"><i
-											class="fas fa-ban"></i></a>
+									<a class="btn btn-info" href="{{route('price-aprobar', [$pago->id])}}">
+										<i class="fa fa-check"></i></a>
+									<a class="btn btn-danger" href="{{route('price-rechazar', [$pago->id])}}">
+										<i class="fa fa-times"></i></a>
 								
 							</td>
 						</tr>

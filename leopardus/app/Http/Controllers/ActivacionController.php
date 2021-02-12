@@ -23,31 +23,33 @@ class ActivacionController extends Controller
         $user = User::find($userid);
         $fechaActual = Carbon::now();
         $paquete = [];
-        if (!$this->statusActivacion($user)) {
+        if (true) {
             $compras = $funciones->getInforShopping($user->ID);
             $fechaNueva = null;
             $activo = false;
             foreach ($compras as $compra) {
-                $fechaTmp = new Carbon($compra['fecha']);
-                $fechaNueva = $fechaTmp->addDay(365);
-                if ($fechaNueva > $fechaActual) {
-                    $activo = true;
-                    foreach ($compra['productos'] as $producto) {
-                        $paquete = $producto;
+                    $fechaTmp = new Carbon($compra['fecha']);
+                    $fechaNueva = $fechaTmp->addDay(365);
+                    if ($fechaNueva > $fechaActual) {
+                        $activo = true;
+                        foreach ($compra['productos'] as $producto) {
+                            $paquete = $producto;
+                        }
+                    }else{
+                        $activo = false;
                     }
-                }else{
-                    $activo = false;
-                }
             }
             if ($activo) {
                 $user->paquete = json_encode($paquete);
                 $user->status = 1;
                 $user->fecha_activacion = $fechaNueva;
+                $user->save();
             }else{
-                $user->fecha_activacion = null;
+                $user->paquete = null;
                 $user->status = 0;
+                $user->save();
             }
-            $user->save();
+            // $user->save();
         }
     }
 
@@ -65,11 +67,28 @@ class ActivacionController extends Controller
             $result = false;
         }else{
             $fechatmp = new Carbon($user->fecha_activacion);
-            if ($fechatmp < $fechaActual) {
+            if ($fechaActual > $fechatmp) {
                 $result = false;
             }
         }
         return $result;
+    }
+
+    /**
+     * Permite arreglar los paquetes activos 
+     *
+     * @return void
+     */
+    public function arreglarPaqueteActivado()
+    {
+        $users = User::where([
+            ['status', '=', 1],
+            ['ID', '!=', 1]
+        ])->select('ID')->get();
+
+        foreach ($users as $user) {
+            $this->activarUsuarios($user->ID);
+        }
     }
 
 }

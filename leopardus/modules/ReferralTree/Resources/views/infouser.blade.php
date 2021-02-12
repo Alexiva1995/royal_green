@@ -28,7 +28,7 @@
                             Pto. Izq: <strong>{{$data->puntos->binario_izq}}</strong>
                         </h6>
                         <h6>
-                            Pto. Dzq: <strong>{{$data->puntos->binario_der}}</strong>
+                            Pto. Der: <strong>{{$data->puntos->binario_der}}</strong>
                         </h6>
                     </div>
                 </div>

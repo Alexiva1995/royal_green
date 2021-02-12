@@ -99,7 +99,11 @@ class IndexController extends Controller
         $resul = User::where($typeTree, '=', $id)->orderBy('ladomatrix', 'desc')->get();
         foreach ($resul as $user) {
             $patrocinado = User::find($user->referred_id);
+            $paquete = json_decode($user->paquete);
             $user->avatar = asset('avatar/'.$user->avatar);
+            if (!empty($paquete)) {
+                $user->avatar = asset('assets/paquetes/iconos/'.$paquete->precio.'.png');
+            }
             $user->nivel = $nivel;
             $user->ladomatriz = $user->ladomatrix;
             $user->patrocinador = $patrocinado->display_name;
@@ -496,6 +500,10 @@ class IndexController extends Controller
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],
                         ['to_ping', '=', 'Coinbase']
+                    ])->orWhere([
+                        ['post_type', '=', 'shop_order'],
+                        ['post_status', '=', 'wc-completed'],
+                        ['ID', '=', 5964]
                     ])
                     ->whereDate('post_date', '>', $fecha->subDay(30))
                     ->get();

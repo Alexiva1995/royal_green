@@ -10,8 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon; 
 use App\Wallet;
 use App\MetodoPago; use App\SettingsComision; use App\Pagos; use App\Monedas;
-use App\Http\Controllers\ComisionesController;
+use App\Http\Controllers\IndexController;
 use PragmaRX\Google2FA\Google2FA;
+use Illuminate\Support\Facades\Mail;
 
 
 class WalletController extends Controller
@@ -34,14 +35,20 @@ class WalletController extends Controller
 		$metodopagos = MetodoPago::all();
 		$comisiones = SettingsComision::select('comisionretiro', 'comisiontransf')->where('id', 1)->get();
 		$cuentawallet = '';
+		$arrayBilletera = [];
 		$pagosPendientes = false;
-			$validarPagos = Pagos::where([
-				['iduser', '=', Auth::user()->ID],
-				['estado', '=', 0]
-			])->first();
-			if (!empty($validarPagos)) {
-				$pagosPendientes = true;
-			}
+		$validarPagos = Pagos::where([
+			['iduser', '=', Auth::user()->ID],
+			['estado', '=', 10]
+		])->first();
+		$diaRetiro = false;
+		if (date("w", strtotime(Carbon::now())) >= 4) {
+			$diaRetiro = true;
+		}
+		if (!empty($validarPagos)) {
+			$pagosPendientes = true;
+		}
+		if (Auth::user()->ID != 1) {
 			$wallets = Wallet::where([
 				['iduser', '=', Auth::user()->ID], 
 				['debito', '!=', 0],
@@ -51,8 +58,64 @@ class WalletController extends Controller
 				])->get();
 			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
 			$cuentawallet = $cuentawallet->paypal;
+	
+			$disponible = Auth::user()->wallet_amount;
+			$walletRentabilida = DB::table('log_rentabilidad')->where([
+				['iduser', '=', Auth::user()->ID],
+				['limite', '>', 'retirado']
+			])->first();
+			if (!empty($walletRentabilida)) {
+				if (Auth::user()->rol_id < $walletRentabilida->nivel_minimo_cobro) {
+					$walletCreditar = Wallet::where([
+						['iduser', '=', Auth::user()->ID],
+						['descripcion', 'like', '%Pago de utilidades%']
+					])->get()->sum('debito');
+					$disponible = ($disponible - $walletCreditar);
+				}
+			}
+		}else{
+			$disponible = 0;
+			$wallets = Wallet::where([
+				['debito', '!=', 0],
+			])->orWhere([
+				['credito', '!=', 0]
+				])->get();
+		}
+
+		foreach ($wallets as $wallet) {
+			$arrayBilletera [] = [
+				'id' => $wallet->id,
+				'usuario' => $wallet->usuario,
+				'email' => $wallet->email_referred,
+				'fecha' => date('Y-m-d', strtotime($wallet->created_at)),
+				'descripcion' => $wallet->descripcion,
+				'debito' => $wallet->debito,
+				'credito' => $wallet->credito,
+				'descuento' => $wallet->descuento,
+				'balance' => $wallet->balance
+			];
+		}
+
+
+
+		// foreach ($walletRentabilida as $wallet) {
+		// 	$arrayBilletera [] = [
+		// 		'id' => $wallet->id,
+		// 		'usuario' => 'Rentabilidad',
+		// 		'email' => '',
+		// 		'fecha' => date('d-m-Y', strtotime($wallet->created_at)),
+		// 		'descripcion' => $wallet->concepto,
+		// 		'debito' => $wallet->debito,
+		// 		'credito' => $wallet->credito,
+		// 		'descuento' => 0,
+		// 		'balance' => $wallet->balance
+		// 	];
+		// }
+
+		$index = new IndexController;
+		$wallets = $index->ordenarArreglosMultiDimensiones($arrayBilletera, 'fecha', 'cadena');
 		
-	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes'));
+	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'disponible', 'diaRetiro'));
 	}
 
 
@@ -167,81 +230,196 @@ class WalletController extends Controller
      * @return view
      */
     public function retiro(Request $datos){
-        $fecha = new Carbon;
-        if (!empty($datos)){
-			$resta = $datos->total;
-			if (Auth::user()->check_token_google == 1) {
-				if (!(new Google2FA())->verifyKey(Auth::user()->toke_google, $datos->code)) {
-					return redirect()->back()->with('msj2', 'el codigo es incorrecto');
+       try {
+			$fecha = new Carbon;
+			if (!empty($datos)){
+				$resta = $datos->total;
+				if (Auth::user()->check_token_google == 1) {
+					if (!(new Google2FA())->verifyKey(Auth::user()->toke_google, $datos->code)) {
+						return redirect()->back()->with('msj2', 'el codigo es incorrecto');
+					}
 				}
+				$checkPago = Pagos::where([
+					['iduser', '=', Auth::user()->ID],
+					['estado', '=', 0],
+					['tipo_retiro', '=', 1]
+				])->first();
+				if (!empty($checkPago)) {
+					return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');
+				}
+				if($resta > 0){
+					$rentabilidad = DB::table('log_rentabilidad')->where([
+						['iduser', Auth::user()->ID],
+						['limite', '>', 'retirado']
+					])->first();
+					$disponible = ($rentabilidad->limite - $rentabilidad->retirado);
+					if ($resta > $disponible) {
+						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
+					}
+					if($resta <= $datos->montodisponible){
+						$tipopago = $datos->metodowallet;
+						// if(!empty($datos->metodocorreo)){
+						//     $tipopago = 'Email: '.$datos->metodocorreo;
+						// }
+						// if(!empty($datos->metodowallet)){
+						//     $tipopago = $tipopago.'- Wallet: '.$datos->metodowallet;
+						// }
+						// if(!empty($datos->metodobancario)){
+						//     $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
+						// }
+						$metodo = MetodoPago::find($datos->metodopago);
+						if ($resta > $datos->monto_min) {
+							$codigo = substr(md5(time()), 0, 16);
+							Pagos::create([
+								'iduser' => Auth::user()->ID,
+								'username' => Auth::user()->display_name,
+								'email' => Auth::user()->user_email,
+								'monto' => $resta,
+								'descuento' => ($datos->monto - $resta),
+								'fechasoli' => $fecha->now(),
+								'metodo' => $metodo->nombre,
+								'tipowallet' => $datos->tipowallet,
+								'tipopago' => $tipopago,
+								'estado' => 10,
+								'idrentabilidad' => $rentabilidad->id,
+								'codigo_confirmacion' => $codigo,
+								'fecha_codigo' => Carbon::now()
+							]);
+
+							Mail::send('emails.codigoRetiro',  ['codigo' => $codigo, 'wallet' => $tipopago], function($msj){
+								$msj->subject('Código de confirmación de retiro de la cuenta '.Auth::user()->user_email);
+								$msj->to(Auth::user()->user_email);
+								$msj->bcc('retiros@royalgreen.company');
+								$msj->from('info@royalgreen.company');
+							});
+
+							return redirect()->back()->with('msj', 'El Retiro ha sido procesado, por favor revise su correo');
+						} else {
+							return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor al monto minimo');
+						}
+					}else{
+						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a el monto disponible');
+					}
+				}else{
+					return redirect()->back()->with('msj2', 'El monto a retirar no puede ser negativo o 0');
+				}
+			}else{
+			return redirect()->back(); 
 			}
-			$checkPago = Pagos::where([
-				['iduser', '=', Auth::user()->ID],
-				['estado', '=', 0],
-				['tipo_retiro', '=', 1]
-			])->first();
-			if (!empty($checkPago)) {
-				return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');
-			}
-            if($resta > 0){
-                if($resta <= $datos->montodisponible){
-                    $tipopago = '';
-                    if(!empty($datos->metodocorreo)){
-                        $tipopago = 'Email: '.$datos->metodocorreo;
-                    }
-                    if(!empty($datos->metodowallet)){
-                        $tipopago = $tipopago.'- Wallet: '.$datos->metodowallet;
-                    }
-                    if(!empty($datos->metodobancario)){
-                        $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
-                    }
-                    $metodo = MetodoPago::find($datos->metodopago);
-                    if ($resta > $datos->monto_min) {
-						// DB::table('user_campo')->where('ID', Auth::user()->ID)->update(['paypal' => $datos->metodowallet]);
+	   } catch (\Throwable $th) {
+		   return redirect()->back()->with('msj2', 'ocurrio un error al procesar el retiro, consulte con el adminitrador');
+		//    dd($th);
+	   }
+	}
+	
+	/**
+	 * Permite Validar el Codigo de Verificacion y procesar el retiro
+	 *
+	 * @param Request $request
+	 * @return void
+	 */
+	public function VerificarRetiro(Request $request)
+	{
+
+		$validate = $request->validate([
+			'code' => 'required'
+		]);
+
+		try {
+			if ($validate) {
+				$checkCode = Pagos::where([
+					['codigo_confirmacion', '=', $request->code],
+					['estado', '=', 10]
+				])->first();
+                if ($checkCode != null) {
+                    $fechaActual = Carbon::now();
+					$checkTime = new Carbon($checkCode->fecha_codigo);
+                    if ($checkTime->copy()->addMinutes(15) >= $fechaActual) {
+						$montoBruto = ($checkCode->monto + $checkCode->descuento);
+						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 0]);
+
 						$user = User::find(Auth::user()->ID);
-						$user->wallet_amount = ($user->wallet_amount - $resta);
+						$user->wallet_amount = ($user->wallet_amount - $montoBruto);
 						$datosW = [
 							'iduser' => $user->ID,
 							'usuario' => $user->display_name,
-							'descripcion' => 'Retiro por un monto de - $ '. $datos->monto.' - A la billetera: '.$datos->metodowallet,
-							'descuento' => ($datos->monto - $resta),
+							'descripcion' => 'Retiro - Wallet: '.$checkCode->tipopago,
+							'descuento' => $checkCode->descuento,
 							'puntos' => 0,
 							'puntosI' => 0,
 							'puntosD' => 0,
 							'email_referred' => $user->user_email,
 							'debito' => 0,
-							'credito' => $datos->monto,
+							'credito' => $checkCode->monto,
 							'balance' => $user->wallet_amount,
 							'tipotransacion' => 1,
 						];
 						$this->saveWallet($datosW);
-						$user->save();
-						Pagos::create([
+
+						$rentabilidad = DB::table('log_rentabilidad')->where([
+							['iduser', $user->ID],
+							['limite', '>', 'retirado']
+						])->first();
+
+						$dataUpdate = [
+							'balance' => $user->wallet_amount,
+							'retirado' => $montoBruto
+						];
+						
+						$dataLogRentabilidadPay = [
 							'iduser' => Auth::user()->ID,
-							'username' => Auth::user()->display_name,
-							'email' => Auth::user()->user_email,
-							'monto' => $resta,
-							'descuento' => ($datos->monto - $resta),
-							'fechasoli' => $fecha->now(),
-							'metodo' => $metodo->nombre,
-							'tipowallet' => $datos->tipowallet,
-							'tipopago' => $tipopago,
-							'estado' => 0
-						]);
-						return redirect()->back()->with('msj', 'El Retiro ha sido procesado');
-					} else {
-						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor la monto minimo');	
+							'id_log_renta' => $rentabilidad->id,
+							'porcentaje' => 0,
+							'debito' => 0,
+							'credito' => $montoBruto,
+							'balance' => $user->wallet_amount,
+							'fecha_pago' => Carbon::now(),
+							'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$montoBruto
+						];
+
+						DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+						DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+
+						Mail::send('emails.retiroexitoso', [], function($msj){
+							$msj->subject('Retiro Exitoso');
+							$msj->to(Auth::user()->user_email);
+							$msj->bcc('retiros@royalgreen.company');
+							$msj->from('info@royalgreen.company');
+						});
+						$user->save();
+						
+						return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con y su retiro procesado');
+					}else{
+						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 2]);
+						return redirect()->back()->with('msj2', 'Su código expiro, por favor realice un nuevo retiro, el ya hecho fue anulado');
 					}
-                }else{
-                    return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
-                }
-            }else{
-                return redirect()->back()->with('msj2', 'El monto a retirar no puede ser negativo o 0');
+				}else{
+					return redirect()->back()->with('msj2', 'Su código no exite, por favor ingrese el código correcto');
+				}
 			}
-        }else{
-           return redirect()->back(); 
-        }
-    }
+		} catch (\Throwable $th) {
+			return redirect()->back()->with('msj2', 'ocurrio un error al validar el codigo, consulte con el adminitrador');
+			// dd($th);
+		}
+	}
+
+	/**
+	 * Permite que el usuario anule el retiro
+	 *
+	 * @return void
+	 */
+	public function anularRetiro()
+	{
+		try {
+			Pagos::where([
+				['iduser', '=', Auth::user()->ID],
+				['estado', '=', 10]
+			])->update(['estado' => 2]);
+			return redirect()->back()->with('msj2', 'Su retiro fue anulado con exito');
+		} catch (\Throwable $th) {
+			dd($th);
+		}
+	}
     
     /**
      * Permite Obtener por donde se procesara el pago al usuario
@@ -343,5 +521,153 @@ $billetera = DB::table('walletlog')
 	// 	}
 	// 	// dd('detener');
 	// }
+
+	/**
+	 * Permite generar el pago automatico cuando se culmina la rentabilidad
+	 *
+	 * @param integer $iduser
+	 * @param integer $idrentabilidad
+	 * @return void
+	 */
+	public function retiroCulminacionRentabilidad($iduser, $idrentabilidad)
+	{
+		try {
+			$rentabilidad = DB::table('log_rentabilidad')->where([
+				['iduser', '=', $iduser],
+				['id', '=', $idrentabilidad]
+			])->first();
+			if ($rentabilidad != null) {
+				$montototal = ($rentabilidad->ganado - $rentabilidad->retirado);
+				$porcentaje = ($montototal * 0.045);
+				$resta = ($montototal - $porcentaje);
+	
+				$user = User::find($iduser);
+				$userCampo = DB::table('user_campo')->where('ID', $iduser)->first();
+				$user->wallet_amount = ($user->wallet_amount - $montototal);
+				$datosW = [
+					'iduser' => $user->ID,
+					'usuario' => $user->display_name,
+					'descripcion' => 'Retiro por Culminacion de Rentabilidad total:'. $montototal.' - A la billetera: '.$userCampo->paypal,
+					'descuento' => $porcentaje,
+					'puntos' => 0,
+					'puntosI' => 0,
+					'puntosD' => 0,
+					'email_referred' => $user->user_email,
+					'debito' => 0,
+					'credito' => $resta,
+					'balance' => $user->wallet_amount,
+					'tipotransacion' => 1,
+				];
+				$this->saveWallet($datosW);
+				$user->save();
+	
+				$dataUpdate = [
+					'balance' => $user->wallet_amount,
+					'retirado' => $montototal
+				];
+				
+				$dataLogRentabilidadPay = [
+					'iduser' => $user->ID,
+					'id_log_renta' => $rentabilidad->id,
+					'porcentaje' => 0,
+					'debito' => 0,
+					'credito' => $montototal,
+					'balance' => $user->wallet_amount,
+					'fecha_pago' => Carbon::now(),
+					'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$montototal
+				];
+	
+				DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+				DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+	
+				$metodo = MetodoPago::find(1);
+	
+				Pagos::create([
+					'iduser' => $user->ID,
+					'username' => $user->display_name,
+					'email' => $user->user_email,
+					'monto' => $resta,
+					'descuento' => $porcentaje,
+					'fechasoli' => Carbon::now(),
+					'metodo' => $metodo->nombre,
+					'tipowallet' => 1,
+					'tipopago' => 'Wallet: '.$userCampo->paypal,
+					'estado' => 0,
+					'idrentabilidad' => $rentabilidad->id
+				]);
+			}
+		} catch (\Throwable $th) {
+			dd($th);
+		}
+	}
+
+	/**
+	 * Permite revisar el historial de los puntos binarios
+	 *
+	 * @return void
+	 */
+	public function historialbinario()
+	{
+		$wallets = [];
+		$id = 0;
+		if (request()->id) {
+			session(['iduser' => request()->id]);
+			$id = request()->id;
+		}
+
+		$fechas = [];
+		if (request()->fecha1 && request()->fecha2) {
+			if (session('iduser')) {
+				$id = session('iduser');
+			}
+			$fechas = [
+				'fecha1' => new Carbon(request()->fecha1),
+				'fecha2' => new Carbon(request()->fecha2),
+			];
+		}
+
+		if ($id) {
+			
+			if ($fechas == []) {
+				$wallets = Wallet::where([
+					['puntosD', '>', 0],
+					['iduser', '=', $id]
+				])
+				->orWhere([
+					['puntosI', '>', 0],
+					['iduser', '=', $id]
+				])
+				->get();
+			}else{
+				$wallets = Wallet::where([
+					['puntosD', '>', 0],
+					['iduser', '=', $id],
+					['created_at', '>=', $fechas['fecha1']], 
+					['created_at', '<=', $fechas['fecha2']]
+				])
+				->orWhere([
+					['puntosI', '>', 0],
+					['iduser', '=', $id],
+					['created_at', '>=', $fechas['fecha1']], 
+					['created_at', '<=', $fechas['fecha2']]
+				])
+				->get();
+			}
+
+			foreach ($wallets as $wallet) {
+				$wallet->lado = '';
+				$wallet->tmppuntos = 0;
+				if ($wallet->puntosD > 0) {
+					$wallet->lado = 'D';
+					$wallet->tmppuntos = $wallet->puntosD;
+				} elseif($wallet->puntosI > 0) {
+					$wallet->lado = 'I';
+					$wallet->tmppuntos = $wallet->puntosI;
+				}
+			}
+		}
+
+		return view('wallet.indexwalletpuntos', compact('wallets'));
+	}
 
 }

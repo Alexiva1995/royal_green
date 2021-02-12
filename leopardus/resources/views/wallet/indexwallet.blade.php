@@ -22,18 +22,19 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                 <table id="mytable" class="table zero-configuration">
                     <thead>
                         <tr>
-                            <th class="text-center">
+                            {{-- <th class="text-center">
                                 #
-                            </th>
-                            <th class="text-center">
-                                Usuario
-                            </th>
-                            <th class="text-center">
-                                Email Referido
-                            </th>
+                            </th> --}}
                             <th class="text-center">
                                 Fecha
                             </th>
+                            {{-- <th class="text-center">
+                                Usuario
+                            </th> --}}
+                            <th class="text-center">
+                                Email Referido
+                            </th>
+                            
                             <th class="text-center">
                                 Descripción
                             </th>
@@ -46,81 +47,104 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                             <th class="text-center">
                                 Feed
                             </th>
-                            <th class="text-center">
+                            {{-- <th class="text-center">
                                 Balance
-                            </th>
+                            </th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($wallets as $wallet)
                         <tr>
+                            {{-- <td class="text-center">
+                                {{$wallet['id']}}
+                            </td> --}}
                             <td class="text-center">
-                                {{$wallet->id}}
+                                {{$wallet['fecha']}}
                             </td>
+                            {{-- <td class="text-center">
+                                {{$wallet['usuario']}}
+                            </td> --}}
                             <td class="text-center">
-                                {{$wallet->usuario}}
+                                {{$wallet['email']}}
                             </td>
+                            
                             <td class="text-center">
-                                {{$wallet->email_referred}}
-                            </td>
-                            <td class="text-center">
-                                {{date('d-m-Y', strtotime($wallet->created_at))}}
-                            </td>
-                            <td class="text-center">
-                                {{$wallet->descripcion}}
+                                {{$wallet['descripcion']}}
                             </td>
                             <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->debito}}
+                                    {{$moneda->simbolo}} {{number_format($wallet['debito'], 2, ',', '.')}}
                                     @else
-                                    {{$wallet->debito}} {{$moneda->simbolo}}
+                                    {{number_format($wallet['debito'], 2, ',', '.')}} {{$moneda->simbolo}}
                                     @endif
                                 
                             </td>
                             <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->credito}}
+                                    {{$moneda->simbolo}} {{number_format($wallet['credito'], 2, ',', '.')}}
                                     @else
-                                    {{$wallet->credito}} {{$moneda->simbolo}}
+                                    {{number_format($wallet['credito'], 2, ',', '.')}} {{$moneda->simbolo}}
                                     @endif
                                 
                             </td>
                             <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->descuento}}
+                                    {{$moneda->simbolo}} {{$wallet['descuento']}}
                                     @else
-                                    {{$wallet->descuento}} {{$moneda->simbolo}}
+                                    {{$wallet['descuento']}} {{$moneda->simbolo}}
                                     @endif
                                 
                             </td>
-                            <td class="text-center">
+                            {{-- <td class="text-center">
                                 
                                     @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet->balance}}
+                                    {{$moneda->simbolo}} {{$wallet['balance']}}
                                     @else
-                                    {{$wallet->balance}} {{$moneda->simbolo}}
+                                    {{$wallet['balance']}} {{$moneda->simbolo}}
                                     @endif
                                 
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-        @if (Auth::user()->rol_id != 0)
+        @if (Auth::user()->rol_id != 0 && !$pagosPendientes)
+            @if ($diaRetiro)
+            <div class="col-xs-12 col-sm-6">
+                <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalRetiro">Retiro</button>
+            </div>
+             @else
+             <h5>
+                 Los dias de retiro son todos los viernes
+             </h5>
+            @endif
+        @endif
+        @if ($pagosPendientes)
         <div class="col-xs-12 col-sm-6">
-            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalRetiro">Retiro</button>
+            <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalValidacion">Validar Retiro</button>
         </div>
         @endif
     </div>
 </div>
 
-@include('wallet/componentes/formRetiro', ['disponible' => Auth::user()->wallet_amount, 'tipowallet' => 1])
-@include('wallet/componentes/formTransferencia')
+@include('wallet/componentes/formRetiro', ['disponible' => $disponible, 'tipowallet' => 1])
+{{-- @include('wallet/componentes/formTransferencia') --}}
+@include('wallet/componentes/modalValidacion')
+
+@if ($pagosPendientes)
+@push('custom_js')
+<script>
+    $(document).ready(function () {
+        $('#myModalValidacion').modal('show');
+    })
+</script>
+@endpush
+@endif
 
 @push('custom_js')
 <script>

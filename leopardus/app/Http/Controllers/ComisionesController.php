@@ -4,17 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 use Carbon\Carbon;
 use App\User; 
-use App\Settings;
 use App\Commission; 
-use App\Notification;
-use App\SettingsComision;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\WalletController;
-
+use App\Wallet;
 
 class ComisionesController extends Controller
 {
@@ -61,6 +56,7 @@ class ComisionesController extends Controller
             ])->first();
 
             if ($checkComision == null) {
+
                 $comision = Commission::create([
                     'user_id' => $iduser,
                     'compra_id' => $idcompra,
@@ -74,29 +70,32 @@ class ComisionesController extends Controller
                 ]);
 
                 $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
+
                 // if ($concepto != 'sin comision') {
                 if ($rentabilidadActiva == 1) {
-                    $user = User::find($iduser);
-                    $user->wallet_amount = ($user->wallet_amount + $totalComision);
-                    $user->save();
-                    $datos = [
-                        'iduser' => $iduser,
-                        'usuario' => $user->display_name,
-                        'descripcion' => $concepto,
-                        'puntos' => 0,
-                        'puntosI' => 0,
-                        'puntosD' => 0,
-                        'email_referred' => $referred_email,
-                        'descuento' => 0,
-                        'debito' => $totalComision,
-                        'credito' => 0,
-                        'balance' => $user->wallet_amount,
-                        'tipotransacion' => 2
-                    ];
-                    $this->wallet->saveWallet($datos);
-                    if ($tipo_comision == 'Bonos Binario' && $tipo_comision == 'Bono Directo') {
-                        $this->saveRentabilidaBono($iduser, $totalComision, $tipo_comision);
-                    }
+                    // $user = User::find($iduser);
+                    // $user->wallet_amount = ($user->wallet_amount + $totalComision);
+                    // $user->save();
+                    // $datos = [
+                    //     'iduser' => $iduser,
+                    //     'usuario' => $user->display_name,
+                    //     'descripcion' => $concepto,
+                    //     'puntos' => 0,
+                    //     'puntosI' => 0,
+                    //     'puntosD' => 0,
+                    //     'email_referred' => $referred_email,
+                    //     'descuento' => 0,
+                    //     'debito' => $totalComision,
+                    //     'credito' => 0,
+                    //     'balance' => $user->wallet_amount,
+                    //     'tipotransacion' => 2
+                    // ];
+                    // $this->wallet->saveWallet($datos);
+
+                    $newConepto = $tipo_comision.' - '.$concepto;
+                    
+                    $this->saveRentabilidaBono($iduser, $totalComision, $newConepto, $referred_email);
+                    
                 }
             }
         } catch (\Throwable $th) {
@@ -115,20 +114,22 @@ class ComisionesController extends Controller
             $compras = $this->funciones->getAllCompras();
             if (!empty($compras)) {
                 foreach ($compras as $compra) {
-                    $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
-                    if (!empty($sponsors)) {
-                        foreach ($sponsors as $sponsor) {
-                            if ($compra['idusuario'] != $sponsor->ID) {
-                                if ($sponsor->nivel == 1) {
-                                    $userReferido = User::find($compra['idusuario']);
-                                    $pagar = ($compra['total'] * 0.10);
-                                    $concepto = 'Bono Directo, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                    if ($pagar > 0) {
-                                        $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                    if ($compra['idcompra'] != 5964) {
+                        $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
+                        if (!empty($sponsors)) {
+                            foreach ($sponsors as $sponsor) {
+                                if ($compra['idusuario'] != $sponsor->ID) {
+                                    if ($sponsor->nivel == 1) {
+                                        $userReferido = User::find($compra['idusuario']);
+                                        $pagar = ($compra['total'] * 0.10);
+                                        $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
+                                        if ($pagar > 0) {
+                                            $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                        }
                                     }
                                 }
                             }
-                        }
+                        }    
                     }
                 }
             }
@@ -148,36 +149,38 @@ class ComisionesController extends Controller
             $compras = $this->funciones->getAllCompras();
             if (!empty($compras)) {
                 foreach ($compras as $compra) {
-                    $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
-                    if (!empty($sponsors)) {
-                        foreach ($sponsors as $sponsor) {
-                            $paquete = json_decode($sponsor->paquete);
-                            $nivel = 0;
-                            $porcentaje = 0;
-                            if (!empty($paquete)) {
-                                if (!empty($paquete->idproducto)) {
-                                    if ($paquete->idproducto >= 5653) {
-                                        $nivel = 2;
-                                        $porcentaje = 0.03;
-                                    }
-                                    if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
-                                        $nivel = 3;
-                                        $porcentaje = 0.02;
-                                        if ($sponsor->nivel == 2) {
+                    if ($compra['idcompra'] != 5964) {
+                        $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
+                        if (!empty($sponsors)) {
+                            foreach ($sponsors as $sponsor) {
+                                $paquete = json_decode($sponsor->paquete);
+                                $nivel = 0;
+                                $porcentaje = 0;
+                                if (!empty($paquete)) {
+                                    if (!empty($paquete->idproducto)) {
+                                        if ($paquete->idproducto >= 5653) {
                                             $nivel = 2;
                                             $porcentaje = 0.03;
                                         }
+                                        if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
+                                            $nivel = 3;
+                                            $porcentaje = 0.02;
+                                            if ($sponsor->nivel == 2) {
+                                                $nivel = 2;
+                                                $porcentaje = 0.03;
+                                            }
+                                        }
                                     }
                                 }
-                            }
-                            if ($nivel > 0) {
-                                if ($sponsor->nivel == $nivel) {
-                                    $userReferido = User::find($compra['idusuario']);
-                                    $idcomision = $compra['idcompra'].'10';
-                                    $pagar = ($compra['total'] * $porcentaje);
-                                    $concepto = 'Bono Indirecto, del usuario '.$userReferido->display_name.', por la compra '.$compra['idcompra'];
-                                    if ($pagar) {
-                                        $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
+                                if ($nivel > 0) {
+                                    if ($sponsor->nivel == $nivel) {
+                                        $userReferido = User::find($compra['idusuario']);
+                                        $idcomision = $compra['idcompra'].'10';
+                                        $pagar = ($compra['total'] * $porcentaje);
+                                        $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
+                                        if ($pagar) {
+                                            $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Indirecto');
+                                        }
                                     }
                                 }
                             }
@@ -221,13 +224,13 @@ class ComisionesController extends Controller
 
                     $user->puntos = json_encode($puntos);
 
-                    
                     $totalcomision = ((float)$pagar * $porcentaje);
                     $idcomision = '20'.$fecha->format('Ymd');
-                    $this->guardarComision($user->ID, $idcomision, $totalcomision, $user->user_email, 0, 'Bonos Binario', 'Bono Binario');
+                    $concepto = '('.$pagar.')';
+                    $this->guardarComision($user->ID, $idcomision, $totalcomision, $user->user_email, 0, $concepto, 'Bono Binario');
                     $this->bonoConstrucion($user->ID, $totalcomision);
                     $concepto = 'Puntos Rango, Obtenido por el pago del Bono Binario del dia'.$fecha->format('Y-m-d');
-                    $this->savePoints($totalcomision, $user->ID, $concepto, 'R', $idcomision, 1, $user->user_email);
+                    $this->savePoints($pagar, $user->ID, $concepto, 'R', $idcomision, 1, $user->user_email);
                     $user->save();
                 }
             }
@@ -282,9 +285,11 @@ class ComisionesController extends Controller
                         $side = $userReferido->ladomatrix;
                         $concepto = 'Puntos Binarios, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['idcompra'];
                         foreach ($sponsors as $sponsor) {
-                            if ($sponsor->nivel > 0) {
-                                $this->savePoints($compra['total'], $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
-                                $side = $sponsor->ladomatrix;
+                            if ($this->verificarBinarioActivo($sponsor->ID) == 1) {
+                                if ($sponsor->nivel > 0) {
+                                    $this->savePoints($compra['total'], $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
+                                    $side = $sponsor->ladomatrix;
+                                }
                             }
                         }
                     }
@@ -293,6 +298,44 @@ class ComisionesController extends Controller
         } catch (\Throwable $th) {
             dd($th);
         }
+    }
+
+    /**
+     * Permite verificar si el usuario puede cobrar puntos o no 
+     *
+     * @param integer $iduser
+     * @return integer
+     */
+    public function verificarBinarioActivo(int $iduser): int
+    {
+        $result = 0;
+
+        $binarioIzq = $binarioDer = 0;
+        $directos = User::where('referred_id', $iduser)->get();
+        foreach ($directos as $direct) {
+            if ($direct->status == 1) {
+                $ordenes = $this->funciones->getInforShopping($direct->ID);    
+                // if ($iduser == 499) {
+                //     dump($ordenes);
+                // }
+                foreach ($ordenes as $orden) {
+                    if ($orden['tipo_activacion'] != 'Manual') {
+                        if ($direct->ladomatrix == 'D') {
+                            $binarioDer = 1;
+                        }
+                        if ($direct->ladomatrix == 'I') {
+                            $binarioIzq = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        if ($binarioDer == 1 && $binarioIzq == 1) {
+            $result = 1;   
+        }
+
+        return $result;
     }
 
     /**
@@ -513,6 +556,7 @@ class ComisionesController extends Controller
                 foreach ($ordenes as $orden) {
                     $user = User::find($orden['idusuario']);
                     if (!empty($user)) {
+                        $this->registePackageToRentabilizar($orden['idusuario']);
                         foreach ($orden['productos'] as $producto) {
                             $this->saveRentabilidad($orden['idcompra'], $orden['idusuario'], $producto, $porcentaje, $orden['tipo_activacion']);
                         }
@@ -550,28 +594,29 @@ class ComisionesController extends Controller
         $idRentabilidad = 0;
         $finalizado = 0;
 
-        if ($checkRentabilidad == null) {
-            $detallaPaquete = [
-                'nombre' => $paquete['nombre'],
-                'img' => $paquete['img2']
-            ];
-            $limite = ($paquete['precio'] * 2);
-            $progreso = (($ganado * 100) / $limite);
+        // if ($checkRentabilidad == null) {
+            // $detallaPaquete = [
+            //     'nombre' => $paquete['nombre'],
+            //     'img' => $paquete['img2']
+            // ];
+            // $limite = ($paquete['precio'] * 2);
+            // $progreso = (($ganado * 100) / $limite);
 
-            $dataRentabilidad = [
-                'iduser' => $iduser,
-                'idcompra' => $idorden,
-                'idproducto' => $paquete['idproducto'],
-                'detalles_producto' => json_encode($detallaPaquete),
-                'precio' => $paquete['precio'],
-                'limite' => $limite,
-                'ganado' => $ganado,
-                'progreso' => $progreso,
-                'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
-            ];
+            // $dataRentabilidad = [
+            //     'iduser' => $iduser,
+            //     'idcompra' => $idorden,
+            //     'idproducto' => $paquete['idproducto'],
+            //     'detalles_producto' => json_encode($detallaPaquete),
+            //     'precio' => $paquete['precio'],
+            //     'limite' => $limite,
+            //     'ganado' => $ganado,
+            //     'progreso' => $progreso,
+            //     'nivel_minimo_cobro' => ($tipo_cobro == 'Manual') ? 7 : 0,
+            // ];
 
-            $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
-        }else{
+            // $idRentabilidad = DB::table('log_rentabilidad')->insertGetId($dataRentabilidad);
+        if($checkRentabilidad != null){
+
             $totalGanado = ($checkRentabilidad->ganado + $ganado);
             $finalizacion = 0;
             if ($totalGanado >= $checkRentabilidad->limite) {
@@ -594,23 +639,42 @@ class ComisionesController extends Controller
                 ];
                 DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
                 $idRentabilidad = $checkRentabilidad->id;
+
+                $user = User::find($iduser);
+                $user->wallet_amount = ($user->wallet_amount + $ganado);
+                $user->save();
+        
+                $dataLogRentabilidadPay = [
+                    'iduser' => $iduser,
+                    'id_log_renta' => $idRentabilidad,
+                    'porcentaje' => $porcentaje,
+                    'debito' => $ganado,
+                    'balance' => $user->wallet_amount,
+                    'fecha_pago' => Carbon::now(),
+                    'concepto' => 'Rentabilidad pagada de la compra '.$idorden.', del producto '.$paquete['nombre'].', al usuario '.$user->display_name
+                ];
+        
+                $concepto = 'Utilidad ('.$porcentaje.'%)';
+                $datosComisions = [
+                    'iduser' => $iduser,
+                    'usuario' => $user->display_name,
+                    'descripcion' => $concepto,
+                    'puntos' => 0,
+                    'puntosI' => 0,
+                    'puntosD' => 0,
+                    'email_referred' => $user->user_email,
+                    'descuento' => 0,
+                    'debito' => $ganado,
+                    'credito' => 0,
+                    'balance' => $user->wallet_amount,
+                    'tipotransacion' => 2
+                ];
+        
+                if ($finalizado == 0) {
+                    DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+                    $this->wallet->saveWallet($datosComisions);
+                }
             }
-        }
-
-        $user = User::find($iduser);
-
-        $dataLogRentabilidadPay = [
-            'iduser' => $iduser,
-            'id_log_renta' => $idRentabilidad,
-            'porcentaje' => $porcentaje,
-            'debito' => $ganado,
-            'balance' => $balance,
-            'fecha_pago' => Carbon::now(),
-            'concepto' => 'Rentabilidad pagada de la compra '.$idorden.', del producto '.$paquete['nombre'].', al usuario '.$user->display_name
-        ];
-
-        if ($finalizado == 0) {
-            DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
         }
     }
 
@@ -619,9 +683,11 @@ class ComisionesController extends Controller
      *
      * @param integer $iduser
      * @param float $bono
+     * @param string $concepto
+     * @param string $referido
      * @return void
      */
-    public function saveRentabilidaBono($iduser, $bono, $concepto)
+    public function saveRentabilidaBono($iduser, $bono, $concepto, $referido)
     {
         $checkRentabilidad = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
@@ -656,6 +722,7 @@ class ComisionesController extends Controller
             }
 
             $user = User::find($iduser);
+            $user->wallet_amount = ($user->wallet_amount + $ganado);
 
             $dataLogRentabilidadPay = [
                 'iduser' => $iduser,
@@ -667,8 +734,25 @@ class ComisionesController extends Controller
                 'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
             ];
 
+            $datosComisions = [
+                'iduser' => $iduser,
+                'usuario' => $user->display_name,
+                'descripcion' => $concepto,
+                'puntos' => 0,
+                'puntosI' => 0,
+                'puntosD' => 0,
+                'email_referred' => $referido,
+                'descuento' => 0,
+                'debito' => $ganado,
+                'credito' => 0,
+                'balance' => $user->wallet_amount,
+                'tipotransacion' => 2
+            ];
+
             if ($finalizado == 0) {
+                $user->save();
                 DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+                $this->wallet->saveWallet($datosComisions);
             }
         }
     }
@@ -685,13 +769,34 @@ class ComisionesController extends Controller
         foreach ($ordenes as $orden) {
             foreach ($orden['productos'] as $paquete) {
 
+                $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+                    ['iduser', '=', $iduser],
+                    ['progreso', '=', 100]
+                ])->orderBy('id', 'desc')->first();
+
                 $checkRentabilidad = DB::table('log_rentabilidad')->where([
                     ['iduser', '=', $iduser],
-                    ['idcompra', '=', $orden['idcompra']],
-                    ['idproducto', '=', $paquete['idproducto']]
                 ])->first();
-
+                
+                $compraN = 0;
+                if ($checkRentabilidad1 != null) {
+                    if ($orden['idcompra'] > $checkRentabilidad1->idcompra) {
+                        $compraN = 1;
+                        $checkRentabilidad2 = DB::table('log_rentabilidad')->where([
+                            ['iduser', '=', $iduser],
+                            ['idcompra', '=', $orden['idcompra']],
+                            ['progreso', '<', 100]
+                        ])->orderBy('id', 'desc')->first();
+                        if ($checkRentabilidad2 != null) {
+                            $compraN = 0;
+                        }
+                    }
+                }
                 if ($checkRentabilidad == null) {
+                    $compraN = 1;
+                }
+
+                if ($compraN == 1) {
                     $detallaPaquete = [
                         'nombre' => $paquete['nombre'],
                         'img' => $paquete['img2']
@@ -711,6 +816,39 @@ class ComisionesController extends Controller
                     ];
     
                     DB::table('log_rentabilidad')->insert($dataRentabilidad);
+                }else{
+                    $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+                        ['iduser', '=', $iduser],
+                        ['progreso', '<', 100]
+                    ])->first();
+
+
+                    $actualizar = 0;
+                    if ($checkRentabilidad1 != null) {
+                        if ($orden['idcompra'] > $checkRentabilidad1->idcompra) {
+                            $actualizar = 1;
+                        }
+                    }
+                    
+                    if ($actualizar == 1) {
+                        $detallaPaquete = [
+                            'nombre' => $paquete['nombre'],
+                            'img' => $paquete['img2']
+                        ];
+                        $limite = ($paquete['precio'] * 2);
+                        $progreso = (($checkRentabilidad1->ganado / $limite) * 100);
+            
+                        $dataRentabilidad = [
+                            'idcompra' => $orden['idcompra'],
+                            'idproducto' => $paquete['idproducto'],
+                            'detalles_producto' => json_encode($detallaPaquete),
+                            'precio' => $paquete['precio'],
+                            'limite' => $limite,
+                            'progreso' => $progreso,
+                        ];
+
+                        DB::table('log_rentabilidad')->where('id', $checkRentabilidad1->id)->update($dataRentabilidad);
+                    }
                 }
             }
         }
@@ -762,4 +900,93 @@ class ComisionesController extends Controller
         }
     }
 
+    /**
+     * Permite arreglar la billetera con unos bonos demas
+     *
+     * @return void
+     */
+    public function arreglarBilletera()
+    {
+        $registros = DB::table('log_rentabilidad_pay')->where('id_log_renta', '=', 0)->get();
+
+        foreach ($registros as $registro) {
+            $wallets = DB::table('walletlog')->where([
+                ['descripcion', 'like', 'Pago de utilidades%'],
+                ['iduser', '=', $registro->iduser],
+                ['debito', '=', $registro->debito],
+            ])/* ->whereDate('created_at', $registro->fecha_pago) */->first();
+
+            $user = User::find($registro->iduser);
+            $wallet = ($user->wallet_amount - $registro->debito);
+            $user->wallet_amount = $wallet;
+            $user->save();
+            
+            if ($wallets != null) {
+                DB::table('walletlog')->where([
+                    ['descripcion', 'like', 'Pago de utilidades%'],
+                    ['iduser', '=', $registro->iduser],
+                    // ['debito', '=', (float)$registro->debito],
+                ])->whereDate('created_at', $registro->fecha_pago)->delete();
+            }
+        }
+    }
+
+    /**
+     * Permite arreglar los puntos binarios
+     *
+     * @return void
+     */
+    public function arreglarPuntos()
+    {
+        // $binarios = Wallet::where('descripcion', 'like', 'Bono Binario')
+        //                     ->select(DB::raw('SUM(debito) as binario, iduser'))
+        //                     ->groupBy('iduser')
+        //                     ->get();
+        // $arrayResta = [];
+        // foreach ($binarios as $binario) {
+        //     $user = User::Find($binario->iduser);
+        //     $paquete = json_decode($user->paquete);
+        //     $puntos = ($binario->binario / $paquete->porc_binario);
+        //     $arrayResta[$binario->iduser] = round($puntos);
+        // }
+
+        // whereDate('created_at', '=', '02022021')
+
+        // $puntos = Wallet::where('puntosD', '>', 0)
+        //                 ->orWhere('puntosI', '>', 0)
+        //                 ->select(DB::raw('SUM(puntosD) as der, SUM(puntosI) as izq, iduser'))
+        //                 ->groupBy('iduser')
+        //                 ->get();
+
+
+        // foreach ($puntos as $punto) {
+        //     $user = User::find($punto->iduser);
+        //     $paquete = json_decode($user->puntos);
+        //     $derecha = $punto->der;
+        //     $izquierda = $punto->izq;
+            
+        //     $paquete->binario_izq = $izquierda;
+        //     $paquete->binario_der = $derecha;
+        //     DB::table('wp_users')->where('ID', $user->ID)->update(['puntos' => json_encode($paquete)]);
+        // }
+
+        // $puntos2 = Wallet::whereDate('created_at', '=', '02022021')
+        //                 ->where('puntosD', '>', 0)
+        //                 ->orWhere('puntosI', '>', 0)
+        //                 ->select(DB::raw('SUM(puntosD) as der, SUM(puntosI) as izq, iduser'))
+        //                 ->groupBy('iduser')
+        //                 ->get();
+
+
+        // foreach ($puntos2 as $punto) {
+        //     $user = User::find($punto->iduser);
+        //     $paquete = json_decode($user->puntos);
+        //     $derecha = ($paquete->binario_der - $punto->der);
+        //     $izquierda = ($paquete->binario_izq - $punto->izq);
+            
+        //     $paquete->binario_izq = $izquierda;
+        //     $paquete->binario_der = $derecha;
+        //     DB::table('wp_users')->where('ID', $user->ID)->update(['puntos' => json_encode($paquete)]);
+        // }
+    }
 }

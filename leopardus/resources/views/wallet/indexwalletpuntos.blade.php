@@ -8,6 +8,11 @@
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
 
+{{-- formulario de id usuario  --}}
+@include('dashboard.componentView.formSearchSimple', ['route' => 'wallet.binario', 'name1' => 'id', 'type' => 'number', 'text' => 'ID Usuario'])
+
+{{-- formulario de fecha  --}}
+@include('dashboard.componentView.formSearch', ['route' => 'wallet.binario', 'name1' => 'fecha1', 'name2' => 'fecha2', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
 <div class="card">
     <div class="card-content">
@@ -15,47 +20,41 @@
             <div class="table-responsive">
                 <table id="mytable" class="table zero-configuration">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <th>
-                                <center>#</center>
+                                ID
                             </th>
                             <th>
-                                <center>Usuario</center>
+                                Referido
                             </th>
                             <th>
-                                <center>Fecha</center>
+                                Puntos
                             </th>
                             <th>
-                                <center>Descripción</center>
+                                Lado
                             </th>
                             <th>
-                                <center>Puntos Derecha</center>
-                            </th>
-                            <th>
-                                <center>Puntos Izquierda</center>
+                                Fecha
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($wallets as $wallet)
-                        <tr>
+                        <tr class="text-center">
                             <td>
-                                <center>{{$wallet->id}}</center>
+                                {{$wallet->iduser}}
                             </td>
                             <td>
-                                <center>{{$wallet->usuario}}</center>
+                                {{$wallet->email_referred}}
                             </td>
                             <td>
-                                <center>{{date('d-m-Y', strtotime($wallet->created_at))}}</center>
+                                {{$wallet->tmppuntos}}
                             </td>
                             <td>
-                                <center>{{$wallet->descripcion}}</center>
+                                {{$wallet->lado}}
                             </td>
                             <td>
-                                <center>{{$wallet->puntosD}}</center>
-                            </td>
-                            <td>
-                                <center>{{$wallet->puntosI}}</center>
+                                {{date('Y-m-d', strtotime($wallet->created_at))}}
                             </td>
                         </tr>
                         @endforeach
@@ -65,7 +64,7 @@
         </div>
     </div>
 </div>
-
+{{-- 
     @include('wallet/componentes/formRetiro', ['disponible' => 0, 'tipowallet' => 0])
     @include('wallet/componentes/formTransferencia')
 
@@ -114,5 +113,5 @@
             }
             $('#total').val(resul)
         }
-    </script>
+    </script> --}}
     @endsection

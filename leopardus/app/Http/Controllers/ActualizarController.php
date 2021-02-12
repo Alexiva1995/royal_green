@@ -51,7 +51,7 @@ class ActualizarController extends Controller
             'principal' => $user,
             'segundo' => DB::table('user_campo')->where('ID', $user->ID)->get(),
             'rol' => Rol::find($user->rol_id),
-            'referido' => (Auth::user()->rol_id != 0) ? User::find($user->referred_id)->only('display_name') : ['display_name' => 'Administrador'] ,
+            'referido' => (Auth::user()->ID != 1) ? User::find($user->referred_id)->only('display_name') : ['display_name' => 'Administrador'] ,
             'controler' => 'ActualizarController@updateProfile',
             // 'urlqr' => $this->createUserUrlQR($user)
         ];
@@ -267,7 +267,7 @@ class ActualizarController extends Controller
       
 
         if (Auth::user()->rol_id != 0){
-            return redirect('mioficina/admin/user/edit')->with('msj', $concepto);
+            return redirect()->route('admin.user.edit')->with('msj', $concepto);
         }else{
             return redirect()->back()->with('msj', $concepto.' del usuario '.$user->display_name);
         }

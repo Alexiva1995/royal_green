@@ -105,6 +105,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::get('/cobros', 'WalletController@cobros')->name('wallet-cobros');
         Route::post('/cobrosfechas', 'WalletController@cobros_fechas')->name('wallet-cobros-fechas');
         Route::post('/pay_rentabilidad', 'ComisionesController@process_rentabilidad')->name('wallet.pay.rentabilidad');
+        Route::get('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
+        Route::post('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
+        Route::post('/validarretiro', 'WalletController@VerificarRetiro')->name('waller.confimacion');
+        Route::get('/anularretiro', 'WalletController@anularRetiro')->name('wallet.anular');
     });
 
     // Rentabilidad
@@ -544,46 +548,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
      //herramientas subida de archivos
 
      Route::group(['prefix' => 'archivo'], function(){
+        Route::get('/subir','ArchivoController@subir')->name('archivo.subir');
+        Route::post('/subida','ArchivoController@subida')->name('archivo.subida');
+        Route::get('/ver','ArchivoController@ver')->name('archivo.ver');
+        Route::get('/{id}/destruir',['uses' => 'ArchivoController@destruir','as' => 'archivo.destruir']);
 
-          Route::get('/subir','ArchivoController@subir')->name('archivo.subir');
-
-           Route::post('/subida','ArchivoController@subida')->name('archivo.subida');
-
-          Route::get('/ver','ArchivoController@ver')->name('archivo.ver');
-
-          Route::get('/{id}/destruir',[
-
-           'uses' => 'ArchivoController@destruir',
-
-            'as' => 'archivo.destruir'
-
-	                                 ]);
-
-	
-
-	//gestion de noticias
-
-	Route::get('/noticias', 'ArchivoController@noticias')->name('archivo.noticias');
-
-	Route::post('/guardar',[
-
-'uses' => 'ArchivoController@guardar',
-
-'as' => 'archivo.guardar'
-
-	]);
-
-	
-
-	Route::get('/contenido', 'ArchivoController@contenido')->name('archivo.contenido');
-
-	Route::get('/{id}/eliminar', 'ArchivoController@eliminar')->name('archivo.eliminar');
-
-		Route::get('/{id}/actualizar', 'ArchivoController@actualizar')->name('archivo.actualizar');
-
-		Route::put('/{id}/modificar', 'ArchivoController@modificar')->name('archivo.modificar');
-
-     });
+        //gestion de noticias
+        Route::get('/noticias', 'ArchivoController@noticias')->name('archivo.noticias');
+        Route::post('/guardar',['uses' => 'ArchivoController@guardar', 'as' => 'archivo.guardar']);
+        Route::get('/contenido', 'ArchivoController@contenido')->name('archivo.contenido');
+        Route::get('/{id}/eliminar', 'ArchivoController@eliminar')->name('archivo.eliminar');
+        Route::get('/{id}/actualizar', 'ArchivoController@actualizar')->name('archivo.actualizar');
+        Route::put('/{id}/modificar', 'ArchivoController@modificar')->name('archivo.modificar');
+    });
 
 
 
@@ -644,6 +621,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::get('/personalorders', 'AdminController@personal_orders')->name('personalorders');
 
         Route::get('/networkorders', 'AdminController@network_orders')->name('networkorders');
+
+        Route::post('/filtreorders', 'AdminController@network_orders_filtre')->name('networkorders_filtre');
 
          Route::post('/buscarpersonalorder','AdminController@buscarpersonalorder')->name('buscarpersonalorder');
 

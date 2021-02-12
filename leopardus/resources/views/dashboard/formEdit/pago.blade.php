@@ -2,7 +2,7 @@
     <button type="button" class="btn btn-secondary mt-2 mb-2" onclick="activarPago();">Edit</button>
 </div> --}}
 
-<form action="{{ action($controler, ['data' => 'pago']) }}" method="post"
+{{-- <form action="{{ action($controler, ['data' => 'pago']) }}" method="post"
     enctype="multipart/form-data">
     {{ method_field('PUT') }}
     {{ csrf_field() }}
@@ -15,4 +15,4 @@
     <div class="col-12" id="botom4">
         <button type="submit" class="btn btn-success">Send</button>
     </div>
-</form>
+</form> --}}

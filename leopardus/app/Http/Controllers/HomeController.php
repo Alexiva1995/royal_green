@@ -178,6 +178,12 @@ class HomeController extends Controller
         return view('setting.porcent');
     }
 
+    /**
+     * Permite cambiar el lado donde se registra la matriz
+     *
+     * @param Request $request
+     * @return void
+     */
     public function changeSide(Request $request)
     {
         $validate = $request->validate([

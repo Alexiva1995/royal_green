@@ -276,7 +276,11 @@ class RegisterController extends Controller
         }
 
         
-
+        $puntos = [
+            'binario_izq' => 0,
+            'binario_der' => 0,
+            'rank' => 0,
+        ];
 
 
         $user = User::create([
@@ -305,7 +309,9 @@ class RegisterController extends Controller
 
             'tipouser' => $data['tipouser'],
 
-            'status' => '0'
+            'status' => '0',
+
+            'puntos' => json_encode($puntos),
 
         ]);
 

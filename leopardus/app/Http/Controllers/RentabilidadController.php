@@ -20,17 +20,14 @@ class RentabilidadController extends Controller
 
     public function index()
     {
-        $rentabilidads = DB::table('log_rentabilidad')->where('iduser', Auth::user()->ID)->get();
-        $metodopagos = MetodoPago::all();
+        view()->share('title', 'Pagos Rentabilidad');
+        $rentabilidads = DB::table('log_rentabilidad_pay')
+                        ->where('porcentaje', '>', 0)
+                        ->select('fecha_pago', 'porcentaje')
+                        ->groupBy('fecha_pago')
+                        ->get();
 
-        foreach ($rentabilidads as $rentabilidad) {
-            $rentabilidad->producto = json_decode($rentabilidad->detalles_producto);
-        }
-
-        $cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
-		$cuentawallet = $cuentawallet->paypal;
-
-        return view('rentabilidad.index', compact('rentabilidads', 'metodopagos', 'cuentawallet'));
+        return view('rentabilidad.index', compact('rentabilidads'));
     }
 
     public function retiro(Request $datos){
