@@ -915,90 +915,94 @@ class ComisionesController extends Controller
     //             $iduser = $user2->ID;
     //             $concepto = $usuario['concepto'];
 
-    //             $checkRentabilidad = DB::table('log_rentabilidad')->where([
-    //                 ['iduser', '=', $iduser],
-    //                 ['progreso', '<', 100]
-    //             ])->first();
-
-    //             if ($checkRentabilidad != null) {
-    //                 $ganado = $bono;
-    //                 $balance = $ganado;
-    //                 $idRentabilidad = $checkRentabilidad->id;
-    //                 $finalizado = 0;
-
-    //                 $debito = 0;
-    //                 $credito = 0;
-    //                 $totalRetirado = 0;
-        
-    //                 if ($usuario['accion'] == 'sumar') {
-    //                     $totalGanado = ($checkRentabilidad->ganado + $ganado);
-    //                 } elseif($usuario['accion'] == 'restar') {
-    //                     $totalGanado = ($checkRentabilidad->ganado - $ganado);
-    //                     $totalRetirado = ($checkRentabilidad->retirado + $ganado);
-    //                 }
-                    
-    //                 $finalizacion = 0;
-    //                 if ($totalGanado >= $checkRentabilidad->limite) {
-    //                     if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
-    //                         $totalGanado = $checkRentabilidad->limite;
-    //                         $ganado = ($totalGanado - $checkRentabilidad->ganado);
-    //                     }else{
-    //                         $finalizacion = 1;
-    //                         $finalizado = 1;
+    //             if ($concepto == 'Puntos por derrames') {
+    //                 $this->savePoints($bono, $iduser, $concepto, $usuario['side'], $iduser, 1, 'Sistema');
+    //             }else{
+    //                 $checkRentabilidad = DB::table('log_rentabilidad')->where([
+    //                     ['iduser', '=', $iduser],
+    //                     ['progreso', '<', 100]
+    //                 ])->first();
+    
+    //                 if ($checkRentabilidad != null) {
+    //                     $ganado = $bono;
+    //                     $balance = $ganado;
+    //                     $idRentabilidad = $checkRentabilidad->id;
+    //                     $finalizado = 0;
+    
+    //                     $debito = 0;
+    //                     $credito = 0;
+    //                     $totalRetirado = 0;
+            
+    //                     if ($usuario['accion'] == 'sumar') {
+    //                         $totalGanado = ($checkRentabilidad->ganado + $ganado);
+    //                     } elseif($usuario['accion'] == 'restar') {
+    //                         $totalGanado = ($checkRentabilidad->ganado - $ganado);
+    //                         $totalRetirado = ($checkRentabilidad->retirado + $ganado);
     //                     }
-    //                 }
-    //                 if ($finalizacion == 0) {    
-    //                     $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
-    //                     $balance = ($totalGanado - $checkRentabilidad->retirado);
-    //                     $dataRentabilidad = [
-    //                         'ganado' => $totalGanado,
-    //                         'retirado' => $totalRetirado,
-    //                         'progreso' => $progreso,
-    //                         'balance' => $balance
+                        
+    //                     $finalizacion = 0;
+    //                     if ($totalGanado >= $checkRentabilidad->limite) {
+    //                         if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+    //                             $totalGanado = $checkRentabilidad->limite;
+    //                             $ganado = ($totalGanado - $checkRentabilidad->ganado);
+    //                         }else{
+    //                             $finalizacion = 1;
+    //                             $finalizado = 1;
+    //                         }
+    //                     }
+    //                     if ($finalizacion == 0) {    
+    //                         $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+    //                         $balance = ($totalGanado - $checkRentabilidad->retirado);
+    //                         $dataRentabilidad = [
+    //                             'ganado' => $totalGanado,
+    //                             'retirado' => $totalRetirado,
+    //                             'progreso' => $progreso,
+    //                             'balance' => $balance
+    //                         ];
+    //                         DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+    //                     }
+            
+    //                     $user = User::find($iduser);
+    //                     // $user->wallet_amount = ($user->wallet_amount + $ganado);
+    //                     if ($usuario['accion'] == 'sumar') {
+    //                         $user->wallet_amount = ($user->wallet_amount + $ganado);
+    //                         $debito = $ganado;
+    //                     } elseif($usuario['accion'] == 'restar') {
+    //                         $user->wallet_amount = ($user->wallet_amount - $ganado);
+    //                         $credito = $ganado;
+    //                     }
+            
+    //                     $dataLogRentabilidadPay = [
+    //                         'iduser' => $iduser,
+    //                         'id_log_renta' => $idRentabilidad,
+    //                         'porcentaje' => 0,
+    //                         'debito' => $debito,
+    //                         'credito' => $credito,
+    //                         'balance' => $balance,
+    //                         'fecha_pago' => Carbon::now(),
+    //                         'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
     //                     ];
-    //                     DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
-    //                 }
-        
-    //                 $user = User::find($iduser);
-    //                 // $user->wallet_amount = ($user->wallet_amount + $ganado);
-    //                 if ($usuario['accion'] == 'sumar') {
-    //                     $user->wallet_amount = ($user->wallet_amount + $ganado);
-    //                     $debito = $ganado;
-    //                 } elseif($usuario['accion'] == 'restar') {
-    //                     $user->wallet_amount = ($user->wallet_amount - $ganado);
-    //                     $credito = $ganado;
-    //                 }
-        
-    //                 $dataLogRentabilidadPay = [
-    //                     'iduser' => $iduser,
-    //                     'id_log_renta' => $idRentabilidad,
-    //                     'porcentaje' => 0,
-    //                     'debito' => $debito,
-    //                     'credito' => $credito,
-    //                     'balance' => $balance,
-    //                     'fecha_pago' => Carbon::now(),
-    //                     'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
-    //                 ];
-        
-    //                 $datosComisions = [
-    //                     'iduser' => $iduser,
-    //                     'usuario' => $user->display_name,
-    //                     'descripcion' => $concepto,
-    //                     'puntos' => 0,
-    //                     'puntosI' => 0,
-    //                     'puntosD' => 0,
-    //                     'email_referred' => 'Sistema',
-    //                     'descuento' => 0,
-    //                     'debito' => $debito,
-    //                     'credito' => $credito,
-    //                     'balance' => $user->wallet_amount,
-    //                     'tipotransacion' => 2
-    //                 ];
-        
-    //                 if ($finalizado == 0) {
-    //                     $user->save();
-    //                     DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
-    //                     $this->wallet->saveWallet($datosComisions);
+            
+    //                     $datosComisions = [
+    //                         'iduser' => $iduser,
+    //                         'usuario' => $user->display_name,
+    //                         'descripcion' => $concepto,
+    //                         'puntos' => 0,
+    //                         'puntosI' => 0,
+    //                         'puntosD' => 0,
+    //                         'email_referred' => 'Sistema',
+    //                         'descuento' => 0,
+    //                         'debito' => $debito,
+    //                         'credito' => $credito,
+    //                         'balance' => $user->wallet_amount,
+    //                         'tipotransacion' => 2
+    //                     ];
+            
+    //                     if ($finalizado == 0) {
+    //                         $user->save();
+    //                         DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+    //                         $this->wallet->saveWallet($datosComisions);
+    //                     }
     //                 }
     //             }
     //         }
@@ -1007,68 +1011,123 @@ class ComisionesController extends Controller
     //     }
     // }
 
-    // /**
-    //  * Los usuarios y las cosas que tienes que hacer
-    //  *
-    //  * @return array
-    //  */
-    // public function arregloUserArreglar(): array
-    // {
-    //     return [
-    //         [
-    //             'correo' => 'entherfoundworld@gmail.com',
-    //             'accion' => 'sumar',
-    //             'concepto' => 'Retroactivo de rentabilidad',
-    //             'total' => 23.16
-    //         ],
-    //         [
-    //             'correo' => 'entherfoundworld@gmail.com',
-    //             'accion' => 'restar',
-    //             'concepto' => 'Reajuste de bono binario',
-    //             'total' => 4
-    //         ],
-    //         [
-    //             'correo' => 'multiclickworld@gmail.com',
-    //             'accion' => 'sumar',
-    //             'concepto' => 'Retroactivo de rentabilidad',
-    //             'total' => 11.58
-    //         ],
-    //         [
-    //             'correo' => 'equipo.mundial2018@gmail.com',
-    //             'accion' => 'sumar',
-    //             'concepto' => 'Retroactivo de rentabilidad',
-    //             'total' => 11.58
-    //         ],
-    //         [
-    //             'correo' => 'jtan17@hotmail.com',
-    //             'accion' => 'restar',
-    //             'concepto' => 'Reajuste de bono binario',
-    //             'total' => 100
-    //         ],
-    //         [
-    //             'correo' => 'Jessyeme02@gmail.com',
-    //             'accion' => 'sumar',
-    //             'concepto' => 'Retroactivo de bono binario',
-    //             'total' => 576
-    //         ],
-    //         [
-    //             'correo' => 'Juan.daniel0521@gmail.com',
-    //             'accion' => 'restar',
-    //             'concepto' => 'Reajuste de bono binario',
-    //             'total' => 90
-    //         ],
-    //         [
-    //             'correo' => 'Jogonzalezh0712@gmail.com',
-    //             'accion' => 'sumar',
-    //             'concepto' => 'Retroactivo de rentabilidad',
-    //             'total' => 17.4
-    //         ],
-    //         [
-    //             'correo' => 'nancyloaizandr@gmail.com',
-    //             'accion' => 'sumar',
-    //             'concepto' => 'Retroactivo de rentabilidad',
-    //             'total' => 42
-    //         ],
-    //     ];
-    // }
+    /**
+     * Los usuarios y las cosas que tienes que hacer
+     *
+     * @return array
+     */
+    public function arregloUserArreglar(): array
+    {
+        return [
+            // [
+            //     'correo' => 'entherfoundworld@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Retroactivo de rentabilidad',
+            //     'total' => 23.16
+            // ],
+            // [
+            //     'correo' => 'entherfoundworld@gmail.com',
+            //     'accion' => 'restar',
+            //     'concepto' => 'Reajuste de bono binario',
+            //     'total' => 4
+            // ],
+            // [
+            //     'correo' => 'multiclickworld@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Retroactivo de rentabilidad',
+            //     'total' => 11.58
+            // ],
+            // [
+            //     'correo' => 'equipo.mundial2018@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Retroactivo de rentabilidad',
+            //     'total' => 11.58
+            // ],
+            // [
+            //     'correo' => 'jtan17@hotmail.com',
+            //     'accion' => 'restar',
+            //     'concepto' => 'Reajuste de bono binario',
+            //     'total' => 100
+            // ],
+            // [
+            //     'correo' => 'Jessyeme02@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Retroactivo de bono binario',
+            //     'total' => 576
+            // ],
+            // [
+            //     'correo' => 'Juan.daniel0521@gmail.com',
+            //     'accion' => 'restar',
+            //     'concepto' => 'Reajuste de bono binario',
+            //     'total' => 90
+            // ],
+            // [
+            //     'correo' => 'Jogonzalezh0712@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Retroactivo de rentabilidad',
+            //     'total' => 17.4
+            // ],
+            // [
+            //     'correo' => 'nancyloaizandr@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Retroactivo de rentabilidad',
+            //     'total' => 42
+            // ],
+            // [
+            //     'correo' => 'quinino49@hotmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Bono Directo de Laura Luquin',
+            //     'total' => 100
+            // ],
+            // [
+            //     'correo' => 'Paulivanegas26@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Bono Binario',
+            //     'total' => 522.5
+            // ],
+            // [
+            //     'correo' => 'Paulivanegas26@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Bono Indirectos',
+            //     'total' => 61
+            // ],
+            // [
+            //     'correo' => 'Jessyeme02@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Ajuste de igualacion',
+            //     'total' => 1405
+            // ],
+            // [
+            //     'correo' => 'sebasjaratabares@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Ajuste de igualacion',
+            //     'total' => 150
+            // ],
+            // [
+            //     'correo' => 'Jessyeme02@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Ajuste de igualacion',
+            //     'total' => 50
+            // ],
+            // [
+            //     'correo' => 'leutarorodsman@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Ajuste de igualacion',
+            //     'total' => 738
+            // ],
+            // [
+            //     'correo' => 'nancyloaizandr@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Bono Directo',
+            //     'total' => 50
+            // ],
+            // [
+            //     'correo' => 'sebasjaratabares@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 100000,
+            //     'side' => 'D'
+            // ],
+        ];
+    }
 }
