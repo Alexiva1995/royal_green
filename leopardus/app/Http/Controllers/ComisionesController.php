@@ -121,7 +121,13 @@ class ComisionesController extends Controller
                                 if ($compra['idusuario'] != $sponsor->ID) {
                                     if ($sponsor->nivel == 1) {
                                         $userReferido = User::find($compra['idusuario']);
-                                        $pagar = ($compra['total'] * 0.10);
+
+                                        $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
+                                        $pagar = ($totalCompra * 0.10);
+                                        // if ($compra['idcompra'] == 6187) {
+                                        //     dd($totalCompra, $compra['total'], $this->getValueSub($compra['idusuario']), $pagar);
+                                        // }
+                                        
                                         $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
                                         if ($pagar > 0) {
                                             $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
@@ -178,7 +184,7 @@ class ComisionesController extends Controller
                                         $idcomision = $compra['idcompra'].'10';
                                         $pagar = ($compra['total'] * $porcentaje);
                                         $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
-                                        if ($pagar) {
+                                        if ($pagar > 0) {
                                             $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Indirecto');
                                         }
                                     }
@@ -249,15 +255,21 @@ class ComisionesController extends Controller
         try {
             $compras = $this->funciones->getAllCompras();
             if (!empty($compras)) {
+                $totalCompra = 0;
+                $cantiOrdenes = count($compras);
                 foreach ($compras as $compra) {
+                    if ($cantiOrdenes > 1) {
+                        $totalCompra = $compras[($cantiOrdenes - 1)]['total'];
+                    }
+                    $totalCompra = ($compra['total'] - $totalCompra);
                     $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
                     if (!empty($sponsors)) {
                         $userReferido = User::find($compra['idusuario']);
                         $side = $userReferido->ladomatrix;
                         $concepto = 'Puntos Rango, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['idcompra'];
                         foreach ($sponsors as $sponsor) {
-                            if ($sponsor->nivel > 0) {
-                                $this->savePoints($compra['total'], $sponsor->ID, $concepto, 'R', $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
+                            if ($sponsor->nivel > 0 && $totalCompra > 0) {
+                                $this->savePoints($totalCompra, $sponsor->ID, $concepto, 'R', $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
                             }
                         }
                     }
@@ -287,7 +299,10 @@ class ComisionesController extends Controller
                         foreach ($sponsors as $sponsor) {
                             if ($this->verificarBinarioActivo($sponsor->ID) == 1) {
                                 if ($sponsor->nivel > 0) {
-                                    $this->savePoints($compra['total'], $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
+
+                                    $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
+
+                                    $this->savePoints($totalCompra, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
                                     $side = $sponsor->ladomatrix;
                                 }
                             }
@@ -298,6 +313,30 @@ class ComisionesController extends Controller
         } catch (\Throwable $th) {
             dd($th);
         }
+    }
+
+    /**
+     * Permite obtener el valor a restar
+     *
+     * @param integer $iduser
+     * @return float
+     */
+    public function getValueSub(int $iduser): float
+    {
+        $resta = 0;
+
+        $compras = $this->funciones->getInforShopping($iduser);
+        $total = count($compras);
+        // foreach ($compras as $compra ) {
+        //     if ($compra['tipo_activacion'] != 'Manual') {
+        //         $total++;
+        //     }
+        // }
+        if ($total > 1) {
+            $resta = $compras[$total-2]['total'];
+        }
+
+        return $resta;
     }
 
     /**
