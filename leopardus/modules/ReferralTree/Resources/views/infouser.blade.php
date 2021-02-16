@@ -22,6 +22,9 @@
                             Fecha Ingreso: <strong>{{date('d-m-Y', strtotime($data->created_at))}}</strong>
                         </h6>
                         <h6>
+                            Email: <strong>{{$data->user_email}}</strong>
+                        </h6>
+                        <h6>
                             Patrocinador: <strong>{{$data->patrocinador}}</strong>
                         </h6>
                         <h6>

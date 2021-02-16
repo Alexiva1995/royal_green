@@ -305,7 +305,7 @@ class ComisionesController extends Controller
                             }else{
                                 $this->savePoints(0, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
                             }
-                            $side = $sponsor->ladomatrix;
+                            $side = $sponsor->ladomatriz;
                         }
                     }
                 }
