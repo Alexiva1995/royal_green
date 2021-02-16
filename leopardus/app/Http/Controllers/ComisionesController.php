@@ -299,13 +299,13 @@ class ComisionesController extends Controller
                         foreach ($sponsors as $sponsor) {
                             if ($this->verificarBinarioActivo($sponsor->ID) == 1) {
                                 if ($sponsor->nivel > 0) {
-
                                     $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
-
                                     $this->savePoints($totalCompra, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
-                                    $side = $sponsor->ladomatrix;
                                 }
+                            }else{
+                                $this->savePoints(0, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
                             }
+                            $side = $sponsor->ladomatrix;
                         }
                     }
                 }
@@ -433,7 +433,7 @@ class ComisionesController extends Controller
 
                 $rentabilidadActiva = $this->checkstatusRentabilidad($iduser);
 
-                if ($rentabilidadActiva == 1) {
+                if ($rentabilidadActiva == 1 && $puntos > 0) {
                     $datos = [
                         'iduser' => $iduser,
                         'usuario' => $user->display_name,
