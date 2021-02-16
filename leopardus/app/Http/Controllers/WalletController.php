@@ -287,7 +287,7 @@ class WalletController extends Controller
 							]);
 
 							Mail::send('emails.codigoRetiro',  ['codigo' => $codigo], function($msj){
-								$msj->subject('Codigo de Confirmación de Retiro');
+								$msj->subject('Código de confirmación de retiro de la cuenta '.Auth::user()->user_email);
 								$msj->to(Auth::user()->user_email);
 							});
 
