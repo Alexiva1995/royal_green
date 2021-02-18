@@ -50,6 +50,8 @@ class AdminController extends Controller
         // $comi->payBonus();
         // $comi->registePackageToRentabilizar($iduser);
         if ($iduser == 1) {
+            // $comi->borrarPuntos();
+            // $comi->puntosBinarios();
             // $comi->arreglarBilletera();
             // dd('parar');
             // $comi->arreglarDescripcionBonosWallet();

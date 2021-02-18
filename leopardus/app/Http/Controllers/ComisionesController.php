@@ -11,6 +11,8 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\WalletController;
 use App\Wallet;
 
+use function GuzzleHttp\json_decode;
+
 class ComisionesController extends Controller
 {
     public $funciones;
@@ -297,14 +299,14 @@ class ComisionesController extends Controller
                         $side = $userReferido->ladomatrix;
                         $concepto = 'Puntos Binarios, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$compra['idcompra'];
                         foreach ($sponsors as $sponsor) {
-                            if ($this->verificarBinarioActivo($sponsor->ID) == 1) {
+                            // if ($this->verificarBinarioActivo($sponsor->ID) == 1) {
                                 if ($sponsor->nivel > 0) {
                                     $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
                                     $this->savePoints($totalCompra, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
                                 }
-                            }else{
-                                $this->savePoints(0, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
-                            }
+                            // }else{
+                            //     $this->savePoints(0, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
+                            // }
                             $side = $sponsor->ladomatriz;
                         }
                     }
@@ -939,116 +941,128 @@ class ComisionesController extends Controller
         }
     }
 
-    // /**
-    //  * permite arreglar las billeteras de algunos usuarios
-    //  *
-    //  * @return void
-    //  */
-    // public function arreglarBilletera()
-    // {
-    //     try {
-    //         $usuarios =  $this->arregloUserArreglar();
-    //         foreach ($usuarios as $usuario ) {
-    //             $bono = $usuario['total'];
-    //             $user2 = User::where('user_email', $usuario['correo'])->first();
-    //             $iduser = $user2->ID;
-    //             $concepto = $usuario['concepto'];
+    /**
+     * permite arreglar las billeteras de algunos usuarios
+     *
+     * @return void
+     */
+    public function arreglarBilletera()
+    {
+        try {
+            $usuarios =  $this->arregloUserArreglar();
+            foreach ($usuarios as $usuario ) {
+                $bono = $usuario['total'];
+                $user2 = User::where('user_email', $usuario['correo'])->first();
+                $iduser = $user2->ID;
+                $concepto = $usuario['concepto'];
 
-    //             if ($concepto == 'Puntos por derrames') {
-    //                 $this->savePoints($bono, $iduser, $concepto, $usuario['side'], $iduser, 1, 'Sistema');
-    //             }else{
-    //                 $checkRentabilidad = DB::table('log_rentabilidad')->where([
-    //                     ['iduser', '=', $iduser],
-    //                     ['progreso', '<', 100]
-    //                 ])->first();
+                if ($concepto == 'Puntos por derrames') {
+                    $this->savePoints($bono, $iduser, $concepto, $usuario['side'], $iduser, 1, 'Sistema');
+                    if ($usuario['side'] == 'R') {
+                        $jsond = json_decode($user2->puntos);
+                        $puntos = [
+                            'binario_izq' => ($jsond->binario_izq - $bono),
+                            'binario_der' => ($jsond->binario_der - $bono),
+                            'rank' => $jsond->rank,
+                        ];
+                        // $user2->puntos = json_encode($puntos);
+
+                        // $user2->save();
+                        DB::table('wp_users')->where('ID', $user2->ID)->update(['puntos' => json_encode($puntos)]);
+                    }
+                }else{
+                    $checkRentabilidad = DB::table('log_rentabilidad')->where([
+                        ['iduser', '=', $iduser],
+                        ['progreso', '<', 100]
+                    ])->first();
     
-    //                 if ($checkRentabilidad != null) {
-    //                     $ganado = $bono;
-    //                     $balance = $ganado;
-    //                     $idRentabilidad = $checkRentabilidad->id;
-    //                     $finalizado = 0;
+                    if ($checkRentabilidad != null) {
+                        $ganado = $bono;
+                        $balance = $ganado;
+                        $idRentabilidad = $checkRentabilidad->id;
+                        $finalizado = 0;
     
-    //                     $debito = 0;
-    //                     $credito = 0;
-    //                     $totalRetirado = 0;
+                        $debito = 0;
+                        $credito = 0;
+                        $totalRetirado = 0;
             
-    //                     if ($usuario['accion'] == 'sumar') {
-    //                         $totalGanado = ($checkRentabilidad->ganado + $ganado);
-    //                     } elseif($usuario['accion'] == 'restar') {
-    //                         $totalGanado = ($checkRentabilidad->ganado - $ganado);
-    //                         $totalRetirado = ($checkRentabilidad->retirado + $ganado);
-    //                     }
+                        if ($usuario['accion'] == 'sumar') {
+                            $totalGanado = ($checkRentabilidad->ganado + $ganado);
+                        } elseif($usuario['accion'] == 'restar') {
+                            $totalGanado = ($checkRentabilidad->ganado - $ganado);
+                            $totalRetirado = ($checkRentabilidad->retirado + $ganado);
+                        }
                         
-    //                     $finalizacion = 0;
-    //                     if ($totalGanado >= $checkRentabilidad->limite) {
-    //                         if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
-    //                             $totalGanado = $checkRentabilidad->limite;
-    //                             $ganado = ($totalGanado - $checkRentabilidad->ganado);
-    //                         }else{
-    //                             $finalizacion = 1;
-    //                             $finalizado = 1;
-    //                         }
-    //                     }
-    //                     if ($finalizacion == 0) {    
-    //                         $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
-    //                         $balance = ($totalGanado - $checkRentabilidad->retirado);
-    //                         $dataRentabilidad = [
-    //                             'ganado' => $totalGanado,
-    //                             'retirado' => $totalRetirado,
-    //                             'progreso' => $progreso,
-    //                             'balance' => $balance
-    //                         ];
-    //                         DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
-    //                     }
+                        $finalizacion = 0;
+                        if ($totalGanado >= $checkRentabilidad->limite) {
+                            if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+                                $totalGanado = $checkRentabilidad->limite;
+                                $ganado = ($totalGanado - $checkRentabilidad->ganado);
+                            }else{
+                                $finalizacion = 1;
+                                $finalizado = 1;
+                            }
+                        }
+                        if ($finalizacion == 0) {    
+                            $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+                            $balance = ($totalGanado - $checkRentabilidad->retirado);
+                            $dataRentabilidad = [
+                                'ganado' => $totalGanado,
+                                'retirado' => $totalRetirado,
+                                'progreso' => $progreso,
+                                'balance' => $balance
+                            ];
+                            DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+                        }
             
-    //                     $user = User::find($iduser);
-    //                     // $user->wallet_amount = ($user->wallet_amount + $ganado);
-    //                     if ($usuario['accion'] == 'sumar') {
-    //                         $user->wallet_amount = ($user->wallet_amount + $ganado);
-    //                         $debito = $ganado;
-    //                     } elseif($usuario['accion'] == 'restar') {
-    //                         $user->wallet_amount = ($user->wallet_amount - $ganado);
-    //                         $credito = $ganado;
-    //                     }
+                        $user = User::find($iduser);
+                        // $user->wallet_amount = ($user->wallet_amount + $ganado);
+                        if ($usuario['accion'] == 'sumar') {
+                            $user->wallet_amount = ($user->wallet_amount + $ganado);
+                            $debito = $ganado;
+                        } elseif($usuario['accion'] == 'restar') {
+                            $user->wallet_amount = ($user->wallet_amount - $ganado);
+                            $credito = $ganado;
+                        }
             
-    //                     $dataLogRentabilidadPay = [
-    //                         'iduser' => $iduser,
-    //                         'id_log_renta' => $idRentabilidad,
-    //                         'porcentaje' => 0,
-    //                         'debito' => $debito,
-    //                         'credito' => $credito,
-    //                         'balance' => $balance,
-    //                         'fecha_pago' => Carbon::now(),
-    //                         'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
-    //                     ];
+                        $dataLogRentabilidadPay = [
+                            'iduser' => $iduser,
+                            'id_log_renta' => $idRentabilidad,
+                            'porcentaje' => 0,
+                            'debito' => $debito,
+                            'credito' => $credito,
+                            'balance' => $balance,
+                            'fecha_pago' => Carbon::now(),
+                            'concepto' => 'Rentabilidad pagada por medio del '.$concepto.' , al usuario '.$user->display_name
+                        ];
             
-    //                     $datosComisions = [
-    //                         'iduser' => $iduser,
-    //                         'usuario' => $user->display_name,
-    //                         'descripcion' => $concepto,
-    //                         'puntos' => 0,
-    //                         'puntosI' => 0,
-    //                         'puntosD' => 0,
-    //                         'email_referred' => 'Sistema',
-    //                         'descuento' => 0,
-    //                         'debito' => $debito,
-    //                         'credito' => $credito,
-    //                         'balance' => $user->wallet_amount,
-    //                         'tipotransacion' => 2
-    //                     ];
+                        $datosComisions = [
+                            'iduser' => $iduser,
+                            'usuario' => $user->display_name,
+                            'descripcion' => $concepto,
+                            'puntos' => 0,
+                            'puntosI' => 0,
+                            'puntosD' => 0,
+                            'email_referred' => 'Sistema',
+                            'descuento' => 0,
+                            'debito' => $debito,
+                            'credito' => $credito,
+                            'balance' => $user->wallet_amount,
+                            'tipotransacion' => 2
+                        ];
             
-    //                     if ($finalizado == 0) {
-    //                         $user->save();
-    //                         DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
-    //                         $this->wallet->saveWallet($datosComisions);
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     } catch (\Throwable $th) {
-    //         dd($th);
-    //     }
-    // }
+                        if ($finalizado == 0) {
+                            $user->save();
+                            DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+                            $this->wallet->saveWallet($datosComisions);
+                        }
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
 
     /**
      * Los usuarios y las cosas que tienes que hacer
@@ -1167,6 +1181,235 @@ class ComisionesController extends Controller
             //     'total' => 100000,
             //     'side' => 'D'
             // ],
+            // [
+            //     'correo' => 'master5@royalgreen.company',
+            //     'accion' => 'restar',
+            //     'concepto' => 'Binario mal pagado',
+            //     'total' => 474
+            // ],
+            // [
+            //     'correo' => 'master5@royalgreen.company',
+            //     'accion' => 'restar',
+            //     'concepto' => 'Indirecto mal pagado',
+            //     'total' => 44.5
+            // ],
+            [
+                'correo' => 'jessyeme02@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 37790,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'leutarorodsman@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 25700,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'master5@royalgreen.company',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 19600,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'info@depilacionfacil.com.co',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 21400,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'leutarorodsman+13@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 9150,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'Juan.daniel0521@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 3560,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'sebasjaratabares@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 1500,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'jtan17@hotmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 3000,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'Paulivanegas26@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 2115,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'valentinaescritora2020@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 1700,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'farly1993z3@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 1200,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'diosaexitosa2017@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 1250,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'leutarorodsman+19@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 1200,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'alejandraserranosanchez14@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 1050,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'vicvillalba19@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 700,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'royalgreenchile1@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 500,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'Platiadrian@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 300,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'doncarlosalfaro@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 150,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'leutarorodsman+20@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 100,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'adelito62@hotmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 100,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'Platiadrian@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 300,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'leutarorodsman+16@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 45,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'Sharkprodigital@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 50,
+                'side' => 'R'
+            ],
+            [
+                'correo' => 'Apariclub@outlook.com',
+                'accion' => 'sumar',
+                'concepto' => 'Puntos por derrames',
+                'total' => 50,
+                'side' => 'R'
+            ],
         ];
+    }
+
+    /**
+     * Permite borrar todos los registros de puntos 
+     *
+     * @return void
+     */
+    public function borrarPuntos()
+    {
+        $compras = DB::table('wp_posts')
+                    ->select('*')
+                    ->where([
+                        ['post_type', '=', 'shop_order'],
+                        ['post_status', '=', 'wc-completed'],
+                        ['to_ping', '=', 'Coinbase']
+                    ])->orWhere([
+                        ['post_type', '=', 'shop_order'],
+                        ['post_status', '=', 'wc-completed'],
+                        ['ID', '=', 5964]
+                    ])
+                    ->get();
+        foreach ($compras as $compra) {
+            $idcomision = $compra->ID.'20';
+            $comision = Commission::where('compra_id', '=', $idcomision)->first();
+            if ($comision != null) {
+                Commission::where('compra_id', '=', $idcomision)->delete();
+            }
+        }
+
+        $users = User::all();
+        foreach ($users as $p) {
+            $p = User::find($p->ID);
+            $jsond = json_decode($p->puntos);
+            $puntos = [
+                'binario_izq' => 0,
+                'binario_der' => 0,
+                'rank' => $jsond->rank,
+            ];
+            // $p->puntos = json_encode($puntos);
+
+            // $p->save();
+            DB::table('wp_users')->where('ID', $p->ID)->update(['puntos' => json_encode($puntos)]);
+        }
+        
+
+        Commission::where('tipo_comision', '=', 'Puntos Rango')->delete();
+        Wallet::where('puntos', '>', 0)->delete();
+        Wallet::where('puntosI', '>', 0)->delete();
+        Wallet::where('puntosD', '>', 0)->delete();
     }
 }
