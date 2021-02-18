@@ -160,8 +160,11 @@ class ComisionesController extends Controller
                     if ($compra['idcompra'] != 5964) {
                         $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
                         if (!empty($sponsors)) {
-                            foreach ($sponsors as $sponsor) {
-                                $paquete = json_decode($sponsor->paquete);
+                            foreach ($sponsors as $sponsor) {           
+                                $paquete = null;
+                                if ($sponsor->paquete != null) {
+                                    $paquete = json_decode($sponsor->paquete);
+                                }                     
                                 $nivel = 0;
                                 $porcentaje = 0;
                                 if (!empty($paquete)) {
