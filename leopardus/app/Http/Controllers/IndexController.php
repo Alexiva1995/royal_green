@@ -496,6 +496,7 @@ class IndexController extends Controller
         $settings = Settings::first();
         $compras = DB::table($settings->prefijo_wp.'posts')
                     ->select('*')
+                    ->whereDate('post_date', '>', $fecha->subDay(30))
                     ->where([
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],
@@ -505,7 +506,7 @@ class IndexController extends Controller
                         ['post_status', '=', 'wc-completed'],
                         ['ID', '=', 5964]
                     ])
-                    ->whereDate('post_date', '>', $fecha->subDay(30))
+                    ->orderBy('ID')
                     ->get();
         $arreCompras = [];
         foreach ($compras as $compra) {

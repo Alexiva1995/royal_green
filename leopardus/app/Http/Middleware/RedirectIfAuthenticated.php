@@ -41,16 +41,16 @@ class RedirectIfAuthenticated
                             ['progreso', '<', 100],
                         ])->first();
                         if ($checkRentabilidad1 == null) {
-                            if ($checkRentabilidad->limite > $checkRentabilidad->retirado) {
-                                $walletController = new WalletController;
-                                $walletController->retiroCulminacionRentabilidad(Auth::user()->ID, $checkRentabilidad->id);
-                            }
+                            // if ($checkRentabilidad->limite > $checkRentabilidad->retirado) {
+                            //     $walletController = new WalletController;
+                            //     $walletController->retiroCulminacionRentabilidad(Auth::user()->ID, $checkRentabilidad->id);
+                            // }
                             return redirect()->route('tienda-index')->with('msj', 'Por favor compre otro paquete');
                         }else{
-                            if ($checkRentabilidad->limite > $checkRentabilidad->retirado) {
-                                $walletController = new WalletController;
-                                $walletController->retiroCulminacionRentabilidad(Auth::user()->ID, $checkRentabilidad->id);
-                            }
+                            // if ($checkRentabilidad->limite > $checkRentabilidad->retirado) {
+                            //     // $walletController = new WalletController;
+                            //     // $walletController->retiroCulminacionRentabilidad(Auth::user()->ID, $checkRentabilidad->id);
+                            // }
                         }
                     }
                 }

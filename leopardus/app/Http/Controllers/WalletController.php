@@ -532,7 +532,7 @@ $billetera = DB::table('walletlog')
 	
 				$dataUpdate = [
 					'balance' => $user->wallet_amount,
-					'retirado' => $montototal
+					'retirado' => ($rentabilidad->retirado + $montototal)
 				];
 				
 				$dataLogRentabilidadPay = [

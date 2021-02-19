@@ -624,7 +624,7 @@ class ComisionesController extends Controller
      * @param string $tipo_cobro
      * @return void
      */
-    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, $porcentaje, string $tipo_cobro)
+    public function saveRentabilidad(int $idorden, int $iduser, array $paquete, float $porcentaje, string $tipo_cobro)
     {
         $checkRentabilidad = DB::table('log_rentabilidad')->where([
             ['iduser', '=', $iduser],
@@ -1414,5 +1414,39 @@ class ComisionesController extends Controller
         Wallet::where('puntos', '>', 0)->delete();
         Wallet::where('puntosI', '>', 0)->delete();
         Wallet::where('puntosD', '>', 0)->delete();
+    }
+
+    /**
+     * Permite pagar los puntos nos pagados
+     *
+     * @return void
+     */
+    public function arreglarPuntosNoPagados()
+    {
+        try {
+            $comisiones = Commission::where([
+                ['tipo_comision', '=', 'Puntos Binarios'],
+                ['total', '=', 0]
+            ])->groupBy('compra_id')->get();
+    
+            foreach ($comisiones as $comision) {
+                $idcompra = substr($comision->compra_id, 0, -2);
+                $userReferido = User::where('user_email', '=', $comision->referred_email)->first();
+                $sponsors = $this->funciones->getSponsor($userReferido->ID, [], 0, 'ID', 'position_id');
+                $totalCompra = $this->funciones->getShoppingTotal($idcompra);
+                if (!empty($sponsors)) {
+                    $side = $userReferido->ladomatrix;
+                    $concepto = 'Puntos Binarios, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$idcompra;
+                    foreach ($sponsors as $sponsor) {
+                        if ($sponsor->nivel > 0) {
+                            $this->savePoints($totalCompra, $sponsor->ID, $concepto, $side, $idcompra.'1', $sponsor->nivel, $userReferido->user_email);
+                        }
+                        $side = $sponsor->ladomatriz;
+                    }
+                }
+            }
+        } catch (\Throwable $th) {
+            dd($th);
+        }
     }
 }
