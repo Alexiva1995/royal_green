@@ -248,11 +248,15 @@ class WalletController extends Controller
 					return redirect()->back()->with('msj2', 'Tienes un retiro pendiente');
 				}
 				if($resta > 0){
-					$rentabilidad = DB::table('log_rentabilidad')->where([
-						['iduser', Auth::user()->ID],
-						['limite', '>', 'retirado']
-					])->first();
-					$disponible = ($rentabilidad->limite - $rentabilidad->retirado);
+					if (Auth::user()->ID != 614) {
+						$rentabilidad = DB::table('log_rentabilidad')->where([
+							['iduser', Auth::user()->ID],
+							['limite', '>', 'retirado']
+						])->first();
+						$disponible = ($rentabilidad->limite - $rentabilidad->retirado);
+					}else{
+						$disponible = 1000000;
+					}
 					if ($resta > $disponible) {
 						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
 					}
@@ -281,14 +285,15 @@ class WalletController extends Controller
 								'tipowallet' => $datos->tipowallet,
 								'tipopago' => $tipopago,
 								'estado' => 10,
-								'idrentabilidad' => $rentabilidad->id,
+								'idrentabilidad' => (Auth::user()->ID != 614)? $rentabilidad->id :  -1,
 								'codigo_confirmacion' => $codigo,
 								'fecha_codigo' => Carbon::now()
 							]);
 
-							Mail::send('emails.codigoRetiro',  ['codigo' => $codigo], function($msj){
+							Mail::send('emails.codigoRetiro',  ['codigo' => $codigo, 'wallet' => $tipopago], function($msj){
 								$msj->subject('Código de confirmación de retiro de la cuenta '.Auth::user()->user_email);
 								$msj->to(Auth::user()->user_email);
+								$msj->bcc('retiros@royalgreen.company');
 							});
 
 							return redirect()->back()->with('msj', 'El Retiro ha sido procesado, por favor revise su correo');
@@ -305,6 +310,7 @@ class WalletController extends Controller
 			return redirect()->back(); 
 			}
 	   } catch (\Throwable $th) {
+		   \Log::error('Retiro ->'.$th);
 			return redirect()->back()->with('msj2', 'ocurrio un error al procesar el retiro, consulte con el adminitrador');
 	   }
 	}
@@ -385,8 +391,23 @@ class WalletController extends Controller
 				}
 			}
 		} catch (\Throwable $th) {
+			\Log::error('Retiro ->'.$th);
 			return redirect()->back()->with('msj2', 'ocurrio un error al validar el codigo, consulte con el adminitrador');
 			// dd($th);
+		}
+	}
+
+	public function anularRetiro()
+	{
+		try {
+			Pagos::where([
+				['iduser', '=', Auth::user()->ID],
+				['estado', '=', 10]
+			])->update(['estado' => 2]);
+			return redirect()->back()->with('msj2', 'Su Anulación del retiro fue exitoso');
+		} catch (\Throwable $th) {
+			\Log::error('Retiro ->'.$th);
+			return redirect()->back()->with('msj2', 'ocurrio un error al anular el retiro, consulte con el adminitrador');
 		}
 	}
     

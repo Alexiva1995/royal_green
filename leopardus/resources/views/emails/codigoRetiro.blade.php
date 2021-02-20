@@ -9,6 +9,8 @@
 </h4>
 
     <p class="card-text text-justify">
+        Su Billetera: {{$wallet}}
+        <br>
         Para completar su proceso de Retiro
         debe agregar este código valido por 15 min
         Código: {{$codigo}}

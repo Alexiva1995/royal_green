@@ -219,7 +219,6 @@ class PagoController extends Controller
 			];
 			$wallet = new WalletController;
 			$wallet->saveWallet($datos);
-			$user->save();
 
 			$rentabilidad = DB::table('log_rentabilidad')->where('id', $pagos->idrentabilidad)->first();
 
@@ -248,6 +247,7 @@ class PagoController extends Controller
 			
 			
 			$pagos->save();
+			$user->save();
 			return redirect('/admin/price/confirmar')->with('msj', 'Pago Rechazado Satisfactoriamente');
 		} catch (\Throwable $th) {
 			return redirect()->back()->with('msj2', 'Ocurrio un error al momento de retirar, por favor comunicarse con el administrado');

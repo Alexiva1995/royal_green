@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,6 +13,20 @@ Route::group(['prefix' => 'installer', 'middleware' => 'licencia'], function (){
   Route::post('/savestep2', 'InstallController@saveStep2')->name('install-save-step2');
   Route::get('/end', 'InstallController@end')->name('install-end');
 
+});
+
+Route::get('/clear-cache', function() {
+  $exitCode = Artisan::call('config:clear');
+  $exitCode = Artisan::call('cache:clear');
+  $exitCode = Artisan::call('config:cache');
+  $exitCode = Artisan::call('view:clear');
+  $exitCode = Artisan::call('route:clear');
+  // Mail::send('correo.subcripcion', ['data' => []], function ($correo2)
+  //     {
+  //         $correo2->subject('Limpio el sistema');
+  //         $correo2->to('cgonzalez.byob@gmail.com');
+  //     });
+  return 'DONE'; //Return anything
 });
 
 
@@ -108,6 +123,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::get('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
         Route::post('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
         Route::post('/validarretiro', 'WalletController@VerificarRetiro')->name('waller.confimacion');
+        Route::get('/anularretiro', 'WalletController@anularRetiro')->name('wallet.anular');
     });
 
     // Rentabilidad
