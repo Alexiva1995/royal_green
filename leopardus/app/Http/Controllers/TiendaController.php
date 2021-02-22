@@ -105,6 +105,7 @@ class TiendaController extends Controller
     public function linkCoinPayMent(object $producto)
     {
         $apiKey = env('COINBASE_API_KEY');
+        $apiKey = ($apiKey != '') ? $apiKey : 'b015e97e-8b32-47f7-8d9d-ecfbab4e290a';
         $apiClientObj = ApiClient::init($apiKey);
         $apiClientObj->setTimeout(6);
 
