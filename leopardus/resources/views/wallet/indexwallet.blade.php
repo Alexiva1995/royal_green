@@ -72,10 +72,10 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                                 {{$wallet['descripcion']}}
                             </td>
                             <td class="text-center">
-                                {{number_format($wallet['debito'], 2, ',', '.')}}
+                                {{number_format($wallet['debito'], 2, '.', ',')}}
                             </td>
                             <td class="text-center">
-                                {{number_format($wallet['credito'], 2, ',', '.')}}
+                                {{number_format($wallet['credito'], 2, '.', ',')}}
                             </td>
                             <td class="text-center">
                                 {{$wallet['descuento']}}
