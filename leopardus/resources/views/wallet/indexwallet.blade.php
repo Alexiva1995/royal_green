@@ -39,13 +39,13 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                                 Descripción
                             </th>
                             <th class="text-center">
-                                Cash
+                                Cash $
                             </th>
                             <th class="text-center">
-                                Credito
+                                Credito $
                             </th>
                             <th class="text-center">
-                                Feed
+                                Feed $
                             </th>
                             {{-- <th class="text-center">
                                 Balance
@@ -72,31 +72,13 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                                 {{$wallet['descripcion']}}
                             </td>
                             <td class="text-center">
-                                
-                                    @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{number_format($wallet['debito'], 2, ',', '.')}}
-                                    @else
-                                    {{number_format($wallet['debito'], 2, ',', '.')}} {{$moneda->simbolo}}
-                                    @endif
-                                
+                                {{number_format($wallet['debito'], 2, ',', '.')}}
                             </td>
                             <td class="text-center">
-                                
-                                    @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{number_format($wallet['credito'], 2, ',', '.')}}
-                                    @else
-                                    {{number_format($wallet['credito'], 2, ',', '.')}} {{$moneda->simbolo}}
-                                    @endif
-                                
+                                {{number_format($wallet['credito'], 2, ',', '.')}}
                             </td>
                             <td class="text-center">
-                                
-                                    @if ($moneda->mostrar_a_d)
-                                    {{$moneda->simbolo}} {{$wallet['descuento']}}
-                                    @else
-                                    {{$wallet['descuento']}} {{$moneda->simbolo}}
-                                    @endif
-                                
+                                {{$wallet['descuento']}}
                             </td>
                             {{-- <td class="text-center">
                                 
