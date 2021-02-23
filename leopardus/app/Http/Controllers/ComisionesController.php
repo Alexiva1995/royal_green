@@ -858,6 +858,10 @@ class ComisionesController extends Controller
                         'progreso' => 0,
                         'nivel_minimo_cobro' => ($orden['tipo_activacion'] == 'Manual') ? 7 : 0,
                     ];
+
+                    DB::table('log_rentabilidad')->where([
+                        ['iduser', '=', $iduser],
+                    ])->update(['progreso' => 100]);
     
                     DB::table('log_rentabilidad')->insert($dataRentabilidad);
                 }else{
