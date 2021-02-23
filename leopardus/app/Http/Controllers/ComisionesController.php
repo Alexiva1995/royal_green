@@ -1200,172 +1200,179 @@ class ComisionesController extends Controller
             //     'concepto' => 'Indirecto mal pagado',
             //     'total' => 44.5
             // ],
-            [
-                'correo' => 'jessyeme02@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 37790,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'leutarorodsman@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 25700,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'master5@royalgreen.company',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 19600,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'info@depilacionfacil.com.co',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 21400,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'leutarorodsman+13@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 9150,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'Juan.daniel0521@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 3560,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'sebasjaratabares@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 1500,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'jtan17@hotmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 3000,
-                'side' => 'R'
-            ],
+            // [
+            //     'correo' => 'jessyeme02@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 37790,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'leutarorodsman@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 25700,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'master5@royalgreen.company',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 19600,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'info@depilacionfacil.com.co',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 21400,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'leutarorodsman+13@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 9150,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'Juan.daniel0521@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 3560,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'sebasjaratabares@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 1500,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'jtan17@hotmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 3000,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'Paulivanegas26@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 2115,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'valentinaescritora2020@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 1700,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'farly1993z3@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 1200,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'diosaexitosa2017@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 1250,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'leutarorodsman+19@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 1200,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'alejandraserranosanchez14@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 1050,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'vicvillalba19@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 700,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'royalgreenchile1@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 500,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'Platiadrian@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 300,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'doncarlosalfaro@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 150,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'leutarorodsman+20@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 100,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'adelito62@hotmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 100,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'Platiadrian@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 300,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'leutarorodsman+16@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 45,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'Sharkprodigital@gmail.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 50,
+            //     'side' => 'R'
+            // ],
+            // [
+            //     'correo' => 'Apariclub@outlook.com',
+            //     'accion' => 'sumar',
+            //     'concepto' => 'Puntos por derrames',
+            //     'total' => 50,
+            //     'side' => 'R'
+            // ],
             [
                 'correo' => 'Paulivanegas26@gmail.com',
                 'accion' => 'sumar',
                 'concepto' => 'Puntos por derrames',
-                'total' => 2115,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'valentinaescritora2020@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 1700,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'farly1993z3@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 1200,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'diosaexitosa2017@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 1250,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'leutarorodsman+19@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 1200,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'alejandraserranosanchez14@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 1050,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'vicvillalba19@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 700,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'royalgreenchile1@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 500,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'Platiadrian@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 300,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'doncarlosalfaro@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 150,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'leutarorodsman+20@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 100,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'adelito62@hotmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 100,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'Platiadrian@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 300,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'leutarorodsman+16@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 45,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'Sharkprodigital@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 50,
-                'side' => 'R'
-            ],
-            [
-                'correo' => 'Apariclub@outlook.com',
-                'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 50,
+                'total' => 12535,
                 'side' => 'R'
             ],
         ];
