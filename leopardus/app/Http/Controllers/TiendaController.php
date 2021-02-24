@@ -506,6 +506,72 @@ class TiendaController extends Controller
         }
         return $arregloCompras;
     }
+
+    /**
+     * Armar el arreglo Completo que se mostrara en la vista
+     * 
+     * @access public
+     * @return array
+     */
+    public function ArregloCompra2()
+    {
+        $compras = $this->getShopping();
+        $arregloCompras = [];
+        $fecha = Carbon::now();
+        $fecha30dias = $fecha->copy()->subDays(2);
+        foreach ($compras as $compra) {
+            $fechaCompra = new Carbon($compra->post_date);
+            if ($fechaCompra >= $fecha30dias) {
+                $estadoEntendible = '';
+                switch ($compra->post_status) {
+                    case 'wc-completed':
+                        $estadoEntendible = 'Completado';
+                        break;
+                    case 'wc-pending':
+                        $estadoEntendible = 'Pendiente de Pago';
+                        break;
+                    case 'wc-processing':
+                        $estadoEntendible = 'Procesando';
+                        break;
+                    case 'wc-on-hold':
+                        $estadoEntendible = 'En Espera';
+                        break;
+                    case 'wc-cancelled':
+                        $estadoEntendible = 'Cancelado';
+                        break;
+                    case 'wc-refunded':
+                        $estadoEntendible = 'Reembolsado';
+                        break;
+                    case 'wc-failed':
+                        $estadoEntendible = 'Fallido';
+                        break;
+                }
+                if ($compra->post_status == 'wc-pending' || $compra->post_status == 'wc-processing' || $compra->post_status == 'wc-on-hold') {
+                    $datos = $this->getDatos($compra->post_id);
+                
+                    $user = User::find($datos['iduser']);
+                    array_push($arregloCompras,[
+                        'usuario' => (!empty($user->display_name)) ? $user->display_name : 'Usuario No Disponibles',
+                        'idcompra' => $compra->post_id,
+                        'total' => $datos['total'],
+                        'iduser' => $datos['iduser'],
+                        'billetera' => (!empty($user->wallet_amount)) ? $user->wallet_amount : 0,
+                        'fecha' => $compra->post_date,
+                        'estado' => $estadoEntendible,
+                        'code_coinbase' => $compra->code_coinbase,
+                        'id_coinbase' => $compra->id_coinbase,
+                    ]);
+                }
+            }
+        }
+        if (!empty($arregloCompras)) {
+            $tmparray = $arregloCompras[0];
+            for ($i=1; $i < count($arregloCompras); $i++) { 
+                $tmparray = array_merge($tmparray, $arregloCompras[$i]);
+            }
+        }
+        return $arregloCompras;
+    }
     
     /**
      * Actualiza las solicitude pendientes
