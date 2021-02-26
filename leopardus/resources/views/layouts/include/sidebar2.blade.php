@@ -106,6 +106,7 @@
                     </span>
                 </a>
             </li> --}}
+            @if (Auth::user()->status == 1)
             <li class=" nav-item">
                 <a href="javascripts:;">
                     <span class="menu-title" data-i18n="Link de Referidos">
@@ -125,7 +126,8 @@
                     </li>
                 </ul>
             </li>
-            </li>
+            @endif
+
             <li class=" nav-item">
                 <a href="{{route('admin.user.edit')}}">
                     <span class="menu-title" data-i18n="Perfil">
