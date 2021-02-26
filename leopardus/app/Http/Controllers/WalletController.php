@@ -42,7 +42,7 @@ class WalletController extends Controller
 			['estado', '=', 10]
 		])->first();
 		$diaRetiro = false;
-		if (date("w", strtotime(Carbon::now())) >= 5) {
+		if (date("w", strtotime(Carbon::now())) == 5) {
 			$diaRetiro = true;
 		}
 		if (!empty($validarPagos)) {
