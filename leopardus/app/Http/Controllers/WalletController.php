@@ -251,8 +251,7 @@ class WalletController extends Controller
 					if (Auth::user()->ID != 614) {
 						$rentabilidad = DB::table('log_rentabilidad')->where([
 							['iduser', Auth::user()->ID],
-							['limite', '>', 'retirado']
-						])->first();
+						])->whereRaw('limite > retirado')->first();
 						$disponible = ($rentabilidad->limite - $rentabilidad->retirado);
 					}else{
 						$disponible = 1000000;
@@ -358,9 +357,8 @@ class WalletController extends Controller
 						$user->save();
 
 						$rentabilidad = DB::table('log_rentabilidad')->where([
-							['iduser', $user->ID],
-							['limite', '>', 'retirado']
-						])->first();
+							['iduser', Auth::user()->ID],
+						])->whereRaw('limite > retirado')->first();
 
 						$dataUpdate = [
 							'balance' => $user->wallet_amount,
@@ -381,7 +379,7 @@ class WalletController extends Controller
 						DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
 						DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
 						
-						return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con y su retiro procesado');
+						return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con exito y su retiro procesado');
 					}else{
 						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 2]);
 						return redirect()->back()->with('msj2', 'Su código expiro, por favor realice un nuevo retiro, el ya hecho fue anulado');
