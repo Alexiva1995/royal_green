@@ -102,7 +102,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
             </div>
              @else
              <h5>
-                 Los dias de retiro son todos los jueves
+                 Los dias de retiro son todos los viernes
              </h5>
             @endif
         @endif
