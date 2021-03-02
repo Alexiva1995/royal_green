@@ -64,7 +64,7 @@
 				buttonsStyling: false,
 			}).then((value) => {
 				if (value) {
-					copyToClipboard('copy')
+					window.location.reload()
 				}
 			})
 			}else{

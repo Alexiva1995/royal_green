@@ -106,7 +106,7 @@
                     </span>
                 </a>
             </li> --}}
-            @if (Auth::user()->status == 1)
+            {{-- @if (Auth::user()->status == 1)
             <li class=" nav-item">
                 <a href="javascripts:;">
                     <span class="menu-title" data-i18n="Link de Referidos">
@@ -126,7 +126,7 @@
                     </li>
                 </ul>
             </li>
-            @endif
+            @endif --}}
 
             <li class=" nav-item">
                 <a href="{{route('admin.user.edit')}}">

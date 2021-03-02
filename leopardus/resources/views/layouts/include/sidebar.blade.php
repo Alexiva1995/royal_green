@@ -171,7 +171,7 @@
                     </span>
                 </a>
             </li> --}}
-            <li class=" nav-item">
+            {{-- <li class=" nav-item">
                 <a href="javascripts:;">
                     <span class="menu-title" data-i18n="Link de Referidos">
                         Links de Referidos
@@ -189,7 +189,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <li class=" nav-item">
                 <a href="javascript:;" onclick="$('#modalRentabilidad').modal('show')">
                     <span class="menu-title" data-i18n="Link de Referidos">
