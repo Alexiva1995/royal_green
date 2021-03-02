@@ -42,9 +42,9 @@ class WalletController extends Controller
 			['estado', '=', 10]
 		])->first();
 		$diaRetiro = false;
-		if (date("w", strtotime(Carbon::now())) >= 5 && date("w", strtotime(Carbon::now())) <= 6) {
-			$diaRetiro = true;
-		}
+		// if (date("w", strtotime(Carbon::now())) >= 5) {
+		// 	$diaRetiro = true;
+		// }
 		if (!empty($validarPagos)) {
 			$pagosPendientes = true;
 		}
@@ -379,7 +379,7 @@ class WalletController extends Controller
 						DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
 						DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
 						
-						return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con exito y su retiro procesado');
+						return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con exito y su retiro esta pendiente por ser procesado');
 					}else{
 						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 2]);
 						return redirect()->back()->with('msj2', 'Su código expiro, por favor realice un nuevo retiro, el ya hecho fue anulado');

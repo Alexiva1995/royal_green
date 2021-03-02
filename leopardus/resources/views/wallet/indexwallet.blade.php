@@ -11,6 +11,13 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
 {{-- option datatable --}}
 @include('dashboard.componentView.optionDatatable')
 
+<div class="alert alert-info">
+    <button class="close" data-close="alert"></button>
+    <span>
+      Todos los Retiros realizados, seran procesado los dias sabado de cada mes
+    </span>
+  </div>
+
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
 
@@ -96,15 +103,15 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
             </div>
         </div>
         @if (Auth::user()->rol_id != 0 && !$pagosPendientes)
-            @if ($diaRetiro)
+            {{-- @if ($diaRetiro) --}}
             <div class="col-xs-12 col-sm-6">
                 <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalRetiro">Retiro</button>
             </div>
-             @else
+             {{-- @else
              <h5>
                  Los dias de retiro son todos los viernes
              </h5>
-            @endif
+            @endif --}}
         @endif
         @if ($pagosPendientes)
         <div class="col-xs-12 col-sm-6">
