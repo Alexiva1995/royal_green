@@ -504,7 +504,7 @@ class IndexController extends Controller
                     ])->orWhere([
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],
-                        ['ID', '=', 5964]
+                        ['ID', '=', 6571]
                     ])
                     ->orderBy('ID')
                     ->get();

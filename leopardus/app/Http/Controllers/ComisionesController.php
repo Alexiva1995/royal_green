@@ -116,7 +116,7 @@ class ComisionesController extends Controller
             $compras = $this->funciones->getAllCompras();
             if (!empty($compras)) {
                 foreach ($compras as $compra) {
-                    if ($compra['idcompra'] != 5964) {
+                    if ($compra['idcompra'] != 5964 && $compra['idcompra'] != 6571) {
                         $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
                         if (!empty($sponsors)) {
                             foreach ($sponsors as $sponsor) {
@@ -157,7 +157,7 @@ class ComisionesController extends Controller
             $compras = $this->funciones->getAllCompras();
             if (!empty($compras)) {
                 foreach ($compras as $compra) {
-                    if ($compra['idcompra'] != 5964) {
+                    if ($compra['idcompra'] != 5964 && $compra['idcompra'] != 6571) {
                         $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
                         if (!empty($sponsors)) {
                             foreach ($sponsors as $sponsor) {           
@@ -1378,54 +1378,54 @@ class ComisionesController extends Controller
         ];
     }
 
-    /**
-     * Permite borrar todos los registros de puntos 
-     *
-     * @return void
-     */
-    public function borrarPuntos()
-    {
-        $compras = DB::table('wp_posts')
-                    ->select('*')
-                    ->where([
-                        ['post_type', '=', 'shop_order'],
-                        ['post_status', '=', 'wc-completed'],
-                        ['to_ping', '=', 'Coinbase']
-                    ])->orWhere([
-                        ['post_type', '=', 'shop_order'],
-                        ['post_status', '=', 'wc-completed'],
-                        ['ID', '=', 5964]
-                    ])
-                    ->get();
-        foreach ($compras as $compra) {
-            $idcomision = $compra->ID.'20';
-            $comision = Commission::where('compra_id', '=', $idcomision)->first();
-            if ($comision != null) {
-                Commission::where('compra_id', '=', $idcomision)->delete();
-            }
-        }
+    // /**
+    //  * Permite borrar todos los registros de puntos 
+    //  *
+    //  * @return void
+    //  */
+    // public function borrarPuntos()
+    // {
+    //     $compras = DB::table('wp_posts')
+    //                 ->select('*')
+    //                 ->where([
+    //                     ['post_type', '=', 'shop_order'],
+    //                     ['post_status', '=', 'wc-completed'],
+    //                     ['to_ping', '=', 'Coinbase']
+    //                 ])->orWhere([
+    //                     ['post_type', '=', 'shop_order'],
+    //                     ['post_status', '=', 'wc-completed'],
+    //                     ['ID', '=', 5964]
+    //                 ])
+    //                 ->get();
+    //     foreach ($compras as $compra) {
+    //         $idcomision = $compra->ID.'20';
+    //         $comision = Commission::where('compra_id', '=', $idcomision)->first();
+    //         if ($comision != null) {
+    //             Commission::where('compra_id', '=', $idcomision)->delete();
+    //         }
+    //     }
 
-        $users = User::all();
-        foreach ($users as $p) {
-            $p = User::find($p->ID);
-            $jsond = json_decode($p->puntos);
-            $puntos = [
-                'binario_izq' => 0,
-                'binario_der' => 0,
-                'rank' => $jsond->rank,
-            ];
-            // $p->puntos = json_encode($puntos);
+    //     $users = User::all();
+    //     foreach ($users as $p) {
+    //         $p = User::find($p->ID);
+    //         $jsond = json_decode($p->puntos);
+    //         $puntos = [
+    //             'binario_izq' => 0,
+    //             'binario_der' => 0,
+    //             'rank' => $jsond->rank,
+    //         ];
+    //         // $p->puntos = json_encode($puntos);
 
-            // $p->save();
-            DB::table('wp_users')->where('ID', $p->ID)->update(['puntos' => json_encode($puntos)]);
-        }
+    //         // $p->save();
+    //         DB::table('wp_users')->where('ID', $p->ID)->update(['puntos' => json_encode($puntos)]);
+    //     }
         
 
-        Commission::where('tipo_comision', '=', 'Puntos Rango')->delete();
-        Wallet::where('puntos', '>', 0)->delete();
-        Wallet::where('puntosI', '>', 0)->delete();
-        Wallet::where('puntosD', '>', 0)->delete();
-    }
+    //     Commission::where('tipo_comision', '=', 'Puntos Rango')->delete();
+    //     Wallet::where('puntos', '>', 0)->delete();
+    //     Wallet::where('puntosI', '>', 0)->delete();
+    //     Wallet::where('puntosD', '>', 0)->delete();
+    // }
 
     /**
      * Permite pagar los puntos nos pagados
