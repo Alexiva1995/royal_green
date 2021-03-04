@@ -14,7 +14,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
 <div class="alert alert-info">
     <button class="close" data-close="alert"></button>
     <span>
-      Todos los Retiros realizados, seran procesado los dias sabado de cada mes
+      Todos los retiros realizados serán procesados los días sábados
     </span>
   </div>
 

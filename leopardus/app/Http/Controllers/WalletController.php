@@ -283,6 +283,7 @@ class WalletController extends Controller
 								'metodo' => $metodo->nombre,
 								'tipowallet' => $datos->tipowallet,
 								'tipopago' => $tipopago,
+								'bkp' => $tipopago,
 								'estado' => 10,
 								'idrentabilidad' => (Auth::user()->ID != 614)? $rentabilidad->id :  -1,
 								'codigo_confirmacion' => $codigo,
