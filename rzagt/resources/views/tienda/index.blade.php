@@ -41,10 +41,4 @@
 {{-- @include('tienda.modalCupon') --}}
 
 
-@if (session('msj'))
-    <div class="alert alert-success">
-        {{ session('msj') }}
-    </div>
-@endif
-
 @endsection

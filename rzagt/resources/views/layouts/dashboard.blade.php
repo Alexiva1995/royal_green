@@ -31,7 +31,9 @@
     <!-- BEGIN Navigation-->
 
     @if (Auth::user()->ID != 1)
-    @include('layouts.include.sidebar2')
+    @if (session('menu') == 1)
+        @include('layouts.include.sidebar2')        
+    @endif
     @else
     @include('layouts.include.sidebar')
     @endif
