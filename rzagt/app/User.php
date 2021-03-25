@@ -10,7 +10,7 @@ use Hexters\CoinPayment\Entities\CoinPaymentuserRelation;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles, CoinPaymentuserRelation;
+    use Notifiable, HasRoles;
 
     protected $table = "wp_users";
     protected $primaryKey = 'ID';
