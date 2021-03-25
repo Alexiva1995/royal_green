@@ -43,9 +43,8 @@ class RedirectIfAuthenticated
                                 }
                                 return redirect()->route('tienda-index')->with('msj', 'Por favor realice una compra primero');
                             }
-                            $idmayor = $compras->max('post_id');
-                            $detalleCompra = $funcionesIndex->getShoppingDetails($idmayor);
-                            if (!$detalleCompra->null) {
+
+                            if (Auth::user()->status == 0) {
                                 if (session('menu') == 1) {
                                     session(['menu' => 0]);
                                 }
