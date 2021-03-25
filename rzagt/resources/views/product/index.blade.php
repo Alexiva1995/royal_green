@@ -188,15 +188,3 @@
 </div>
 
 @endsection
-
-<script>
-    function editProduct(dataProduct) {
-        $('#price').val(dataProduct.meta_value)
-        $('#content').val(dataProduct.post_content)
-        $('#name').val(dataProduct.post_title)
-        $('#visible').val(dataProduct.visible)
-        $('#product').val(dataProduct.ID)
-        $('#bono_binario').val((dataProduct.bono_binario * 100))
-        $('#myModalEdit').modal('show')
-    }
-</script>

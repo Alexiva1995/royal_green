@@ -1,59 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<script>
 
-function activarPersonal() {
-        $('.personal').attr('disabled', false)
-        $('#botom').show('slow')
-    }
-
-    function cancelarPersonal() {
-        $('.personal').attr('disabled', true)
-        $('#botom').hide('slow')
-    }
-
-    function activarContacto() {
-        $('.contacto').attr('disabled', false)
-        $('.botom1').show('slow')
-    }
-
-    function cancelarContacto() {
-        $('.contacto').attr('disabled', true)
-        $('.botom1').hide('slow')
-    }
-
-    function activarSocial() {
-        $('.social').attr('disabled', false)
-        $('#botom2').show('slow')
-    }
-
-    function cancelarSocial() {
-        $('.social').attr('disabled', true)
-        $('#botom2').hide('slow')
-    }
-
-    function activarBanco() {
-        $('.banco').attr('disabled', false)
-        $('#botom3').show('slow')
-    }
-
-    function cancelarBanco() {
-        $('.banco').attr('disabled', true)
-        $('#botom3').hide('slow')
-    }
-
-    function activarPago() {
-        $('.pago').attr('disabled', false)
-        $('#botom4').show('slow')
-    }
-
-    function cancelarPago() {
-        $('.pago').attr('disabled', true)
-        $('#botom4').hide('slow')
-    }
-
-</script>
 
 {{-- alertas --}}
 @include('dashboard.componentView.alert')

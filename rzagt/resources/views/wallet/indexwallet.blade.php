@@ -154,61 +154,6 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
 @endif
 
 @push('custom_js')
-<script>
-    $(document).ready(function () {
-        $('.retirarbtn').click(function () {
-            console.log('entre');
-            retirarpago()
-            $('.formretiro').submit();
-        })
-    })
 
-    function metodospago() {
-        $('#correo').hide()
-        $('#wallet').hide()
-        $('#bancario').hide()
-        let url = 'wallet/obtenermetodo/' + $('#metodopago').val()
-        $.get(url, function (response) {
-            let data = JSON.parse(response)
-            $('#total').val(0)
-            if (data.tipofeed == 1) {
-                $('#comision').val(data.feed * 100)
-                $('#lblcomision').text('Comision de Retiro en Porcentaje')
-                $('#comisionH').val(data.feed)
-                $('#tipo').val(data.tipofeed)
-                $('#monto_min').val(data.monto_min)
-            } else {
-                $('#comision').val(data.feed)
-                $('#lblcomision').text('Comision de Retiro Fija')
-                $('#comisionH').val(data.feed)
-                $('#tipo').val(data.tipofeed)
-                $('#monto_min').val(data.monto_min)
-            }
-            if (data.correo == 1) {
-                $('#correo').show()
-            }
-            if (data.wallet == 1) {
-                $('#wallet').show()
-            }
-            if (data.bancario == 1) {
-                $('#bancario').show()
-            }
-            $('#retirar').show()
-        })
-    }
-
-    function retirarpago() {
-        $('.formretiro').submit();
-    }
-
-    function totalRetiro(valor) {
-        console.log(valor);
-        let resul = valor
-        let tmp = valor * $('#comisionH').val()
-        resul = valor - tmp
-        console.log(resul);
-        $('#total').val(resul)
-    }
-</script>
 @endpush
 @endsection

@@ -11,16 +11,5 @@
 
 
 @push('custom_js')
-<script>
-	$(document).ready(function () {
-		$('#mytable').DataTable({
-			dom: 'flBrtip',
-			responsive: true,
-			order: [[0, 'desc']],
-			buttons: [
-				'csv', 'pdf', 'print', 'excel'
-			]
-		});
-	});
-</script>
+
 @endpush

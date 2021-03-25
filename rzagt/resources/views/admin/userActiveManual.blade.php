@@ -119,10 +119,5 @@
 		</div>
 	</div>
 </div>
-<script>
-	function activarUser(idproducto) {
-		$('#userdelete').val(idproducto)
-		$('#myModal').modal('show')
-	}
-</script>
+
 @endsection

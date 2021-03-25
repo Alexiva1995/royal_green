@@ -38,22 +38,7 @@
 @endsection
 @push('custom_js')
 <script src="{{asset('assets/scripts/graficas.js')}}"></script>
-<script type="text/javascript">
-	function updatePaqueteInfo(paquete) {
-		paquete = JSON.parse(paquete)
-		let fecha = new Date(paquete.created_at)
-		let fecha_string = fecha.getFullYear()+'/'+(fecha.getMonth()+1)+'/'+fecha.getDate()
-		let progre = new Intl.NumberFormat('de-DE').format(paquete.progreso * 2)
-		$('.indicate').css('display', 'none')
-		$('#imgpaquete').attr('src', paquete.detalles_producto.img)
-		$('#userpaquete').html(paquete.iduser)
-		$('#ganaciaPaquete').html(new Intl.NumberFormat('de-DE').format(paquete.ganado))
-		$('#pogrepaquete').css('width', paquete.progreso+'%')
-		$('#porcepaquete').html((progre))
-		$('#activepaquete').html(fecha_string)
-		$('#paquete'+paquete.id).css('display', 'block')
-	}
-</script>
+
 @endpush
 
 {{-- vendor css --}}

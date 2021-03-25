@@ -161,19 +161,5 @@
 		</div>
 	</div>
 </div>
-<script>
-	function eliminarProducto(iduser, disponible) {
-		$('#userdelete').val(iduser)
-		$('#disponible').val(disponible)
-		$('#modalRetiro').modal('show')
-	}
 
-	function totalRetiro(valor) {
-        console.log(valor);
-        let resul = valor
-        let tmp = valor * 0.045
-        resul = valor - tmp
-        $('#total').val(resul)
-    }
-</script>
 @endsection

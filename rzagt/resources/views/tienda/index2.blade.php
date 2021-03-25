@@ -103,17 +103,4 @@ background: #11262C;
 @include('tienda.modalCompra')
 {{-- @include('tienda.modalCupon') --}}
 
-<script>
-    function detalles(product, id, code) {
-        $('#idproducto').val(product.ID)
-        $('#img').attr('src',product.imagen)
-        $('#title').html(product.post_title)
-        $('#title2').val(product.post_title)
-        $('#content').html(product.post_content)
-        $('#price').html('$ '+product.meta_value)
-        $('#price2').val(product.meta_value)
-        $('#pagarcompra').click()
-        // $('#myModal1').modal('show')
-    }
-</script>
 @endsection

@@ -1,28 +1,6 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<script>
-    function validarEdad() {
-        var tmpedad = $('#edad').val()
-        var hoy = new Date();
-        var cumpleanos = new Date(tmpedad);
-
-        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-        var m = hoy.getMonth() - cumpleanos.getMonth();
-
-        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-            edad--;
-        }
-
-        if (edad < 18) {
-            document.getElementById("btn").disabled = true;
-            document.getElementById("errorEdad").style.display = 'block';
-        } else {
-            document.getElementById("btn").disabled = false;
-            document.getElementById("errorEdad").style.display = 'none';
-        }
-    }
-</script>
 @php
 $referred = null;
 @endphp
@@ -175,30 +153,5 @@ $referred = DB::table($settings->prefijo_wp.'users')
     </div>
 </div>
 
-
-
-
-
-@if( isset($settings->enable_auth_fb) && $settings->enable_auth_fb
-|| isset($settings->enable_auth_tw) && $settings->enable_auth_tw
-|| isset($settings->enable_auth_google) && $settings->enable_auth_google )
-<h3>Registrate con tus redes sociales</h3>
-@if( $settings->enable_auth_fb )
-<a href="{{ route('social.oauth', 'facebook') }}"
-    class="socicon-btn socicon-btn-circle socicon-lg socicon-solid bg-blue bg-hover-grey-salsa font-white bg-hover-white socicon-facebook tooltips"
-    data-original-title="Facebook" style="margin-right: 10px"></a>
-@endif
-
-@if( $settings->enable_auth_tw )
-<a href="{{ route('social.oauth', 'twitter') }}"
-    class="socicon-btn socicon-btn-circle socicon-lg socicon-solid bg-green bg-hover-grey-salsa font-white bg-hover-white socicon-twitter tooltips"
-    data-original-title="Twitter" style="margin-right: 10px"></a>
-@endif
-@if( $settings->enable_auth_google )
-<a href="{{ route('social.oauth', 'google') }}"
-    class="socicon-btn socicon-btn-circle socicon-lg socicon-solid bg-red bg-hover-grey-salsa font-white bg-hover-white socicon-google tooltips"
-    data-original-title="Google" style="margin-right: 10px"></a>
-@endif
-@endif
 
 @endsection

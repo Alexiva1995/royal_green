@@ -1,19 +1,7 @@
 @extends('layouts.dashboard')
 
 @section('content')
-<script>
-		$(document).ready( function () {
-			$('#mytable').DataTable( {
-			    dom: 'flBrtip',
-					responsive: true,
-			    buttons: [
-					'csv', 'pdf', 'print', 'excel'
-			    ]
-			} );
-		});
-		$('#sandbox-container input').datepicker({
-});
-	</script>
+
         
     <div class="col-xs-12" style="margin-top:20px;">
     <div class="col-xs-12 panel panel-default">

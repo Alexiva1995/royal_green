@@ -60,11 +60,11 @@
         }
 
        
-        {{-- [class*="col-"] {
+        /* [class*="col-"] {
           padding-top: 1rem;
           padding-bottom: 1rem;
           border: 1px solid rgba(86,61,124,.2);
-        }--}}
+        } */
 
         html body.bg-full-screen-image{
             background: url("{{asset('assets/fondo.jpg')}}") no-repeat center center fixed;
@@ -80,7 +80,7 @@
                 background-size: cover;
 
             }
-
+        }
             
          
         .btn-primary{
@@ -123,7 +123,7 @@
             color: #6AC1FF;
         }
 
-        btn-defaul{
+        .btn-defaul{
             background: #11262C 0% 0% no-repeat padding-box;
             border-radius: 32px;
             opacity: 1;
@@ -208,7 +208,7 @@
 <script src="{{asset('/app-assets/js/core/app.js')}}"></script>
 <script src="{{asset('/app-assets/js/scripts/components.js')}}"></script>
 <!-- END: Theme JS-->
-
+<script src="{{asset('assets/scripts/general.js')}}"></script>
 <!-- BEGIN: Page JS-->
 <!-- END: Page JS-->
 </html>

@@ -1,31 +1,7 @@
 @extends('layouts.login')
 
 @section('content')
-<script>
-    function validarEdad(edad) {
-        var hoy = new Date();
-        var cumpleanos = new Date(edad);
 
-        var edad = hoy.getFullYear() - cumpleanos.getFullYear();
-        var m = hoy.getMonth() - cumpleanos.getMonth();
-
-        if (m < 0 || (m === 0 && hoy.getDate() < cumpleanos.getDate())) {
-            edad--;
-        }
-
-        if (edad < {
-                {
-                    $settings - > edad_minino
-                }
-            }) {
-            document.getElementById("btn").disabled = true;
-            document.getElementById("errorEdad").style.display = 'block';
-        } else {
-            document.getElementById("btn").disabled = false;
-            document.getElementById("errorEdad").style.display = 'none';
-        }
-    }
-</script>
 @php
 $referred = null;
 @endphp

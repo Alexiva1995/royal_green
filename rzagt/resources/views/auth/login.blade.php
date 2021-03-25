@@ -118,10 +118,4 @@
     
 </section>
 
-<script type="text/javascript">
-    function toggle() {
-        $('.inicio').toggle('slow')
-        $('.recuperar').toggle('slow')
-    }
-</script>
 @endsection
