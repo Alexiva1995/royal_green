@@ -405,9 +405,9 @@ class TiendaController extends Controller
                     ])->first();
                     
                     $suma = 0;
-                    if ($checkRentabilidad1 != null) {
-                        $suma = $checkRentabilidad1->precio;
-                    }
+                    // if ($checkRentabilidad1 != null) {
+                    //     $suma = $checkRentabilidad1->precio;
+                    // }
 
                     $fecha = new Carbon();
 

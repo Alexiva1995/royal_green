@@ -66,7 +66,7 @@ class ReferralTreeController extends Controller
         $puntos = json_decode(Auth::user()->puntos);
         $base = User::find($id);
         if (Auth::user()->ID == 1) {
-            $base->puntos = json_decode($base->puntos);
+            $puntos = json_decode($base->puntos);
         }
         $base->children = User::where('position_id', '=', $base->ID)->get();
         $base->avatar = asset('avatar/'.$base->avatar);

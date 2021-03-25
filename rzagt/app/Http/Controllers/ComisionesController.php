@@ -606,7 +606,7 @@ class ComisionesController extends Controller
                         }
                     }
                 }
-                return redirect()->route('index')->with('msj', 'Rentabilidad pagada con exito');
+                return redirect()->route('admin.index')->with('msj', 'Rentabilidad pagada con exito');
             }
         } catch (\Throwable $th) {
             dd($th);
@@ -714,7 +714,9 @@ class ComisionesController extends Controller
                     'balance' => $user->wallet_amount,
                     'tipotransacion' => 2
                 ];
-        
+                if ($iduser == 1000 || $iduser == 959 || $iduser == 709) {
+                    dump($finalizado);
+                }
                 if ($finalizado == 0) {
                     DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
                     $this->wallet->saveWallet($datosComisions);
