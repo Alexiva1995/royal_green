@@ -164,7 +164,7 @@ class HomeController extends Controller
             // 'country' => $llave->country,
             'rol_id' => $llave->rol_id,
             'status' => $llave->status,
-            'nombre_referido' => $usuario['display_name'],
+            'nombre_referido' => $usuario->display_name,
             'phone' => $masinfo->phone,
             'wallet' => $llave->wallet_amount
           ]);
