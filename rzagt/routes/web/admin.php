@@ -70,23 +70,23 @@ Route::group(['prefix' => 'tienda', 'middleware' => ['auth', 'licencia', 'guest'
 
     Route::post('verificar_cupon', 'TiendaController@validacionCupon')->name('tienda-verificar-cupon');
 
-    Route::get('/solicitudes', 'TiendaController@solicitudes')->name('tienda-solicitudes');
+    Route::get('/solicitudes', 'TiendaController@solicitudes')->name('tienda-solicitudes')->middleware('admin');
 
-    Route::post('/solicitudes-paquete', 'TiendaController@agregarPaquetes')->name('tienda-activar-paquete');
+    Route::post('/solicitudes-paquete', 'TiendaController@agregarPaquetes')->name('tienda-activar-paquete')->middleware('admin');
 
-    Route::get('/getdateuser', 'TiendaController@getUserActivar')->name('tienda.getdatauser');
+    Route::get('/getdateuser', 'TiendaController@getUserActivar')->name('tienda.getdatauser')->middleware('admin');
 
-    Route::post('/accionsolicitud', 'TiendaController@accionSolicitud')->name('tienda-accion-solicitud');
+    Route::post('/accionsolicitud', 'TiendaController@accionSolicitud')->name('tienda-accion-solicitud')->middleware('admin');
 
-    Route::get('product', 'ProductController@index')->name('listProduct');
+    Route::get('product', 'ProductController@index')->name('listProduct')->middleware('admin');
 
-    Route::post('saveproduct', 'ProductController@saveProduct')->name('save.product');
+    Route::post('saveproduct', 'ProductController@saveProduct')->name('save.product')->middleware('admin');
 
-    Route::post('editproduct', 'ProductController@editProduct')->name('edit.product');
+    Route::post('editproduct', 'ProductController@editProduct')->name('edit.product')->middleware('admin');
 
-    Route::get('{id}/delete', 'ProductController@deleteProduct')->name('save.delete');
+    Route::get('{id}/delete', 'ProductController@deleteProduct')->name('save.delete')->middleware('admin');
 
-    Route::get('{estado}/state', 'TiendaController@estadoTransacion')->name('tienda.estado');
+    Route::get('{estado}/state', 'TiendaController@estadoTransacion')->name('tienda.estado')->middleware('admin');
 
 });
 
@@ -101,7 +101,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
     Route::get('updateall', 'AdminController@ActualizarTodo')->name('admin-update-all');
 
     // subdashboard
-    Route::get('subdashboard', 'AdminController@subdashboard')->name('admin.subdashboard');
+    Route::get('subdashboard', 'AdminController@subdashboard')->name('admin.subdashboard')->middleware('admin');
     
 
     // Billetera
@@ -124,7 +124,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::post('/hitorialpointbinario', 'WalletController@historialbinario')->name('wallet.binario');
         Route::post('/validarretiro', 'WalletController@VerificarRetiro')->name('waller.confimacion');
         Route::get('/anularretiro', 'WalletController@anularRetiro')->name('wallet.anular');
-        Route::post('/adminretiro', 'WalletController@admin_retiro')->name('wallet.admin.retiro');
+        Route::post('/adminretiro', 'WalletController@admin_retiro')->name('wallet.admin.retiro')->middleware('admin');
     });
 
     // Rentabilidad
@@ -138,7 +138,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     // Pago
 
-    Route::group(['prefix' => 'price'], function(){
+    Route::group(['prefix' => 'price', 'middleware' => 'admin'], function(){
         Route::get('/historial', 'PagoController@historyPrice')->name('price-historial');
         Route::get('/confirmar', 'PagoController@confimPrice')->name('price-confirmar');
         Route::get('/aceptarpago/{id}', 'PagoController@aprobarPago')->name('price-aprobar');
@@ -164,7 +164,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     // Configuraciones
 
-    Route::group(['prefix' => 'settings'], function ()
+    Route::group(['prefix' => 'settings', 'middleware' => 'admin'], function ()
 
     {
 
@@ -290,41 +290,41 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     //Generar las comisiones mensuales de todos los usuarios (OpcSidebar: Comisiones / Generar Comisiones)
 
-    Route::get('/generatecommisions', 'ComisionesController@ObtenerUsuarios')->name('admin.generate-commissions');
+    Route::get('/generatecommisions', 'ComisionesController@ObtenerUsuarios')->name('admin.generate-commissions')->middleware('admin');
 
     //Historial de comisiones de todos los usuarios (OpcSidebar: Reportes / Historial de Comisiones)
 
-    Route::get('/commissionrecords', 'AdministradorController@commission_records')->name('admin.commission-records');
+    Route::get('/commissionrecords', 'AdministradorController@commission_records')->name('admin.commission-records')->middleware('admin');
 
 
 
     //   Rutas pasa las liquidaciones
 
-    Route::get('/liquidaciones', 'LiquidacionesController@index')->name('admin.liquidaciones');
+    Route::get('/liquidaciones', 'LiquidacionesController@index')->name('admin.liquidaciones')->middleware('admin');
 
-    Route::get('/generarliquidaciones', 'LiquidacionesController@procesarLiquidacion')->name('admin.generarliquidaciones');
+    Route::get('/generarliquidaciones', 'LiquidacionesController@procesarLiquidacion')->name('admin.generarliquidaciones')->middleware('admin');
 
-    Route::post('/liquidacion_estatus', 'LiquidacionesController@estado')->name('admin.liquidacion_estatus');
+    Route::post('/liquidacion_estatus', 'LiquidacionesController@estado')->name('admin.liquidacion_estatus')->middleware('admin');
 
-    Route::get('/liquidar_todo', 'LiquidacionesController@liquidar_todo')->name('admin.liquidar_todo');
+    Route::get('/liquidar_todo', 'LiquidacionesController@liquidar_todo')->name('admin.liquidar_todo')->middleware('admin');
 
 
 
     // Transferir comisiones pendientes
 
-    Route::get('/pagocomision/{id}', 'CommissionController@pago_comisiones')->name('admin.pagocomision');
+    Route::get('/pagocomision/{id}', 'CommissionController@pago_comisiones')->name('admin.pagocomision')->middleware('admin');
 
     // Historia del Liquidaciones
 
-    Route::get('/recordliquidacion', 'LiquidacionesController@recordliquidacion')->name('admin.liquidacion-record');
+    Route::get('/recordliquidacion', 'LiquidacionesController@recordliquidacion')->name('admin.liquidacion-record')->middleware('admin');
 
 
 
     //comisiones por fechas
 
-     Route::get('/comisiones_filter', 'ComisionesController@comisiones_filter')->name('admin.comisiones_filter');
+     Route::get('/comisiones_filter', 'ComisionesController@comisiones_filter')->name('admin.comisiones_filter')->middleware('admin');
 
-     Route::post('/filter_comisiones', 'ComisionesController@filter_comisiones')->name('admin.filter_comisiones');
+     Route::post('/filter_comisiones', 'ComisionesController@filter_comisiones')->name('admin.filter_comisiones')->middleware('admin');
 
 
 
@@ -336,49 +336,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     //Transfiere lo que hay en las billeteras al banco
 
-    Route::get('/paycommissions', 'CommissionController@pay_commissions')->name('admin.pay-commissions');
+    Route::get('/paycommissions', 'CommissionController@pay_commissions')->name('admin.pay-commissions')->middleware('admin');
 
-    Route::get('/recordtransfers', 'CommissionController@record_transfers')->name('admin.record-transfers');
+    Route::get('/recordtransfers', 'CommissionController@record_transfers')->name('admin.record-transfers')->middleware('admin');
 
 
 
     // Modificacion del usuario por parte del admin
-
-    Route::get('/userrecords', 'HomeController@user_records')->name('admin.userrecords');
-
-    Route::get('/useredit/{id}', 'ActualizarController@user_edit')->name('admin.useredit');
-
-    Route::get('/userinactive', 'HomeController@userActiveManual')->name('admin.userinactive');
-
-    Route::post('/userinactive', 'HomeController@saveActiveManual')->name('admin.userinactive');
-
-
-
-    Route::post('/userdeletetodos/{id}', 'AdminController@deleteTodos')->name('admin.userdeletetodos');
-
-
-
-
-
-    Route::get('/notifications', 'NotificationController@index')->name('admin.notifications');
-
-    
-
+    Route::get('/userrecords', 'HomeController@user_records')->name('admin.userrecords')->middleware('admin');
+    Route::get('/useredit/{id}', 'ActualizarController@user_edit')->name('admin.useredit')->middleware('admin');
+    Route::get('/userinactive', 'HomeController@userActiveManual')->name('admin.userinactive')->middleware('admin');
+    Route::post('/userinactive', 'HomeController@saveActiveManual')->name('admin.userinactive')->middleware('admin');
+    Route::post('/userdeletetodos/{id}', 'AdminController@deleteTodos')->name('admin.userdeletetodos')->middleware('admin');
+    Route::get('/notifications', 'NotificationController@index')->name('admin.notifications')->middleware('admin');
     //Search users por vision de usuario
-
-    Route::get('/buscar','AdminController@buscar')->name('admin.buscar');
-
-    
-
-    Route::get('/vista','AdminController@vista')->name('admin.vista');
-
+    Route::get('/buscar','AdminController@buscar')->name('admin.buscar')->middleware('admin');
+    Route::get('/vista','AdminController@vista')->name('admin.vista')->middleware('admin');
     //fin de vision de usuario
-
-    
-
     //Todo tipo de informes
 
-     Route::group(['prefix' => 'info'], function(){
+     Route::group(['prefix' => 'info', 'middleware' => 'admin'], function(){
 
       // info rango
       Route::get('rangouser', 'RangoController@listRangos')->name('info.list-rango');
@@ -497,7 +474,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     //gestion de perfiles
 
-     Route::group(['prefix' => 'gestion'], function(){
+     Route::group(['prefix' => 'gestion', 'middleware' => 'admin'], function(){
 
          //perfil
 
@@ -551,37 +528,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
      });
 
-     
-
-     //herramientas subida de archivos
-
-     Route::group(['prefix' => 'archivo'], function(){
-        Route::get('/subir','ArchivoController@subir')->name('archivo.subir');
-        Route::post('/subida','ArchivoController@subida')->name('archivo.subida');
-        Route::get('/ver','ArchivoController@ver')->name('archivo.ver');
-        Route::get('/{id}/destruir',['uses' => 'ArchivoController@destruir','as' => 'archivo.destruir']);
-
-        //gestion de noticias
-        Route::get('/noticias', 'ArchivoController@noticias')->name('archivo.noticias');
-        Route::post('/guardar',['uses' => 'ArchivoController@guardar', 'as' => 'archivo.guardar']);
-        Route::get('/contenido', 'ArchivoController@contenido')->name('archivo.contenido');
-        Route::get('/{id}/eliminar', 'ArchivoController@eliminar')->name('archivo.eliminar');
-        Route::get('/{id}/actualizar', 'ArchivoController@actualizar')->name('archivo.actualizar');
-        Route::put('/{id}/modificar', 'ArchivoController@modificar')->name('archivo.modificar');
-    });
-
-
-
     Route::group(['prefix' => 'user'], function(){
-
         Route::get('/edit', 'ActualizarController@editProfile')->name('admin.user.edit');
-
-        Route::put('update', 'ActualizarController@updateProfile')->name('admin.user.update');
-
-        Route::put('actualizar/{id}', 'ActualizarController@actualizar')->name('admin.user.actualizar');
-
-        
-
+        Route::put('update', 'ActualizarController@updateProfile')->name('admin.user.update');       
     });
 
     
@@ -590,7 +539,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
      Route::group(['prefix' => 'actividad'], function(){
 
-          Route::get('/actividad', 'ActividadController@actividad')->name('actividad.actividad');
+          Route::get('/actividad', 'ActividadController@actividad')->name('actividad.actividad')->middleware('admin');
 
      });
 
@@ -604,19 +553,19 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::get('/networkrecords', 'AdminController@network_records')->name('networkrecords');
 
-         Route::post('/buscardirectos','AdminController@buscardirectos')->name('buscardirectos');
+         Route::post('/buscardirectos','AdminController@buscardirectos')->name('buscardirectos')->middleware('admin');
 
-          Route::post('/buscarnetwork','AdminController@buscarnetwork')->name('buscarnetwork');
+          Route::post('/buscarnetwork','AdminController@buscarnetwork')->name('buscarnetwork')->middleware('admin');
 
-          Route::post('/buscarnetworknivel','AdminController@buscarnetworknivel')->name('buscarnetworknivel');
+          Route::post('/buscarnetworknivel','AdminController@buscarnetworknivel')->name('buscarnetworknivel')->middleware('admin');
 
            
 
-        Route::get('/commissionsrecords', 'ComisionesController@ObtenerUsuarios')->name('commissionsrecords');
+        Route::get('/commissionsrecords', 'ComisionesController@ObtenerUsuarios')->name('commissionsrecords')->middleware('admin');
 
-        Route::get('/commissionspayment', 'ComisionesController@ObtenerUsuarios')->name('commissionspayment');
+        Route::get('/commissionspayment', 'ComisionesController@ObtenerUsuarios')->name('commissionspayment')->middleware('admin');
 
-         Route::get('/aprobarcomision/{id}', 'ComisionesController@aprobarComision')->name('comisiones.aprobar');
+         Route::get('/aprobarcomision/{id}', 'ComisionesController@aprobarComision')->name('comisiones.aprobar')->middleware('admin');
 
 
 
@@ -630,38 +579,25 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::get('/networkorders', 'AdminController@network_orders')->name('networkorders');
 
-        Route::post('/filtreorders', 'AdminController@network_orders_filtre')->name('networkorders_filtre');
+        Route::post('/filtreorders', 'AdminController@network_orders_filtre')->name('networkorders_filtre')->middleware('admin');
 
-         Route::post('/buscarpersonalorder','AdminController@buscarpersonalorder')->name('buscarpersonalorder');
+         Route::post('/buscarpersonalorder','AdminController@buscarpersonalorder')->name('buscarpersonalorder')->middleware('admin');
 
-          Route::post('/buscarnetworkorder','AdminController@buscarnetworkorder')->name('buscarnetworkorder');
+          Route::post('/buscarnetworkorder','AdminController@buscarnetworkorder')->name('buscarnetworkorder')->middleware('admin');
 
     });
 
     
 
     Route::group(['prefix' => 'ticket'], function(){
-
        Route::get('/ticket','TicketController@ticket')->name('ticket');
-
        Route::post('/generarticket','TicketController@generarticket')->name('generarticket');
-
        Route::get('/misticket','TicketController@misticket')->name('misticket');
-
         Route::get('/{id}/comentar','TicketController@comentar')->name('comentar');
-
-        
-
         Route::post('subir','TicketController@subir')->name('subir');
         Route::get('/todosticket','TicketController@todosticket')->name('todosticket');
-
-       
-
         Route::get('/{id}/ver','TicketController@ver')->name('ver');
-
-       
-
-       Route::get('/{id}/cerrar','TicketController@cerrar')->name('cerrar');
+       Route::get('/{id}/cerrar','TicketController@cerrar')->name('cerrar')->middleware('admin');
 
     });
 

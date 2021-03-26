@@ -7,7 +7,7 @@
 {{-- formulario de fecha  --}}
 @include('dashboard.componentView.formSearch', ['route' => 'buscarnetwork', 'name1' => 'fecha1', 'name2' => 'fecha2', 'text1' => 'Fecha Desde', 'text2' => 'Fecha Hasta', 'type' => 'date'])
 
-@include('dashboard.componentView.formSearchSimple', ['route' => 'buscarnetworknivel', 'name1' => 'iduser', 'type' => 'text', 'text' => 'ID Usuario'])
+{{-- @include('dashboard.componentView.formSearchSimple', ['route' => 'buscarnetworknivel', 'name1' => 'iduser', 'type' => 'text', 'text' => 'ID Usuario']) --}}
 
 
 <div class="card">

@@ -178,9 +178,9 @@ class AdminController extends Controller
 
         // TITLE
 
-        view()->share('title', 'Usuarios en Red');
-
+        
         $allReferido = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
+        view()->share('title', 'Usuarios en Red');
 
         return view('dashboard.networkRecords')->with(compact('allReferido'));
 
@@ -209,9 +209,9 @@ class AdminController extends Controller
 
         // TITLE
 
-        view()->share('title', 'Usuarios en Red');
         
         $allReferido = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
+        view()->share('title', 'Usuarios en Red');
 
         return view('dashboard.networkRecords')->with(compact('allReferido'));
 
