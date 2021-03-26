@@ -24,7 +24,7 @@
                     </div>
                     <div class="vs-radio-con m-2" onclick="updateSideBinary('D')">
                         <input type="radio" name="vueradio"
-                            checked="{{(Auth::user()->ladoregistrar == 'I') ? 'false' : 'true'}}">
+                            checked="{{(Auth::user()->ladoregistrar == 'D') ? 'false' : 'true'}}">
                         <span class="vs-radio">
                             <span class="vs-radio--border"></span>
                             <span class="vs-radio--circle"></span>
