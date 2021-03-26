@@ -8,9 +8,9 @@
                             <img src="{{asset('/avatar/'.$data['principal']->avatar)}}" alt=""
                                 class="card-img-top img-fluid" >
                              
-                                <div class="card-footer text-center">
+                                {{-- <div class="card-footer text-center">
                                     <button class="btn btn-primary" data-target="#myModal" data-toggle="modal">Cambiar</button>
-                                </div>
+                                </div> --}}
                                 
                         </div>
                         
@@ -65,7 +65,7 @@
 </div>
 
 <!-- Modal para la imagen -->
-
+{{-- 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 
     <div class="modal-dialog" role="document">
@@ -123,4 +123,4 @@
 
     </div>
 
-</div>
+</div> --}}

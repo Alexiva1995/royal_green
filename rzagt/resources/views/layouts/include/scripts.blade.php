@@ -24,7 +24,11 @@
 <!-- END: Page JS-->
 
 {{-- BEGIN: Custom JS --}}
+@routes
 @stack('custom_js')
+<script>
+    window.csrf_token = "{{ csrf_token() }}"
+</script>
 <script src="{{asset('assets/scripts/general.js')}}"></script>
 <script>
     

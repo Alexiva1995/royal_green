@@ -153,11 +153,11 @@ function copyToClipboard(element) {
 * Permite modificar el lado binario donde se van a ir registrando los usuarios
 */
 function updateSideBinary(value) {
-    let url = "{{route('change.side')}}"
+    let url = route('change.side')
     let valor = value
     let data = {
         ladoregistrar: valor,
-        _token: "{{ csrf_token() }}",
+        _token: window.csrf_token,
     }
     let lado = (valor == 'D') ? 'Derecha' : 'Izquierda'
     $.post(url, data, function(response){
