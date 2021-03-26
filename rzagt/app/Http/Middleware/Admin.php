@@ -17,7 +17,7 @@ class Admin
     public function handle($request, Closure $next)
     {
         if (Auth::user()->ID != 1) {
-            return redirect('/admin')->with('msj', 'No se puede acceder a esa ruta');
+            return redirect('/admin')->with('msj', 'Permiso denegado');
         }
         return $next($request);
     }
