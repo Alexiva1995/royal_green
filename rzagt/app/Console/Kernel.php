@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         'App\Console\Commands\StatusUser',
-        'App\Console\Commands\UpdateRol'
+        'App\Console\Commands\OrdenCheck',
+        'App\Console\Commands\BonoBinary',
     ];
 
     /**
@@ -30,14 +31,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('status:user')
-                    ->everyMinute();
-                
-        $schedule->command('update:roles')
-                  ->everyMinute();
+        $schedule->command('status:user')->everyMinute()->everyThirtyMinutes();// verifica el estado del usuario - corre cada media hora
+        $schedule->command('bono:binary')->everyMinute()->daily();// pago del bono binario - corre una vez al dia
+        $schedule->command('orden:check')->everyMinute()->hourly();// verifica el estado de las compras - corre cada hora
         
-        // $schedule->command('cron:job')
-        //           ->monthlyOn(1, '00:00');	
     }
 
     /**

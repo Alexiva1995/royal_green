@@ -50,8 +50,12 @@ class AdminController extends Controller
         $comi = new ComisionesController;
         // $comi->payBonus();
         // $comi->registePackageToRentabilizar($iduser);
+        // if ($iduser == 614) {
+        //     $this->indexControl->ordenesSistema();
+        //     $this->indexControl->activarPaquetes();
+        // }
         if ($iduser == 1) {
-            // $this->indexControl->ordenesSistema();
+            
             // $comi->arreglarPuntosNoPagados();
             // $comi->payBonus();
             // $comi->borrarPuntos();
