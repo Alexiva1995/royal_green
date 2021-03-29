@@ -609,7 +609,8 @@ class ComisionesController extends Controller
                 return redirect()->route('admin.index')->with('msj', 'Rentabilidad pagada con exito');
             }
         } catch (\Throwable $th) {
-            dd($th);
+            \Log::error('Pagar Rentabilidad ->'. $th);
+            return redirect()->route('admin.index')->with('msj', 'Ocurrio un error, por favor contacte al administrador');
         }
     }
 
@@ -1096,113 +1097,11 @@ class ComisionesController extends Controller
             //     'total' => 4
             // ],
             // [
-            //     'correo' => 'multiclickworld@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Retroactivo de rentabilidad',
-            //     'total' => 11.58
-            // ],
-            // [
-            //     'correo' => 'equipo.mundial2018@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Retroactivo de rentabilidad',
-            //     'total' => 11.58
-            // ],
-            // [
-            //     'correo' => 'jtan17@hotmail.com',
-            //     'accion' => 'restar',
-            //     'concepto' => 'Reajuste de bono binario',
-            //     'total' => 100
-            // ],
-            // [
-            //     'correo' => 'Jessyeme02@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Retroactivo de bono binario',
-            //     'total' => 576
-            // ],
-            // [
-            //     'correo' => 'Juan.daniel0521@gmail.com',
-            //     'accion' => 'restar',
-            //     'concepto' => 'Reajuste de bono binario',
-            //     'total' => 90
-            // ],
-            // [
-            //     'correo' => 'Jogonzalezh0712@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Retroactivo de rentabilidad',
-            //     'total' => 17.4
-            // ],
-            // [
-            //     'correo' => 'nancyloaizandr@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Retroactivo de rentabilidad',
-            //     'total' => 42
-            // ],
-            // [
-            //     'correo' => 'quinino49@hotmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Bono Directo de Laura Luquin',
-            //     'total' => 100
-            // ],
-            // [
-            //     'correo' => 'Paulivanegas26@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Bono Binario',
-            //     'total' => 522.5
-            // ],
-            // [
-            //     'correo' => 'Paulivanegas26@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Bono Indirectos',
-            //     'total' => 61
-            // ],
-            // [
-            //     'correo' => 'Jessyeme02@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Ajuste de igualacion',
-            //     'total' => 1405
-            // ],
-            // [
-            //     'correo' => 'sebasjaratabares@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Ajuste de igualacion',
-            //     'total' => 150
-            // ],
-            // [
-            //     'correo' => 'Jessyeme02@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Ajuste de igualacion',
-            //     'total' => 50
-            // ],
-            // [
-            //     'correo' => 'leutarorodsman@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Ajuste de igualacion',
-            //     'total' => 738
-            // ],
-            // [
-            //     'correo' => 'nancyloaizandr@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Bono Directo',
-            //     'total' => 50
-            // ],
-            // [
             //     'correo' => 'sebasjaratabares@gmail.com',
             //     'accion' => 'sumar',
             //     'concepto' => 'Puntos por derrames',
             //     'total' => 100000,
             //     'side' => 'D'
-            // ],
-            // [
-            //     'correo' => 'master5@royalgreen.company',
-            //     'accion' => 'restar',
-            //     'concepto' => 'Binario mal pagado',
-            //     'total' => 474
-            // ],
-            // [
-            //     'correo' => 'master5@royalgreen.company',
-            //     'accion' => 'restar',
-            //     'concepto' => 'Indirecto mal pagado',
-            //     'total' => 44.5
             // ],
             // [
             //     'correo' => 'jessyeme02@gmail.com',
@@ -1211,173 +1110,29 @@ class ComisionesController extends Controller
             //     'total' => 37790,
             //     'side' => 'R'
             // ],
-            // [
-            //     'correo' => 'leutarorodsman@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 25700,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'master5@royalgreen.company',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 19600,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'info@depilacionfacil.com.co',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 21400,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'leutarorodsman+13@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 9150,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'Juan.daniel0521@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 3560,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'sebasjaratabares@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 1500,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'jtan17@hotmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 3000,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'Paulivanegas26@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 2115,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'valentinaescritora2020@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 1700,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'farly1993z3@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 1200,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'diosaexitosa2017@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 1250,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'leutarorodsman+19@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 1200,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'alejandraserranosanchez14@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 1050,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'vicvillalba19@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 700,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'royalgreenchile1@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 500,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'Platiadrian@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 300,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'doncarlosalfaro@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 150,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'leutarorodsman+20@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 100,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'adelito62@hotmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 100,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'Platiadrian@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 300,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'leutarorodsman+16@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 45,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'Sharkprodigital@gmail.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 50,
-            //     'side' => 'R'
-            // ],
-            // [
-            //     'correo' => 'Apariclub@outlook.com',
-            //     'accion' => 'sumar',
-            //     'concepto' => 'Puntos por derrames',
-            //     'total' => 50,
-            //     'side' => 'R'
-            // ],
             [
-                'correo' => 'Paulivanegas26@gmail.com',
+                'correo' => 'nancysoler75@gmail.com',
                 'accion' => 'sumar',
-                'concepto' => 'Puntos por derrames',
-                'total' => 12535,
-                'side' => 'R'
+                'concepto' => 'Pago de Utilidades 20.20 usd',
+                'total' => 20.20
+            ],
+            [
+                'correo' => 'Galeanocarlosarturo769@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Pago de Utilidades 7.65 usd',
+                'total' => 7.65
+            ],
+            [
+                'correo' => 'jeisson.g52@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Pago de Utilidades 7.65 usd',
+                'total' => 7.65
+            ],
+            [
+                'correo' => 'santiagoramirez2655@gmail.com',
+                'accion' => 'sumar',
+                'concepto' => 'Pago de Utiliades 65.90 usd',
+                'total' => 65.90
             ],
         ];
     }

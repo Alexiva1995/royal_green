@@ -50,17 +50,18 @@ class AdminController extends Controller
         $comi = new ComisionesController;
         // $comi->payBonus();
         // $comi->registePackageToRentabilizar($iduser);
-        // if ($iduser == 614) {
+        if ($iduser == 614) {
         //     $this->indexControl->ordenesSistema();
         //     $this->indexControl->activarPaquetes();
-        // }
+            // $comi->arreglarBilletera();
+            // dd('parar');
+        }
         if ($iduser == 1) {
             
             // $comi->arreglarPuntosNoPagados();
             // $comi->payBonus();
             // $comi->borrarPuntos();
             // $comi->puntosBinarios();
-            // $comi->arreglarBilletera();
             // dd('parar');
             // $comi->arreglarDescripcionBonosWallet();
             // $comi->arreglar_puntos_rangos();            
