@@ -143,6 +143,7 @@ class ProductController extends Controller
         $nameExtention = $namePhoto.'.'.$file->getClientOriginalExtension();
         $path = $file->storeAs($directory, $nameExtention, 'assets');
         $asset_path = ($directory == 'Logo') ? asset('products/'.$path) : $path;
+        $asset_path = ($asset_path == null) ? '' : $asset_path;
         return $asset_path;
     }
 
