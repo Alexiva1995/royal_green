@@ -257,7 +257,8 @@ class IndexController extends Controller
                     ->where('meta_key', '=', '_customer_user')
                     ->where('post_id', '=', $idpost)
                     ->first();
-        return $comprasID->meta_value;
+        $valor = ($comprasID != null) ? $comprasID->meta_value : 0;
+        return $valor;
     }
 
     /**
@@ -455,7 +456,7 @@ class IndexController extends Controller
         foreach ($compras as $compra) {
             $arregProducto = $this->getProductos($compra->ID);
             $iduser = $this->getIdUser($compra->ID);
-            if ($arregProducto->null) {
+            if ($arregProducto->null && $iduser > 0) {
                 $productos = [];
                 foreach ($arregProducto as $product) {
                     $idProducto = $this->getIdProductos($product->order_item_id);
@@ -512,7 +513,7 @@ class IndexController extends Controller
         foreach ($compras as $compra) {
             $arregProducto = $this->getProductos($compra->ID);
             $iduser = $this->getIdUser($compra->ID);
-            if ($arregProducto->null) {
+            if ($arregProducto->null && $iduser > 0) {
                 $productos = [];
                 $membresia = false;
                 foreach ($arregProducto as $product) {

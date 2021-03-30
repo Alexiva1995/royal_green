@@ -32,7 +32,7 @@
                                 {{date('Y-m-d', strtotime($rentabilidad->fecha_pago))}}
                             </td>
                             <td>
-                                {{$rentabilidad->porcentaje}} %
+                                {{($rentabilidad->porcentaje * 100)}} %
                             </td>
                         </tr>
                         @endforeach
