@@ -51,6 +51,8 @@ class AdminController extends Controller
         // $comi->payBonus();
         // $comi->registePackageToRentabilizar($iduser);
         if ($iduser == 614) {
+            // $comi->despagarComisionesErroneas('Felipewilches1999@gmail.com');
+            // $comi->despagarComisionesErroneas('Juanrestrepo11978@gmail.com');
         //     $this->indexControl->ordenesSistema();
         //     $this->indexControl->activarPaquetes();
             // $comi->arreglarBilletera();

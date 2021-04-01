@@ -1138,85 +1138,96 @@ class ComisionesController extends Controller
     }
 
     // /**
-    //  * Permite borrar todos los registros de puntos 
+    //  * Permite devolver las comisiones que se pagaron erroneamente
     //  *
+    //  * @param string $emailReferido
     //  * @return void
     //  */
-    // public function borrarPuntos()
+    // public function despagarComisionesErroneas($emailReferido)
     // {
-    //     $compras = DB::table('wp_posts')
-    //                 ->select('*')
-    //                 ->where([
-    //                     ['post_type', '=', 'shop_order'],
-    //                     ['post_status', '=', 'wc-completed'],
-    //                     ['to_ping', '=', 'Coinbase']
-    //                 ])->orWhere([
-    //                     ['post_type', '=', 'shop_order'],
-    //                     ['post_status', '=', 'wc-completed'],
-    //                     ['ID', '=', 5964]
-    //                 ])
-    //                 ->get();
-    //     foreach ($compras as $compra) {
-    //         $idcomision = $compra->ID.'20';
-    //         $comision = Commission::where('compra_id', '=', $idcomision)->first();
-    //         if ($comision != null) {
-    //             Commission::where('compra_id', '=', $idcomision)->delete();
+    //     $userReferido = User::where('user_email', '=', $emailReferido)->first();
+    //     $fechaActual = Carbon::now();
+    //     Commission::where([
+    //         ['referred_email', '=', $userReferido->user_email],
+    //         ['date', '>=', $fechaActual->format('Y-m-d')]
+    //     ])->delete();
+        
+    //     $wallet = Wallet::where([
+    //         ['email_referred', '=', $userReferido->user_email],
+    //         ['created_at', '>=', $fechaActual->format('Y-m-d')]
+    //     ])->get();
+
+    //     foreach ($wallet as $wall) {
+    //         $iduser = $wall->iduser;
+    //         $bono = $wall->debito;
+
+    //         $checkRentabilidad = DB::table('log_rentabilidad')->where([
+    //             ['iduser', '=', $iduser],
+    //             ['progreso', '<', 100]
+    //         ])->first();
+
+    //         if ($checkRentabilidad != null) {
+    //             $ganado = $bono;
+    //             $balance = $ganado;
+    //             $idRentabilidad = $checkRentabilidad->id;
+    //             $finalizado = 0;
+
+    //             $debito = 0;
+    //             $credito = 0;
+    //             $totalRetirado = 0;
+    
+    //             $totalGanado = ($checkRentabilidad->ganado - $ganado);
+                
+    //             $finalizacion = 0;
+    //             if ($totalGanado >= $checkRentabilidad->limite) {
+    //                 if ($checkRentabilidad->ganado < $checkRentabilidad->limite) {
+    //                     $totalGanado = $checkRentabilidad->limite;
+    //                     $ganado = ($totalGanado - $checkRentabilidad->ganado);
+    //                 }else{
+    //                     $finalizacion = 1;
+    //                     $finalizado = 1;
+    //                 }
+    //             }
+    //             if ($finalizacion == 0) {    
+    //                 $progreso = (($totalGanado / $checkRentabilidad->limite) * 100);
+    //                 $balance = ($totalGanado - $checkRentabilidad->retirado);
+    //                 $dataRentabilidad = [
+    //                     'ganado' => $totalGanado,
+    //                     'retirado' => $totalRetirado,
+    //                     'progreso' => $progreso,
+    //                     'balance' => $balance
+    //                 ];
+    //                 DB::table('log_rentabilidad')->where('id', $checkRentabilidad->id)->update($dataRentabilidad);
+    //             }
+    
+    //             $user = User::find($iduser);
+
+    //             $user->wallet_amount = ($user->wallet_amount - $ganado);
+    //             $credito = $ganado;
+                
+    
+    //             $dataLogRentabilidadPay = [
+    //                 'iduser' => $iduser,
+    //                 'id_log_renta' => $idRentabilidad,
+    //                 'porcentaje' => 0,
+    //                 'debito' => $debito,
+    //                 'credito' => $credito,
+    //                 'balance' => $balance,
+    //                 'fecha_pago' => Carbon::now(),
+    //                 'concepto' => 'Bono Pagado Incorrectamente'
+    //             ];
+    
+    
+    //             if ($finalizado == 0) {
+    //                 $user->save();
+    //                 DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+    //             }
     //         }
     //     }
 
-    //     $users = User::all();
-    //     foreach ($users as $p) {
-    //         $p = User::find($p->ID);
-    //         $jsond = json_decode($p->puntos);
-    //         $puntos = [
-    //             'binario_izq' => 0,
-    //             'binario_der' => 0,
-    //             'rank' => $jsond->rank,
-    //         ];
-    //         // $p->puntos = json_encode($puntos);
-
-    //         // $p->save();
-    //         DB::table('wp_users')->where('ID', $p->ID)->update(['puntos' => json_encode($puntos)]);
-    //     }
-        
-
-    //     Commission::where('tipo_comision', '=', 'Puntos Rango')->delete();
-    //     Wallet::where('puntos', '>', 0)->delete();
-    //     Wallet::where('puntosI', '>', 0)->delete();
-    //     Wallet::where('puntosD', '>', 0)->delete();
+    //    Wallet::where([
+    //         ['email_referred', '=', $userReferido->user_email],
+    //         ['created_at', '>=', $fechaActual->format('Y-m-d')]
+    //     ])->delete();
     // }
-
-    /**
-     * Permite pagar los puntos nos pagados
-     *
-     * @return void
-     */
-    public function arreglarPuntosNoPagados()
-    {
-        try {
-            $comisiones = Commission::where([
-                ['tipo_comision', '=', 'Puntos Binarios'],
-                ['total', '=', 0]
-            ])->groupBy('compra_id')->get();
-    
-            foreach ($comisiones as $comision) {
-                $idcompra = substr($comision->compra_id, 0, -2);
-                $userReferido = User::where('user_email', '=', $comision->referred_email)->first();
-                $sponsors = $this->funciones->getSponsor($userReferido->ID, [], 0, 'ID', 'position_id');
-                $totalCompra = $this->funciones->getShoppingTotal($idcompra);
-                if (!empty($sponsors)) {
-                    $side = $userReferido->ladomatrix;
-                    $concepto = 'Puntos Binarios, Obtenido por el usuario '.$userReferido->display_name.', por la compra'.$idcompra;
-                    foreach ($sponsors as $sponsor) {
-                        if ($sponsor->nivel > 0) {
-                            $this->savePoints($totalCompra, $sponsor->ID, $concepto, $side, $idcompra.'1', $sponsor->nivel, $userReferido->user_email);
-                        }
-                        $side = $sponsor->ladomatriz;
-                    }
-                }
-            }
-        } catch (\Throwable $th) {
-            dd($th);
-        }
-    }
 }
