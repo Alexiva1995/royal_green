@@ -1137,20 +1137,20 @@ class ComisionesController extends Controller
         ];
     }
 
-    // /**
-    //  * Permite devolver las comisiones que se pagaron erroneamente
-    //  *
-    //  * @param string $emailReferido
-    //  * @return void
-    //  */
-    // public function despagarComisionesErroneas($emailReferido)
-    // {
-    //     $userReferido = User::where('user_email', '=', $emailReferido)->first();
-    //     $fechaActual = Carbon::now();
-    //     Commission::where([
-    //         ['referred_email', '=', $userReferido->user_email],
-    //         ['date', '>=', $fechaActual->format('Y-m-d')]
-    //     ])->delete();
+    /**
+     * Permite devolver las comisiones que se pagaron erroneamente
+     *
+     * @param string $emailReferido
+     * @return void
+     */
+    public function despagarComisionesErroneas($emailReferido)
+    {
+        $userReferido = User::where('user_email', '=', $emailReferido)->first();
+        $fechaActual = Carbon::now();
+        // Commission::where([
+        //     ['referred_email', '=', $userReferido->user_email],
+        //     ['date', '>=', $fechaActual->format('Y-m-d')]
+        // ])->delete();
         
     //     $wallet = Wallet::where([
     //         ['email_referred', '=', $userReferido->user_email],
@@ -1230,4 +1230,31 @@ class ComisionesController extends Controller
     //         ['created_at', '>=', $fechaActual->format('Y-m-d')]
     //     ])->delete();
     // }
+        $sponsors = $this->funciones->getSponsor($userReferido->ID, [], 0, 'ID', 'position_id');
+        if (!empty($sponsors)) {
+            $userReferido = User::find($userReferido->ID);
+            $side = $userReferido->ladomatrix;
+            $puntos = 10000;
+            foreach ($sponsors as $sponsor) {
+                if ($sponsor->nivel > 0) {
+                    $user = User::find($sponsor->ID);
+                    $puntosUser = json_decode($user->puntos);
+                    if ($puntosUser->binario_izq < 0) { 
+                        dump('ID Usuario: '. $user->ID.' Correo: '.$user->user_email.' - Izquierda');                        
+                    }
+                    if ($puntosUser->binario_der < 0) {
+                        dump('ID Usuario: '. $user->ID.' Correo: '.$user->user_email.' - Derecha');
+                    }
+                    // if ($side == 'I') {
+                    //     $puntosUser->binario_izq = ((float) $puntosUser->binario_izq - (float) $puntos);
+                    // }elseif ($side == 'D') {
+                    //     $puntosUser->binario_der = ((float) $puntosUser->binario_der - (float) $puntos);
+                    // }
+                    // $user->puntos = json_encode($puntosUser);
+                    // $user->save();
+                }
+                $side = $sponsor->ladomatriz;
+            }
+        }        
+    }
 }

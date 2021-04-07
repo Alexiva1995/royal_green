@@ -133,7 +133,7 @@ $referred = DB::table($settings->prefijo_wp.'users')
                             </span>
                             <span class="">
                                 Acepta terminos y condiciones
-                                <a href="{{asset('assets/terminosycondiciones.pdf')}}" download> Descargar terminos y condiciones</a>
+                                <a href="{{asset('assets/Términos_y_Condiciones._Aviso_de_privacidad._Aviso_legal_y_descargo_de_responsabilidad.pdf')}}" download> Descargar terminos y condiciones</a>
                             </span>
                         </div>
                     </fieldset>
