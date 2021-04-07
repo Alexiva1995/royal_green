@@ -136,7 +136,7 @@ $referred = DB::table($settings->prefijo_wp.'users')
                             </span>
                         </div>
                     </fieldset>
-                    <a href="{{asset('assets/Términos_y_Condiciones._Aviso_de_privacidad._Aviso_legal_y_descargo_de_responsabilidad.pdf')}}" download> Descargar terminos y condiciones</a>
+                    <a href="{{asset('assets/Terminos_y_Condiciones_Aviso_de_privacidad_Aviso_legal_y_descargo_de_responsabilidad.pdf')}}" download> Descargar terminos y condiciones</a>
                 </div>
                 <div class="col-12">
                     <div class="row">
