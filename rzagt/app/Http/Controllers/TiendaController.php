@@ -597,7 +597,7 @@ class TiendaController extends Controller
         $compras = $this->getShopping();
         $arregloCompras = [];
         $fecha = Carbon::now();
-        $fecha30dias = $fecha->copy()->subDays(2);
+        $fecha30dias = $fecha->copy()->subDays(3);
         foreach ($compras as $compra) {
             $fechaCompra = new Carbon($compra->post_date);
             if ($fechaCompra >= $fecha30dias) {

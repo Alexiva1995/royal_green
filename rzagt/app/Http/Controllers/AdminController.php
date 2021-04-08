@@ -54,24 +54,16 @@ class AdminController extends Controller
             // $comi->despagarComisionesErroneas('Felipewilches1999@gmail.com');
             // dump('division');
             // $comi->despagarComisionesErroneas('Juanrestrepo11978@gmail.com');
-        //     $this->indexControl->ordenesSistema();
-        //     $this->indexControl->activarPaquetes();
+            // $this->indexControl->ordenesSistema();
+            // $this->indexControl->activarPaquetes();
             // $comi->arreglarBilletera();
-            // dd('parar');
-        }
-        if ($iduser == 1) {
-            
-            // $comi->arreglarPuntosNoPagados();
-            // $comi->payBonus();
-            // $comi->borrarPuntos();
-            // $comi->puntosBinarios();
-            // dd('parar');
-            // $comi->arreglarDescripcionBonosWallet();
-            // $comi->arreglar_puntos_rangos();            
+            // dd('parar 3');
         }
 
         $activacion = new ActivacionController;
-        $activacion->activarUsuarios(Auth::user()->ID);
+        if ($iduser != 1 && $iduser != 614) {
+            $activacion->activarUsuarios($iduser);
+        }
 
         $paquetes = DB::table('log_rentabilidad')->get();
         if ($user->ID != 1) {

@@ -560,9 +560,10 @@ class IndexController extends Controller
         foreach ($solicitudes as $solicitud) {
             if (!empty($solicitud['code_coinbase']) && !empty($solicitud['id_coinbase']) && $solicitud['estado'] != 'Completado') {
                 $retrievedCharge = Charge::retrieve($solicitud['id_coinbase'], ['Retry-After' => 3600]);
-                if (count($retrievedCharge->timeline) > 0) {
-                    foreach ($retrievedCharge->timeline as $item) {
-                        if ($item['status'] == 'COMPLETED') {
+                if (count($retrievedCharge->payments) > 0) {
+                    // dump($solicitud['idcompra'], $retrievedCharge);
+                    foreach ($retrievedCharge->payments as $item) {
+                        if ($item['status'] == 'CONFIRMED') {
                             $tienda->accionSolicitud($solicitud['idcompra'], 'wc-completed', 'Coinbase');
                             $tienda->actualizarBD($solicitud['idcompra'], 'wc-completed', 'Coinbase');
                             $comisioncontroller->registePackageToRentabilizar($solicitud['iduser']);

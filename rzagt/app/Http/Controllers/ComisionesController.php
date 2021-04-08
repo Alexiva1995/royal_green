@@ -187,7 +187,8 @@ class ComisionesController extends Controller
                                     if ($sponsor->nivel == $nivel) {
                                         $userReferido = User::find($compra['idusuario']);
                                         $idcomision = $compra['idcompra'].'10';
-                                        $pagar = ($compra['total'] * $porcentaje);
+                                        $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
+                                        $pagar = ($totalCompra * $porcentaje);
                                         $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
                                         if ($pagar > 0) {
                                             $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Indirecto');

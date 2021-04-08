@@ -36,7 +36,7 @@ class RedirectIfAuthenticated
                         if (!session()->has('menu')) {
                             session(['menu' => 1]);
                         }
-                        if (Auth::user()->ID != 1) {
+                        if (Auth::user()->ID != 1 || Auth::user()->ID != 614) {
                             if ($check == 0) {
                                 if (session('menu') == 1) {
                                     session(['menu' == 0 ]);
