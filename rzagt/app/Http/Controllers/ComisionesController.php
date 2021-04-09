@@ -1112,28 +1112,16 @@ class ComisionesController extends Controller
             //     'side' => 'R'
             // ],
             [
-                'correo' => 'nancysoler75@gmail.com',
+                'correo' => 'Solernancy255@gmail.com',
                 'accion' => 'sumar',
-                'concepto' => 'Pago de Utilidades 20.20 usd',
-                'total' => 20.20
+                'concepto' => 'Pago de Utilidades 34.4 usd',
+                'total' => 34.4
             ],
             [
-                'correo' => 'Galeanocarlosarturo769@gmail.com',
+                'correo' => 'NANCY75ROYAL@gmail.com',
                 'accion' => 'sumar',
-                'concepto' => 'Pago de Utilidades 7.65 usd',
-                'total' => 7.65
-            ],
-            [
-                'correo' => 'jeisson.g52@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Pago de Utilidades 7.65 usd',
-                'total' => 7.65
-            ],
-            [
-                'correo' => 'santiagoramirez2655@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Pago de Utiliades 65.90 usd',
-                'total' => 65.90
+                'concepto' => 'Pago de Utilidades 47 usd',
+                'total' => 47
             ],
         ];
     }
