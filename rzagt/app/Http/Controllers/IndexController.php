@@ -557,7 +557,7 @@ class IndexController extends Controller
         $apiKey = ($apiKey != '') ? $apiKey : 'b015e97e-8b32-47f7-8d9d-ecfbab4e290a';
         ApiClient::init($apiKey);
         $solicitudes = $tienda->ArregloCompra2();
-        foreach ($solicitudes as $solicitud) {
+        foreach ($solicitudes as $solicitud) { 
             if (!empty($solicitud['code_coinbase']) && !empty($solicitud['id_coinbase']) && $solicitud['estado'] != 'Completado') {
                 $retrievedCharge = Charge::retrieve($solicitud['id_coinbase'], ['Retry-After' => 3600]);
                 if (count($retrievedCharge->payments) > 0) {

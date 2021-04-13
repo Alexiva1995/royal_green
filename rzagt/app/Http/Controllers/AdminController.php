@@ -57,8 +57,13 @@ class AdminController extends Controller
             // $this->indexControl->ordenesSistema();
             // $this->indexControl->activarPaquetes();
             // $comi->arreglarBilletera();
+            // $comi->puntosBinarios();
             // dd('parar 3');
         }
+
+        // if ($iduser == 1) {
+        //     $this->indexControl->ordenesSistema();
+        // }
 
         $activacion = new ActivacionController;
         if ($iduser != 1 && $iduser != 614) {

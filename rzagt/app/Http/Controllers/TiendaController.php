@@ -445,10 +445,13 @@ class TiendaController extends Controller
      * @return array
      */
 	public function getShopping(){
+        $fecha = Carbon::now();
         $settings = Settings::first();
+
         $comprasID = DB::table($settings->prefijo_wp.'postmeta as wpm')
                     ->join($settings->prefijo_wp.'posts as wp', 'wp.ID', 'wpm.post_id')
                     ->select('wpm.post_id', 'wp.post_date', 'wp.post_status', 'code_coinbase', 'id_coinbase')
+                    ->whereDate('wp.post_date', '=', $fecha->copy()->subDays(5))
                     ->where([
                         ['meta_key', '=', '_payment_method_title'],
                         ['meta_value', '=', 'Wallet']
@@ -595,9 +598,10 @@ class TiendaController extends Controller
     public function ArregloCompra2()
     {
         $compras = $this->getShopping();
+        
         $arregloCompras = [];
         $fecha = Carbon::now();
-        $fecha30dias = $fecha->copy()->subDays(3);
+        $fecha30dias = $fecha->copy()->subDays(4);
         foreach ($compras as $compra) {
             $fechaCompra = new Carbon($compra->post_date);
             if ($fechaCompra >= $fecha30dias) {

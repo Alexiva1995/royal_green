@@ -306,6 +306,9 @@ class ComisionesController extends Controller
                             // if ($this->verificarBinarioActivo($sponsor->ID) == 1) {
                                 if ($sponsor->nivel > 0) {
                                     $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
+                                    // if ($compra['idcompra'] == 7335) { 
+                                    //     $totalCompra = $compra['total'];
+                                    // }
                                     $this->savePoints($totalCompra, $sponsor->ID, $concepto, $side, $compra['idcompra'], $sponsor->nivel, $userReferido->user_email);
                                 }
                             // }else{
@@ -423,6 +426,10 @@ class ComisionesController extends Controller
                 ['user_id', '=', $iduser],
                 ['compra_id', '=', $idcomision],
             ])->first();
+
+            if ($idcomision == 731220) {
+                # code...
+            }
 
             if ($checkComision == null) {
                 $comision = Commission::create([
