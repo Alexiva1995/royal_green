@@ -10,7 +10,9 @@ use stdClass;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use App\Http\Controllers\ComisionesController;
+use App\Http\Controllers\TiendaController;
 use Illuminate\Support\Facades\Auth;
+use Hexters\CoinPayment\CoinPayment;
 
 
 
@@ -552,24 +554,13 @@ class IndexController extends Controller
     public function ordenesSistema()
     {
         $tienda = new TiendaController;
-        $comisioncontroller = new ComisionesController;
-        $apiKey = env('COINBASE_API_KEY');
-        $apiKey = ($apiKey != '') ? $apiKey : 'b015e97e-8b32-47f7-8d9d-ecfbab4e290a';
-        ApiClient::init($apiKey);
-        $solicitudes = $tienda->ArregloCompra2();
-        foreach ($solicitudes as $solicitud) { 
-            if (!empty($solicitud['code_coinbase']) && !empty($solicitud['id_coinbase']) && $solicitud['estado'] != 'Completado') {
-                $retrievedCharge = Charge::retrieve($solicitud['id_coinbase'], ['Retry-After' => 3600]);
-                if (count($retrievedCharge->payments) > 0) {
-                    // dump($solicitud['idcompra'], $retrievedCharge);
-                    foreach ($retrievedCharge->payments as $item) {
-                        if ($item['status'] == 'CONFIRMED') {
-                            $tienda->accionSolicitud($solicitud['idcompra'], 'wc-completed', 'Coinbase');
-                            $tienda->actualizarBD($solicitud['idcompra'], 'wc-completed', 'Coinbase');
-                            $comisioncontroller->registePackageToRentabilizar($solicitud['iduser']);
-                        }
-                    }   
-                }
+        $fecha = Carbon::now();
+        $compras = DB::table('coinpayment_transactions')->where('status', '=', 0)->whereDate('created_at', '>', $fecha->subDays(7))->get();
+        foreach ($compras as $compra) {
+            $result =  \CoinPayment::getstatusbytxnid($compra->txn_id);
+            if ($result['status'] == 100) {
+                $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
+                $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
             }
         }
     }

@@ -322,7 +322,7 @@ class ComisionesController extends Controller
         } catch (\Throwable $th) {
             dd($th);
         }
-    }
+    }     
 
     /**
      * Permite obtener el valor a restar
@@ -433,7 +433,7 @@ class ComisionesController extends Controller
 
             if ($checkComision == null) {
                 $comision = Commission::create([
-                    'user_id' => $iduser,
+                    'user_id' => $iduser,   
                     'compra_id' => $idcomision,
                     'date' => Carbon::now(),
                     'total' => $puntos,

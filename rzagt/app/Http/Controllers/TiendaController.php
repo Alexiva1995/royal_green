@@ -19,7 +19,7 @@ use Carbon\Carbon;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use Illuminate\Support\Facades\Session;
-
+use Hexters\CoinPayment\CoinPayment;
 
 class TiendaController extends Controller
 {
@@ -102,41 +102,62 @@ class TiendaController extends Controller
      * @param object $producto
      * @return void
      */
-    public function linkCoinPayMent(object $producto)
+    public function linkCoinPayMent(object $producto, int $idcompra)
     {
-        $apiKey = env('COINBASE_API_KEY');
-        $apiKey = ($apiKey != '') ? $apiKey : 'b015e97e-8b32-47f7-8d9d-ecfbab4e290a';
-        $apiClientObj = ApiClient::init($apiKey);
-        $apiClientObj->setTimeout(6);
+    
+            // $apiKey = env('COINBASE_API_KEY');
+            // $apiKey = ($apiKey != '') ? $apiKey : 'b015e97e-8b32-47f7-8d9d-ecfbab4e290a';
+            // $apiClientObj = ApiClient::init($apiKey);
+            // $apiClientObj->setTimeout(6);
 
-        $iduser = Auth::user()->ID;
+            $iduser = Auth::user()->ID;
 
-        $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
-            ['iduser', '=', $iduser],
-            ['progreso', '<', 100]
-        ])->first();
+            $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+                ['iduser', '=', $iduser],
+                ['progreso', '<', 100]
+            ])->first();
 
-        $resta = 0;
-        if ($checkRentabilidad1 != null) {
-            $resta = $checkRentabilidad1->precio;
-        }
+            $resta = 0;
+            if ($checkRentabilidad1 != null) {
+                $resta = $checkRentabilidad1->precio;
+            }
 
-        $chargerData = [
-            'description' => $producto->post_content,
-            'metadata' => $producto,
-            'pricing_type' => 'fixed_price',
-            'redirect_url' => route('tienda.estado', ['pendiente']),
-            'cancel_url' => route('tienda.estado', ['cancelada']),
-            'local_price' => [
-                'amount' => ($producto->meta_value - $resta),
-                'currency' => 'USD'
-            ],
-            'name' => 'Producto '.$producto->post_title,
-            'payments' => [],
+            // $chargerData = [
+            //     'description' => $producto->post_content,
+            //     'metadata' => $producto,
+            //     'pricing_type' => 'fixed_price',
+            //     'redirect_url' => route('tienda.estado', ['pendiente']),
+            //     'cancel_url' => route('tienda.estado', ['cancelada']),
+            //     'local_price' => [
+            //         'amount' => ($producto->meta_value - $resta),
+            //         'currency' => 'USD'
+            //     ],
+            //     'name' => 'Producto '.$producto->post_title,
+            //     'payments' => [],
+            //     ];
+            
+            // $chargerObj = Charge::create($chargerData);
+            // return $chargerObj;
+
+            $total = (FLOAT) ($producto->meta_value - $resta);
+
+            $transaction['order_id'] = $idcompra; // invoice number
+            $transaction['amountTotal'] = $total;
+            $transaction['note'] = $producto->post_content;
+            $transaction['buyer_name'] = Auth::user()->display_name;
+            $transaction['buyer_email'] = Auth::user()->user_email;
+            $transaction['redirect_url'] = route('tienda.estado', ['pendiente']); // When Transaction was comleted
+            $transaction['cancel_url'] = route('tienda.estado', ['cancelada']); // When user click cancel link
+
+            $transaction['items'][] = [
+                'itemDescription' => 'Producto '.$producto->post_title,
+                'itemPrice' => (FLOAT) $total, // USD
+                'itemQty' => (INT) 1,
+                'itemSubtotalAmount' => (FLOAT) $producto->meta_value // USD
             ];
+
+            return CoinPayment::generatelink($transaction);
         
-        $chargerObj = Charge::create($chargerData);
-        return $chargerObj;
     }
 
     
@@ -154,59 +175,65 @@ class TiendaController extends Controller
             'precio' => 'required',
             'name' => 'required',
         ]); 
-        $settings = Settings::first();
-        if ($validate) {
+        try {
+            $settings = Settings::first();
+            if ($validate) {
 
-            $iduser = Auth::user()->ID;
+                $iduser = Auth::user()->ID;
 
-            $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
-                ['iduser', '=', $iduser],
-                ['progreso', '<', 100]
-            ])->first();
-            
-            $suma = 0;
-            if ($checkRentabilidad1 != null) {
-                $suma = $checkRentabilidad1->precio;
-            }
-
-            $fecha = new Carbon();
-            
-            $id = $this->savePosts('wc-on-hold');
-            $data = [
-                '_order_key' => 'wc_order_'.base64_encode($fecha->now()),
-                'ip' => $datos->ip(),
-                'total' => ($datos->precio + $suma).'.00',
-                'idproducto' => $datos->idproducto
-            ];
-            $ruta = '';
-            if ($id) {
-                $linkProducto = str_replace('office', '?post_type=shop_order&#038;p=', $datos->root());
-                DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
-                    'guid' => $linkProducto.$id
-                ]);
-
-                $this->saveOrdenPostmeta($id, $data, $datos->tipo, $iduser);
-                $this->saveOrderItems($id, $datos->name, $data);
+                $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
+                    ['iduser', '=', $iduser],
+                    ['progreso', '<', 100]
+                ])->first();
                 
-                $contrProducto = new ProductController;
-                $producto = $contrProducto->getOneProduct($datos->idproducto);
-                if (!empty($producto)) {
-                    $link = $this->linkCoinPayMent($producto);
-                    if (!empty($link)) {
-                        DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
-                            'id_coinbase' => $link->id,
-                            'code_coinbase' => $link->code,
-                        ]);
-                        $ruta = $link->hosted_url;
+                $suma = 0;
+                if ($checkRentabilidad1 != null) {
+                    $suma = $checkRentabilidad1->precio;
+                }
+
+                $fecha = new Carbon();
+                
+                $id = $this->savePosts('wc-on-hold');
+                $data = [
+                    '_order_key' => 'wc_order_'.base64_encode($fecha->now()),
+                    'ip' => $datos->ip(),
+                    'total' => ($datos->precio + $suma).'.00',
+                    'idproducto' => $datos->idproducto
+                ];
+                $ruta = '';
+                if ($id) {
+                    $linkProducto = str_replace('office', '?post_type=shop_order&#038;p=', $datos->root());
+                    DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
+                        'guid' => $linkProducto.$id
+                    ]);
+
+                    $this->saveOrdenPostmeta($id, $data, $datos->tipo, $iduser);
+                    $this->saveOrderItems($id, $datos->name, $data);
+                    
+                    $contrProducto = new ProductController;
+                    $producto = $contrProducto->getOneProduct($datos->idproducto);
+                    if (!empty($producto)) {
+                        $ruta = $this->linkCoinPayMent($producto, $id);
+                        // if (!empty($link)) {
+                        //     DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
+                        //         'id_coinbase' => $link->id,
+                        //         'code_coinbase' => $link->code,
+                        //     ]);
+                        //     $ruta = $link->hosted_url;
+                        // }
                     }
                 }
+                if (!empty($ruta)) {
+                    return redirect($ruta);
+                }else{
+                    return redirect()->back()->with('msj', 'Hubo Un Problema con el proceso de compra');
+                }
             }
-            if (!empty($ruta)) {
-                return redirect($ruta);
-            }else{
-                return redirect()->back()->with('msj', 'Hubo Un Problema con el proceso de compra');
-            }
-        }
+        } catch (\Throwable $th) {
+            \Log::error('Proceso de compra -> '.$th);
+            return redirect()->back()->with('msj', 'Hubo Un Problema con el proceso de compra');
+            // dd($th);
+        }    
     }
 
     /**
