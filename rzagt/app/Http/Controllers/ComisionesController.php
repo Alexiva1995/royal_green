@@ -1119,17 +1119,11 @@ class ComisionesController extends Controller
             //     'side' => 'R'
             // ],
             [
-                'correo' => 'Solernancy255@gmail.com',
+                'correo' => 'ernestomope+1@gmail.com',
                 'accion' => 'sumar',
-                'concepto' => 'Pago de Utilidades 34.4 usd',
-                'total' => 34.4
-            ],
-            [
-                'correo' => 'NANCY75ROYAL@gmail.com',
-                'accion' => 'sumar',
-                'concepto' => 'Pago de Utilidades 47 usd',
-                'total' => 47
-            ],
+                'concepto' => 'Utilidad Diaria 12 y 13 de Abril.',
+                'total' => 68
+            ]
         ];
     }
 
