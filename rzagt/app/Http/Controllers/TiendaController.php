@@ -153,7 +153,7 @@ class TiendaController extends Controller
                 'itemDescription' => 'Producto '.$producto->post_title,
                 'itemPrice' => (FLOAT) $total, // USD
                 'itemQty' => (INT) 1,
-                'itemSubtotalAmount' => (FLOAT) $producto->meta_value // USD
+                'itemSubtotalAmount' => (FLOAT) $total // USD
             ];
 
             return CoinPayment::generatelink($transaction);
