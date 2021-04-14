@@ -555,13 +555,19 @@ class IndexController extends Controller
     {
         $tienda = new TiendaController;
         $fecha = Carbon::now();
-        $compras = DB::table('coinpayment_transactions')->where('status', '=', 0)->whereDate('created_at', '>', $fecha->subDays(7))->get();
+        $compras = DB::table('coinpayment_transactions')->where('status', '=', 0)->whereDate('created_at', '>', $fecha->subDays(4))->get();
         foreach ($compras as $compra) {
-            $result =  \CoinPayment::getstatusbytxnid($compra->txn_id);
-            if ($result['status'] == 100) {
+            $result = CoinPayment::getstatusbytxnid($compra->txn_id);
+            if (is_array($result) && $result['status'] == 100) {
                 $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
                 $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
             }
+        }
+
+        $compras2 = DB::table('coinpayment_transactions')->where('status', '=', 100)->whereDate('created_at', '>', $fecha->subDays(4))->get();
+        foreach ($compras2 as $compra) {
+            $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
+            $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
         }
     }
 
