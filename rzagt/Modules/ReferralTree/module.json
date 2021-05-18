@@ -1,0 +1,13 @@
+{
+    "name": "ReferralTree",
+    "alias": "referraltree",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ReferralTree\\Providers\\ReferralTreeServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}
