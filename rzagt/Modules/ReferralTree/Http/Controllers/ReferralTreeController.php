@@ -37,9 +37,11 @@ class ReferralTreeController extends Controller
 
         $puntos = json_decode(Auth::user()->puntos);
 
-        $trees = $this->indexController->getDataEstructura(Auth::id(), $type);
-        // $sideFinal = $this->getLastBinary(Auth::user()->ID, $type);
+        $trees = $this->indexController->getDataEstructura(Auth::user()->ID, $type);
         $sideFinal = [];
+        if (Auth::user()->ID != 1) {
+            $sideFinal = $this->getLastBinary(Auth::user()->ID, $type);
+        }
         // $type = ucfirst($type);
         $base = Auth::user();
         $base->children = User::where('position_id', '=', $base->ID)->get();

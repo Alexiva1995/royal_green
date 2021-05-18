@@ -1206,6 +1206,50 @@ class ComisionesController extends Controller
     }
 
     /**
+     * Permite eliminar los puntos del sistema
+     *
+     * @param integer $idwallet
+     * @return void
+     */
+    public function eliminarRegistrosPuntos(int $idwallet)
+    {
+        try {
+            $wallet = DB::table('walletlog')->where('id', $idwallet)->first();
+            $puntosD = $wallet->puntosD;
+            $puntosI = $wallet->puntosI;
+            $user2 = User::find($wallet->iduser);
+            $jsond = json_decode($user2->puntos);
+            $puntos = [
+                'binario_izq' => ($jsond->binario_izq - $puntosI),
+                'binario_der' => ($jsond->binario_der - $puntosD),
+                'rank' => $jsond->rank,
+            ];
+            // $user2->puntos = json_encode($puntos);
+
+            // $user2->save();
+            DB::table('wp_users')->where('ID', $user2->ID)->update(['puntos' => json_encode($puntos)]);
+            DB::table('walletlog')->where('id', $idwallet)->delete();
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+
+    /**
+     * Recibe el correo del usuario referido que se le borraran los puntos 
+     *
+     * @param string $email
+     * @param string $fecha
+     * @return void
+     */
+    public function usuarioEliminarPuntos($email, $fecha = null)
+    {
+        $wallets = DB::table('walletlog')->where('email_referred', $email)->get();
+        foreach ($wallets as $wallet) {
+            $this->eliminarRegistrosPuntos($wallet->id);
+        }
+    }
+
+    /**
      * Permite recorrer las comisiones dupluicadas
      *
      * @return void

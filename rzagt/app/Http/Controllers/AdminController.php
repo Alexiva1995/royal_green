@@ -61,6 +61,7 @@ class AdminController extends Controller
             // $this->indexControl->activarPaquetes();
             // $comi->arreglarBilletera();
             // $comi->puntosBinarios();
+            // $comi->usuarioEliminarPuntos('jdrd31@mail.ru');
             // dd('parar 3');
         }
 
