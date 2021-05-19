@@ -26,9 +26,9 @@
 							<th class="text-center">
                                 Rango Actual
                             </th>
-                            <th class="text-center">
+                            {{-- <th class="text-center">
                                 Rango Siguiente
-                            </th>
+                            </th> --}}
 						</tr>
 					</thead>
 					<tbody>
@@ -46,9 +46,9 @@
                             <td>
                                 {{$user->rol_name}}
                             </td>
-                            <td>
+                            {{-- <td>
                                 {{$user->rol_name_next}}
-                            </td>
+                            </td> --}}
                         </tr>
 						@endforeach
 					</tbody>
