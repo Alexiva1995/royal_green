@@ -118,6 +118,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
     // Resetear QR
     Route::get('resetQr/{iduser}', 'HomeController@resetearQR')->name('admin.reset-qr')->middleware('admin');
 
+    //Admin Route
+    Route::get('listRango', 'RangoController@indexRangos')->name('admin.list-rango')->middleware('admin');
+
     // Billetera
 
     Route::group(['prefix' => 'wallet'], function(){

@@ -162,4 +162,23 @@ class RangoController extends Controller
 		return $data;
 	}
 
+	/**
+	 * Lleva a una vista para mostrar a los usuarios y el rango que tiene 
+	 *
+	 * @return void
+	 */
+	public function indexRangos()
+	{
+		view()->share('title', 'Listado de Rangos');
+
+		$users = User::where('rol_id', '>', 0)->get();
+
+		$users->each(function ($item, $key) {
+			$item->rol_name = Rol::find($item->rol_id)->name;
+			$item->rol_name_next = (($item->rol_id + 1) != 10) ? Rol::find(($item->rol_id + 1))->name : Rol::find($item->rol_id)->name;
+		});
+
+		return view('admin.listRanfos', compact('users'));
+	}
+
 }

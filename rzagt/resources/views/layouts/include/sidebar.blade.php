@@ -108,9 +108,16 @@
                 </a>
                 <ul class="menu-content">
                     <li class="nav-item">
+                        <a href="{{route('admin.list-rango')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Listado Rango
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="{{route('admin.subdashboard')}}">
                             <span class="menu-title" data-i18n="Historial de Ordenes">
-                                Rangos
+                                Dashboard usuarios
                             </span>
                         </a>
                     </li>
