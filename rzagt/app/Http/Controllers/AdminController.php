@@ -542,13 +542,21 @@ class AdminController extends Controller
 
         view()->share('title', 'Ordenes de Red');
         $compras = [];
+        $ordenes = null;
         if (Auth::user()->ID == 1) {
-            $compra = $this->pucharseAdmin(null);
+            $ordenes = DB::table('wp_posts')
+            ->select('*')
+            ->where([
+                ['post_type', '=', 'shop_order'],
+                ['to_ping', '=', $request->filtro]
+            ])->get();
+            $compras = $this->pucharseAdmin($request->filtro, $ordenes);
+            $ordenes = null;
         }else{
-            $compra = $this->pucharseUser(Auth::user()->ID, []);
+            $compras = $this->pucharseUser(Auth::user()->ID, []);
         }
 
-        return view('dashboard.networkOrders')->with(compact('compras'));
+        return view('dashboard.networkOrders')->with(compact('compras', 'ordenes'));
 
     }
 

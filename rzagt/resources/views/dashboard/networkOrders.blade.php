@@ -78,7 +78,10 @@
 				</table>
 			</div>
 			<div class="col-12 mt-2 text-center">
+				@if ($ordenes != null)
 				{{$ordenes->links()}}
+					
+				@endif
 			</div>
 		</div>
 	</div>
