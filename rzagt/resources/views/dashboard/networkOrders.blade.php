@@ -77,6 +77,9 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="col-12 mt-2 text-center">
+				{{$ordenes->links()}}
+			</div>
 		</div>
 	</div>
 </div>

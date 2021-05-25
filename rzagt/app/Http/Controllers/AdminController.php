@@ -328,11 +328,6 @@ class AdminController extends Controller
      */
     public function getDetailsOrder($order_id, $array_datos, $level, $nombre, $fecha, $correo){
         $settings = Settings::first();
-        $numOrden = DB::table($settings->prefijo_wp.'postmeta')
-                        ->select('meta_value')
-                        ->where('post_id', '=', $order_id)
-                        ->where('meta_key', '=', '_order_key')
-                        ->first();
         $fechaOrden = DB::table($settings->prefijo_wp.'posts')
                         ->select('post_date')
                         ->where('ID', '=', $order_id)
@@ -341,11 +336,6 @@ class AdminController extends Controller
         $type_activacion = DB::table($settings->prefijo_wp.'posts')
                         ->select('to_ping')
                         ->where('ID', '=', $order_id)
-                        ->first();
-        $totalOrden = DB::table($settings->prefijo_wp.'postmeta')
-                        ->select('meta_value')
-                        ->where('post_id', '=', $order_id)
-                        ->where('meta_key', '=', '_order_total')
                         ->first();
 		$nombreCompleto = $nombre;
         
@@ -358,37 +348,14 @@ class AdminController extends Controller
                         ->select('post_status')
                         ->where('ID', '=', $order_id)
                         ->first();
-        $estadoEntendible = 'No Disponible';
-        if ($estadoOrden != null) {
-            switch ($estadoOrden->post_status) {
-                case 'wc-completed':
-                    $estadoEntendible = 'Completado';
-                    break;
-                case 'wc-pending':
-                    $estadoEntendible = 'Pendiente de Pago';
-                    break;
-                case 'wc-processing':
-                    $estadoEntendible = 'Procesando';
-                    break;
-                case 'wc-on-hold':
-                    $estadoEntendible = 'En Espera';
-                    break;
-                case 'wc-cancelled':
-                    $estadoEntendible = 'Cancelado';
-                    break;
-                case 'wc-refunded':
-                    $estadoEntendible = 'Reembolsado';
-                    break;
-                case 'wc-failed':
-                    $estadoEntendible = 'Fallido';
-                    break;
-            }
-        }
+       
 
         $items = "";
         foreach ($itemsOrden as $item){
             $items = $items." ".$item->order_item_name;
         }
+
+        $estadoEntendible = $this->statusOrdenWP($estadoOrden->post_status);
 
         if ($estadoEntendible != 'No Disponible') {
             if (!empty($fecha)) {
@@ -400,7 +367,7 @@ class AdminController extends Controller
                         'correouser' => $correo,
                         'fechacompra' => $fechaOrden->post_date, 
                         'producto' => $items, 
-                        'total' => $totalOrden->meta_value, 
+                        'total' => $this->indexControl->getShoppingTotal($order_id), 
                         'nivel' => $level, 
                         'activacion' => $type_activacion->to_ping,
                         'estado' => $estadoEntendible) 
@@ -413,7 +380,7 @@ class AdminController extends Controller
                     'correouser' => $correo,
                     'fechacompra' => $fechaOrden->post_date, 
                     'producto' => $items, 
-                    'total' => $totalOrden->meta_value, 
+                    'total' => $this->indexControl->getShoppingTotal($order_id), 
                     'nivel' => $level, 
                     'activacion' => $type_activacion->to_ping,
                     'estado' => $estadoEntendible)
@@ -423,155 +390,163 @@ class AdminController extends Controller
         return($array_datos);
     }
 
-
-
     /**
-
-     * Genera todas las ordenes de red de usuarios
-
-     * 
-
-     * @access public
-
-     * @return view - vista de transacciones
-
+     * Permite saber el estado de las transaciones de wp
+     *
+     * @param string $estado
+     * @return string
      */
+    private function statusOrdenWP($estado): string
+    {
+        $estadoEntendible = 'No Disponible';
+            if ($estado != null) {
+                switch ($estado) {
+                    case 'wc-completed':
+                        $estadoEntendible = 'Completado';
+                        break;
+                    case 'wc-pending':
+                        $estadoEntendible = 'Pendiente de Pago';
+                        break;
+                    case 'wc-processing':
+                        $estadoEntendible = 'Procesando';
+                        break;
+                    case 'wc-on-hold':
+                        $estadoEntendible = 'En Espera';
+                        break;
+                    case 'wc-cancelled':
+                        $estadoEntendible = 'Cancelado';
+                        break;
+                    case 'wc-refunded':
+                        $estadoEntendible = 'Reembolsado';
+                        break;
+                    case 'wc-failed':
+                        $estadoEntendible = 'Fallido';
+                        break;
+                }
+            }
+        return $estadoEntendible;
+    }
 
     public function network_orders(){
 
         view()->share('title', 'Ordenes de Red');
-
-        $settings = Settings::first();
-
-        $TodosUsuarios = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
-
-        $compras = array();
-
-        $fecha = [];
-
-         if (!empty($TodosUsuarios)) {
-
-        foreach($TodosUsuarios as $user){
-
-            $ordenes = DB::table($settings->prefijo_wp.'postmeta')
-
-                            ->select('post_id')
-
-                            ->where('meta_key', '=', '_customer_user')
-
-                            ->where('meta_value', '=', $user['ID'])
-
-                            ->orderBy('post_id', 'DESC')
-
-                            ->get();
-
-
-
-            foreach ($ordenes as $orden){
-
-                $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
-
-            }
-
+        
+        $compras = [];
+        if (Auth::user()->ID == 1) {
+            $ordenes = DB::table('wp_posts')
+            ->select('*')
+            ->where([
+                ['post_type', '=', 'shop_order'],
+            ])->paginate(100);
+            $compras = $this->pucharseAdmin(null, $ordenes);
+        }else{
+            $ordenes = null;
+            $compras = $this->pucharseUser(Auth::user()->ID, []);
         }
 
+        return view('dashboard.networkOrders')->with(compact('compras', 'ordenes'));
     }
 
-
-
-        //******************
-
-        //Marcar como leídas las notificaciones pendientes de Órdenes en Red
-
-        $notificaciones_pendientes = DB::table('notifications')
-
-                                        ->select('id')
-
-                                        ->where('user_id', '=', Auth::user()->ID)
-
-                                        ->where('notification_type', '=', 'OR')
-
-                                        ->where('status', '=', 0)
-
-                                        ->get();
-
-
-
-        foreach ($notificaciones_pendientes as $not){
-
-            Notification::find($not->id)->update(['status' => 1]);
-
-        }
-
-        //********************
-
-
-
-        return view('dashboard.networkOrders')->with(compact('compras'));
-
-    }
-
-
-        /**
-
-     * Genera todas las ordenes de red de usuarios
-
-     * 
-
-     * @access public
-
-     * @return view - vista de transacciones
-
+    /**
+     * Permite procesar las compra que vera el admin
+     *
+     * @param array $filtro
+     * @return array
      */
+    public function pucharseAdmin($filtro, $ordenes): array
+    {
+        $settings = Settings::first();
+        $compras = [];
+        $ordenes = DB::table($settings->prefijo_wp.'posts')
+                    ->select('*')
+                    ->where([
+                        ['post_type', '=', 'shop_order'],
+                    ])->paginate(100);
+        foreach ($ordenes as $orden) {
+            $estadoEntendible = $this->statusOrdenWP($orden->post_status);
+            $itemsOrden = DB::table($settings->prefijo_wp.'woocommerce_order_items')
+                        ->select('order_item_name')
+                        ->where('order_id', '=', $orden->ID)
+                        ->where('order_item_type', '=', 'line_item')
+                        ->get();
+
+            $items = "";
+            foreach ($itemsOrden as $item){
+            $items = $items." ".$item->order_item_name;
+            }
+            $iduser = $this->indexControl->getIdUser($orden->ID);
+            $user = User::find($iduser);
+            if ($user != null) {
+                if ($filtro != null) {
+                    if ($orden->to_ping == $filtro) {
+                        $compras[] = [
+                            'idorden' => $orden->ID,
+                            'nombreusuario' => $user->display_name,
+                            'correouser' => $user->user_email,
+                            'fechacompra' => $orden->post_date, 
+                            'producto' => $items, 
+                            'total' => $this->indexControl->getShoppingTotal($orden->ID), 
+                            'nivel' => 0, 
+                            'activacion' => $orden->to_ping,
+                            'estado' => $estadoEntendible 
+                        ];
+                    }
+                }else{
+                    $compras[] = [
+                        'idorden' => $orden->ID, 
+                        'nombreusuario' => $user->display_name, 
+                        'correouser' => $user->user_email,
+                        'fechacompra' => $orden->post_date, 
+                        'producto' => $items, 
+                        'total' => $this->indexControl->getShoppingTotal($orden->ID), 
+                        'nivel' => 0, 
+                        'activacion' => $orden->to_ping,
+                        'estado' => $estadoEntendible
+                    ];
+                }
+            }
+        };
+        return $compras;               
+    }
+
+    /**
+     * Permite traer las compras de la red de un usuario
+     *
+     * @param integer $iduser
+     * @param array $fecha
+     * @return array
+     */
+    public function pucharseUser($iduser, $fecha): array
+    {
+        $settings = Settings::first();
+        $TodosUsuarios = $this->indexControl->getChidrens2($iduser, [], 1, 'referred_id', 0);
+        $compras = array();
+        if (!empty($TodosUsuarios)) {
+            foreach($TodosUsuarios as $user){
+                $ordenes = DB::table($settings->prefijo_wp.'postmeta')
+                            ->select('post_id')
+                            ->where('meta_key', '=', '_customer_user')
+                            ->where('meta_value', '=', $user['ID'])
+                            ->orderBy('post_id', 'DESC')
+                            ->get();
+                foreach ($ordenes as $orden){
+                    $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
+                }
+            }
+        }
+        return $compras;
+    }
+
 
     public function network_orders_filtre(Request $request){
 
         view()->share('title', 'Ordenes de Red');
-
-        $settings = Settings::first();
-
-        $TodosUsuarios = $this->indexControl->getChidrens2(Auth::user()->ID, [], 1, 'referred_id', 0);
-
-        $compras = array();
-
-        $fecha = [];
-
-         if (!empty($TodosUsuarios)) {
-
-        foreach($TodosUsuarios as $user){
-
-            $ordenes = DB::table($settings->prefijo_wp.'postmeta')
-
-                            ->select('post_id')
-
-                            ->where('meta_key', '=', '_customer_user')
-
-                            ->where('meta_value', '=', $user['ID'])
-
-                            ->orderBy('post_id', 'DESC')
-
-                            ->get();
-
-
-
-            foreach ($ordenes as $orden){
-
-                $type_activacion = DB::table($settings->prefijo_wp.'posts')
-                        ->select('to_ping')
-                        ->where('ID', '=', $orden->post_id)
-                        ->first();
-
-                if ($type_activacion != null) {
-                    if ($type_activacion->to_ping == $request->filtro) {
-                        $compras = $this->getDetailsOrder($orden->post_id, $compras, $user->nivel, $user->display_name, $fecha, $user->user_email);
-                    }
-                }
-
-            }
-
+        $compras = [];
+        if (Auth::user()->ID == 1) {
+            $compra = $this->pucharseAdmin(null);
+        }else{
+            $compra = $this->pucharseUser(Auth::user()->ID, []);
         }
-
-    }
 
         return view('dashboard.networkOrders')->with(compact('compras'));
 
