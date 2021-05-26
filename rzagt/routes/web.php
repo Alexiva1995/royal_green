@@ -165,10 +165,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::post('remover', 'ComisionesController@editWallet')->name('editWallet.edit');
     });
 
-    //activar o desactivar el 2fact 
-    Route::group(['prefix' => 'disable2fact'], function ()
+    //activar o desactivar algunas funciones
+    Route::group(['prefix' => 'disables'], function ()
     {
-        Route::get('update/{iduser}', 'HomeController@disable2fact')->name('disable2fact.update');
+        // Activar/Desactivar 2fact
+        Route::get('2fact/{iduser}/update/', 'HomeController@disable2fact')->name('disable_2fact.update');
+        // Activar/Desactivar la rentabilidad
+        Route::get('rentabilidad/{iduser}/update/', 'HomeController@disableRentabilidad')->name('disable_renta.update');
+        // Activar/Desactivar el retiro
+        Route::get('retiro/{iduser}/update/{admin?}', 'HomeController@disableRetiro')->name('disable_retiro.update');
     });
 
     // Pago

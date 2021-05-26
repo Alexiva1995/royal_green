@@ -457,11 +457,6 @@ class AdminController extends Controller
     {
         $settings = Settings::first();
         $compras = [];
-        $ordenes = DB::table($settings->prefijo_wp.'posts')
-                    ->select('*')
-                    ->where([
-                        ['post_type', '=', 'shop_order'],
-                    ])->paginate(100);
         foreach ($ordenes as $orden) {
             $estadoEntendible = $this->statusOrdenWP($orden->post_status);
             $itemsOrden = DB::table($settings->prefijo_wp.'woocommerce_order_items')

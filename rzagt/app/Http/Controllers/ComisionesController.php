@@ -627,8 +627,12 @@ class ComisionesController extends Controller
     public function filtrarUserRentabilidad($iduser): bool
     {
         $result = true;
-        $arrayExcluidos = [481, 484, 770, 2364, 581, 2109];
-        if (in_array($iduser, $arrayExcluidos)) {
+        // $arrayExcluidos = [481, 484, 770, 2364, 581, 2109];
+        // if (in_array($iduser, $arrayExcluidos)) {
+        //     $result = false;
+        // }
+        $user = User::find($iduser);
+        if ($user->pay_rentabilidad == 0) {
             $result = false;
         }
 

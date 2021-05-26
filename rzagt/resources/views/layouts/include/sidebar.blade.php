@@ -210,6 +210,18 @@
                     <span class="menu-title">Lista de Usuarios</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="{{route('disable_retiro.update', [Auth::user()->ID, true])}}">
+                    <span class="menu-title">
+                    @if (Auth::user()->pay_retiro == 0)
+                        Activar 
+                    @else
+                        Desactivar
+                    @endif
+                    Retirar 
+                    </span>
+                </a>
+            </li>
             <li class=" nav-item">
                 <a href="javascript:;" onclick="$('#modalRentabilidad').modal('show')">
                     <span class="menu-title" data-i18n="Link de Referidos">

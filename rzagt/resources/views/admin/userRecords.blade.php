@@ -42,6 +42,12 @@
 								Google Autenthic
 							</th>
 							<th class="text-center">
+								Rentabilidad
+							</th>
+							<th class="text-center">
+								Retiro
+							</th>
+							<th class="text-center">
 								Accion
 							</th>
 						</tr>
@@ -92,11 +98,33 @@
 							</td>
 							<td class="text-center">
 								@if ($usuario['2fact'] == 1)
-								<a class="btn btn-info" href="{{ route('disable2fact.update', $usuario['ID']) }}">
+								<a class="btn btn-info" href="{{ route('disable_2fact.update', $usuario['ID']) }}">
 									Activar
 									</a>
 									@else
-									<a class="btn btn-danger" href="{{ route('disable2fact.update', $usuario['ID']) }}">
+									<a class="btn btn-danger" href="{{ route('disable_2fact.update', $usuario['ID']) }}">
+										Desactivar
+									</a>
+									@endif
+							</td>
+							<td class="text-center">
+								@if ($usuario['renta'] == 0)
+								<a class="btn btn-info" href="{{ route('disable_renta.update', $usuario['ID']) }}">
+									Activar
+									</a>
+									@else
+									<a class="btn btn-danger" href="{{ route('disable_renta.update', $usuario['ID']) }}">
+										Desactivar
+									</a>
+									@endif
+							</td>
+							<td class="text-center">  
+								@if ($usuario['retiro'] == 0)
+								<a class="btn btn-info" href="{{ route('disable_retiro.update', [$usuario['ID'], false]) }}">
+									Activar
+									</a>
+									@else
+									<a class="btn btn-danger" href="{{ route('disable_retiro.update', [$usuario['ID'], false]) }}">
 										Desactivar
 									</a>
 									@endif

@@ -160,7 +160,9 @@ class HomeController extends Controller
             'nombre_referido' => ($usuario) ? $usuario->display_name : 'Usuario no disponible',
             'phone' => $masinfo->phone,
             'wallet' => $llave->wallet_amount,
-            '2fact' => (!empty($llave->verificar_correo)) ? 1 : 0
+            '2fact' => (!empty($llave->verificar_correo)) ? 1 : 0,
+            'renta' => $llave->pay_rentabilidad,
+            'retiro' => $llave->pay_retiro
           ]);
         }
 
@@ -188,6 +190,53 @@ class HomeController extends Controller
         } catch (\Throwable $th) {
             \Log::error('Resetear QR ->'.$th);
             return redirect()->back()->with('msj', 'Ocurrio un error al resetear el Codigo QR');
+        }
+    }
+
+    /**
+     * Permite activar el desactivar el 2 fact
+     *
+     * @param integer $block
+     * @return void
+     */
+    public function disableRentabilidad($iduser)
+    {
+        try {
+            $user = User::find($iduser);
+            $value = ($user->pay_rentabilidad == 0)? 1 : 0;
+            User::where('ID', $iduser)->update(['pay_rentabilidad' => $value]);
+
+            return redirect()->back()->with('msj', 'Opciones de Rentabilidad Actualizado con exito');
+        } catch (\Throwable $th) {
+            \Log::error('Desactivar Rentabilidad ->'.$th);
+            return redirect()->back()->with('msj', 'Ocurrio un error al Desactivar la rentabilidad');
+        }
+    }
+
+    /**
+     * Permite activar el desactivar el 2 fact
+     *
+     * @param integer $block
+     * @return void
+     */
+    public function disableRetiro($iduser, $admin)
+    {
+        try {
+            
+            if ($admin) {
+                $user = User::find($iduser);
+                $value = ($user->pay_retiro == 0)? 1 : 0;
+                User::where('status', '<', 3)->update(['pay_retiro' => $value]);
+            } else {
+                $user = User::find($iduser);
+                $value = ($user->pay_retiro == 0)? 1 : 0;
+                User::where('ID', $iduser)->update(['pay_retiro' => $value]);
+            }
+            return redirect()->back()->with('msj', 'Opciones de Retiro Actualizado con exito');
+            
+        } catch (\Throwable $th) {
+            \Log::error('Desactivar Retiro ->'.$th);
+            return redirect()->back()->with('msj', 'Ocurrio un error al Desactivar el retiro');
         }
     }
 
