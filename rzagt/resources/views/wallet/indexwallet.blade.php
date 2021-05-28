@@ -29,7 +29,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
 <div class="alert alert-info">
     <button class="close" data-close="alert"></button>
     <span style="color: white">
-      Todos los retiros realizados serán procesados los días sábados
+        Todos los retiros realizados serán procesados los días viernes y sábados
     </span>
   </div>
 
@@ -127,7 +127,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
             </div>
              @else
              <h5>
-                 Los Retiro no esta disponibles temporalmente
+                Los retiros se encontrarán disponibles de Lunes a Sábado hasta las 12pm GMT-6: México
              </h5>
             @endif
         @endif
