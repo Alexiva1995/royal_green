@@ -382,7 +382,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
 
     // Modificacion del usuario por parte del admin
-    Route::get('/userrecords', 'HomeController@user_records')->name('admin.userrecords')->middleware('admin');
+    Route::get('/userrecords/{email?}', 'HomeController@user_records')->name('admin.userrecords')->middleware('admin');
     Route::get('/useredit/{id}', 'ActualizarController@user_edit')->name('admin.useredit')->middleware('admin');
     Route::get('/userinactive', 'HomeController@userActiveManual')->name('admin.userinactive')->middleware('admin');
     Route::post('/userinactive', 'HomeController@saveActiveManual')->name('admin.userinactive')->middleware('admin');

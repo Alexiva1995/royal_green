@@ -10,6 +10,25 @@
 <div class="card">
 	<div class="card-content">
 		<div class="card-body">
+			<form action="{{route('admin.userrecords')}}" method="get">
+				<div class="form-group">
+					<label for="">Ingrese correo</label>
+					<input type="text" class="form-control" required name="email">
+				</div>
+				<div class="form-group">
+					<button type="submit" class="btn btn-info">Buscar</button>
+					@empty(!request()->email)
+					<a href="{{route('admin.userrecords')}}" class="btn btn-danger">Regresar al Listado</a>
+				@endempty
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="card">
+	<div class="card-content">
+		<div class="card-body">
 			<div class="table-responsive">
 				<table id="mytable" class="table zero-configuration">
 					<thead>
@@ -35,6 +54,9 @@
 							{{-- <th class="text-center">
 								Rango
 							</th> --}}
+							<th class="text-center">
+								Binario
+							</th>
 							<th class="text-center">
 								Estatus
 							</th>
@@ -85,6 +107,16 @@
 							</td>
 							<td class="text-center">
 								{{ $usuario['nombre_referido'] }}
+							</td>
+
+							<td class="text-center">
+
+								@if ($usuario['binario'] == 1)
+								Activo
+								@else
+								Inactivo
+								@endif
+
 							</td>
 
 							<td class="text-center">
@@ -144,6 +176,9 @@
 						@endforeach
 					</tbody>
 				</table>
+				@empty(request()->email)
+					{{$usuarios->links()}}
+				@endempty
 			</div>
 		</div>
 	</div>

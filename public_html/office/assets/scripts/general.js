@@ -203,7 +203,7 @@ function editProduct(dataProduct) {
 // fin seccion de produtos
 
 // seccion tienda 
-function detalles(product, id, code) {
+function detalles(product, abono) {
     $('#idproducto').val(product.ID)
     $('#img').attr('src',product.imagen)
     $('#title').html(product.post_title)
@@ -211,6 +211,7 @@ function detalles(product, id, code) {
     $('#content').html(product.post_content)
     $('#price').html('$ '+product.meta_value)
     $('#price2').val(product.meta_value)
+    $('#abono').val(abono)
     $('#pagarcompra').click()
     // $('#myModal1').modal('show')
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\ActivacionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ComisionesController;
+use App\Http\Controllers\WalletController;
 use Carbon\Carbon;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
@@ -112,13 +113,8 @@ class TiendaController extends Controller
      * @param object $producto
      * @return void
      */
-    public function linkCoinPayMent(object $producto, int $idcompra)
+    public function linkCoinPayMent(object $producto, int $idcompra, int $abono)
     {
-    
-            // $apiKey = env('COINBASE_API_KEY');
-            // $apiKey = ($apiKey != '') ? $apiKey : 'b015e97e-8b32-47f7-8d9d-ecfbab4e290a';
-            // $apiClientObj = ApiClient::init($apiKey);
-            // $apiClientObj->setTimeout(6);
 
             $iduser = Auth::user()->ID;
 
@@ -133,41 +129,40 @@ class TiendaController extends Controller
                 $resta = $checkRentabilidad1->precio;
             }
 
-            // $chargerData = [
-            //     'description' => $producto->post_content,
-            //     'metadata' => $producto,
-            //     'pricing_type' => 'fixed_price',
-            //     'redirect_url' => route('tienda.estado', ['pendiente']),
-            //     'cancel_url' => route('tienda.estado', ['cancelada']),
-            //     'local_price' => [
-            //         'amount' => ($producto->meta_value - $resta),
-            //         'currency' => 'USD'
-            //     ],
-            //     'name' => 'Producto '.$producto->post_title,
-            //     'payments' => [],
-            //     ];
-            
-            // $chargerObj = Charge::create($chargerData);
-            // return $chargerObj;
+            $subtotal = (FLOAT) ($producto->meta_value - $resta);
 
-            $total = (FLOAT) ($producto->meta_value - $resta);
+            $total = 0;
+            $wallet = 0;
+            if ($abono == 1) {
+                $wallet = Auth::user()->wallet_amount;
+                $total = ($subtotal - $wallet);
+            }
 
-            $transaction['order_id'] = $idcompra; // invoice number
-            $transaction['amountTotal'] = $total;
-            $transaction['note'] = $producto->post_content;
-            $transaction['buyer_name'] = Auth::user()->display_name;
-            $transaction['buyer_email'] = Auth::user()->user_email;
-            $transaction['redirect_url'] = route('tienda.estado', ['pendiente']); // When Transaction was comleted
-            $transaction['cancel_url'] = route('tienda.estado', ['cancelada']); // When user click cancel link
-
-            $transaction['items'][] = [
-                'itemDescription' => 'Producto '.$producto->post_title,
-                'itemPrice' => (FLOAT) $total, // USD
-                'itemQty' => (INT) 1,
-                'itemSubtotalAmount' => (FLOAT) $total // USD
-            ];
-
-            return CoinPayment::generatelink($transaction);
+            if ($total > 0) {
+                if ($wallet > 0) {
+                    $controllerWallet = new WalletController();
+                    $descripcion = 'Descuento del paquete con el saldo de la wallet';
+                    $controllerWallet->saveRetiro(Auth::user()->ID, $wallet, $descripcion, 0, $wallet);
+                }
+                $transaction['order_id'] = $idcompra; // invoice number
+                $transaction['amountTotal'] = $total;
+                $transaction['note'] = $producto->post_content;
+                $transaction['buyer_name'] = Auth::user()->display_name;
+                $transaction['buyer_email'] = Auth::user()->user_email;
+                $transaction['redirect_url'] = route('tienda.estado', ['pendiente']); // When Transaction was comleted
+                $transaction['cancel_url'] = route('tienda.estado', ['cancelada']); // When user click cancel link
+    
+                $transaction['items'][] = [
+                    'itemDescription' => 'Producto '.$producto->post_title,
+                    'itemPrice' => (FLOAT) $total, // USD
+                    'itemQty' => (INT) 1,
+                    'itemSubtotalAmount' => (FLOAT) $total // USD
+                ];
+    
+                return CoinPayment::generatelink($transaction);
+            }else{
+                return 'pagado';
+            }
         
     }
 
@@ -224,18 +219,23 @@ class TiendaController extends Controller
                     $contrProducto = new ProductController;
                     $producto = $contrProducto->getOneProduct($datos->idproducto);
                     if (!empty($producto)) {
-                        $ruta = $this->linkCoinPayMent($producto, $id);
-                        // if (!empty($link)) {
-                        //     DB::table($settings->prefijo_wp.'posts')->where('ID', $id)->update([
-                        //         'id_coinbase' => $link->id,
-                        //         'code_coinbase' => $link->code,
-                        //     ]);
-                        //     $ruta = $link->hosted_url;
-                        // }
+                        $ruta = $this->linkCoinPayMent($producto, $id, $datos->abono);
+                        if ($ruta == 'pagado') {
+                            $this->actualizarBD($id, 'wc-completed', 'Coinbase');
+                            $this->accionSolicitud($id, 'wc-completed', 'Coinbase');
+                            $controllerWallet = new WalletController();
+                            $descripcion = 'Compra de un nuevo paquete con su saldo de la wallet';
+                            $controllerWallet->saveRetiro(Auth::user()->ID, $producto->meta_value, $descripcion, 0, $producto->meta_value);
+                        }
                     }
                 }
                 if (!empty($ruta)) {
-                    return redirect($ruta);
+                    if ($ruta != 'pagado') {
+                        return redirect($ruta);
+                    }else{
+                        return redirect()->back()->with('msj', 'Su paquete fue pagado con su saldo completamente');
+                    }
+                    
                 }else{
                     return redirect()->back()->with('msj', 'Hubo Un Problema con el proceso de compra');
                 }

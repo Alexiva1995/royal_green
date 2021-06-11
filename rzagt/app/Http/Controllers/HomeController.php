@@ -15,6 +15,7 @@ use App\Settings;
 // include(app_path() .'/../public/PHPExcel/Classes/PHPExcel.php');
 use PHPExcel;
 use PHPExcel_IOFactory;
+use App\Http\Controllers\ComisionesController;
 use Reflector;
 
 use function GuzzleHttp\json_encode;
@@ -134,6 +135,8 @@ class HomeController extends Controller
     }
 
     public function user_records(){
+
+        $comisionController = new ComisionesController();
          view()->share('title', 'Listado de Usuarios');
 
             // DO MENU
@@ -142,9 +145,18 @@ class HomeController extends Controller
 
         $datos = [];
         $settings = Settings::first();
-        $usuarios = DB::table($settings->prefijo_wp.'users')
+        if (empty(request()->email)) {
+            $usuarios = DB::table($settings->prefijo_wp.'users')
                         ->orderBy('display_name', 'ASC')
+                        ->paginate(100);
+        }else{
+            $usuarios = DB::table($settings->prefijo_wp.'users')
+                        ->where('user_email', 'like', '%'.request()->email.'%')
                         ->get();
+            if ($usuarios->isEmpty()) {
+                return redirect()->back()->with('msj', 'Correo Incorrecto - '.request()->email);
+            }
+        }
 
 
         foreach ($usuarios as $llave) {
@@ -157,16 +169,17 @@ class HomeController extends Controller
             // 'country' => $llave->country,
             'rol_id' => $llave->rol_id,
             'status' => $llave->status,
-            'nombre_referido' => ($usuario) ? $usuario->display_name : 'Usuario no disponible',
+            'nombre_referido' => ($usuario) ? $usuario->user_email : 'Usuario no disponible',
             'phone' => $masinfo->phone,
             'wallet' => $llave->wallet_amount,
             '2fact' => (!empty($llave->verificar_correo)) ? 1 : 0,
             'renta' => $llave->pay_rentabilidad,
-            'retiro' => $llave->pay_retiro
+            'retiro' => $llave->pay_retiro,
+            'binario' => $comisionController->verificarBinarioActivo($llave->ID),
           ]);
         }
 
-        return view('admin.userRecords')->with(compact('datos'));
+        return view('admin.userRecords')->with(compact('datos', 'usuarios'));
     }
 
 
