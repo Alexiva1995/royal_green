@@ -59,11 +59,12 @@ class WalletController extends Controller
 			$disponible = Auth::user()->wallet_amount;
 			$walletRentabilida = DB::table('log_rentabilidad')->where([
 				['iduser', '=', Auth::user()->ID],
-				['limite', '>', 'retirado']
+				['limite', '>', 'retirado'],
+				['progreso', '<', '100']
 			])->first();
 			if (!empty($walletRentabilida)) {
 				if ($walletRentabilida->nivel_minimo_cobro > 0) {
-					if (Auth::user()->rol_id > 7) {
+					if (Auth::user()->rol_id < 7) {
 						$walletCreditar = Wallet::where([
 							['iduser', '=', Auth::user()->ID],
 							['descripcion', 'like', '%Pago de utilidades%']
@@ -167,11 +168,12 @@ class WalletController extends Controller
 			$disponible = $user->wallet_amount;
 			$walletRentabilida = DB::table('log_rentabilidad')->where([
 				['iduser', '=', $id],
-				['limite', '>', 'retirado']
+				['limite', '>', 'retirado'],
+				['progreso', '<', '100']
 			])->first();
 			if (!empty($walletRentabilida)) {
 				if ($walletRentabilida->nivel_minimo_cobro > 0) {
-					if ($user->rol_id > 7) {
+					if ($user->rol_id < 7) {
 						$walletCreditar = Wallet::where([
 							['iduser', '=', $user->ID],
 							['descripcion', 'like', '%Pago de utilidades%']
