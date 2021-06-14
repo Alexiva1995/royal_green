@@ -90,17 +90,19 @@ class TiendaController extends Controller
             }
         }
 
-        $text = ($resta == 0) ? 'Comprar' : 'Actualizar';
-        if ($cero == 7) {
-            $text = 'No Disponible';
-        }
+        
 
         foreach ($result as $element) {
-                // $restante = ($result[$cont]->meta_value * 0.10);
-                // $valor = ($result[$cont]->meta_value + $restante);
-                $result[$cont]->meta_value = ($cero == 0) ? ($result[$cont]->meta_value - $resta) : 0;
-                $result[$cont]->actualizar = $text;
-                $result[$cont]->link = '';
+            $text = ($resta == 0) ? 'Comprar' : 'Actualizar';
+            if ($cero == 7) {
+                $text = 'No Disponible';
+            }
+            if ($resta >= $result[$cont]->meta_value) {
+                $text = 'No Disponible';
+            }
+            $result[$cont]->meta_value = ($cero == 0) ? ($result[$cont]->meta_value - $resta) : 0;
+            $result[$cont]->actualizar = $text;
+            $result[$cont]->link = '';
             $cont++;
         }  
         return $result;
@@ -114,6 +116,7 @@ class TiendaController extends Controller
      */
     public function linkCoinPayMent(object $producto, int $idcompra, int $abono)
     {
+        try {
             $iduser = Auth::user()->ID;
             $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
                 ['iduser', '=', $iduser],
@@ -133,9 +136,9 @@ class TiendaController extends Controller
             $fee = $result = 0;
             if ($abono == 1) {
                 $wallet = Auth::user()->wallet_amount;
-                $fee = ($wallet * 0.045);
-                $result = ($wallet - $fee);
-                $total = ($subtotal - $result);
+                $fee = ($subtotal * 0.045);
+                $result = ($subtotal + $fee);
+                $total = ($result - $wallet);
             }else{
                 $total = $subtotal;
             }
@@ -144,7 +147,7 @@ class TiendaController extends Controller
                 if ($wallet > 0) {
                     
                     $descripcion = 'Descuento del paquete con el saldo de la wallet';
-                    $controllerWallet->saveRetiro(Auth::user()->ID, $wallet, $descripcion, $fee, $result);
+                    $controllerWallet->saveRetiro(Auth::user()->ID, $wallet, $descripcion, 0, $wallet);
                 }
                 $transaction['order_id'] = $idcompra; // invoice number
                 $transaction['amountTotal'] = $total;
@@ -164,10 +167,12 @@ class TiendaController extends Controller
                 return CoinPayment::generatelink($transaction);
             }else{
                 $descripcion = 'Renovacion de nuevo paquete';
-                $controllerWallet->saveRetiro(Auth::user()->ID, ($producto->meta_value + $fee), $descripcion, $fee, $producto->meta_value);
+                $controllerWallet->saveRetiro(Auth::user()->ID, $result, $descripcion, $result, $result);
                 return 'pagado';
             }
-        
+        } catch (\Throwable $th) {
+            \Log::error('LinkCoinpayment -> '.$th);
+        }        
     }
 
     
@@ -225,8 +230,8 @@ class TiendaController extends Controller
                     if (!empty($producto)) {
                         $ruta = $this->linkCoinPayMent($producto, $id, $datos->abono);
                         if ($ruta == 'pagado') {
-                            $this->actualizarBD($id, 'wc-completed', 'Coinbase');
-                            $this->accionSolicitud($id, 'wc-completed', 'Coinbase');
+                            $this->actualizarBD($id, 'wc-completed', 'Saldo');
+                            $this->accionSolicitud($id, 'wc-completed', 'Saldo');
                         }
                     }
                 }
@@ -234,7 +239,7 @@ class TiendaController extends Controller
                     if ($ruta != 'pagado') {
                         return redirect($ruta);
                     }else{
-                        return redirect()->back()->with('msj', 'Su paquete fue pagado con su saldo completamente');
+                        return redirect()->back()->with('msj', 'Su paquete fue pagado con su saldo exitosamente');
                     }
                     
                 }else{

@@ -504,7 +504,7 @@ class IndexController extends Controller
                     ->where([
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],
-                        ['to_ping', '=', 'Coinbase']
+                        ['to_ping', '!=', 'Manual']
                     ])->orWhere([
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],

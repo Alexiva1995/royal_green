@@ -21,6 +21,9 @@
 						<button class="btn btn-primary mt-2" type="button" onclick="filter('Manual')">Manual</button>
 					</div>
 					<div class="col-12 col-sm-6 text-center">						
+						<button class="btn btn-primary mt-2" type="button" onclick="filter('Saldo')">Comision por Activacion</button>
+					</div>
+					<div class="col-12 col-sm-6 text-center">						
 						<button class="btn btn-primary mt-2" type="button" onclick="filter('Coinbase')">Coinbase</button>
 					</div>
 				</div>
