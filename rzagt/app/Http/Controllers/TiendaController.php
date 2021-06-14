@@ -94,7 +94,6 @@ class TiendaController extends Controller
         if ($cero == 7) {
             $text = 'No Disponible';
         }
-        
 
         foreach ($result as $element) {
                 // $restante = ($result[$cont]->meta_value * 0.10);
@@ -115,9 +114,7 @@ class TiendaController extends Controller
      */
     public function linkCoinPayMent(object $producto, int $idcompra, int $abono)
     {
-
             $iduser = Auth::user()->ID;
-
             $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
                 ['iduser', '=', $iduser],
                 ['progreso', '<', 100],
@@ -128,21 +125,26 @@ class TiendaController extends Controller
             if ($checkRentabilidad1 != null) {
                 $resta = $checkRentabilidad1->precio;
             }
-
+            $controllerWallet = new WalletController();
             $subtotal = (FLOAT) ($producto->meta_value - $resta);
 
             $total = 0;
             $wallet = 0;
+            $fee = $result = 0;
             if ($abono == 1) {
                 $wallet = Auth::user()->wallet_amount;
-                $total = ($subtotal - $wallet);
+                $fee = ($wallet * 0.045);
+                $result = ($wallet - $fee);
+                $total = ($subtotal - $result);
+            }else{
+                $total = $subtotal;
             }
 
             if ($total > 0) {
                 if ($wallet > 0) {
-                    $controllerWallet = new WalletController();
+                    
                     $descripcion = 'Descuento del paquete con el saldo de la wallet';
-                    $controllerWallet->saveRetiro(Auth::user()->ID, $wallet, $descripcion, 0, $wallet);
+                    $controllerWallet->saveRetiro(Auth::user()->ID, $wallet, $descripcion, $fee, $result);
                 }
                 $transaction['order_id'] = $idcompra; // invoice number
                 $transaction['amountTotal'] = $total;
@@ -161,6 +163,8 @@ class TiendaController extends Controller
     
                 return CoinPayment::generatelink($transaction);
             }else{
+                $descripcion = 'Renovacion de nuevo paquete';
+                $controllerWallet->saveRetiro(Auth::user()->ID, ($producto->meta_value + $fee), $descripcion, $fee, $producto->meta_value);
                 return 'pagado';
             }
         
@@ -223,9 +227,6 @@ class TiendaController extends Controller
                         if ($ruta == 'pagado') {
                             $this->actualizarBD($id, 'wc-completed', 'Coinbase');
                             $this->accionSolicitud($id, 'wc-completed', 'Coinbase');
-                            $controllerWallet = new WalletController();
-                            $descripcion = 'Compra de un nuevo paquete con su saldo de la wallet';
-                            $controllerWallet->saveRetiro(Auth::user()->ID, $producto->meta_value, $descripcion, 0, $producto->meta_value);
                         }
                     }
                 }
