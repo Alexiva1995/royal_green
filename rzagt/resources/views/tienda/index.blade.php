@@ -29,7 +29,7 @@
                         <div class="card-img d-flex justify-content-center align-items-end">
                         @if ($item->actualizar != 'No Disponible')
                             <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}}, 0)">{{$item->actualizar}}</a>
-                            <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}}, 1)">Pagar con <br> Comisiones Generadas</a>
+                            {{-- <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}}, 1)">Pagar con <br> Comisiones Generadas</a> --}}
                         @else
                             <button class="btn btn-info mt-1 text-white" disabled>{{$item->actualizar}}</button>
                         @endif
