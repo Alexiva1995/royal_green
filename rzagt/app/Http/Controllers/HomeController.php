@@ -176,6 +176,7 @@ class HomeController extends Controller
             'renta' => $llave->pay_rentabilidad,
             'retiro' => $llave->pay_retiro,
             'binario' => $comisionController->verificarBinarioActivo($llave->ID),
+            'activar_pay_comision' => $llave->activar_pay_comision,
           ]);
         }
 
@@ -250,6 +251,26 @@ class HomeController extends Controller
         } catch (\Throwable $th) {
             \Log::error('Desactivar Retiro ->'.$th);
             return redirect()->back()->with('msj', 'Ocurrio un error al Desactivar el retiro');
+        }
+    }
+
+    /**
+     * Permite activar el pago de comisiones
+     *
+     * @param integer $iduser
+     * @return void
+     */
+    public function activarPagoRetiro($iduser)
+    {
+        try {
+            $user = User::find($iduser);
+            $value = ($user->activar_pay_comision == 0)? 1 : 0;
+            User::where('ID', $iduser)->update(['activar_pay_comision' => $value]);
+
+            return redirect()->back()->with('msj', 'Opciones de Pago de Comisiones Actualizado con exito');
+        } catch (\Throwable $th) {
+            \Log::error('Activar Pago Retiro ->'.$th);
+            return redirect()->back()->with('msj', 'Ocurrio un error al Desactivar la rentabilidad');
         }
     }
 

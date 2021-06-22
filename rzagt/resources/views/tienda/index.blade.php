@@ -11,6 +11,12 @@
         Todas las compras realizadas con saldos tardan un par de minutos. Por favor no se salga de la página ni la actualice, esto podría ocasionar un error en la activación de su cuenta.
     </h4>
   </div>
+  <div class="alert alert-info">
+    <button class="close" data-close="alert"></button>
+    <h4 style="color: white">
+        Para poder realizar compra con las comisiones por favor contactese con nosotros.
+    </h4>
+  </div>
 
 <div class="card">
     <div class="card-header">
@@ -29,7 +35,9 @@
                         <div class="card-img d-flex justify-content-center align-items-end">
                         @if ($item->actualizar != 'No Disponible')
                             <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}}, 0)">{{$item->actualizar}}</a>
-                            {{-- <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}}, 1)">Pagar con <br> Comisiones Generadas</a> --}}
+                            @if (Auth::user()->activar_pay_comision == 1)
+                                <a class="btn btn-info mt-1 text-white" onclick="detalles({{json_encode($item)}}, 1)">Pagar con <br> Comisiones Generadas</a>
+                            @endif
                         @else
                             <button class="btn btn-info mt-1 text-white" disabled>{{$item->actualizar}}</button>
                         @endif

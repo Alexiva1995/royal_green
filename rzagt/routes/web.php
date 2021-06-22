@@ -174,6 +174,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::get('rentabilidad/{iduser}/update/', 'HomeController@disableRentabilidad')->name('disable_renta.update');
         // Activar/Desactivar el retiro
         Route::get('retiro/{iduser}/update/{admin?}', 'HomeController@disableRetiro')->name('disable_retiro.update');
+        // Activar/Desactivar el Pago de Comisiones
+        Route::get('pay_comisiones/{iduser}/update', 'HomeController@activarPagoRetiro')->name('active_pay_comisiones.update');
     });
 
     // Pago

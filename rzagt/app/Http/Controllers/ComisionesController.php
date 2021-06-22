@@ -503,13 +503,15 @@ class ComisionesController extends Controller
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->nivel > 0 && $sponsor->nivel <= 11) {
-                        $porcentaje = $this->porceNivelRango($sponsor->rol_id, $sponsor->nivel);
-                        if ($porcentaje > 0) {
-                            $userReferido = User::find($iduser);
-                            $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;
-                            $idcomision = '40'.$fecha->format('Ymd');
-                            $totalcomision = ($bonobinario * $porcentaje);
-                            $this->guardarComision($sponsor->ID, $idcomision, $totalcomision, $userReferido->user_email, $sponsor->nivel, $concepto, 'Bono Construcion');
+                        for ($i=1; $i <= $sponsor->nivel; $i++) { 
+                            $porcentaje = $this->porceNivelRango($sponsor->rol_id, $i);
+                            if ($porcentaje > 0) {
+                                $userReferido = User::find($iduser);
+                                $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;
+                                $idcomision = '40'.$fecha->format('Ymd');
+                                $totalcomision = ($bonobinario * $porcentaje);
+                                $this->guardarComision($sponsor->ID, $idcomision, $totalcomision, $userReferido->user_email, $i, $concepto, 'Bono Construcion');
+                            }
                         }
                     }
                 }
@@ -530,10 +532,10 @@ class ComisionesController extends Controller
     {
         $valor = 0;
         $arrayRango = [
-            2 => 0.05, 3 => 0.04, 4 => 0.03,
+            2 => 0.02, 3 => 0.02, 4 => 0.02,
             5 => 0.02, 6 => 0.02, 7 => 0.02,
             8 => 0.02, 9 => 0.02, 10 => 0.02,
-            11 => 0.03, 12 => 0.05
+            11 => 0.02, 12 => 0.02
         ];
 
         if ($nivel >= 1 && $rol >= 2) {

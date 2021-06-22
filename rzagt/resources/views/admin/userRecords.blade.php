@@ -70,6 +70,9 @@
 								Retiro
 							</th>
 							<th class="text-center">
+								Pago Comision
+							</th>
+							<th class="text-center">
 								Accion
 							</th>
 						</tr>
@@ -157,6 +160,17 @@
 									</a>
 									@else
 									<a class="btn btn-danger" href="{{ route('disable_retiro.update', [$usuario['ID'], false]) }}">
+										Desactivar
+									</a>
+									@endif
+							</td>
+							<td class="text-center">  
+								@if ($usuario['activar_pay_comision'] == 0)
+								<a class="btn btn-info" href="{{ route('active_pay_comisiones.update', [$usuario['ID'], false]) }}">
+									Activar
+									</a>
+									@else
+									<a class="btn btn-danger" href="{{ route('active_pay_comisiones.update', [$usuario['ID'], false]) }}">
 										Desactivar
 									</a>
 									@endif
