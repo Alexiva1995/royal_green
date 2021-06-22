@@ -41,6 +41,22 @@ Route::get('/clear-cache', function() {
   return 'DONE'; //Return anything
 });
 
+//prueba
+// Route::get('/probar-envio-correo',function(){
+//     $correo2 = 'yuleisisanchez@valdusoft.com';
+//     try{
+//         \Mail::send('emails.plantilla',[],function($message) use($correo2) {
+//             $message->from('info@greengold.com');
+//             $message->to($correo2, 'Green Golden')
+//             ->subject('PRueba de correeo');
+//         });
+//           return "Correo enviado";
+//     }catch(Throwable $ex)
+//     {
+//         return $ex->getMessage();
+//     }
+// });
+
 
 Route::get('vistaCorreo', function ()
 {
@@ -49,7 +65,7 @@ Route::get('vistaCorreo', function ()
 
 // Route::prefix('office')->group(function ()
 // {
-  
+
 Route::group(['prefix' => 'autentication'], function (){
   Route::get('/register', 'Auth\RegisterController@newRegister')->name('autenticacion.new-register');
   Route::post('/saveregister', 'Auth\RegisterController@creater')->name('autenticacion.save-register');
@@ -114,7 +130,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     // subdashboard
     Route::get('subdashboard', 'AdminController@subdashboard')->name('admin.subdashboard')->middleware('admin');
-    
+
     // Resetear QR
     Route::get('resetQr/{iduser}', 'HomeController@resetearQR')->name('admin.reset-qr')->middleware('admin');
 
@@ -237,7 +253,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::get('/getform/{id}', 'SettingController@getForm')->name('setting-get-form');
 
-        Route::post('/updateform', 'SettingController@updateForm')->name('setting-update-form'); 
+        Route::post('/updateform', 'SettingController@updateForm')->name('setting-update-form');
 
         Route::get('/deleteform/{id}', 'SettingController@deleteForm')->name('setting-delete-form');
 
@@ -285,7 +301,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::get('/getmetodo/{id}', 'SettingController@getMetodo')->name('setting-get-metodo');
 
-        Route::post('/updatemetodo', 'SettingController@updateMetodo')->name('setting-update-metodo'); 
+        Route::post('/updatemetodo', 'SettingController@updateMetodo')->name('setting-update-metodo');
 
         Route::get('/deletemetodo/{id}', 'SettingController@deleteMetodo')->name('setting-delete-metodo');
 
@@ -406,7 +422,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::post('/nombre','ReporteController@nombre')->name('info.nombre');
 
-      
+
 
       //buscar por ID de usuario
 
@@ -414,7 +430,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::get('/mostrar-usuario','ReporteController@mostrarusuario')->name('info.mostrar-usuario');
 
-        
+
 
         //desde un ID hasta ID
 
@@ -422,7 +438,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
         Route::get('/lista-final','ReporteController@listafinal')->name('info.lista-final');
 
-        
+
 
         //informes de activos
 
@@ -432,7 +448,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
          Route::post('/fecha','ReporteController@fecha')->name('info.fecha');
 
-         
+
 
          //Rangos
 
@@ -440,14 +456,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
          Route::post('/mostrar-rango','ReporteController@mostrarrango')->name('info.mostrar-rango');
 
-         
+
 
          //comisiones
 
          Route::get('/comisiones','ReporteController@comisiones')->name('info.comisiones');
 
          Route::post('/mostrar-comisiones','ReporteController@mostrarcomisiones')->name('info.mostrar-comisiones');
-        
+
         // Comisiones con compras
         Route::get('{balance}/{tipo}/comisioncompra', 'ComisionesController@reporteCompraComision')->name('info.comisioncompra');
         Route::post('/comisioncomprafecha', 'ComisionesController@reporteCompraComisionxFecha')->name('info.comisioncompra.fechas');
@@ -463,7 +479,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
          Route::post('/buscar','ReporteController@buscar')->name('info.buscar');
 
-         
+
 
          //reportes pagos
 
@@ -475,7 +491,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::post('/nombre-bus','ReporteController@nombrebus')->name('info.nombre-bus');
 
-          
+
 
           //reportes de comision
 
@@ -483,7 +499,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::post('/repor-todos','ReporteController@reportodos')->name('info.repor-todos');
 
-          
+
 
           //reporte de ventas
 
@@ -493,7 +509,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::post('/informe_ventas','ReporteController@informe_ventas')->name('info.informe_ventas');
 
-          
+
 
           //liquidacion
 
@@ -505,11 +521,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::get('/feed', 'ReporteController@descuentos')->name('info.descuento');
 
-         
+
 
     });
 
-    
+
 
     //gestion de perfiles
 
@@ -525,7 +541,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::get('/encontrado','GestionController@encontrado')->name('gestion.encontrado');
 
-          
+
 
           //ingresos liberados
 
@@ -533,13 +549,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::get('/ingresos-valor','GestionController@ingresos_valor')->name('gestion.ingresos-valor');
 
-          
+
 
           //ingresos detallados
 
           Route::get('/ingresos-detallado','GestionController@ingresos_detallado')->name('gestion.ingresos-detallado');
 
-          
+
 
           //referidos
 
@@ -547,7 +563,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::get('/directos','GestionController@directos')->name('gestion.directos');
 
-          
+
 
           //billetera
 
@@ -555,7 +571,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::get('/billetera','GestionController@billetera')->name('gestion.billetera');
 
-          
+
 
           //pagos
 
@@ -563,16 +579,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::get('/liberado','GestionController@liberado')->name('gestion.liberado');
 
-          
+
 
      });
 
     Route::group(['prefix' => 'user'], function(){
         Route::get('/edit', 'ActualizarController@editProfile')->name('admin.user.edit');
-        Route::put('update', 'ActualizarController@updateProfile')->name('admin.user.update');       
+        Route::put('update', 'ActualizarController@updateProfile')->name('admin.user.update');
     });
 
-    
+
 
     //Historial de actividades
 
@@ -598,7 +614,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
           Route::post('/buscarnetworknivel','AdminController@buscarnetworknivel')->name('buscarnetworknivel')->middleware('admin');
 
-           
+
 
         Route::get('/commissionsrecords', 'ComisionesController@ObtenerUsuarios')->name('commissionsrecords')->middleware('admin');
 
@@ -626,7 +642,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     });
 
-    
+
 
     Route::group(['prefix' => 'ticket'], function(){
        Route::get('/ticket','TicketController@ticket')->name('ticket');
