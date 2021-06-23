@@ -181,6 +181,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::post('remover', 'ComisionesController@editWallet')->name('editWallet.edit');
     });
 
+    Route::group(['prefix' => 'pasivos'], function ()
+    {
+        //listado de usuarios
+        Route::get('/{inicio?}/{cantidad?}', 'RentabilidadController@listausuarios')->name('pasivos.index');
+        //habilitar pasivos
+        Route::get('activar/{correo}', 'RentabilidadController@actualizarpasivo')->name('pasivos.enable');
+    });
+
     //activar o desactivar algunas funciones
     Route::group(['prefix' => 'disables'], function ()
     {

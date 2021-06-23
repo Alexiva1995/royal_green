@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\MetodoPago;
+use App\User;
 use App\Pagos;
+use Throwable;
 use Carbon\Carbon;
+use App\MetodoPago;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
+use ParseError;
 
 class RentabilidadController extends Controller
 {
@@ -67,7 +71,7 @@ class RentabilidadController extends Controller
                             'balance' => $balance,
                             'retirado' => $datos->monto
                         ];
-                        
+
                         $dataLogRentabilidadPay = [
                             'iduser' => Auth::user()->ID,
                             'id_log_renta' => $datos->idrentabilidad,
@@ -81,7 +85,7 @@ class RentabilidadController extends Controller
 
                         DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
                         DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
-						
+
 						Pagos::create([
 							'iduser' => Auth::user()->ID,
 							'username' => Auth::user()->display_name,
@@ -98,7 +102,7 @@ class RentabilidadController extends Controller
 						]);
 						return redirect()->back()->with('msj', 'El Retiro ha sido procesado');
 					} else {
-						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor la monto minimo');	
+						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser menor la monto minimo');
 					}
                 }else{
                     return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
@@ -107,10 +111,34 @@ class RentabilidadController extends Controller
                 return redirect()->back()->with('msj2', 'El monto a retirar no puede ser negativo o 0');
 			}
         }else{
-           return redirect()->back(); 
+           return redirect()->back();
         }
        } catch (\Throwable $th) {
             return redirect()->back()->with('msj2', 'Ocurrio un error al momento de retirar, por favor comunicarse con el administrado');
        }
     }
+
+    //lista de usuarios para activar o desativar pasivos
+    public function listausuarios($start = 0,$numeroFilas = 10)
+    {
+        try
+        {
+            $lista_usuarios = User::getUsuariosActivos($start,$numeroFilas);
+            // return $lista_usuarios;
+            return view('pasivos.lista_usuarios', compact('lista_usuarios'));
+        }catch(\QueryException $ex)
+        {
+            return $ex->getMessage();
+        }
+        catch(Throwable $ex)
+        {
+            return $ex->getMessage();
+        }
+        catch(ParseError $ex)
+        {
+            return $ex->getMessage();
+        }
+
+    }
+
 }

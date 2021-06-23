@@ -25,8 +25,8 @@ class User extends Authenticatable
         'display_name', 'password', 'avatar', 'access_token', 'referred_id',
         'sponsor_id', 'position_id', 'status', 'rol_id', 'wallet_amount',
         'clave', 'activacion', 'token_correo', 'verificar_correo', 'toke_google',
-        'tipouser', 'puntos', 'paquete', 'ladomatrix', 'ladoregistrar', 
-        'icono_paquete', 'clave_maestra', 'fecha_activacion', 'rentabilidad', 'porc_rentabilidad', 
+        'tipouser', 'puntos', 'paquete', 'ladomatrix', 'ladoregistrar',
+        'icono_paquete', 'clave_maestra', 'fecha_activacion', 'rentabilidad', 'porc_rentabilidad',
         'check_token_google', 'pay_rentabilidad', 'pay_retiro'
     ];
 
@@ -38,10 +38,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
+
   public function scopeSearch($query, $user_email){
          $query->where(DB::raw("CONCAT(ID)"),"LIKE" ,"%$user_email%");
-   
+
 
     }
 
@@ -61,14 +61,43 @@ class User extends Authenticatable
     public function transfers(){
         return $this->hasMany('App\Transfer');
     }
-    
+
     public function tickets(){
         return $this->hasMany('App\Ticket');
-        
+
     }
 
     public function comentarios(){
         return $this->hasMany('App\Comentario');
-        
+
+    }
+
+    // protected $casts = [
+    //     "paquete" => "array"
+    // ];
+
+    public static function  getUsuariosActivos($inicio = 0,$numeroRegistros = 10)
+    {
+        $data = \DB::table('wp_users')
+        ->select("id","user_login as usuario", "user_email as correo", "paquete", "pay_rentabilidad as activo")
+        ->orderBy('display_name', 'ASC')
+        ->limit($numeroRegistros)
+        ->offset($inicio)
+        ->get();
+        foreach ($data as $key => $row) {
+            if(!is_null($row->paquete))
+            {
+                $datosPaquete = json_decode($row->paquete);
+                $nombrePaquete = $datosPaquete->nombre;
+                $row->paquete = $nombrePaquete;
+            }
+            else
+            {
+                $row->paquete = 'N/A';
+            }
+
+            $data[$key] = $row;
+        }
+        return $data;
     }
 }

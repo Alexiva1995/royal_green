@@ -149,6 +149,13 @@
                             </span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{route('pasivos.index')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Pasivos
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             {{-- Auditoria --}}
@@ -214,11 +221,11 @@
                 <a href="{{route('disable_retiro.update', [Auth::user()->ID, true])}}">
                     <span class="menu-title">
                     @if (Auth::user()->pay_retiro == 0)
-                        Activar 
+                        Activar
                     @else
                         Desactivar
                     @endif
-                    Retirar 
+                    Retirar
                     </span>
                 </a>
             </li>
