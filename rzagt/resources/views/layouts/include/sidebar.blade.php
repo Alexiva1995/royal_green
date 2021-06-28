@@ -97,6 +97,13 @@
                             </span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{route('report_direct')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Reporte Directos
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             {{-- Auditoria --}}

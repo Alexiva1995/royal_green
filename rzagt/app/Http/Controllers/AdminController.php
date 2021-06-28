@@ -611,15 +611,64 @@ class AdminController extends Controller
 
      public function vista(Request $request){
 
-          // TITLE
-
-          view()->share('title', 'Buscar Usuario');
-
-
-
-       $user=User::search($request->get('user_email'))->orderBy('id','ASC')->paginate(1);
+        // TITLE
+        view()->share('title', 'Buscar Usuario');
+        $user=User::search($request->get('user_email'))->orderBy('id','ASC')->paginate(1);
         return view('admin.vista')->with('user',$user);
+    }
 
+    /**
+     * Lleva a la vista de los reportes de los directos
+     *
+     * @return void
+     */
+    public function indexReportDirectDate()
+    {
+        view()->share('title', 'Buscar Usuario');
+        $data = [];
+        return view('admin.reportDirect', compact('data'));
+    }
+
+    public function reportDirectDate(Request $reques)
+    {
+        $validate = $reques->validate([
+            'iduser' => ['required', 'numeric'],
+            'desde' => ['required', 'date'],
+            'hasta' => ['required', 'date']
+        ]);
+
+        $user = User::find($reques->iduser);
+        $fechaDesde = new Carbon($reques->desde);
+        $fechaHasta = new Carbon($reques->hasta);
+        $totalCompra = 0;
+        try {
+            if ($validate) {
+                if ($fechaHasta < $fechaDesde) {
+                    return redirect()->back()->with('msj3', 'La fecha hasta no puede ser mayor a la fecha desde');
+                }
+                $referidos = $this->indexControl->getChidrens2($reques->iduser, [], 1, 'referred_id', 0);
+                foreach ($referidos as $refes) {
+                    $compras = $this->indexControl->getInforShopping($refes->ID);
+                    foreach ($compras as $compra) {
+                        $fechaCompra = new Carbon($compra->fecha);
+                        if ($fechaDesde >= $fechaCompra && $fechaCompra <= $fechaHasta) {
+                            $totalCompra = ($totalCompra + $compra->total);
+                        }
+                    }
+                }
+            }
+            $data = [
+                'iduser' => $user->ID,
+                'name' => $user->display_name,
+                'total' => $totalCompra,
+                'desde' => $fechaDesde->format('d-m-Y'),
+                'hasta' => $fechaHasta->format('d-m-Y'),
+            ];
+            return view('admin.reportDirect', compact('data'));
+        } catch (\Throwable $th) {
+            \Log::error('Reporte Directo ->'. $th);
+            return redirect()->back()->with('msj', 'Ocurrio un error, por favor contacte al administrador');
+        }
     }
 
 }

@@ -398,6 +398,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
      Route::group(['prefix' => 'info', 'middleware' => 'admin'], function(){
 
+      Route::get('reportDirect', 'AdminController@indexReportDirectDate')->name('report_direct');
+      Route::post('reportDirect', 'AdminController@reportDirectDate')->name('report_direct');
+
       // info rango
       Route::get('rangouser', 'RangoController@listRangos')->name('info.list-rango');
       route::get('{iduser}/{idrango}/{estado}/actualizarpremio', 'RangoController@cambiarEstadoDelosrangos')->name('info.rango-actualizar');

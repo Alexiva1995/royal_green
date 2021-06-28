@@ -508,7 +508,7 @@ class ComisionesController extends Controller
                             if ($porcentaje > 0) {
                                 $userReferido = User::find($iduser);
                                 $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;
-                                $idcomision = '40'.$fecha->format('Ymd');
+                                $idcomision = '40'.$fecha->format('Ymd').$i;
                                 $totalcomision = ($bonobinario * $porcentaje);
                                 $this->guardarComision($sponsor->ID, $idcomision, $totalcomision, $userReferido->user_email, $i, $concepto, 'Bono Construcion');
                             }
@@ -658,6 +658,7 @@ class ComisionesController extends Controller
             ['iduser', '=', $iduser],
             ['idcompra', '=', $idorden],
             ['idproducto', '=', $paquete['idproducto']],
+            ['progreso', '<', 100]
             // ['nivel_minimo_cobro', '=', 0]
         ])->first();
 
