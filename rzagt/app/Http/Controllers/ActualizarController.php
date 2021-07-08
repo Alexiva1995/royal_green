@@ -9,7 +9,7 @@ use App\Settings;
 use App\User;
 use App\Rol;
 use App\SettingsEstructura;
-use Modules\ReferralTree\Http\Controllers\ReferralTreeController;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\AuditoriaController;
 use Carbon\Carbon;
 
@@ -372,23 +372,42 @@ class ActualizarController extends Controller
      */
     public function auditoria(int $iduser, string $campo, $valor_old, $valor_new)
     {
-        $auditoriaController = new AuditoriaController();
-        $code = base64_encode(Carbon::now()->format('Y-m-d').'-'.$iduser.'-'.Carbon::now()->format('H-i-s'));
-        $code_used = 1;
-        if (Auth::user()->ID != 1) {
-            $code_used = ($campo == 'email') ? 0 : 1;
+        try {
+            $auditoriaController = new AuditoriaController();
+            $code = base64_encode(Carbon::now()->format('Y-m-d').'-'.$iduser.'-'.Carbon::now()->format('H-i-s'));
+            $code_used = 1;
+            if (Auth::user()->ID != 1) {
+                $code_used = ($campo == 'email') ? 0 : 1;
+
+                if ($code_used == 0) {
+                    $user = User::find($iduser);
+                    Mail::send('emails.codigoEmail', ['code' => $code], function ($msj) use ($user)
+                    {
+                        $msj->subject('Cambio de Correo');
+                        $msj->to($user->user_email);
+                    });
+                }
+            }
+            $data = [
+                'iduser' => $iduser,
+                'campo' => ucfirst($campo),
+                'valor_old' => $valor_old,
+                'valor_new' => $valor_new,
+                'code' => $code,
+                'code_used' => $code_used,
+                'user_change' => Auth::user()->display_name,
+                'id_user_change' => Auth::user()->ID
+            ];
+            $auditoriaController->saveAuditoria($data);
+            if ($code_used == 0) {
+                return 1;
+            }
+        } catch (\Throwable $th) {
+            \Log::error('Actualizar - auditoria ->'.$th);
+            return 0;
         }
-        $data = [
-            'iduser' => $iduser,
-            'campo' => ucfirst($campo),
-            'valor_old' => $valor_old,
-            'valor_new' => $valor_new,
-            'code' => $code,
-            'code_used' => $code_used,
-            'user_change' => Auth::user()->display_name,
-            'id_user_change' => Auth::user()->ID
-        ];
-        $auditoriaController->saveAuditoria($data);
+
+        
     }
 
     /**
@@ -411,11 +430,6 @@ class ActualizarController extends Controller
      */
     public function generarCode($iduser)
     {
-        try {
-            $this->auditoria($iduser, 'email', '', 'se actualiza despues');
-            return 1;
-        } catch (\Throwable $th) {
-            return 0;
-        }
+        return $this->auditoria($iduser, 'email', '', 'se actualiza despues');   
     }
 }

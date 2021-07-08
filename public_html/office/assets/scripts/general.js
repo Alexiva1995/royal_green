@@ -60,7 +60,7 @@ function cancelarPago() {
 function setCode(iduser) {
     let url = route('admin.generar.code', iduser)
     $.get(url, function(response){
-        if (response = 1) {
+        if (response == 1) {
             Swal.fire({
             title: 'Codigo Enviado',
             text: "Por favor revise su correo registrado",
@@ -71,7 +71,7 @@ function setCode(iduser) {
         }else{
             Swal.fire({
             title: 'Error',
-            text: "Ocurrio un error al generar el codigo",
+            text: "Ocurrio un error al generar el codigo, contacto con el administrador",
             type: "danger",
             confirmButtonClass: 'btn btn-primary',
             buttonsStyling: false,
