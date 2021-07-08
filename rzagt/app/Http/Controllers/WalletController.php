@@ -37,6 +37,7 @@ class WalletController extends Controller
 		$cuentawallet = '';
 		$arrayBilletera = [];
 		$walletCreditar = 0;
+		$totalGanado = 0;
 		$pagosPendientes = false;
 		$validarPagos = Pagos::where([
 			['iduser', '=', Auth::user()->ID],
@@ -53,6 +54,7 @@ class WalletController extends Controller
 				['iduser', '=', Auth::user()->ID], 
 				['credito', '!=', 0]
 				])->get();
+			$totalGanado = $wallets->sum('credito');
 			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
 			$cuentawallet = $cuentawallet->paypal;
 	
@@ -115,7 +117,7 @@ class WalletController extends Controller
 		$walletCreditar = 0;
 		$nombre_user = '';
 		
-	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'disponible', 'walletCreditar', 'nombre_user'));
+	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'totalGanado', 'disponible', 'walletCreditar', 'nombre_user'));
 	}
 
 	/**
@@ -136,6 +138,7 @@ class WalletController extends Controller
 		$cuentawallet = '';
 		$arrayBilletera = [];
 		$walletCreditar = 0;
+		$totalGanado = 0;
 		$pagosPendientes = false;
 		$validarPagos = Pagos::where([
 			['iduser', '=', $id],
@@ -162,6 +165,7 @@ class WalletController extends Controller
 				['iduser', '=', $id], 
 				['credito', '!=', 0]
 				])->get();
+			$totalGanado = $wallets->sum('credito');
 			$cuentawallet = DB::table('user_campo')->where('ID', $id)->select('paypal')->get()[0];
 			$cuentawallet = $cuentawallet->paypal;
 	
@@ -209,7 +213,7 @@ class WalletController extends Controller
 		$index = new IndexController;
 		$wallets = $index->ordenarArreglosMultiDimensiones($arrayBilletera, 'fecha', 'cadena');
 		
-	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'disponible', 'walletCreditar', 'nombre_user'));
+	   	return view('wallet.indexwallet')->with(compact('metodopagos', 'comisiones', 'wallets', 'moneda', 'cuentawallet', 'pagosPendientes', 'totalGanado', 'disponible', 'walletCreditar', 'nombre_user'));
 	}
 
 

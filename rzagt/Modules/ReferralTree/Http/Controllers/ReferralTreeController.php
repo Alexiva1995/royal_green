@@ -38,7 +38,7 @@ class ReferralTreeController extends Controller
         $puntos = json_decode(Auth::user()->puntos);
 
         $trees = $this->indexController->getDataEstructura(Auth::user()->ID, $type);
-        $sideFinal = [];
+        $sideFinal = $this->getLastBinary(1, $type);
         if (Auth::user()->ID != 1) {
             $sideFinal = $this->getLastBinary(Auth::user()->ID, $type);
         }
@@ -59,7 +59,12 @@ class ReferralTreeController extends Controller
      */
     public function getLastBinary($iduser, $type): array
     {
-        $data = [];
+        $data = [
+            'izq' => null,
+            'der' => null,
+            'totalizq' => null,
+            'totalder' => null,
+        ];
         if ($iduser != 1) {
             $trees = collect($this->indexController->getChidrens2($iduser, [], 1, 'position_id', 0));
 
@@ -68,12 +73,12 @@ class ReferralTreeController extends Controller
                 $der = (!empty($trees->where('ladomatrix', 'D')->last())) ? $trees->where('ladomatrix', 'D')->last()->ID : 0;
                 if ($type == 'matriz') {
                     if ($izq > 0 && $der > 0) {
-                        $data = [
-                            'izq' => base64_encode($izq),
-                            'der' => base64_encode($der)
-                        ];
+                        $data['izq'] = base64_encode($izq);
+                        $data['der'] = base64_encode($der);
                     }
                 }
+                $data['totalizq'] = $trees->where('ladomatrix', 'I')->count();
+                $data['totalder'] = $trees->where('ladomatrix', 'D')->count();
             }
         }
 
@@ -90,7 +95,6 @@ class ReferralTreeController extends Controller
      */
     public function moretree($type, $id)
     {
-
         $id = base64_decode($id);
         $trees = $this->indexController->getDataEstructura($id, $type);
         // $type = ucfirst($type);
@@ -99,7 +103,7 @@ class ReferralTreeController extends Controller
         if (Auth::user()->ID == 1) {
             $puntos = json_decode($base->puntos);
         }
-        $sideFinal = [];
+        $sideFinal = $this->getLastBinary(1, $type);
         $base->children = User::where('position_id', '=', $base->ID)->get();
         $base->avatar = asset('avatar/'.$base->avatar);
         return view('referraltree::matriz')->with(compact('base', 'trees', 'type', 'puntos', 'sideFinal'));
@@ -135,7 +139,6 @@ class ReferralTreeController extends Controller
             }
         }
         return $resul;
-        
   }
 
   /**

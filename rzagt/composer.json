@@ -12,12 +12,12 @@
         "bacon/bacon-qr-code": "1.0.3",
         "brotzka/laravel-dotenv-editor": "^2.1",
         "fideloper/proxy": "^4.4",
-        "hexters/coinpayment": "^3.0",
         "laravel/framework": "^6.20",
         "laravel/helpers": "^1.4",
         "laravel/tinker": "^2.5",
         "nwidart/laravel-modules": "^8.2",
         "pragmarx/google2fa-laravel": "^1.4",
+        "shakurov/coinbase": "^0.7.7",
         "tightenco/ziggy": "^1.1"
     },
     "require-dev": {

@@ -10,7 +10,8 @@ use App\User;
 use App\Rol;
 use App\SettingsEstructura;
 use Modules\ReferralTree\Http\Controllers\ReferralTreeController;
-
+use App\Http\Controllers\AuditoriaController;
+use Carbon\Carbon;
 
 use PragmaRX\Google2FA\Google2FA;
 use BaconQrCode\Renderer\Image\Png;
@@ -141,6 +142,7 @@ class ActualizarController extends Controller
         $settingEstructura = SettingsEstructura::find(1);
         $concepto = 'La sección '.$request->data.' ha sido actualizada ';
         $user = User::find($request->id);
+        $userCampo = DB::table('user_campo')->where('ID', '=', $user->ID)->first();
 
         if ($request->data == 'general'){
             $validate = $request->validate([
@@ -151,6 +153,22 @@ class ActualizarController extends Controller
                 'nameuser' => 'required'
             ]);
            if ($validate) {
+                if ($userCampo->firstname != $request['firstname']) {
+                    $this->auditoria($user->ID, 'nombre', $userCampo->firstname, $request['firstname']);
+                }
+                if ($userCampo->lastname != $request['lastname']) {
+                    $this->auditoria($user->ID, 'apellido', $userCampo->lastname, $request['lastname']);
+                }
+                if ($userCampo->genero != $request['genero']) {
+                    $this->auditoria($user->ID, 'genero', $userCampo->genero, $request['genero']);
+                }
+                if ($userCampo->edad != $request['edad']) {
+                    $this->auditoria($user->ID, 'edad', $userCampo->edad, $request['edad']);
+                }
+                if ($userCampo->nameuser != $request['nameuser']) {
+                    $this->auditoria($user->ID, 'usuario', $userCampo->nameuser, $request['nameuser']);
+                }
+
                 DB::table('user_campo')
                     ->where('ID', '=', $user->ID)
                     ->update([
@@ -167,29 +185,6 @@ class ActualizarController extends Controller
                 $user->user_nicename = $request['nameuser'];
                 $user->user_login = $request['nameuser'];
                 
-                if (Auth::user()->rol_id == 0) {
-                    $validate2 = $request->validate([
-                        'id_position' => 'required',
-                        'id_referred' => 'required'
-                    ]);
-                    
-                    if ($validate2) {
-                        if ($settingEstructura->tipoestructura != 'arbol') {
-                            if ($user->position_id != $request['id_position']) {
-                                $consulta=new ReferralTreeController;
-                                $auspiciador = $consulta->getPosition($request['id_position'], $user->ladomatrix);
-                                if ($auspiciador != $request['id_position']) {
-                                    return redirect()->back()->with('msj2', 'The Positioning ID Supplied ('.$request['id_position'].') Has Its Locations Full, We recommend this Positioning ID ('.$auspiciador.') ');
-                                }else{
-                                    $user->position_id = $auspiciador;
-                                }
-                            }else{
-                                $user->position_id = $request['id_position'];
-                            }
-                        }
-                        $user->referred_id = $request['id_referred'];
-                    }
-                }
                 $user->save();
            }
         }elseif ($request->data == 'contacto'){
@@ -202,12 +197,27 @@ class ActualizarController extends Controller
             ]);
             
             if ($validate) {
-                if (Auth::user()->ID == 1) {
-                    if ($user->user_email != $request->user_email) {
+                if ($user->user_email != $request->user_email) {
+                    if (Auth::user()->ID == 1) {
                         $validate2 = $request->validate([
                             'user_email' => 'required|max:100|unique:'.$settings->prefijo_wp.'users|confirmed',
                         ]);
                         if ($validate2) {
+                            $this->auditoria($user->ID, 'email', $user->user_email, $request->user_email);
+                            $user->user_email = $request->user_email;
+                        }
+                    }else{
+                        $validate2 = $request->validate([
+                            'user_email' => 'required|max:100|unique:'.$settings->prefijo_wp.'users|confirmed',
+                            'code_email' => 'required', 
+                            'code_google' => 'required'
+                        ]);
+                        if ($validate2) {
+                            if ((new Google2FA())->verifyKey(Auth::user()->toke_google, $request->code_google)) {
+                                
+                            }else{
+                                return redirect()->back()->with('msj', 'el codigo de google es incorrecto');
+                            }
                             $user->user_email = $request->user_email;
                         }
                     }
@@ -215,6 +225,31 @@ class ActualizarController extends Controller
                 
                 $user->save();
                 
+                if ($userCampo->direccion != $request['dirección']) {
+                    $this->auditoria($user->ID, 'dirección', $userCampo->direccion, $request['dirección']);
+                }
+                if ($userCampo->direccion2 != $request['direccion2']) {
+                    $this->auditoria($user->ID, 'direccion 2', $userCampo->direccion2, $request['direccion2']);
+                }
+                if ($userCampo->pais != $request['pais']) {
+                    $this->auditoria($user->ID, 'pais', $userCampo->pais, $request['pais']);
+                }
+                if ($userCampo->estado != $request['estado']) {
+                    $this->auditoria($user->ID, 'estado', $userCampo->estado, $request['estado']);
+                }
+                if ($userCampo->ciudad != $request['ciudad']) {
+                    $this->auditoria($user->ID, 'ciudad', $userCampo->ciudad, $request['ciudad']);
+                }
+                if ($userCampo->codigo != $request['codigo']) {
+                    $this->auditoria($user->ID, 'codigo', $userCampo->codigo, $request['codigo']);
+                }
+                if ($userCampo->phone != $request['phone']) {
+                    $this->auditoria($user->ID, 'celular', $userCampo->phone, $request['phone']);
+                }
+                if ($userCampo->fijo != $request['fijo']) {
+                    $this->auditoria($user->ID, 'telefono', $userCampo->fijo, $request['fijo']);
+                }
+
                 DB::table('user_campo')
                     ->where('ID', '=', $user->ID)
                     ->update([
@@ -235,6 +270,7 @@ class ActualizarController extends Controller
             ]);
 
             // if ((new Google2FA())->verifyKey(Auth::user()->toke_google, $request->code)) {
+                $this->auditoria($user->ID, 'clave', '', 'actualizacion');
                 $user->user_pass = md5($request->clave);
                 $user->password = bcrypt($request->clave);
                 $user->clave = encrypt($request->clave);
@@ -253,7 +289,13 @@ class ActualizarController extends Controller
                 $user = User::find($request->id);
                 $puntos = json_decode($user->puntos);
                 $puntos->binario_der = $request->binario_der;
+                if ($puntos->binario_der != $request->binario_der) {
+                    $this->auditoria($user->ID, 'puntos binarios derechos', $puntos->binario_der, $request->binario_der);
+                }
                 $puntos->binario_izq = $request->binario_izq;
+                if ($puntos->binario_izq != $request->binario_izq) {
+                    $this->auditoria($user->ID, 'puntos binarios izquierdos', $puntos->binario_izq, $request->binario_izq);
+                }
                 $user->puntos = json_encode($puntos);
                 $user->save();
 
@@ -269,20 +311,22 @@ class ActualizarController extends Controller
             if ($validate) {
                 $user = User::find($request->id);
                 $user->referred_id = $request['id_referred'];
+                if ($user->referred_id != $request['id_referred']) {
+                    $this->auditoria($user->ID, 'patrocinador', $user->referred_id, $request['id_referred']);
+                }
                 $user->save();
             }
             
         }elseif ($request->data == 'pago'){
          
-          DB::table('user_campo')
+            DB::table('user_campo')
                 ->where('ID', '=', $user->ID)
                 ->update([
-                            'paypal' => $request['paypal'], 
-                            'blocktrail' => $request['blocktrail'], 
-                            'blockchain' => $request['blockchain'], 
-                            'bitgo' => $request['bitgo'], 
-                            'pago' => $request['pago'], 
-                            ]);   
+                            'paypal' => $request['paypal'],
+                            ]);
+            if ($userCampo->paypal != $request['paypal']) {
+                $this->auditoria($user->ID, 'billetera', $userCampo->paypal, $request['paypal']);
+            }
         }
         elseif($request->data == '2fact'){
             $validate = $request->validate([
@@ -304,6 +348,51 @@ class ActualizarController extends Controller
         }else{
             return redirect()->back()->with('msj', $concepto.' del usuario '.$user->display_name);
         }
+    }
 
+    /**
+     * Llama a la funcion que va a guardar la auditoria
+     *
+     * @param integer $iduser
+     * @param string $campo
+     * @param string $valor_old
+     * @param string $valor_new
+     * @return void
+     */
+    public function auditoria(int $iduser, string $campo, $valor_old, $valor_new)
+    {
+        $auditoriaController = new AuditoriaController();
+        $code = base64_encode(Carbon::now()->format('Y-m-d').'-'.$iduser.'-'.Carbon::now()->format('H-i-s'));
+        $code_used = 1;
+        if (Auth::user()->ID != 1) {
+            $code_used = ($campo == 'email') ? 0 : 1;
+        }
+        $data = [
+            'iduser' => $iduser,
+            'campo' => ucfirst($campo),
+            'valor_old' => $valor_old,
+            'valor_new' => $valor_new,
+            'code' => $code,
+            'code_used' => $code_used,
+            'user_change' => Auth::user()->display_name,
+            'id_user_change' => Auth::user()->ID
+        ];
+        $auditoriaController->saveAuditoria($data);
+    }
+
+    /**
+     * Permite general el codigo para el correo 
+     *
+     * @param integer $iduser
+     * @return void
+     */
+    public function generarCode($iduser)
+    {
+        try {
+            $this->auditoria($iduser, 'email', '', 'se actualiza despues');
+            return 1;
+        } catch (\Throwable $th) {
+            return 0;
+        }
     }
 }

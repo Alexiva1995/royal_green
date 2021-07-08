@@ -231,6 +231,12 @@ right connector from last child*/
 			<span class="border border-dark p-1 float-left">Puntos Izquierdos: <strong>{{$puntos->binario_izq}}</strong></span>
 			<span class="border border-dark p-1 float-right">Puntos Derechos: <strong>{{$puntos->binario_der}}</strong></span>
 		</div>
+		@if ($sideFinal != [])
+		<div class="card-header">
+			<span class="border border-dark p-1 float-left">Total Red Izquierdos: <strong>{{$sideFinal['totalizq']}}</strong></span>
+			<span class="border border-dark p-1 float-right">Total Red Derechos: <strong>{{$sideFinal['totalder']}}</strong></span>
+		</div>
+		@endif
 		<div class="card-body">
 			<div class="padre tree">
 				<ul>
@@ -318,7 +324,7 @@ right connector from last child*/
 			<div class="col-12 text-center">
 				<div class="row">
 					<div class="col-12 col-md-4 text-center">
-						@if ($sideFinal != [])
+						@if ($sideFinal['izq'] != null)
 							<a class="btn btn-info" href="{{route('moretree', [strtolower($type), $sideFinal['izq']])}}">Final Izquierdo</a>
 						@endif
 					</div>
@@ -328,7 +334,7 @@ right connector from last child*/
 						@endif
 					</div>
 					<div class="col-12 col-md-4 text-center">
-						@if ($sideFinal != [])
+						@if ($sideFinal['der'] != null)
 							<a class="btn btn-info" href="{{route('moretree', [strtolower($type), $sideFinal['der']])}}">Final Derecho</a>
 						@endif
 					</div>

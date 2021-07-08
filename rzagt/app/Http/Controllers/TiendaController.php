@@ -17,6 +17,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ComisionesController;
 use App\Http\Controllers\WalletController;
 use Carbon\Carbon;
+use Shakurov\Coinbase\Facades\Coinbase;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use Illuminate\Support\Facades\Session;
@@ -149,22 +150,36 @@ class TiendaController extends Controller
                     $descripcion = 'Descuento del paquete con el saldo de la wallet';
                     $controllerWallet->saveRetiro(Auth::user()->ID, $wallet, $descripcion, 0, $wallet);
                 }
-                $transaction['order_id'] = $idcompra; // invoice number
-                $transaction['amountTotal'] = $total;
-                $transaction['note'] = $producto->post_content;
-                $transaction['buyer_name'] = Auth::user()->display_name;
-                $transaction['buyer_email'] = Auth::user()->user_email;
-                $transaction['redirect_url'] = route('tienda.estado', ['pendiente']); // When Transaction was comleted
-                $transaction['cancel_url'] = route('tienda.estado', ['cancelada']); // When user click cancel link
+                // $transaction['order_id'] = $idcompra; // invoice number
+                // $transaction['amountTotal'] = $total;
+                // $transaction['note'] = $producto->post_content;
+                // $transaction['buyer_name'] = Auth::user()->display_name;
+                // $transaction['buyer_email'] = Auth::user()->user_email;
+                // $transaction['redirect_url'] = route('tienda.estado', ['pendiente']); // When Transaction was comleted
+                // $transaction['cancel_url'] = route('tienda.estado', ['cancelada']); // When user click cancel link
     
-                $transaction['items'][] = [
-                    'itemDescription' => 'Producto '.$producto->post_title,
-                    'itemPrice' => (FLOAT) $total, // USD
-                    'itemQty' => (INT) 1,
-                    'itemSubtotalAmount' => (FLOAT) $total // USD
-                ];
+                // $transaction['items'][] = [
+                //     'itemDescription' => 'Producto '.$producto->post_title,
+                //     'itemPrice' => (FLOAT) $total, // USD
+                //     'itemQty' => (INT) 1,
+                //     'itemSubtotalAmount' => (FLOAT) $total // USD
+                // ];
     
-                return CoinPayment::generatelink($transaction);
+                // return CoinPayment::generatelink($transaction);
+                $charge = Coinbase::createCharge([
+                    'name' => 'Producto '.$producto->post_title,
+                    'description' => $producto->post_content,
+                    'local_price' => [
+                        'amount' => $total,
+                        'currency' => 'USD',
+                    ],
+                    'pricing_type' => 'fixed_price',
+                ]);
+                DB::table('wp_posts')->where('ID', $idcompra)->update([
+                    'id_coinbase' => $charge['data']['id'],
+                    'code_coinbase' => $charge['data']['code'],
+                ]);
+                return $charge['data']['hosted_url'];
             }else{
                 $descripcion = 'Renovacion de nuevo paquete';
                 $controllerWallet->saveRetiro(Auth::user()->ID, $result, $descripcion, $result, $result);

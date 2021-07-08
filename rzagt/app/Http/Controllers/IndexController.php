@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use stdClass;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
+use Shakurov\Coinbase\Facades\Coinbase;
 use App\Http\Controllers\ComisionesController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\ActivacionController;
@@ -555,28 +556,40 @@ class IndexController extends Controller
     public function ordenesSistema()
     {
         $tienda = new TiendaController;
-        $fecha = Carbon::now();
-        $compras = DB::table('coinpayment_transactions')->where([['status', '=', 0]])->whereDate('created_at', '>=', $fecha->subDays(1))->get();
-        foreach ($compras as $compra) {
-            $result = CoinPayment::getstatusbytxnid($compra->txn_id);
-            // dump($compra, $result);
-            if (is_array($result)) {
-                DB::table('coinpayment_transactions')->where('id', '=', $compra->id)->update(['status' => $result['status']]);
-            //     $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
-            //     $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
-            }
-        }
+        // $fecha = Carbon::now();
+        // $compras = DB::table('coinpayment_transactions')->where([['status', '=', 0]])->whereDate('created_at', '>=', $fecha->subDays(1))->get();
+        // foreach ($compras as $compra) {
+        //     $result = CoinPayment::getstatusbytxnid($compra->txn_id);
+        //     // dump($compra, $result);
+        //     if (is_array($result)) {
+        //         DB::table('coinpayment_transactions')->where('id', '=', $compra->id)->update(['status' => $result['status']]);
+        //     //     $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
+        //     //     $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
+        //     }
+        // }
 
-        $compras2 = DB::table('coinpayment_transactions')->where('status', '=', 100)->whereDate('created_at', '>=', $fecha->subDays(2))->get();
-        foreach ($compras2 as $compra) {
-            $checkCompra = DB::table('wp_posts')->where([
-                ['ID', '=', $compra->order_id],
-                ['post_status', '=', 'wc-on-hold']
-            ])->first();
-            if ($checkCompra != null) {
-                dump($compra);
-                $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
-                // $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
+        // $compras2 = DB::table('coinpayment_transactions')->where('status', '=', 100)->whereDate('created_at', '>=', $fecha->subDays(2))->get();
+        // foreach ($compras2 as $compra) {
+        //     $checkCompra = DB::table('wp_posts')->where([
+        //         ['ID', '=', $compra->order_id],
+        //         ['post_status', '=', 'wc-on-hold']
+        //     ])->first();
+        //     if ($checkCompra != null) {
+        //         // dump($compra);
+        //         $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
+        //         // $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
+        //     }
+        // }
+        $compras = $tienda->ArregloCompra2();
+        foreach ($compras as $compra) {
+            if (!empty($compra['code_coinbase'])) {
+                $charge = Coinbase::getCharge($compra['code_coinbase']);
+                dump($charge);
+                foreach ($charge['data']['timeline'] as $statusCoin) {
+                    if ($statusCoin['status'] == 'COMPLETED') {
+                        $tienda->actualizarBD($compra['idcompra'], 'wc-completed', 'Coinbase');
+                    }
+                }
             }
         }
     }

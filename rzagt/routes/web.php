@@ -575,6 +575,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
     Route::group(['prefix' => 'user'], function(){
         Route::get('/edit', 'ActualizarController@editProfile')->name('admin.user.edit');
         Route::put('update', 'ActualizarController@updateProfile')->name('admin.user.update');       
+        Route::get('setCode/{iduser}', 'ActualizarController@generarCode')->name('admin.generar.code');
     });
 
     

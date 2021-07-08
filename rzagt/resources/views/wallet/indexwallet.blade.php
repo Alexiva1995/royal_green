@@ -36,6 +36,15 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
 
+<div class="col-12">
+    <div class="card">
+        <div class="card-content">
+            <div class="card-body">
+                <h4 class="card-title">Total Ganado: <b>{{number_format($totalGanado, 2, ',', '.')}} $</b></h4>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="card">
     <div class="card-content">

@@ -60,13 +60,34 @@
 
         @if (Auth::user()->ID == 1)
         <div class="form-group" style="margin-bottom: 15px;">
-            <label for="">Correo</label>
-            <input name="user_email" type="email" placeholder="{{$data['principal']->user_email}}"
-                class="form-control contacto" value="{{$data['principal']->user_email}}" required>
-            <div class="botom1">
-                <label for="">Confirmar Correo</label>
-                <input name="user_email_confirmation" type="email" placeholder="{{$data['principal']->user_email}}"
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="row">
+                            <div class="col-12 col-md-7">
+                                <label for="">Codigo Correo</label>
+                                <input name="code_email" type="email" placeholder="Codigo Correo"
+                                    class="form-control contacto" required>
+                            </div>
+                            <div class="col-12 col-md-5">
+                                <button type="button" class="btn btn-info" onclick="setCode({{$data['segundo']->ID}})">Enviar Codigo</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <label for="">Codigo Google</label>
+                        <input name="code_google" type="email" placeholder="Codigo Google" class="form-control contacto"
+                            required>
+                    </div>
+                </div>
+                <label for="">Correo</label>
+                <input name="user_email" type="email" placeholder="{{$data['principal']->user_email}}"
                     class="form-control contacto" value="{{$data['principal']->user_email}}" required>
+                <div class="botom1">
+                    <label for="">Confirmar Correo</label>
+                    <input name="user_email_confirmation" type="email" placeholder="{{$data['principal']->user_email}}"
+                        class="form-control contacto" value="{{$data['principal']->user_email}}" required>
+                </div>
             </div>
         </div>
         @endif
@@ -76,19 +97,20 @@
             <button type="submit" class="btn btn-success ml-2">Enviar</button>
         </div>
     </form>
-    <form action="{{ action($controler, ['data' => 'pago']) }}" method="post" enctype="multipart/form-data" class="mt-2">
+    <form action="{{ action($controler, ['data' => 'pago']) }}" method="post" enctype="multipart/form-data"
+        class="mt-2">
         <legend>Billetera</legend>
-            {{ method_field('PUT') }}
-            {{ csrf_field() }}
-            <input name="id" type="hidden" value="{{$data['segundo']->ID}}">
-            <div class="form-group" style="margin-bottom: 15px;">
-                <label>Wallet (BTC)</label>
-                <input name="paypal" id="paypal" type="text" placeholder="{{$data['segundo']->paypal}}"
-                    class="form-control pago"
-                    value="{{(!empty($data['segundo']->paypal)) ? $data['segundo']->paypal : old('paypal')}}" required>
-            </div>
-            <div class="col-12" id="botom4">
-                <button type="submit" class="btn btn-success">Enviar</button>
-            </div>
-        </form>
+        {{ method_field('PUT') }}
+        {{ csrf_field() }}
+        <input name="id" type="hidden" value="{{$data['segundo']->ID}}">
+        <div class="form-group" style="margin-bottom: 15px;">
+            <label>Wallet (BTC)</label>
+            <input name="paypal" id="paypal" type="text" placeholder="{{$data['segundo']->paypal}}"
+                class="form-control pago"
+                value="{{(!empty($data['segundo']->paypal)) ? $data['segundo']->paypal : old('paypal')}}" required>
+        </div>
+        <div class="col-12" id="botom4">
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </div>
+    </form>
 </div>
