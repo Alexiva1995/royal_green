@@ -112,6 +112,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     Route::get('updateall', 'AdminController@ActualizarTodo')->name('admin-update-all');
 
+    // Auditorias
+    Route::resource('auditoria', 'AuditoriaController');
+
     // subdashboard
     Route::get('subdashboard', 'AdminController@subdashboard')->name('admin.subdashboard')->middleware('admin');
     

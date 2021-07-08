@@ -214,10 +214,21 @@ class ActualizarController extends Controller
                         ]);
                         if ($validate2) {
                             if ((new Google2FA())->verifyKey(Auth::user()->toke_google, $request->code_google)) {
-                                
+                                if ($this->checkCodeEmail($request->code_email) == true) {
+                                    $dataAuditoria = [
+                                        'valor_old' => $user->user_email,
+                                        'valor_new' => $request->user_email,
+                                        'code_used' => 1
+                                    ];
+                                    $auditoriaController = new AuditoriaController();
+                                    $auditoriaController->updateAuditoria($dataAuditoria, $user->ID, $request->code_email);
+                                }else{
+                                    return redirect()->back()->with('msj3', 'El codigo del correo es incorrecto');
+                                }    
                             }else{
-                                return redirect()->back()->with('msj', 'el codigo de google es incorrecto');
+                                return redirect()->back()->with('msj3', 'El codigo de google es incorrecto');
                             }
+                            
                             $user->user_email = $request->user_email;
                         }
                     }
@@ -378,6 +389,18 @@ class ActualizarController extends Controller
             'id_user_change' => Auth::user()->ID
         ];
         $auditoriaController->saveAuditoria($data);
+    }
+
+    /**
+     * llama a la funcion que revisa el codigo
+     *
+     * @param string $code
+     * @return boolean
+     */
+    public function checkCodeEmail($code): bool
+    {
+        $auditoriaController = new AuditoriaController();
+        return $auditoriaController->checkCode($code);
     }
 
     /**

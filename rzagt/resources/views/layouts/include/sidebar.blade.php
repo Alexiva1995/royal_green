@@ -156,6 +156,13 @@
                             </span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{{route('auditoria.index')}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Log de Auditoria
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             {{-- Auditoria --}}

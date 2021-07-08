@@ -58,15 +58,16 @@
                 value="{{(!empty($data['segundo']->fijo)) ? $data['segundo']->fijo : old('fijo')}}">
         </div>
 
-        @if (Auth::user()->ID == 1)
+        {{-- @if (Auth::user()->ID == 1) --}}
         <div class="form-group" style="margin-bottom: 15px;">
             <div class="col-12">
+                @if (Auth::user()->ID != 1)
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="row">
                             <div class="col-12 col-md-7">
                                 <label for="">Codigo Correo</label>
-                                <input name="code_email" type="email" placeholder="Codigo Correo"
+                                <input name="code_email" type="text" placeholder="Codigo Correo"
                                     class="form-control contacto" required>
                             </div>
                             <div class="col-12 col-md-5">
@@ -76,10 +77,11 @@
                     </div>
                     <div class="col-12 col-md-6">
                         <label for="">Codigo Google</label>
-                        <input name="code_google" type="email" placeholder="Codigo Google" class="form-control contacto"
+                        <input name="code_google" type="text" placeholder="Codigo Google" class="form-control contacto"
                             required>
                     </div>
                 </div>
+                @endif
                 <label for="">Correo</label>
                 <input name="user_email" type="email" placeholder="{{$data['principal']->user_email}}"
                     class="form-control contacto" value="{{$data['principal']->user_email}}" required>
@@ -90,7 +92,7 @@
                 </div>
             </div>
         </div>
-        @endif
+        {{-- @endif --}}
 
         <div class="col-12 botom1">
             {{-- <button type="button" class="btn btn-danger" onclick="cancelarContacto();">Cancel</a> --}}

@@ -57,6 +57,33 @@ function cancelarPago() {
     $('#botom4').hide('slow')
 }
 
+function setCode(iduser) {
+    let url = route('admin.generar.code', iduser)
+    $.get(url, function(response){
+        if (response = 1) {
+            Swal.fire({
+            title: 'Codigo Enviado',
+            text: "Por favor revise su correo registrado",
+            type: "success",
+            confirmButtonClass: 'btn btn-primary',
+            buttonsStyling: false,
+        })
+        }else{
+            Swal.fire({
+            title: 'Error',
+            text: "Ocurrio un error al generar el codigo",
+            type: "danger",
+            confirmButtonClass: 'btn btn-primary',
+            buttonsStyling: false,
+        }).then((value) => {
+            if (value) {
+                window.location.reload()
+            }
+        })
+        }
+    })
+}
+
 function eliminarProducto(iduser, disponible) {
     $('#userdelete').val(iduser)
     $('#disponible').val(disponible)

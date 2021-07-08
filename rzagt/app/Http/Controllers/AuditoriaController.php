@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Auditoria;
+use App\User;
 use Illuminate\Http\Request;
 
 class AuditoriaController extends Controller
@@ -14,7 +15,12 @@ class AuditoriaController extends Controller
      */
     public function index()
     {
-        //
+        view()->share('title', 'Log de Auditoria');
+        $auditorias = Auditoria::all()->where('code_used', 1);
+        foreach ($auditorias as $audi) {
+            $audi->nombre = User::find($audi->iduser)->display_name;
+        }
+        return view('admin.auditoria', compact('auditorias'));
     }
 
     /**
@@ -108,5 +114,24 @@ class AuditoriaController extends Controller
             ['code', '=', $code],
             ['iduser', '=', $iduser]
         ])->update($data);
+    }
+
+    /**
+     * permite verificar el codigo enviado es correcto
+     *
+     * @param string $code
+     * @return boolean
+     */
+    public function checkCode($code): bool
+    {
+        $check = Auditoria::where([
+            ['code', '=', $code],
+            ['code_used', '=', 0]
+        ])->first();
+        $result = false;
+        if ($check != null) {
+            $result = true;
+        }
+        return $result;
     }
 }
