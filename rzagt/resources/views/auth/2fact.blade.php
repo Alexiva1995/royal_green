@@ -6,7 +6,7 @@
     <div class="col-xl-8 col-11 d-flex justify-content-center">
         <div class="card bg-authentication rounded-0 mb-0">
             <div class="row m-0">
-                <div class="col-lg-6 d-lg-block d-none text-center align-self-center px-1 py-0">
+                <div class="col-lg-6 col-12 text-center align-self-center px-1 py-0">
                     @if ($urlqb != '')
                     <img src="{{$urlqb}}" alt="branding logo" width="250">
                     @else

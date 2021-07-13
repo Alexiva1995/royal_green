@@ -380,21 +380,13 @@ class RegisterController extends Controller
      */
 
     public function VerificarUser($id)
-
     {
-
         $resul = true;
-
         $user = User::where('ID', $id)->get()->toArray();
-
         if (!empty($user)) {
-
             $resul = false;
-
         }
-
         return $resul;
-
     }
 
     public function fact2()
