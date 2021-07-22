@@ -505,6 +505,9 @@ class ComisionesController extends Controller
                     if ($sponsor->nivel > 0 && $sponsor->nivel <= 11) {
                         for ($i=1; $i <= $sponsor->nivel; $i++) { 
                             $porcentaje = $this->porceNivelRango($sponsor->rol_id, $i);
+                            if ($sponsor->ID == 1220 && $i == 1) {
+                                $porcentaje = 0.05;
+                            }
                             if ($porcentaje > 0) {
                                 $userReferido = User::find($iduser);
                                 $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;

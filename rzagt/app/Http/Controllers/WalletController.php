@@ -64,17 +64,17 @@ class WalletController extends Controller
 				['limite', '>', 'retirado'],
 				['progreso', '<', '100']
 			])->first();
-			if (!empty($walletRentabilida)) {
-				if ($walletRentabilida->nivel_minimo_cobro > 0) {
-					if (Auth::user()->rol_id < 7) {
-						$walletCreditar = Wallet::where([
-							['iduser', '=', Auth::user()->ID],
-							['descripcion', 'like', '%Pago de utilidades%']
-						])->get()->sum('debito');
-						$disponible = ($disponible - $walletCreditar);
-					}
-				}
-			}
+			// if (!empty($walletRentabilida)) {
+			// 	if ($walletRentabilida->nivel_minimo_cobro > 0) {
+			// 		if (Auth::user()->rol_id < 7) {
+			// 			$walletCreditar = Wallet::where([
+			// 				['iduser', '=', Auth::user()->ID],
+			// 				['descripcion', 'like', '%Pago de utilidades%']
+			// 			])->get()->sum('debito');
+			// 			$disponible = ($disponible - $walletCreditar);
+			// 		}
+			// 	}
+			// }
 		}else{
 			$disponible = 0;
 			$wallets = Wallet::where([
@@ -175,17 +175,17 @@ class WalletController extends Controller
 				['limite', '>', 'retirado'],
 				['progreso', '<', '100']
 			])->first();
-			if (!empty($walletRentabilida)) {
-				if ($walletRentabilida->nivel_minimo_cobro > 0) {
-					if ($user->rol_id < 7) {
-						$walletCreditar = Wallet::where([
-							['iduser', '=', $user->ID],
-							['descripcion', 'like', '%Pago de utilidades%']
-						])->get()->sum('debito');
-						$disponible = ($disponible - $walletCreditar);
-					}
-				}
-			}
+			// if (!empty($walletRentabilida)) {
+			// 	if ($walletRentabilida->nivel_minimo_cobro > 0) {
+			// 		if ($user->rol_id < 7) {
+			// 			$walletCreditar = Wallet::where([
+			// 				['iduser', '=', $user->ID],
+			// 				['descripcion', 'like', '%Pago de utilidades%']
+			// 			])->get()->sum('debito');
+			// 			$disponible = ($disponible - $walletCreditar);
+			// 		}
+			// 	}
+			// }
 		}else{
 			$disponible = 0;
 			$wallets = Wallet::where([
