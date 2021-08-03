@@ -56,12 +56,13 @@ class AdminController extends Controller
             // $comi->recorrerDuplicados();
             // $comi->despagarComisionesErroneas('Felipewilches1999@gmail.com');
             // dump('division');
+            // $comi->bonoConstrucion(500, 100);
             // $comi->despagarComisionesErroneas('Juanrestrepo11978@gmail.com');
             // $this->indexControl->ordenesSistema();
             // $this->indexControl->activarPaquetes();
             // $comi->arreglarBilletera();
             // $comi->puntosBinarios();
-            // $comi->usuarioEliminarPuntos('jdrd31@mail.ru');
+            // $comi->usuarioEliminarPuntos('luisasalazarsalazar2017@gmail.com');
             // dd('parar 3');
         }
 

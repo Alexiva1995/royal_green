@@ -503,7 +503,7 @@ class ComisionesController extends Controller
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->nivel > 0 && $sponsor->nivel <= 11) {
-                        for ($i=1; $i <= $sponsor->nivel; $i++) { 
+                        for ($i=1; $i <= ($sponsor->rol_id-1); $i++) { 
                             $porcentaje = $this->porceNivelRango($sponsor->rol_id, $i);
                             if ($sponsor->ID == 1220 && $i == 1) {
                                 $porcentaje = 0.05;
@@ -513,6 +513,7 @@ class ComisionesController extends Controller
                                 $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;
                                 $idcomision = '40'.$fecha->format('Ymd').$i;
                                 $totalcomision = ($bonobinario * $porcentaje);
+                                // dump($sponsor->ID.' - '.$idcomision.' - '.$totalcomision.' - '.$userReferido->user_email.' - '.$i.' - '.$concepto.' - '.'Bono Construcion');
                                 $this->guardarComision($sponsor->ID, $idcomision, $totalcomision, $userReferido->user_email, $i, $concepto, 'Bono Construcion');
                             }
                         }
