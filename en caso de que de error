@@ -1,0 +1,18 @@
+borrar carpeta vendor
+borrar todos los archivo de la ruta: bootstrap/cache/   (excepto el .gitignore)
+
+correr los siguientes comandos:
+
+composer install
+composer update
+composer dump-autoload
+php artisan optimize:clear
+
+y probar el: php artisan serve 
+(si todo funciona bien)
+
+php artisan migrate
+php artisan db:seed
+
+y listo!
+
