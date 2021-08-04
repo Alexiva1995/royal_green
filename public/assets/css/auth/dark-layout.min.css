@@ -33,7 +33,7 @@ body.dark-layout {
 }
 
 .dark-layout a:hover {
-    color: #D6A83E
+    color: #66FFCC
 }
 
 .dark-layout label {
@@ -71,7 +71,7 @@ body.dark-layout {
 }
 
 .dark-layout .text-dark {
-    color: #1B1B1B !important
+    color: #173138 !important
 }
 
 .dark-layout .text-muted {
@@ -267,7 +267,7 @@ body.dark-layout {
 }
 
 .dark-layout .main-menu .collapse-toggle-icon {
-    color: #D6A83E !important
+    color: #66FFCC !important
 }
 
 .dark-layout .ps__thumb-x,
@@ -374,7 +374,7 @@ body.dark-layout {
 .dark-layout .alert.alert-dark .alert-body,
 .dark-layout .alert.alert-dark .alert-heading,
 .dark-layout .alert.alert-dark p {
-    color: #1B1B1B
+    color: #173138
 }
 
 .dark-layout .content-header-left .breadcrumbs-top .content-header-title {
@@ -396,7 +396,7 @@ body.dark-layout {
 .dark-layout .btn.btn-dark,
 .dark-layout .btn.btn-flat-dark,
 .dark-layout .btn.btn-outline-dark {
-    color: #1B1B1B
+    color: #173138
 }
 
 .dark-layout .btn.btn-dark {
@@ -405,11 +405,11 @@ body.dark-layout {
 
 .dark-layout .btn.btn-outline-dark {
     border-color: #4B4B4B;
-    color: #1B1B1B
+    color: #173138
 }
 
 .dark-layout .btn.btn-outline-dark:hover:not(.disabled):not(:disabled) {
-    color: #1B1B1B
+    color: #173138
 }
 
 .dark-layout .btn.btn-flat-dark:active,
@@ -418,7 +418,7 @@ body.dark-layout {
 }
 
 .dark-layout .btn-group label[class*=btn-outline-] {
-    color: #D6A83E !important
+    color: #66FFCC !important
 }
 
 .dark-layout .dropdown-menu {
@@ -437,13 +437,13 @@ body.dark-layout {
 .dark-layout .dropdown-menu .dropdown-item:focus,
 .dark-layout .dropdown-menu .dropdown-item:hover {
     background: rgba(115, 103, 240, .12);
-    color: #D6A83E
+    color: #66FFCC
 }
 
 .dark-layout .dropdown-menu .dropdown-item.active,
 .dark-layout .dropdown-menu .dropdown-item:active {
     color: #FFF;
-    background-color: #D6A83E
+    background-color: #66FFCC
 }
 
 .dark-layout .dropdown-menu .dropdown-item.disabled,
@@ -489,7 +489,7 @@ body.dark-layout {
 }
 
 .dark-layout .pagination:not([class*=pagination-]) .page-item.active .page-link {
-    background-color: #D6A83E
+    background-color: #66FFCC
 }
 
 .dark-layout .pagination:not([class*=pagination-]) .page-item.active .page-link:hover {
@@ -502,7 +502,7 @@ body.dark-layout {
 }
 
 .dark-layout .pagination:not([class*=pagination-]) .page-item .page-link:hover {
-    color: #D6A83E
+    color: #66FFCC
 }
 
 .dark-layout .pagination:not([class*=pagination-]) .page-item.next-item .page-link:hover,
@@ -556,7 +556,7 @@ body.dark-layout {
 .dark-layout .nav-tabs .nav-item .nav-link.active,
 .dark-layout .nav-tabs.nav-justified .nav-item .nav-link.active {
     background-color: #283046;
-    color: #D6A83E
+    color: #66FFCC
 }
 
 .dark-layout .nav-pills .nav-item .nav-link.disabled,
@@ -571,7 +571,7 @@ body.dark-layout {
 
 .dark-layout .nav-pills .nav-item .nav-link.active {
     color: #FFF;
-    background-color: #D6A83E
+    background-color: #66FFCC
 }
 
 .dark-layout .popover.bs-popover-top .popover-arrow:before {
@@ -913,7 +913,7 @@ body.dark-layout {
 
 .dark-layout .input-group:focus-within .form-control,
 .dark-layout .input-group:focus-within .input-group-text {
-    border-color: #D6A83E;
+    border-color: #66FFCC;
     box-shadow: none
 }
 
@@ -1041,7 +1041,7 @@ body.dark-layout {
 .dark-layout .dataTables_wrapper .dt-buttons .buttons-pdf:active,
 .dark-layout .dataTables_wrapper .dt-buttons .buttons-print:active,
 .dark-layout .dataTables_wrapper .dt-buttons .dt-button-collection [class*=buttons-]:active {
-    background-color: #D6A83E !important;
+    background-color: #66FFCC !important;
     color: #FFF
 }
 
@@ -1603,7 +1603,7 @@ body.dark-layout {
 }
 
 .dark-layout .app-user-view .plan-card {
-    border-color: #D6A83E !important
+    border-color: #66FFCC !important
 }
 
 .dark-layout .app-user-edit .form-control.error {
@@ -1693,7 +1693,7 @@ body.dark-layout {
 }
 
 .dark-layout .horizontal-layout .main-menu-content .navbar-nav>li.active .dropdown-menu li.active>a:hover {
-    color: #D6A83E !important
+    color: #66FFCC !important
 }
 
 .dark-layout .horizontal-layout .main-menu-content .navbar-nav>li.active .dropdown-menu li.open.active>a {

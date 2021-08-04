@@ -2,8 +2,8 @@
 <div class="modal fade" id="modalModalDetalles" tabindex="-1" role="dialog" aria-labelledby="modalModalDetallesTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content" style="background: #141414;">
-            <div class="modal-header" style="background: #141414;">
+        <div class="modal-content" style="background: #11262C;">
+            <div class="modal-header" style="background: #11262C;">
                 <h5 class="modal-title text-white" id="modalModalDetallesTitle">Detalles de comisiones del usuario (@{{ComisionesDetalles.fullname}})</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>

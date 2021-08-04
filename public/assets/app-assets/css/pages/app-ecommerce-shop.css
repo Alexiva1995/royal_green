@@ -36,7 +36,7 @@
 }
 
 .ecommerce-application .sidebar-shop .vs-radio-con input:checked ~ span {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 
 .ecommerce-application .sidebar-shop .filter-title {
@@ -61,7 +61,7 @@
 .ecommerce-application .sidebar-shop .range-slider.noUi-horizontal .noUi-handle .noUi-tooltip {
   opacity : 0;
   font-size : 0.75rem;
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
   border-radius : 0.357rem;
   border : none;
@@ -254,7 +254,7 @@
 }
 
 .ecommerce-application .ecommerce-card .cart {
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
 }
 .ecommerce-application .ecommerce-card .cart .view-in-cart {
@@ -388,7 +388,7 @@
   font-size : 0.875rem;
 }
 .ecommerce-application .list-view .ecommerce-card .card-content .card-body .item-company .company-name {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .ecommerce-application .list-view .ecommerce-card .card-content .item-options {
   padding : 1rem;
@@ -408,7 +408,7 @@
 .ecommerce-application .list-view .ecommerce-card .card-content .item-options .shipping {
   position : relative;
   top : 50px;
-  color : #1B1B1B;
+  color : #173138;
 }
 .ecommerce-application .list-view .ecommerce-card .card-content .item-options .wishlist {
   margin-top : 84px;
@@ -452,7 +452,7 @@
 }
 
 .ecommerce-application .checkout-items .ecommerce-card .card-content .delivery-date {
-  color : #1B1B1B;
+  color : #173138;
   margin-top : 1.8rem;
 }
 
@@ -461,7 +461,7 @@
 }
 
 .ecommerce-application .checkout-options .options-title {
-  color : #1B1B1B;
+  color : #173138;
 }
 
 .ecommerce-application .checkout-options .coupons {
@@ -481,7 +481,7 @@
   margin-bottom : 0.5rem;
 }
 .ecommerce-application .checkout-options .coupons .apply-coupon {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   font-weight : 500;
   cursor : pointer;
 }
@@ -506,7 +506,7 @@
   margin-bottom : 0.75rem;
 }
 .ecommerce-application .checkout-options .detail .detail-title {
-  color : #1B1B1B;
+  color : #173138;
 }
 .ecommerce-application .checkout-options .detail .detail-title.detail-total {
   color : #626262;
@@ -516,7 +516,7 @@
   color : #28C76F;
 }
 .ecommerce-application .checkout-options .detail .detail-amt.emi-details {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   cursor : pointer;
 }
 .ecommerce-application .checkout-options .detail .detail-amt.total-amt {
@@ -532,11 +532,11 @@
 }
 
 .ecommerce-application .wizard.checkout-tab-steps .steps ul li.error > a {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .ecommerce-application .wizard.checkout-tab-steps .steps ul li.error > a .step {
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 
 .ecommerce-application .wizard.checkout-tab-steps #checkout-address .form-group .error {

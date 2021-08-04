@@ -69,14 +69,14 @@
   border : none;
   border-radius : 50%;
   background : #FFFFFF;
-  border : 5px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  border : 5px solid linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .noUi-handle:after, .noUi-handle:before {
   display : none;
 }
 
 .circle-filled .noUi-handle {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   border-radius : 50%;
 }
 .circle-filled .noUi-handle:after, .circle-filled .noUi-handle:before {
@@ -84,7 +84,7 @@
 }
 
 .square .noUi-handle {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   border-radius : 3px;
 }
 .square .noUi-handle:before {
@@ -147,7 +147,7 @@
 }
 
 .noUi-connect {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   box-shadow : none;
 }
 
@@ -163,7 +163,7 @@
   left : -6px;
 }
 .noUi-vertical.square .noUi-handle {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   border-radius : 3px;
 }
 .noUi-vertical.square .noUi-handle:before {

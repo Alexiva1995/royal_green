@@ -1,5 +1,5 @@
 .chat-app-window .user-chats {
-    background-color: #141414;
+    background-color: #11262C;
     padding: 1rem;
     position: relative;
     height: calc(100% - 65px - 65px)
@@ -44,8 +44,8 @@
     margin: 0 1rem 10px 0;
     clear: both;
     color: #FFF;
-    background-image: -webkit-linear-gradient(10deg, #D6A83E, #AC7613);
-    background-image: linear-gradient(80deg, #D6A83E, #AC7613);
+    background-image: -webkit-linear-gradient(10deg, #66FFCC, #AC7613);
+    background-image: linear-gradient(80deg, #66FFCC, #AC7613);
     border-radius: .357rem;
     box-shadow: 0 4px 8px 0 rgba(34, 41, 47, .12);
     max-width: 75%

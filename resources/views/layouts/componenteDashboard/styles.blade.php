@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/chat.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/chat-list.min.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/chat-ticket.css')}}">
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard2.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/dashboard-style.css')}}">
 
 

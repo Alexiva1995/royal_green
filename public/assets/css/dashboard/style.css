@@ -1,28 +1,28 @@
 .headerBalance{
-    background: #D6A83E;
+    background: #66FFCC;
     color: #ffffff;
     padding: 4px;
     border-radius: 6px;
 }
 
 .bg-purple-alt{
-    background: linear-gradient(90deg, rgba(214,168,62,1) 0%, rgba(172,118,19,1) 63%) !important;
+    background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 
 .bg-purple-alt2{
-    background: linear-gradient(90deg, rgba(214,168,62,1) 0%, rgba(172,118,19,1) 63%) !important;
+    background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 
 .bg-red-alt{
-    background: #D6A83E !important;
+    background: #66FFCC !important;
 }
 
 .pagination .page-item.active .page-link{
-    background: #D6A83E !important;
+    background: #66FFCC !important;
 }
 
 .text-red-alt{
-    color: #D6A83E !important;
+    color: #66FFCC !important;
 }
 
 .padding-button-short{
@@ -36,5 +36,5 @@
 }
 
 .main-menu.bg-purple-alt.menu-light .navigation > li.open > a{
-    background: linear-gradient(90deg, rgba(214,168,62,1) 0%, rgba(172,118,19,1) 63%) !important;
+    background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }

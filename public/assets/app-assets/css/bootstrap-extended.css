@@ -500,7 +500,7 @@ select.form-control:not([multiple='multiple']) {
   padding : 0.6rem;
 }
 .form-label-group > input:focus:not(:placeholder-shown) ~ label, .form-label-group > input:not(:active):not(:placeholder-shown) ~ label, .form-label-group textarea:focus:not(:placeholder-shown) ~ label, .form-label-group textarea:not(:active):not(:placeholder-shown) ~ label {
-  color : linear-gradient(90deg, rgba(214,168,62,1) 0%, rgba(172,118,19,1) 63%) !important;
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   -webkit-transition : all 0.25s ease-in-out;
           transition : all 0.25s ease-in-out;
   opacity : 1;

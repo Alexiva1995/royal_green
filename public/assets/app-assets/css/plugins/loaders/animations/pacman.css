@@ -103,9 +103,9 @@
   width : 0;
   height : 0;
   border-right : 25px solid transparent;
-  border-top : 25px solid #1B1B1B;
-  border-left : 25px solid #1B1B1B;
-  border-bottom : 25px solid #1B1B1B;
+  border-top : 25px solid #173138;
+  border-left : 25px solid #173138;
+  border-bottom : 25px solid #173138;
   border-radius : 25px;
   -webkit-animation : rotate_pacman_half_up 0.5s 0s infinite;
           animation : rotate_pacman_half_up 0.5s 0s infinite;
@@ -116,9 +116,9 @@
   width : 0;
   height : 0;
   border-right : 25px solid transparent;
-  border-top : 25px solid #1B1B1B;
-  border-left : 25px solid #1B1B1B;
-  border-bottom : 25px solid #1B1B1B;
+  border-top : 25px solid #173138;
+  border-left : 25px solid #173138;
+  border-bottom : 25px solid #173138;
   border-radius : 25px;
   -webkit-animation : rotate_pacman_half_down 0.5s 0s infinite;
           animation : rotate_pacman_half_down 0.5s 0s infinite;
@@ -127,7 +127,7 @@
   left : -30px;
 }
 .pacman > div:nth-child(3), .pacman > div:nth-child(4), .pacman > div:nth-child(5), .pacman > div:nth-child(6) {
-  background-color : #1B1B1B;
+  background-color : #173138;
   width : 15px;
   height : 15px;
   border-radius : 100%;

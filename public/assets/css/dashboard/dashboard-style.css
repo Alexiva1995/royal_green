@@ -53,7 +53,7 @@
     -ms-user-select: none;
     user-select: none;
     background-color: transparent;
-    border-color: #D6A83E;
+    border-color: #66FFCC;
     padding: 0.9rem 5rem;
     font-size: 1rem;
     line-height: 1;
@@ -64,7 +64,7 @@
   .btn-darks{
     display: inline-block;
     font-weight: 400;
-    border-color: #D6A83E;
+    border-color: #66FFCC;
     color: #ffffff;
     text-align: center;
     vertical-align: middle;
@@ -82,7 +82,7 @@
   }
 
   .btn-darks:hover {
-    border: #1b1b1b 1px solid!important;
+    border: #173138 1px solid!important;
     background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 94%) !important;
     box-shadow : 0 8px 25px -8px #1E1E1E;
   }
@@ -99,7 +99,7 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: #1b1b1b;
+    background-color: #173138;
     padding: 1rem 0.9rem;
     font-size: 1rem;
     line-height: 1;
@@ -128,7 +128,7 @@
 }
 
 .gold{
-    color:#D6A83E ;
+    color:#66FFCC ;
 }
 .w-5{
   width: 5%;
@@ -216,7 +216,7 @@
 .padre .base{
   height: 100px;
   width: 100px;
-  border: #141414;
+  border: #11262C;
 }
 
 .padre .baseli{
@@ -243,7 +243,7 @@
   position: absolute;
   top: 0;
   right: 50%;
-  border-top: 2px solid #D6A83E;
+  border-top: 2px solid #66FFCC;
   width: 50%;
   height: 20px;
 }
@@ -251,7 +251,7 @@
 .padre li::after {
   right: auto;
   left: 50%;
-  border-left: 2px solid #D6A83E;
+  border-left: 2px solid #66FFCC;
 }
 
 /*We need to remove left-right connectors from elements without 
@@ -275,7 +275,7 @@ right connector from last child*/
 
 /*Adding back the vertical connector to the last nodes*/
 .padre li:last-child::before {
-  border-right: 2px solid #D6A83E;
+  border-right: 2px solid #66FFCC;
   border-radius: 0 5px 0 0;
   -webkit-border-radius: 0 5px 0 0;
   -moz-border-radius: 0 5px 0 0;
@@ -298,7 +298,7 @@ right connector from last child*/
 }
 
 .padre li a {
-  border: 2px solid #D6A83E;
+  border: 2px solid #66FFCC;
   /* padding: 8px 5px; */
   text-decoration: none;
   color: #666;
@@ -343,14 +343,14 @@ right connector from last child*/
 }
 
 .headerBalance{
-  background: #D6A83E;
+  background: #66FFCC;
   color: #ffffff;
   padding: 4px;
   border-radius: 6px;
 }
 
 .bg-purple-alt{
-  background: #1b1b1b !important;
+  background: #173138 !important;
 }
 
 .bg-purple-alt2{
@@ -358,15 +358,15 @@ right connector from last child*/
 }
 
 .bg-red-alt{
-  background: #D6A83E !important;
+  background: #66FFCC !important;
 }
 
 .pagination .page-item.active .page-link{
-  background: #D6A83E !important;
+  background: #66FFCC !important;
 }
 
 .text-red-alt{
-  color: #D6A83E !important;
+  color: #66FFCC !important;
 }
 
 .padding-button-short{
@@ -380,7 +380,7 @@ right connector from last child*/
 }
 
 .main-menu.bg-purple-alt.menu-light .navigation > li.open > a{
-  background: #D6A83E !important;
+  background: #66FFCC !important;
 }
 
 .art{
@@ -403,7 +403,7 @@ right connector from last child*/
   label:hover ~ input[type=text], 
   label:hover ~ input[type=password]
   {
-  background: #141414;
+  background: #11262C;
   color: #ffffff;
 }
 
@@ -428,7 +428,7 @@ right connector from last child*/
   }
   
   body::-webkit-scrollbar-thumb {
-      background: #D6A83E !important;
+      background: #66FFCC !important;
       border-radius: 7px !important;
 
   }

@@ -11,7 +11,7 @@
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  background-color: #D6A83E;
+  background-color: #66FFCC;
 }
 
 .chat-thread {
@@ -19,7 +19,7 @@
   padding: 0 20px 0 0;
   list-style: none;
   overflow-y: scroll;
-  background-color: #141414;
+  background-color: #11262C;
   overflow-x: hidden;
 }
 

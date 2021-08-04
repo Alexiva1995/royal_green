@@ -10,7 +10,7 @@
     }
 
     .swal2-show, .swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left], .swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right], .swal2-icon.swal2-success .swal2-success-fix{
-        background: #1b1b1b !important;
+        background: #173138 !important;
     }
 
     #swal2-title, #swal2-content{
@@ -39,7 +39,7 @@
             title: "Link Copiado = "+lado,
             text: "Ya puedes pegarlo en tu navegador",
             type: "success",
-            background: '#1b1b1b',
+            background: '#173138',
             confirmButtonClass: 'btn btn-primary',
             buttonsStyling: false,
         }).then(function(result){

@@ -57,7 +57,7 @@
                     
 
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right" style="background: #141414;">
+                        <div class="dropdown-menu dropdown-menu-right" style="background: #11262C;">
                             <a class="dropdown-item text-white" href="{{ route('profile') }}" >
                                 <i class="feather icon-user"></i> Editar Perfil
                             </a>

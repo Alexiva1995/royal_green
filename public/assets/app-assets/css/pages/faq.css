@@ -6,7 +6,7 @@
   background-size : cover;
 }
 .faq-bg .form-control:focus ~ .form-control-position i {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 
 .faq .faq-content .faq-table-content {

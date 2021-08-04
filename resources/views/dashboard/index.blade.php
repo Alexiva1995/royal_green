@@ -28,7 +28,7 @@
     }
 
     .text-center.slick-slide.slick-current.slick-active.slick-center {
-        background: rgba(214, 168, 62, 0.3);
+        background: rgba(54,99,112,1)
         padding: 10px;
     }
 

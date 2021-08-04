@@ -28,7 +28,7 @@
             enabled: true,
           },
           
-          colors: ['#D6A83E'],
+          colors: ['#66FFCC'],
 
           stroke: {
             curve: 'smooth'

@@ -58,7 +58,7 @@
 }
 .email-application .content-area-wrapper .sidebar .list-group .list-group-item.active {
   background : transparent;
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .email-application .content-area-wrapper .content-right {
   width : calc(100% - 260px);

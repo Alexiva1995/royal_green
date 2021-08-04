@@ -1,7 +1,7 @@
 <!-- Modal -->
 <div class="modal fade" id="modalModalAccion" tabindex="-1" role="dialog" aria-labelledby="modalModalAccionTitle"
     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-centered" role="document" style="background: #141414;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-centered" role="document" style="background: #11262C;">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modalModalAccionTitle" v-text="(StatusProcess == 'reverse') ? 'Reservar Liquidacion' : 'Aprobar Liquidacion'"></h5>

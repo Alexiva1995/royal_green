@@ -43,8 +43,8 @@ a.btn.disabled, .fc a.disabled.fc-button, fieldset:disabled a.btn, fieldset:disa
 
 .btn-primary {
   color : #FFFFFF;
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .btn-primary:hover {
   color : #FFFFFF;
@@ -56,8 +56,8 @@ a.btn.disabled, .fc a.disabled.fc-button, fieldset:disabled a.btn, fieldset:disa
 }
 .btn-primary.disabled, .btn-primary:disabled {
   color : #FFFFFF;
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
   color : #FFFFFF;
@@ -70,8 +70,8 @@ a.btn.disabled, .fc a.disabled.fc-button, fieldset:disabled a.btn, fieldset:disa
 
 .btn-secondary {
   color : #2A2E30;
-  background-color : #1B1B1B;
-  border-color : #1B1B1B;
+  background-color : #173138;
+  border-color : #173138;
 }
 .btn-secondary:hover {
   color : #2A2E30;
@@ -83,8 +83,8 @@ a.btn.disabled, .fc a.disabled.fc-button, fieldset:disabled a.btn, fieldset:disa
 }
 .btn-secondary.disabled, .btn-secondary:disabled {
   color : #2A2E30;
-  background-color : #1B1B1B;
-  border-color : #1B1B1B;
+  background-color : #173138;
+  border-color : #173138;
 }
 .btn-secondary:not(:disabled):not(.disabled):active, .btn-secondary:not(:disabled):not(.disabled).active, .show > .btn-secondary.dropdown-toggle {
   color : #2A2E30;
@@ -258,50 +258,50 @@ a.btn.disabled, .fc a.disabled.fc-button, fieldset:disabled a.btn, fieldset:disa
 }
 
 .btn-outline-primary, .fc .fc-button {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .btn-outline-primary:hover, .fc .fc-button:hover {
   color : #FFFFFF;
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .btn-outline-primary:focus, .fc .fc-button:focus, .btn-outline-primary.focus, .fc .focus.fc-button {
   box-shadow : 0 0 0 0.2rem rgba(115, 103, 240, 0.5);
 }
 .btn-outline-primary.disabled, .fc .disabled.fc-button, .btn-outline-primary:disabled, .fc .fc-button:disabled {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   background-color : transparent;
 }
 .btn-outline-primary:not(:disabled):not(.disabled):active, .fc .fc-button:not(:disabled):not(.disabled):active, .btn-outline-primary:not(:disabled):not(.disabled).active, .fc .fc-button:not(:disabled):not(.disabled).active, .show > .btn-outline-primary.dropdown-toggle, .fc .show > .dropdown-toggle.fc-button {
   color : #FFFFFF;
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .btn-outline-primary:not(:disabled):not(.disabled):active:focus, .fc .fc-button:not(:disabled):not(.disabled):active:focus, .btn-outline-primary:not(:disabled):not(.disabled).active:focus, .fc .fc-button:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-primary.dropdown-toggle:focus, .fc .show > .dropdown-toggle.fc-button:focus {
   box-shadow : 0 0 0 0.2rem rgba(115, 103, 240, 0.5);
 }
 
 .btn-outline-secondary {
-  color : #1B1B1B;
-  border-color : #1B1B1B;
+  color : #173138;
+  border-color : #173138;
 }
 .btn-outline-secondary:hover {
   color : #2A2E30;
-  background-color : #1B1B1B;
-  border-color : #1B1B1B;
+  background-color : #173138;
+  border-color : #173138;
 }
 .btn-outline-secondary:focus, .btn-outline-secondary.focus {
   box-shadow : 0 0 0 0.2rem rgba(184, 194, 204, 0.5);
 }
 .btn-outline-secondary.disabled, .btn-outline-secondary:disabled {
-  color : #1B1B1B;
+  color : #173138;
   background-color : transparent;
 }
 .btn-outline-secondary:not(:disabled):not(.disabled):active, .btn-outline-secondary:not(:disabled):not(.disabled).active, .show > .btn-outline-secondary.dropdown-toggle {
   color : #2A2E30;
-  background-color : #1B1B1B;
-  border-color : #1B1B1B;
+  background-color : #173138;
+  border-color : #173138;
 }
 .btn-outline-secondary:not(:disabled):not(.disabled):active:focus, .btn-outline-secondary:not(:disabled):not(.disabled).active:focus, .show > .btn-outline-secondary.dropdown-toggle:focus {
   box-shadow : 0 0 0 0.2rem rgba(184, 194, 204, 0.5);
@@ -459,11 +459,11 @@ a.btn.disabled, .fc a.disabled.fc-button, fieldset:disabled a.btn, fieldset:disa
 
 .btn-link {
   font-weight : 400;
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   text-decoration : none;
 }
 .btn-link:hover {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   text-decoration : none;
 }
 .btn-link:focus, .btn-link.focus {
@@ -471,7 +471,7 @@ a.btn.disabled, .fc a.disabled.fc-button, fieldset:disabled a.btn, fieldset:disa
   box-shadow : none;
 }
 .btn-link:disabled, .btn-link.disabled {
-  color : #1B1B1B;
+  color : #173138;
   pointer-events : none;
 }
 
@@ -585,7 +585,7 @@ input[type='submit'].btn-block, input[type='reset'].btn-block, input[type='butto
 }
 
 .fc .fc-view-container .fc-body .fc-day-top.fc-today a {
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
   padding : 5px 10px;
   margin-top : 2px;
@@ -619,7 +619,7 @@ input[type='submit'].btn-block, input[type='reset'].btn-block, input[type='butto
   height : auto;
   outline : none;
   text-shadow : none;
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
 }
 .fc .fc-button:not(:disabled).fc-button-active {
@@ -631,8 +631,8 @@ input[type='submit'].btn-block, input[type='reset'].btn-block, input[type='butto
 }
 
 .fc .fc-event {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  border : 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  border : 1px solid linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   padding : 1px 8px;
   border-radius : 1rem;
   border : none;

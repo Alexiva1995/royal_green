@@ -6,7 +6,7 @@
         <div class="row" id="dashboard-analytics">
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-80 p-2"
-                    style="background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 94%);height: 90%;">
+                    style="background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);">
 
                     <div class="float-right d-flex">
                         <img class="float-right" src="{{ asset('assets/img/icon/money.svg') }}" alt="">
@@ -26,7 +26,7 @@
             </div>
 
             <div class="col-sm-6 col-12 mt-1">
-                <div class="card h-80 p-2" style="background: #1b1b1b; height: 90%;">
+                <div class="card h-80 p-2" style="background: #173138; height: 90%;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h2 class="mt-1 mb-0 text-white"><b>Ganacia Actual</b></h2>
                     </div>
@@ -59,7 +59,7 @@
 
 
             <div class="col-sm-6 col-md-4 col-12 mt-1">
-                <div class="card py-2" style="background: #1b1b1b; height: 230px;">
+                <div class="card py-2" style="background: #173138; height: 230px;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Link de referido</b></h5>
                     </div>
@@ -68,14 +68,14 @@
                         <h2 class="gold text-bold-700 mb-0">INVITA A<br>PERSONAS<br></h2>
                     </div>
                     <div class="card-header d-flex align-items-center white mt-2">
-                        <button class="btn-darks btn-block" style="boder-color=#D6A83E; position: //" onclick="getlink('{{Auth::user()->binary_side_register}}')"><b>LINK DE
+                        <button class="btn-darks btn-block" style="boder-color=#66FFCC; position: //" onclick="getlink('{{Auth::user()->binary_side_register}}')"><b>LINK DE
                                 REFERIDO <i class="fa fa-copy"></i></b></button>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6 col-md-4 col-12 mt-1">
-                <div class="card pt-2 h-80" style="background: #1b1b1b; height: 230px;">
+                <div class="card pt-2 h-80" style="background: #173138; height: 230px;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Lado Binario</b></h5>
                     </div>
@@ -131,7 +131,7 @@
 
             
             <div class="col-sm-6 col-md-4 col-12 mt-1">
-                <div class="card p-2" style="background: #1b1b1b; height: 230px;">
+                <div class="card p-2" style="background: #173138; height: 230px;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Paquete de inversión</b></h5>
                     </div>
@@ -147,7 +147,7 @@
     </div>
 
             <div class="col-sm-6 col-12 mt-1">
-                <div class="card h-100 p-2" style="background: #1b1b1b;">
+                <div class="card h-100 p-2" style="background: #173138;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Total de ventas</b></h5>
                     </div>
@@ -157,7 +157,7 @@
 
 
             <div class="col-sm-6 col-12 mt-1">
-                <div class="card h-100" style="background: #1b1b1b;">
+                <div class="card h-100" style="background: #173138;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <p class="mt-1 mb-0">Proximo rango -> {{$data['rangos']['name_rank_sig']}}</p>
                     </div>
@@ -213,7 +213,7 @@
             {{----}}
 
             <div class="col-12 mt-1 mb-3">
-                <div class="card h-100 p-2" style="background: #1b1b1b;">
+                <div class="card h-100 p-2" style="background: #173138;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white mb-2"><b>Precio de las acciones</b></h5>
                     </div>

@@ -13,16 +13,16 @@
 @section('content')
 <div id="adminServices" >
     <div class="col-12">
-        <div class="card" style="background:#141414">
+        <div class="card" style="background:#11262C">
             <div class="card-content">
                 <div class="card-body card-dashboard">
                    <h1 class="text-white">Lista de Paquetes</h1>
                     <div class="row">
                         @foreach ($packages as $items)
                             <div class="col col-md-4">
-                                <div class="card text-center" style="background:#141414">
+                                <div class="card text-center" style="background:#11262C">
                                     <div class="card-body">
-                                        <div class="card-header d-flex align-items-center" style="background: #1b1b1b;">
+                                        <div class="card-header d-flex align-items-center" style="background: #173138;">
                                             <img class="m-2" src="{{$items->img()}}" alt="" style="width: 100%; heigh:100%;">
                                         </div>
                                         <form action="{{route('shop.procces')}}" method="POST" target="_blank" class="d-inline">

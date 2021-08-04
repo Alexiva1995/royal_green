@@ -10,7 +10,7 @@
   </style>
 </head>
 <body style="margin:0;padding:0;">
-  <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#141414;">
+  <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#11262C;">
     <tr>
       <td align="center" style="padding: 30px;">
         <table role="presentation" style="width:602px;border-collapse:collapse;border:1px solid #cccccc;border-spacing:0;text-align:left;">
@@ -21,7 +21,7 @@
                   <td style="padding:0 0 36px 0;color:#ffffff;">
                     <h1 style="font-size:24px;margin:0 0 20px 0;font-family:Arial,sans-serif;">Se a realizado una compra</h1>
                     <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan et dictum, nisi libero ultricies ipsum, posuere neque at erat.</p>
-                    <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif"><a href="http://www.example.com" style="color:#D6A83E;text-decoration:underline;">In tempus felis blandit</a></p>
+                    <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif"><a href="http://www.example.com" style="color:#66FFCC;text-decoration:underline;">In tempus felis blandit</a></p>
                   </td>
                 </tr>
                 <tr>
@@ -31,13 +31,13 @@
                         <td style="width:260px;padding:0;vertical-align:top;color:#ffffff;">
                           <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://assets.codepen.io/210284/left.gif" alt="" width="260" style="height:auto;display:block;" /></p>
                           <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed. Morbi porttitor, eget accumsan dictum, est nisi libero ultricies ipsum, in posuere mauris neque at erat.</p>
-                          <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="http://www.example.com" style="color:#D6A83E;text-decoration:underline;">Blandit ipsum volutpat sed</a></p>
+                          <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="http://www.example.com" style="color:#66FFCC;text-decoration:underline;">Blandit ipsum volutpat sed</a></p>
                         </td>
                         <td style="width:20px;padding:0;font-size:0;line-height:0;">&nbsp;</td>
                         <td style="width:260px;padding:0;vertical-align:top;color:#ffffff;">
                           <p style="margin:0 0 25px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><img src="https://assets.codepen.io/210284/right.gif" alt="" width="260" style="height:auto;display:block;" /></p>
                           <p style="margin:0 0 12px 0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;">Morbi porttitor, eget est accumsan dictum, nisi libero ultricies ipsum, in posuere mauris neque at erat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In tempus adipiscing felis, sit amet blandit ipsum volutpat sed.</p>
-                          <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="http://www.example.com" style="color:#D6A83E;text-decoration:underline;">In tempus felis blandit</a></p>
+                          <p style="margin:0;font-size:16px;line-height:24px;font-family:Arial,sans-serif;"><a href="http://www.example.com" style="color:#66FFCC;text-decoration:underline;">In tempus felis blandit</a></p>
                         </td>
                       </tr>
                     </table>
@@ -47,7 +47,7 @@
             </td>
           </tr>
           <tr>
-            <td style="padding:30px;background:#D6A83E;">
+            <td style="padding:30px;background:#66FFCC;">
               <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;font-size:9px;font-family:Arial,sans-serif;">
                 <tr>
                   <td style="padding:0;width:50%;" align="left">

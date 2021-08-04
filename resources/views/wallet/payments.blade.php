@@ -3,7 +3,7 @@
 @section('content')
 <div id="logs-list">
     <div class="col-12">
-        <div class="card" style="background: #1b1b1b;">
+        <div class="card" style="background: #173138;">
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">

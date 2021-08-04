@@ -91,7 +91,7 @@
                 @method('PUT')
                 <div class="modal-body bg-lp" >
                     <label for="porcentaje_ganancia" class="text-white">Ingrese el nuevo porcentaje de ganancia</label>
-                    <input type="number" step="any" name="porcentaje_ganancia" class="form-control" required style="background: #5f5f5f5f; color: white; border: 2px solid #d6a83e !important">
+                    <input type="number" step="any" name="porcentaje_ganancia" class="form-control" required style="background: #5f5f5f5f; color: white; border: 2px solid #66FFCC !important">
                 </div>
                 <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

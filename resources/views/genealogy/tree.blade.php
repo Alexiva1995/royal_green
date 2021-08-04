@@ -3,8 +3,7 @@
 @section('title', $type)
 
 @push('custom_css')
-{{-- <link rel="stylesheet" href="{{asset('assets/css/tree2.css')}}"> --}}
-<link rel="stylesheet" href="{{asset('assets/css/customer/joeldesing.css')}}">
+
 <style>
     .padre li img{
         width: 100%;
@@ -16,7 +15,7 @@
 
 <h1 class="text-white">Arbol Binario</h1>
 
-{{-- <body style="background: #141414;"> --}}
+{{-- <body style="background: #11262C;"> --}}
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-sm-12 text-center">
@@ -68,7 +67,7 @@
             </div>
 
             <div class="d-flex white mb-2" style="margin-left: 66px;margin-right: 63px;">
-                <a class="white btn-tree text-center" style="width: 175px;background: #1b1b1b;margin-left: 72px;"
+                <a class="white btn-tree text-center" style="width: 175px;background: #173138;margin-left: 72px;"
                     id="ver_arbol" href=> Ver Arbol</a>
             </div>
 

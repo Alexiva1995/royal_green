@@ -31,7 +31,7 @@
                                                  <label for="priority" class="text-white">Prioridad del Ticket</label>
                                                  <span class="text-danger text-bold-600">OBLIGATORIO</span>
                                                  <select name="priority"
-                                                     style="background:#141414; color: #ffffff; border: #141414;"
+                                                     style="background:#11262C; color: #ffffff; border: #11262C;"
                                                      id="priority"
                                                      class="custom-select priority @error('priority') is-invalid @enderror"
                                                      required data-toggle="select">

@@ -1,5 +1,5 @@
 input[type=text], input[type=password] , input[type=email], input[type=checkbox], input[type=search]{
-    background: #141414;
+    background: #11262C;
     color: #FFF;
   }
   
@@ -23,7 +23,7 @@ input[type=password]:hover:not([disabled]),
 input[type=password]:focus, 
 label:hover ~ input[type=text], 
 label:hover ~ input[type=password] {
-  background: #141414;
+  background: #11262C;
   color: #ffffff;
 
 }

@@ -56,12 +56,12 @@
   content : none;
 }
 .app-content .wizard > .steps > ul > li.current > a {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   cursor : default;
 }
 .app-content .wizard > .steps > ul > li.current .step {
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
 }
 .app-content .wizard > .steps > ul > li.disabled a {
@@ -77,7 +77,7 @@
   cursor : default;
 }
 .app-content .wizard > .steps > ul > li.disabled .step {
-  color : #1B1B1B;
+  color : #173138;
 }
 .app-content .wizard > .steps > ul > li.done a {
   color : #636363;
@@ -90,12 +90,12 @@
 }
 .app-content .wizard > .steps > ul > li.done .step {
   background-color : #FFFFFF;
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  color : #1B1B1B;
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  color : #173138;
 }
 .app-content .wizard > .steps > ul > li.done:last-child .step {
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
 }
 .app-content .wizard > .steps > ul > li.error > a {
@@ -163,7 +163,7 @@
   float : right;
 }
 .app-content .wizard > .actions > ul > li > a {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
   display : block;
   padding : 7px 12px;
@@ -180,7 +180,7 @@
   box-shadow : 0 0 0 100px rgba(0, 0, 0, 0.1) inset;
 }
 .app-content .wizard > .actions > ul > li > a[href='#previous'] {
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   color : #FFFFFF;
   border-radius : 0.42rem;
 }
@@ -215,7 +215,7 @@
   top : 43px;
   width : 50%;
   height : 3px;
-  background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+  background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
 }
 .app-content .wizard.wizard-circle > .steps > ul > li.current:after {
   background-color : transparent;
@@ -230,7 +230,7 @@
   width : 50px;
   height : 50px;
   line-height : 3rem;
-  border : 3px solid #1B1B1B;
+  border : 3px solid #173138;
   font-size : 1.5rem;
   font-weight : 500;
   border-radius : 50%;
@@ -250,12 +250,12 @@
   }
   .app-content .wizard > .steps > ul > li:last-child:after {
     content : '';
-    background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   }
 }
 
 @media (max-width: 480px) {
   .app-content .wizard > .steps > ul > li.current:after {
-    background-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background-color : linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
   }
 }

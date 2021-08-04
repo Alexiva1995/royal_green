@@ -116,8 +116,8 @@
 .bg-gradient-secondary {
     background: repeat-x #640064;
     color: #FFF;
-    background-image: -webkit-linear-gradient(60deg, #1B1B1B, rgba(184, 194, 204, .5));
-    background-image: linear-gradient(30deg, #1B1B1B, rgba(184, 194, 204, .5))
+    background-image: -webkit-linear-gradient(60deg, #173138, rgba(184, 194, 204, .5));
+    background-image: linear-gradient(30deg, #173138, rgba(184, 194, 204, .5))
 }
 
 .bg-gradient-secondary:active,
@@ -126,8 +126,8 @@
 }
 
 .gradient-light-secondary {
-    background: -webkit-linear-gradient(60deg, #1B1B1B 0, #DCDEEC 100%);
-    background: linear-gradient(30deg, #1B1B1B 0, #DCDEEC 100%);
+    background: -webkit-linear-gradient(60deg, #173138 0, #DCDEEC 100%);
+    background: linear-gradient(30deg, #173138 0, #DCDEEC 100%);
     color: #FFF
 }
 

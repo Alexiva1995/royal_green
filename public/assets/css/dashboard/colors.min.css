@@ -1446,7 +1446,7 @@ input:focus~.bg-light {
 }
 
 .overlay-primary {
-    background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     background: rgba(115, 103, 240, .6)
 }
 
@@ -1473,18 +1473,18 @@ input:focus~.bg-light {
 }
 
 .btn-flat-primary:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     background-color: rgba(115, 103, 240, .1)
 }
 
 .btn-flat-primary:active,
 .btn-flat-primary:focus {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     color: #FFF !important
 }
 
 .btn-relief-primary {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, .2);
     color: #FFF
 }
@@ -1502,7 +1502,7 @@ input:focus~.bg-light {
 }
 
 .btn-outline-primary {
-    border: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    border: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     background-color: transparent;
     color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
 }
@@ -1525,7 +1525,7 @@ input:focus~.bg-light {
 .btn-flat-primary~.dropdown-menu .dropdown-item.active,
 .btn-outline-primary~.dropdown-menu .dropdown-item.active,
 .btn-primary~.dropdown-menu .dropdown-item.active {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     color: #FFF
 }
 
@@ -1574,7 +1574,7 @@ input:focus~.bg-light {
 }
 
 .pagination-primary .page-item.active .page-link {
-    background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     color: #FFF
 }
 
@@ -1584,7 +1584,7 @@ input:focus~.bg-light {
 
 .pagination-primary .page-item.next-item .page-link:hover,
 .pagination-primary .page-item.prev-item .page-link:hover {
-    background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     color: #FFF
 }
 
@@ -1679,7 +1679,7 @@ input[type=radio].bg-primary+.custom-control-label:before {
 }
 
 .overlay-primary.overlay-darken-1 {
-    background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%);
+    background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     background: rgba(94, 80, 238, .6)
 }
 
@@ -2468,7 +2468,7 @@ input:focus~.bg-primary {
 
 .alert-secondary,
 .secondary {
-    color: #1B1B1B !important
+    color: #173138 !important
 }
 
 .btn-outline-secondary.btn-outline-lighten-1:hover {
@@ -2501,7 +2501,7 @@ input:focus~.bg-primary {
 }
 
 .bg-secondary {
-    background-color: #1B1B1B !important
+    background-color: #173138 !important
 }
 
 .bg-secondary .card-footer,
@@ -2526,43 +2526,43 @@ input:focus~.bg-primary {
 }
 
 .border-secondary {
-    border: 1px solid #1B1B1B !important
+    border: 1px solid #173138 !important
 }
 
 .border-top-secondary {
-    border-top: 1px solid #1B1B1B
+    border-top: 1px solid #173138
 }
 
 .border-bottom-secondary {
-    border-bottom: 1px solid #1B1B1B
+    border-bottom: 1px solid #173138
 }
 
 .border-left-secondary {
-    border-left: 1px solid #1B1B1B
+    border-left: 1px solid #173138
 }
 
 .border-right-secondary {
-    border-right: 1px solid #1B1B1B
+    border-right: 1px solid #173138
 }
 
 .badge-secondary.badge-glow,
 .bg-secondary.badge-glow,
 .border-secondary.badge-glow {
-    box-shadow: 0 0 10px #1B1B1B
+    box-shadow: 0 0 10px #173138
 }
 
 .badge.badge-secondary {
-    background-color: #1B1B1B
+    background-color: #173138
 }
 
 .overlay-secondary {
-    background: #1B1B1B;
+    background: #173138;
     background: rgba(184, 194, 204, .6)
 }
 
 .btn-secondary {
     border-color: #9AA9B7 !important;
-    background-color: #1B1B1B !important;
+    background-color: #173138 !important;
     color: #FFF
 }
 
@@ -2574,27 +2574,27 @@ input:focus~.bg-primary {
 
 .btn-secondary:hover {
     border-color: #A9B5C1 !important;
-    box-shadow: 0 8px 25px -8px #1B1B1B
+    box-shadow: 0 8px 25px -8px #173138
 }
 
 .btn-flat-secondary {
     background-color: transparent;
-    color: #1B1B1B
+    color: #173138
 }
 
 .btn-flat-secondary:hover {
-    color: #1B1B1B;
+    color: #173138;
     background-color: rgba(184, 194, 204, .1)
 }
 
 .btn-flat-secondary:active,
 .btn-flat-secondary:focus {
-    background-color: #1B1B1B;
+    background-color: #173138;
     color: #FFF !important
 }
 
 .btn-relief-secondary {
-    background-color: #1B1B1B;
+    background-color: #173138;
     box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, .2);
     color: #FFF
 }
@@ -2612,20 +2612,20 @@ input:focus~.bg-primary {
 }
 
 .btn-outline-secondary {
-    border: 1px solid #1B1B1B;
+    border: 1px solid #173138;
     background-color: transparent;
-    color: #1B1B1B
+    color: #173138
 }
 
 .divider.divider-secondary .divider-text:after,
 .divider.divider-secondary .divider-text:before,
 .vs-checkbox-secondary input:checked~.vs-checkbox {
-    border-color: #1B1B1B !important
+    border-color: #173138 !important
 }
 
 .btn-outline-secondary:hover {
     background-color: rgba(184, 194, 204, .08);
-    color: #1B1B1B
+    color: #173138
 }
 
 .btn-outline-secondary:active {
@@ -2635,7 +2635,7 @@ input:focus~.bg-primary {
 .btn-flat-secondary~.dropdown-menu .dropdown-item.active,
 .btn-outline-secondary~.dropdown-menu .dropdown-item.active,
 .btn-secondary~.dropdown-menu .dropdown-item.active {
-    background-color: #1B1B1B;
+    background-color: #173138;
     color: #FFF
 }
 
@@ -2660,7 +2660,7 @@ input:focus~.bg-primary {
 .dropup.dropdown-icon-wrapper .btn-flat-secondary~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-outline-secondary~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-secondary~.dropdown-menu .dropdown-item:hover i {
-    color: #1B1B1B
+    color: #173138
 }
 
 .dropdown.dropdown-icon-wrapper .btn-flat-secondary~.dropdown-menu .dropdown-item:active i,
@@ -2680,27 +2680,27 @@ input:focus~.bg-primary {
 }
 
 .bullet.bullet-secondary {
-    background-color: #1B1B1B
+    background-color: #173138
 }
 
 .pagination-secondary .page-item.active .page-link {
-    background: #1B1B1B;
+    background: #173138;
     color: #FFF
 }
 
 .pagination-secondary .page-item .page-link:hover {
-    color: #1B1B1B
+    color: #173138
 }
 
 .pagination-secondary .page-item.next-item .page-link:hover,
 .pagination-secondary .page-item.prev-item .page-link:hover {
-    background: #1B1B1B;
+    background: #173138;
     color: #FFF
 }
 
 .nav-pill-secondary .nav-item .nav-link.active {
     color: #FFF;
-    background-color: #1B1B1B
+    background-color: #173138
 }
 
 .progress-bar-secondary {
@@ -2708,7 +2708,7 @@ input:focus~.bg-primary {
 }
 
 .progress-bar-secondary .progress-bar {
-    background-color: #1B1B1B
+    background-color: #173138
 }
 
 .chip-secondary,
@@ -2716,7 +2716,7 @@ input:focus~.bg-primary {
 .vs-checkbox-secondary input:checked~.vs-checkbox .vs-checkbox--check,
 input[type=checkbox].bg-secondary+.custom-control-label:before,
 input[type=radio].bg-secondary+.custom-control-label:before {
-    background-color: #1B1B1B !important
+    background-color: #173138 !important
 }
 
 .chip-secondary .chip-body {
@@ -2724,14 +2724,14 @@ input[type=radio].bg-secondary+.custom-control-label:before {
 }
 
 .custom-switch-secondary .custom-control-input:checked~.custom-control-label::before {
-    background-color: #1B1B1B !important;
+    background-color: #173138 !important;
     color: #FFF;
     -webkit-transition: all .2s ease-out;
     transition: all .2s ease-out
 }
 
 .vs-radio-secondary input:checked~.vs-radio .vs-radio--circle {
-    background: #1B1B1B !important;
+    background: #173138 !important;
     box-shadow: 0 3px 12px 0 rgba(184, 194, 204, .4) !important
 }
 
