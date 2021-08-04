@@ -1,0 +1,46 @@
+input[type=text], input[type=password] , input[type=email], input[type=checkbox], input[type=search]{
+    background: #141414;
+    color: #FFF;
+  }
+  
+  input[type=text]:disabled, input[type=password]:disabled {
+      color: #ffffff;
+  }
+  
+  label[for=remember] {
+    color: #ffffff;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    vertical-align: top; 
+    padding: 0 0 0 5px;
+  }
+
+input[type=text]:hover:not([disabled]), 
+input[type=text]:focus, 
+input[type=text]:read-only, 
+input[type=password]:hover:not([disabled]), 
+input[type=password]:focus, 
+label:hover ~ input[type=text], 
+label:hover ~ input[type=password] {
+  background: #141414;
+  color: #ffffff;
+
+}
+
+span.input-group-text.cursor-pointer {
+  background: transparent;
+  border-color: #FF9F43;
+  }
+  
+  svg.feather.feather-eye {
+  color: #FF9F43;
+  }
+
+  .legazy_bg{
+    background: url("../../img/legazy_pro/bg.jpg");
+    justify-content: center;
+    text-align:center;
+    background-repeat:no-repeat;
+    background-size: cover;
+  }

@@ -1,0 +1,435 @@
+/*========================================================
+        DARK LAYOUT
+=========================================================*/
+
+#dashboard-analytics .img-left {
+    width : 200px;
+    position : absolute;
+    top : 0;
+    left : 0;
+  }
+  
+  #dashboard-analytics .img-right {
+    width : 175px;
+    position : absolute;
+    top : 0;
+    right : 0;
+  }
+  
+  #dashboard-analytics .bg-analytics {
+    background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
+    background :         linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
+  }
+  #dashboard-analytics .bg-analytics .avatar {
+    margin-bottom : 2rem;
+  }
+  
+  #dashboard-analytics table tr th:first-child, #dashboard-analytics table tr td:first-child {
+    padding-left : 2rem;
+  }
+  
+  #dashboard-analytics table tr th:last-child, #dashboard-analytics table tr td:last-child {
+    padding-right : 2rem;
+  }
+  
+  #dashboard-analytics table td {
+    padding : 0.75rem;
+  }
+  
+  @media only screen and (max-width: 576px) {
+    #dashboard-analytics .img-left, #dashboard-analytics .img-right {
+      width : 140px;
+    }
+  }
+
+  .btn-dark{
+    display: inline-block;
+    font-weight: 400;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border-color: #D6A83E;
+    padding: 0.9rem 5rem;
+    font-size: 1rem;
+    line-height: 1;
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .btn-darks{
+    display: inline-block;
+    font-weight: 400;
+    border-color: #D6A83E;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    padding: 0.9rem 4rem;
+    font-size: 1rem;
+    line-height: 1;
+    /*width: 95%;*/
+    -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .btn-darks:hover {
+    border: #1b1b1b 1px solid!important;
+    background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 94%) !important;
+    box-shadow : 0 8px 25px -8px #1E1E1E;
+  }
+
+  .btn-tree{
+    border: 2px #7D5814 solid;
+    font-weight: 400;
+    border-color: #7D5814;
+    border-radius: 5px;
+    color: #ffffff;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #1b1b1b;
+    padding: 1rem 0.9rem;
+    font-size: 1rem;
+    line-height: 1;
+    width: 95%;
+  }
+
+  .card-sub {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    border-bottom: none;
+    padding: 0.5rem 1.5rem 0;
+    background-color: transparent;
+}
+
+.gold{
+    color:#D6A83E ;
+}
+.w-5{
+  width: 5%;
+}
+
+.card-dl{ 
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    border-bottom: none;
+    padding: 1.5rem 1.5rem 0;
+    background-color: transparent;
+}
+
+.progress {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    height: 0.357rem;
+    overflow: hidden;
+    font-size: 0.75rem;
+    background-color: #373737;
+    border-radius: 0;
+}
+
+.progress-bar {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #FFFFFF;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #BA8621;
+    -webkit-transition: width 0.6s ease;
+    transition: width 0.6s ease;
+    border-radius: 0;
+}
+
+.progress .progress-bar {
+    border-radius: 0rem;
+}
+.h-90 {
+    height: 90%;
+}
+
+.padre ul {
+  padding-top: 20px;
+  padding-left: 0px;
+  position: relative;
+  display: flex;
+  overflow: auto;
+  justify-content: center;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+.padre ul ul{
+  padding-left: 0;
+}
+
+.padre .base{
+  height: 100px;
+  width: 100px;
+  border: #141414;
+}
+
+.padre .baseli{
+  width: 100%;
+}
+
+.padre li {
+  float: left;
+  text-align: center;
+  list-style-type: none;
+  position: relative;
+  padding: 20px 40px 0;
+
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+
+.padre li::before,
+.padre li::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 50%;
+  border-top: 2px solid #D6A83E;
+  width: 50%;
+  height: 20px;
+}
+
+.padre li::after {
+  right: auto;
+  left: 50%;
+  border-left: 2px solid #D6A83E;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.padre li:only-child::after,
+.padre li:only-child::before {
+  display: none;
+}
+
+/*Remove space from the top of single children*/
+.padre li:only-child {
+  padding-top: 0;
+}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.padre li:first-child::before,
+.padre li:last-child::after {
+  border: 0 none;
+}
+
+/*Adding back the vertical connector to the last nodes*/
+.padre li:last-child::before {
+  border-right: 2px solid #D6A83E;
+  border-radius: 0 5px 0 0;
+  -webkit-border-radius: 0 5px 0 0;
+  -moz-border-radius: 0 5px 0 0;
+}
+
+.padre li:first-child::after {
+  border-radius: 5px 0 0 0;
+  -webkit-border-radius: 5px 0 0 0;
+  -moz-border-radius: 5px 0 0 0;
+}
+/*Time to add downward connectors from parents*/
+.padre ul ul::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  border-left: 2px solid #ad7714;
+  width: 0;
+  height: 20px;
+}
+
+.padre li a {
+  border: 2px solid #D6A83E;
+  /* padding: 8px 5px; */
+  text-decoration: none;
+  color: #666;
+  font-family: arial, verdana, tahoma;
+  font-size: 11px;
+  display: inline-block;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+}
+
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+.padre li a:hover,
+.padre li a:hover+ul li a {
+  background: #c8e4f8;
+  color: #000;
+  border: 2px solid #94a0b4;
+}
+
+/*Connector styles on hover*/
+.padre li a:hover+ul li::after,
+.padre li a:hover+ul li::before,
+.padre li a:hover+ul::before,
+.padre li a:hover+ul ul::before {
+  border-color: #94a0b4;
+}
+
+@media (min-width: 768px) {
+  #tarjeta{
+      width: 33%;
+      position: absolute;
+      right: 50px;
+      z-index: 1;
+  }
+}
+
+.headerBalance{
+  background: #D6A83E;
+  color: #ffffff;
+  padding: 4px;
+  border-radius: 6px;
+}
+
+.bg-purple-alt{
+  background: #1b1b1b !important;
+}
+
+.bg-purple-alt2{
+  background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+}
+
+.bg-red-alt{
+  background: #D6A83E !important;
+}
+
+.pagination .page-item.active .page-link{
+  background: #D6A83E !important;
+}
+
+.text-red-alt{
+  color: #D6A83E !important;
+}
+
+.padding-button-short{
+  padding: 1.1rem 2rem !important;
+}
+
+.divide-dashboard-title{
+  padding: 20px;
+  text-align: center;
+  background: #eeeeee;
+}
+
+.main-menu.bg-purple-alt.menu-light .navigation > li.open > a{
+  background: #D6A83E !important;
+}
+
+.art{
+  background: rgb(131,104,44);
+  background: radial-gradient(circle, rgba(131,104,44,1) 0%, rgba(96,74,29,1) 100%);
+  border-radius: 10px;
+  background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  margin-left: 150px;
+  margin-top: -25px;
+}
+
+  input[type=text]:hover:not([disabled]), 
+  input[type=text]:focus, 
+  input[type=search], 
+  input[type=search]:focus, 
+  input[type=search]:active, 
+  input[type=text]:read-only, 
+  input[type=password]:hover:not([disabled]), 
+  input[type=password]:focus, 
+  label:hover ~ input[type=text], 
+  label:hover ~ input[type=password]
+  {
+  background: #141414;
+  color: #ffffff;
+}
+
+
+@media only screen and (max-width: 720px){
+
+  .art{
+    margin-left: 0px;
+    margin-top: 2rem;
+  }
+}
+
+
+.bg-lp{
+  background-color: #1E1E1E
+  }
+
+  body::-webkit-scrollbar {
+      width: 5px !important;
+      overflow: visible !important;
+
+  }
+  
+  body::-webkit-scrollbar-thumb {
+      background: #D6A83E !important;
+      border-radius: 7px !important;
+
+  }
+

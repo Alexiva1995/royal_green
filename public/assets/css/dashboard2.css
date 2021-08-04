@@ -1,0 +1,40 @@
+.headerBalance{
+    background: #D6A83E;
+    color: #ffffff;
+    padding: 4px;
+    border-radius: 6px;
+}
+
+.bg-purple-alt{
+    background: linear-gradient(90deg, rgba(214,168,62,1) 0%, rgba(172,118,19,1) 63%) !important;
+}
+
+.bg-purple-alt2{
+    background: linear-gradient(90deg, rgba(214,168,62,1) 0%, rgba(172,118,19,1) 63%) !important;
+}
+
+.bg-red-alt{
+    background: #D6A83E !important;
+}
+
+.pagination .page-item.active .page-link{
+    background: #D6A83E !important;
+}
+
+.text-red-alt{
+    color: #D6A83E !important;
+}
+
+.padding-button-short{
+    padding: 0.6rem 2rem !important;
+}
+
+.divide-dashboard-title{
+    padding: 20px;
+    text-align: center;
+    background: #eeeeee;
+}
+
+.main-menu.bg-purple-alt.menu-light .navigation > li.open > a{
+    background: linear-gradient(90deg, rgba(214,168,62,1) 0%, rgba(172,118,19,1) 63%) !important;
+}

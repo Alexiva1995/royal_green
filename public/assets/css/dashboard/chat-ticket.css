@@ -1,0 +1,40 @@
+@import "https://fonts.googleapis.com/css?family=Noto+Sans";
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color:  rgba(27, 27, 27, 0.727);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #D6A83E;
+}
+
+.chat-thread {
+  margin: 24px auto 0 auto;
+  padding: 0 20px 0 0;
+  list-style: none;
+  overflow-y: scroll;
+  background-color: #141414;
+  overflow-x: hidden;
+}
+
+/* Small screens */
+@media all and (max-width: 767px) {
+  .chat-thread {
+    width: 90%;
+    height: 260px;
+  }
+
+}
+/* Medium and large screens */
+@media all and (min-width: 768px) {
+  .chat-thread {
+    /* width: 50%; */
+    height: 320px;
+  }
+}
