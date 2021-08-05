@@ -470,7 +470,7 @@ input:focus~.bg-black {
 
 .alert-dark,
 .dark {
-    color: #1E1E1E !important
+    color: #173138  !important
 }
 
 .vs-radio-black input:checked~.vs-radio .vs-radio--circle {
@@ -479,7 +479,7 @@ input:focus~.bg-black {
 }
 
 .bg-dark {
-    background-color: #1E1E1E !important
+    background-color: #173138  !important
 }
 
 .bg-dark .card-footer,
@@ -504,42 +504,42 @@ input:focus~.bg-black {
 }
 
 .border-dark {
-    border: 1px solid #1E1E1E !important
+    border: 1px solid #173138  !important
 }
 
 .border-top-dark {
-    border-top: 1px solid #1E1E1E
+    border-top: 1px solid #173138 
 }
 
 .border-bottom-dark {
-    border-bottom: 1px solid #1E1E1E
+    border-bottom: 1px solid #173138 
 }
 
 .border-left-dark {
-    border-left: 1px solid #1E1E1E
+    border-left: 1px solid #173138 
 }
 
 .border-right-dark {
-    border-right: 1px solid #1E1E1E
+    border-right: 1px solid #173138 
 }
 
 .badge-dark.badge-glow,
 .bg-dark.badge-glow,
 .border-dark.badge-glow {
-    box-shadow: 0 0 10px #1E1E1E
+    box-shadow: 0 0 10px #173138 
 }
 
 .badge.badge-dark {
-    background-color: #1E1E1E
+    background-color: #173138 
 }
 
 .overlay-dark {
-    background: #1E1E1E;
+    background: #173138 ;
     background: rgba(30, 30, 30, .6)
 }
 
 .btn-dark {
-    background-color: #1E1E1E !important;
+    background-color: #173138  !important;
     color: #FFF
 }
 
@@ -550,27 +550,27 @@ input:focus~.bg-black {
 }
 
 .btn-dark:hover {
-    box-shadow: 0 8px 25px -8px #1E1E1E
+    box-shadow: 0 8px 25px -8px #173138 
 }
 
 .btn-flat-dark {
     background-color: transparent;
-    color: #1E1E1E
+    color: #173138 
 }
 
 .btn-flat-dark:hover {
-    color: #1E1E1E;
+    color: #173138 ;
     background-color: rgba(30, 30, 30, .1)
 }
 
 .btn-flat-dark:active,
 .btn-flat-dark:focus {
-    background-color: #1E1E1E;
+    background-color: #173138 ;
     color: #FFF !important
 }
 
 .btn-relief-dark {
-    background-color: #1E1E1E;
+    background-color: #173138 ;
     box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, .2);
     color: #FFF
 }
@@ -588,20 +588,20 @@ input:focus~.bg-black {
 }
 
 .btn-outline-dark {
-    border: 1px solid #1E1E1E;
+    border: 1px solid #173138 ;
     background-color: transparent;
-    color: #1E1E1E
+    color: #173138 
 }
 
 .divider.divider-dark .divider-text:after,
 .divider.divider-dark .divider-text:before,
 .vs-checkbox-dark input:checked~.vs-checkbox {
-    border-color: #1E1E1E !important
+    border-color: #173138  !important
 }
 
 .btn-outline-dark:hover {
     background-color: rgba(30, 30, 30, .08);
-    color: #1E1E1E
+    color: #173138 
 }
 
 .btn-outline-dark:active {
@@ -611,7 +611,7 @@ input:focus~.bg-black {
 .btn-dark~.dropdown-menu .dropdown-item.active,
 .btn-flat-dark~.dropdown-menu .dropdown-item.active,
 .btn-outline-dark~.dropdown-menu .dropdown-item.active {
-    background-color: #1E1E1E;
+    background-color: #173138 ;
     color: #FFF
 }
 
@@ -636,7 +636,7 @@ input:focus~.bg-black {
 .dropup.dropdown-icon-wrapper .btn-dark~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-flat-dark~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-outline-dark~.dropdown-menu .dropdown-item:hover i {
-    color: #1E1E1E
+    color: #173138 
 }
 
 .dropdown.dropdown-icon-wrapper .btn-dark~.dropdown-menu .dropdown-item:active i,
@@ -656,27 +656,27 @@ input:focus~.bg-black {
 }
 
 .bullet.bullet-dark {
-    background-color: #1E1E1E
+    background-color: #173138 
 }
 
 .pagination-dark .page-item.active .page-link {
-    background: #1E1E1E;
+    background: #173138 ;
     color: #FFF
 }
 
 .pagination-dark .page-item .page-link:hover {
-    color: #1E1E1E
+    color: #173138 
 }
 
 .pagination-dark .page-item.next-item .page-link:hover,
 .pagination-dark .page-item.prev-item .page-link:hover {
-    background: #1E1E1E;
+    background: #173138 ;
     color: #FFF
 }
 
 .nav-pill-dark .nav-item .nav-link.active {
     color: #FFF;
-    background-color: #1E1E1E
+    background-color: #173138 
 }
 
 .progress-bar-dark {
@@ -684,7 +684,7 @@ input:focus~.bg-black {
 }
 
 .progress-bar-dark .progress-bar {
-    background-color: #1E1E1E
+    background-color: #173138 
 }
 
 .chip-dark,
@@ -692,7 +692,7 @@ input:focus~.bg-black {
 .vs-checkbox-dark input:checked~.vs-checkbox .vs-checkbox--check,
 input[type=checkbox].bg-dark+.custom-control-label:before,
 input[type=radio].bg-dark+.custom-control-label:before {
-    background-color: #1E1E1E !important
+    background-color: #173138  !important
 }
 
 .chip-dark .chip-body {
@@ -700,14 +700,14 @@ input[type=radio].bg-dark+.custom-control-label:before {
 }
 
 .custom-switch-dark .custom-control-input:checked~.custom-control-label::before {
-    background-color: #1E1E1E !important;
+    background-color: #173138  !important;
     color: #FFF;
     -webkit-transition: all .2s ease-out;
     transition: all .2s ease-out
 }
 
 .vs-radio-dark input:checked~.vs-radio .vs-radio--circle {
-    background: #1E1E1E !important;
+    background: #173138  !important;
     box-shadow: 0 3px 12px 0 rgba(30, 30, 30, .4) !important
 }
 
@@ -5566,7 +5566,7 @@ input:focus~.bg-info {
 
 .alert-warning,
 .warning {
-    color: #FF9F43 !important
+    color: #66FFCC !important
 }
 
 .btn-outline-warning.btn-outline-lighten-1:hover {
@@ -5599,7 +5599,7 @@ input:focus~.bg-info {
 }
 
 .bg-warning {
-    background-color: #FF9F43 !important
+    background-color: #66FFCC !important
 }
 
 .bg-warning .card-footer,
@@ -5624,43 +5624,43 @@ input:focus~.bg-info {
 }
 
 .border-warning {
-    border: 1px solid #FF9F43 !important
+    border: 1px solid #66FFCC !important
 }
 
 .border-top-warning {
-    border-top: 1px solid #FF9F43
+    border-top: 1px solid #66FFCC
 }
 
 .border-bottom-warning {
-    border-bottom: 1px solid #FF9F43
+    border-bottom: 1px solid #66FFCC
 }
 
 .border-left-warning {
-    border-left: 1px solid #FF9F43
+    border-left: 1px solid #66FFCC
 }
 
 .border-right-warning {
-    border-right: 1px solid #FF9F43
+    border-right: 1px solid #66FFCC
 }
 
 .badge-warning.badge-glow,
 .bg-warning.badge-glow,
 .border-warning.badge-glow {
-    box-shadow: 0 0 10px #FF9F43
+    box-shadow: 0 0 10px #66FFCC
 }
 
 .badge.badge-warning {
-    background-color: #FF9F43
+    background-color: #66FFCC
 }
 
 .overlay-warning {
-    background: #FF9F43;
+    background: #66FFCC;
     background: rgba(255, 159, 67, .6)
 }
 
 .btn-warning {
     border-color: #FF8510 !important;
-    background-color: #FF9F43 !important;
+    background-color: #66FFCC !important;
     color: #FFF
 }
 
@@ -5672,27 +5672,27 @@ input:focus~.bg-info {
 
 .btn-warning:hover {
     border-color: #FF922A !important;
-    box-shadow: 0 8px 25px -8px #FF9F43
+    box-shadow: 0 8px 25px -8px #66FFCC
 }
 
 .btn-flat-warning {
     background-color: transparent;
-    color: #FF9F43
+    color: #66FFCC
 }
 
 .btn-flat-warning:hover {
-    color: #FF9F43;
+    color: #66FFCC;
     background-color: rgba(255, 159, 67, .1)
 }
 
 .btn-flat-warning:active,
 .btn-flat-warning:focus {
-    background-color: #FF9F43;
+    background-color: #66FFCC;
     color: #FFF !important
 }
 
 .btn-relief-warning {
-    background-color: #FF9F43;
+    background-color: #66FFCC;
     box-shadow: inset 0 -3px 0 0 rgba(0, 0, 0, .2);
     color: #FFF
 }
@@ -5710,20 +5710,20 @@ input:focus~.bg-info {
 }
 
 .btn-outline-warning {
-    border: 1px solid #FF9F43;
+    border: 1px solid #66FFCC;
     background-color: transparent;
-    color: #FF9F43
+    color: #66FFCC
 }
 
 .divider.divider-warning .divider-text:after,
 .divider.divider-warning .divider-text:before,
 .vs-checkbox-warning input:checked~.vs-checkbox {
-    border-color: #FF9F43 !important
+    border-color: #66FFCC !important
 }
 
 .btn-outline-warning:hover {
     background-color: rgba(255, 159, 67, .08);
-    color: #FF9F43
+    color: #66FFCC
 }
 
 .btn-outline-warning:active {
@@ -5733,7 +5733,7 @@ input:focus~.bg-info {
 .btn-flat-warning~.dropdown-menu .dropdown-item.active,
 .btn-outline-warning~.dropdown-menu .dropdown-item.active,
 .btn-warning~.dropdown-menu .dropdown-item.active {
-    background-color: #FF9F43;
+    background-color: #66FFCC;
     color: #FFF
 }
 
@@ -5758,7 +5758,7 @@ input:focus~.bg-info {
 .dropup.dropdown-icon-wrapper .btn-flat-warning~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-outline-warning~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-warning~.dropdown-menu .dropdown-item:hover i {
-    color: #FF9F43
+    color: #66FFCC
 }
 
 .dropdown.dropdown-icon-wrapper .btn-flat-warning~.dropdown-menu .dropdown-item:active i,
@@ -5778,27 +5778,27 @@ input:focus~.bg-info {
 }
 
 .bullet.bullet-warning {
-    background-color: #FF9F43
+    background-color: #66FFCC
 }
 
 .pagination-warning .page-item.active .page-link {
-    background: #FF9F43;
+    background: #66FFCC;
     color: #FFF
 }
 
 .pagination-warning .page-item .page-link:hover {
-    color: #FF9F43
+    color: #66FFCC
 }
 
 .pagination-warning .page-item.next-item .page-link:hover,
 .pagination-warning .page-item.prev-item .page-link:hover {
-    background: #FF9F43;
+    background: #66FFCC;
     color: #FFF
 }
 
 .nav-pill-warning .nav-item .nav-link.active {
     color: #FFF;
-    background-color: #FF9F43
+    background-color: #66FFCC
 }
 
 .progress-bar-warning {
@@ -5806,7 +5806,7 @@ input:focus~.bg-info {
 }
 
 .progress-bar-warning .progress-bar {
-    background-color: #FF9F43
+    background-color: #66FFCC
 }
 
 .chip-warning,
@@ -5814,7 +5814,7 @@ input:focus~.bg-info {
 .vs-checkbox-warning input:checked~.vs-checkbox .vs-checkbox--check,
 input[type=checkbox].bg-warning+.custom-control-label:before,
 input[type=radio].bg-warning+.custom-control-label:before {
-    background-color: #FF9F43 !important
+    background-color: #66FFCC !important
 }
 
 .chip-warning .chip-body {
@@ -5822,14 +5822,14 @@ input[type=radio].bg-warning+.custom-control-label:before {
 }
 
 .custom-switch-warning .custom-control-input:checked~.custom-control-label::before {
-    background-color: #FF9F43 !important;
+    background-color: #66FFCC !important;
     color: #FFF;
     -webkit-transition: all .2s ease-out;
     transition: all .2s ease-out
 }
 
 .vs-radio-warning input:checked~.vs-radio .vs-radio--circle {
-    background: #FF9F43 !important;
+    background: #66FFCC !important;
     box-shadow: 0 3px 12px 0 rgba(255, 159, 67, .4) !important
 }
 

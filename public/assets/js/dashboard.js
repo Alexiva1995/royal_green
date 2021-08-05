@@ -9,7 +9,7 @@ var vm_dashboard = new Vue({
                 primary: '#66FFCC',
                 success: '#28C76F',
                 danger: '#EA5455',
-                warning: '#FF9F43',
+                warning: '#66FFCC',
                 primary_light: '#A9A2F6',
                 success_light: '#55DD92',
                 warning_light: '#ffc085',

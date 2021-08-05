@@ -21,10 +21,10 @@ class UserTableSeeder extends Seeder
             
             [
                 'name' => 'Admin',
-                'last_name' => 'BFX',
-                'fullname' => 'Admin BFX',
-                'username' => 'AdminBFX',
-                'email' => 'admin@bfx.com',
+                'last_name' => 'RY',
+                'fullname' => 'Admin RY',
+                'username' => 'AdminRY',
+                'email' => 'admin@ry.com',
                 'password' => Hash::make('123456789'),
                 'whatsapp' => '123456789',
                 'admin' => '1',
@@ -34,10 +34,10 @@ class UserTableSeeder extends Seeder
             
             [
                 'name' => 'Test',
-                'last_name' => 'BFX',
-                'fullname' => 'Test BFX',
-                'username' => 'TestBFX',
-                'email' => 'test@bfx.com',
+                'last_name' => 'RY',
+                'fullname' => 'Test RY',
+                'username' => 'TestRY',
+                'email' => 'test@ry.com',
                 'password' => Hash::make('123456789'),
                 'whatsapp' => '123456789',
                 'referred_id' => 1,
@@ -47,10 +47,10 @@ class UserTableSeeder extends Seeder
 
             [
                 'name' => 'Test',
-                'last_name' => 'BFX 2',
-                'fullname' => 'Test BFX 2',
-                'username' => 'TestBFX2',
-                'email' => 'test@bfx2.com',
+                'last_name' => 'RY 2',
+                'fullname' => 'Test RY 2',
+                'username' => 'TestRY2',
+                'email' => 'test@ry2.com',
                 'password' => Hash::make('123456789'),
                 'whatsapp' => '123456789',
                 'referred_id' => 2,

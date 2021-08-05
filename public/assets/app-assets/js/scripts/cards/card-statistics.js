@@ -13,7 +13,7 @@ $(window).on("load", function(){
   var $primary = '#66FFCC';
   var $success = '#28C76F';
   var $danger = '#EA5455';
-  var $warning = '#FF9F43';
+  var $warning = '#66FFCC';
   var $primary_light = '#A9A2F6';
   var $success_light = '#55DD92';
   var $warning_light = '#ffc085';

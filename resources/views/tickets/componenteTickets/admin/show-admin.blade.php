@@ -20,7 +20,7 @@
                                     <div class="form-group">
                                         <label class="text-white">Asunto del Ticket</label>
                                         <textarea type="text"  id="asunto"
-                                            class="form-control bg-lp border border-warning rounded-0"
+                                            class="form-control bg-lp border border-primary rounded-0"
                                             name="asunto">{{ $ticket->issue }}</textarea>
                                     </div>
                                 </div>
@@ -31,7 +31,7 @@
                                             <label for="status" class="text-white">Estado del Ticket</label>
                                             <span class="text-danger text-bold-600">OBLIGATORIO</span>
                                             <select name="status" id="status"
-                                                class="custom-select status form-control bg-lp border border-warning rounded-0 @error('status') is-invalid @enderror"
+                                                class="custom-select status form-control bg-lp border border-primary rounded-0 @error('status') is-invalid @enderror"
                                                 required data-toggle="select">
                                                 <option value="0" @if($ticket->status == '0') selected
                                                     @endif>Abierto</option>
@@ -50,7 +50,7 @@
                                                 Ticket</label>
                                             <span class="text-danger text-bold-600">OBLIGATORIO</span>
                                             <select name="priority" id="priority"
-                                                class="custom-select priority form-control bg-lp border border-warning rounded-0 @error('priority') is-invalid @enderror"
+                                                class="custom-select priority form-control bg-lp border border-primary rounded-0 @error('priority') is-invalid @enderror"
                                                 required data-toggle="select">
                                                 <option value="0" @if($ticket->priority == '0') selected
                                                     @endif>Alto</option>
@@ -67,7 +67,7 @@
                                     <div class="form-group">
                                         <label class="text-white">Descripcion del Ticket</label>
                                         <textarea type="text" rows="5" readonly id="description"
-                                            class="form-control form-control bg-lp border border-warning rounded-0"
+                                            class="form-control form-control bg-lp border border-primary rounded-0"
                                             name="description">{{ $ticket->description }}</textarea>
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                 <div class="col-12 mt-2 mb-2">
                                     <label class="form-label text-white" for="note"><b>Chat con el administrador</b></label>
 
-                                        <section class="chat-app-window mb-2 border border-warning rounded-0">
+                                        <section class="chat-app-window mb-2 border border-primary rounded-0">
                                             <div class="active-chat">
                                                 <div class="user-chats ps ps--active-y bg-lp">
                                                     <div class="chats">
@@ -123,7 +123,7 @@
                                         <label for="note">Escribir mensaje</label>
                                         <span class="text-danger text-bold-600">(Espere que el admin responda antes de enviar
                                             otro mensaje)</span>
-                                        <textarea class="form-control border border-warning rounded-0 chat-window-message"
+                                        <textarea class="form-control border border-primary rounded-0 chat-window-message"
                                             type="text" id="note" name="note"></textarea>
                                 </div>
                              </div>  

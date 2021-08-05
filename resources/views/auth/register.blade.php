@@ -26,7 +26,7 @@ $referred = DB::table('users')
     <div class="auth-inner row m-0">
 
         <!-- Left bg-->
-        <div class="d-none d-lg-flex col-lg-8 align-items-center legazy_bg">
+        <div class="d-none d-lg-flex col-lg-8 align-items-center royal_bg">
             <div class="align-items-center justify-content-center">
                 <div class="row justify-content-center">
                     <div class="col-auto">
@@ -48,27 +48,27 @@ $referred = DB::table('users')
                 @csrf
                 <div class="mb-2">
                     <label class="form-label text-white mb-1" for="fullname"><b>Nombre y Apellido</b></label>
-                    <input class="form-control border border-warning rounded-0" id="fullname" type="text" required
+                    <input class="form-control border border-primary rounded-0" id="fullname" type="text" required
                         name="fullname" placeholder="john example" />
                 </div>
                 <div class="mb-2">
                     <label class="form-label text-white mb-1" for="username"><b>Nombre de usuario</b></label>
-                    <input class="form-control border border-warning rounded-0" id="username" type="text" required
+                    <input class="form-control border border-primary rounded-0" id="username" type="text" required
                         name="username" placeholder="john example" />
                 </div>
                 <div class="mb-2">
                     <label class="form-label text-white mb-1" for="email"><b>Correo Electronico</b></label>
-                    <input class="form-control border border-warning rounded-0" id="email" type="email" required
+                    <input class="form-control border border-primary rounded-0" id="email" type="email" required
                         name="email" placeholder="john@example.com" />
                 </div>
                 <div class="mb-2">
                     {{-- <label class="form-label text-white mb-1" for="referred_id"><b>Auspiciador</b></label> --}}
                     @if (!empty($referred))
-                    <input class="form-control border border-warning rounded-0" id="referred_id" type="hidden"
+                    <input class="form-control border border-primary rounded-0" id="referred_id" type="hidden"
                         name="referred_id" placeholder="" aria-describedby="referred_id" autofocus="" readonly
                         value="{{request()->referred_id}}" />
                     @else
-                    <input class="form-control border border-warning rounded-0" id="referred_id" type="hidden"
+                    <input class="form-control border border-primary rounded-0" id="referred_id" type="hidden"
                         name="referred_id" placeholder="Sin Auspiciador" aria-describedby="referred_id" autofocus=""
                         readonly value="1" />
                     @endif
@@ -79,7 +79,7 @@ $referred = DB::table('users')
                         <label class="form-label text-white mb-1" for="password"><b>Contraseña</b></label>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
-                        <input class="form-control form-control-merge border border-warning rounded-0" id="password"
+                        <input class="form-control form-control-merge border border-primary rounded-0" id="password"
                             type="password" required name="password" placeholder="························"
                             aria-describedby="password" tabindex="2" />
                         <span class="input-group-text cursor-pointer rounded-0"><i data-feather="eye"></i></span>
@@ -90,7 +90,7 @@ $referred = DB::table('users')
                         <label class="form-label text-white mb-1" for="password"><b>Confirmar Contraseña</b></label>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
-                        <input class="form-control form-control-merge border border-warning rounded-0" type="password"
+                        <input class="form-control form-control-merge border border-primary rounded-0" type="password"
                             required name="password_confirmation" placeholder="························"
                             aria-describedby="password" tabindex="2" />
                         {{-- <span class="input-group-text cursor-pointer rounded-0"><i data-feather="eye"></i></span> --}}

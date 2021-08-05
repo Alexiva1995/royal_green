@@ -8,7 +8,7 @@
 
     <link rel="shortcut icon" href="{{ asset('assets/img/royal_green/logos/logo.svg') }}" type="image/x-icon">
     
-    <title>Legazy Pro</title>
+    <title>Royal Green</title>
     {{-- Styles --}}
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     @include('layouts.componenteDashboard.styles')

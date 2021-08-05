@@ -1,8 +1,10 @@
 {
-    "name": "laravel/laravel",
+    "name": "valdusoft/project",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "Laravel Framework.",
     "keywords": [
+        "valdusoft",
+        "project",
         "framework",
         "laravel"
     ],

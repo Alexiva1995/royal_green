@@ -30,17 +30,16 @@ label:hover ~ input[type=password] {
 
 span.input-group-text.cursor-pointer {
   background: transparent;
-  border-color: #FF9F43;
+  border-color: #66FFCC;
   }
   
   svg.feather.feather-eye {
-  color: #FF9F43;
+  color: #66FFCC;
   }
 
-  .legazy_bg{
-    background: url("../../img/royal_green/bg.jpg");
+  .royal_bg{
+    background: url("../../img/royal_green/fondos/auth.svg");
     justify-content: center;
-    text-align:center;
     background-repeat:no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
   }

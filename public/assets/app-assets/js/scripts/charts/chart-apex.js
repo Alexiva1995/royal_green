@@ -13,7 +13,7 @@ $(document).ready(function () {
   var $primary = '#66FFCC',
     $success = '#28C76F',
     $danger = '#EA5455',
-    $warning = '#FF9F43',
+    $warning = '#66FFCC',
     $info = '#00cfe8',
     $label_color_light = '#dae1e7';
 

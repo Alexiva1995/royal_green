@@ -12,16 +12,16 @@
   'use strict';
   // main menu active gradient colors object
   var themeColor = {
-    "theme-primary": "linear-gradient(118deg, #66FFCC, #FF9F43)",
+    "theme-primary": "linear-gradient(118deg, #66FFCC, #66FFCC)",
     "theme-success": "linear-gradient(118deg, #28c76f, rgba(40, 199, 111, 0.7))",
     "theme-danger": "linear-gradient(118deg, #ea5455, rgba(234, 84, 85, 0.7))",
     "theme-info": "linear-gradient(118deg, #00cfe8, rgba(0, 207, 232, 0.7))",
-    "theme-warning": "linear-gradient(118deg, #ff9f43, rgba(255, 159, 67, 0.7))",
-    "theme-dark": "linear-gradient(118deg, #1e1e1e, rgba(30, 30, 30, 0.7))"
+    "theme-warning": "linear-gradient(118deg, #66FFCC, rgba(255, 159, 67, 0.7))",
+    "theme-dark": "linear-gradient(118deg, #173138 , rgba(30, 30, 30, 0.7))"
   }
   // main menu active box shadow object
   var themeBoxShadow = {
-    "theme-primary": "0 0 10px 1px #FF9F43",
+    "theme-primary": "0 0 10px 1px #66FFCC",
     "theme-success": "0 0 10px 1px rgba(40, 199, 111, 0.7)",
     "theme-danger": "0 0 10px 1px rgba(234, 84, 85, 0.7)",
     "theme-info": "0 0 10px 1px rgba(0, 207, 232, 0.7)",
@@ -35,7 +35,7 @@
     "theme-success": "#28c76f",
     "theme-danger": "#ea5455",
     "theme-info": "#00cfe8",
-    "theme-warning": "#ff9f43",
+    "theme-warning": "#66FFCC",
     "theme-dark": "#adb5bd"
   }
   // Brand Logo Poisitons

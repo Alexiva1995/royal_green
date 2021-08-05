@@ -13,8 +13,8 @@ $(window).on("load", function () {
   var $primary = '#66FFCC';
   var $success = '#28C76F';
   var $danger = '#EA5455';
-  var $warning = '#FF9F43';
-  var $label_color = '#1E1E1E';
+  var $warning = '#66FFCC';
+  var $label_color = '#173138 ';
   var grid_line_color = '#dae1e7';
   var scatter_grid_color = '#f3f3f3';
   var $scatter_point_light = '#D1D4DB';

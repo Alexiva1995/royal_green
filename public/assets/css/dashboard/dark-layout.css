@@ -1089,7 +1089,7 @@ body.dark-layout.email-application .app-content .content-area-wrapper .email-app
   border-color : #414561;
 }
 body.dark-layout.email-application .app-content .content-area-wrapper .email-app-list .email-user-list .media:hover {
-  box-shadow : 0 0 0 0 #1E1E1E;
+  box-shadow : 0 0 0 0 #173138 ;
 }
 body.dark-layout.email-application .app-content .content-area-wrapper .email-app-list .email-user-list .mail-read, body.dark-layout.email-application .app-content .content-area-wrapper .email-app-list .email-user-list .media {
   background-color : #262C49;
@@ -1240,7 +1240,7 @@ body.dark-layout.ecommerce-application .content-right .grid-view .ecommerce-card
   color : #FFFFFF;
 }
 body.dark-layout.ecommerce-application .content-right .grid-view .ecommerce-card .item-options .wishlist span, body.dark-layout.ecommerce-application .content-right .list-view .ecommerce-card .item-options .wishlist span, body.dark-layout.ecommerce-application .content-body .grid-view .ecommerce-card .item-options .wishlist span, body.dark-layout.ecommerce-application .content-body .list-view .ecommerce-card .item-options .wishlist span {
-  color : #2C2C2C;
+  color : #173138;
 }
 body.dark-layout.ecommerce-application .content-right .grid-view .ecommerce-card .item-options .cart span, body.dark-layout.ecommerce-application .content-right .list-view .ecommerce-card .item-options .cart span, body.dark-layout.ecommerce-application .content-body .grid-view .ecommerce-card .item-options .cart span, body.dark-layout.ecommerce-application .content-body .list-view .ecommerce-card .item-options .cart span {
   color : #FFFFFF;
@@ -1312,7 +1312,7 @@ body.dark-layout .toast-container .toast.toast-error {
   background-color : #EA5455;
 }
 body.dark-layout .toast-container .toast.toast-warning {
-  background-color : #FF9F43;
+  background-color : #66FFCC;
 }
 body.dark-layout .dropzone {
   background-color : #262C49;

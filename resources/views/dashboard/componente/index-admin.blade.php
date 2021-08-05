@@ -4,9 +4,8 @@
     @include('dashboard.componente.partials.tranding-view')
 
         <div class="row" id="dashboard-analytics">
-            <div class="col-sm-6 col-12 mt-1 art">
-                <div class="card h-80 p-2"
-                    style="background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);">
+            <div class="col-sm-6 col-12 mt-1">
+                <div class="card h-80 p-2 art-2">
 
                     <div class="float-right d-flex">
                         <img class="float-right" src="{{ asset('assets/img/icon/money.svg') }}" alt="">

@@ -251,7 +251,7 @@ pre code {
   font-size : 0.85rem;
   border : 1px solid rgba(54,99,112,1)
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
   -webkit-transition : all 0.2s ease;
           transition : all 0.2s ease;
 }
@@ -260,7 +260,7 @@ pre code {
   font-size : 0.85rem;
   border : 1px solid rgba(54,99,112,1)
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
   -webkit-transition : all 0.2s ease;
           transition : all 0.2s ease;
 }
@@ -269,7 +269,7 @@ pre code {
   font-size : 0.85rem;
   border : 1px solid rgba(54,99,112,1)
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
   -webkit-transition : all 0.2s ease;
           transition : all 0.2s ease;
 }
@@ -278,7 +278,7 @@ pre code {
   font-size : 0.85rem;
   border : 1px solid rgba(54,99,112,1)
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
   -webkit-transition : all 0.2s ease;
           transition : all 0.2s ease;
 }
@@ -287,7 +287,7 @@ pre code {
   font-size : 0.85rem;
   border : 1px solid rgba(54,99,112,1)
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
   -webkit-transition : all 0.2s ease;
           transition : all 0.2s ease;
 }
@@ -333,7 +333,7 @@ pre code {
 
 .form-control:focus ~ .form-control-position i {
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
   
 }
 
@@ -357,7 +357,7 @@ textarea.form-control {
 .form-control {
   border : 1px solid rgba(54,99,112,1)
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
 }
 
 .form-section {
@@ -979,7 +979,7 @@ select.form-control:not([multiple='multiple']) {
   z-index : 1;
   box-shadow : none;
   color : #fff;
-  background: #1f1f1f;
+  background: #11262C;
 }
 
 .bootstrap-touchspin .bootstrap-touchspin-injected {
@@ -2401,7 +2401,7 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   background : rgba(0, 0, 0, 0.45);
 }
 .card .card-img-overlay .text-muted {
-  color : #1E1E1E !important;
+  color : #173138  !important;
 }
 .card.card-minimal {
   border : none;
@@ -3507,7 +3507,7 @@ _:-ms-lang(x), .toast-bs-container {
   color : #DC3545;
 }
 .modal .modal-header.bg-warning .close span {
-  color : #FF9F43;
+  color : #66FFCC;
 }
 .modal .modal-header.bg-dark .close span {
   color : #343A40;

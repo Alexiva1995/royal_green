@@ -222,7 +222,7 @@
 
 .ecommerce-application .ecommerce-card .item-name {
   font-weight : 600;
-  color : #2C2C2C;
+  color : #173138;
 }
 
 .ecommerce-application .ecommerce-card .item-description {
@@ -243,7 +243,7 @@
 
 .ecommerce-application .ecommerce-card .wishlist {
   background-color : #F6F6F6;
-  color : #2C2C2C;
+  color : #173138;
   -webkit-user-select : none;
      -moz-user-select : none;
       -ms-user-select : none;

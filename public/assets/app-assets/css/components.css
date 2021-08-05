@@ -432,7 +432,7 @@ body.fixed-footer footer.footer-dark {
 .main-menu.menu-light .navigation > li.active > a {
   background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
   background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
-  box-shadow : 0 0 10px 1px #FF9F43;
+  box-shadow : 0 0 10px 1px #66FFCC;
   color : #FFFFFF;
   font-weight : 400;
   border-radius : 4px;
@@ -476,7 +476,7 @@ body.fixed-footer footer.footer-dark {
 .main-menu.menu-light .navigation > li ul .active {
   background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
   background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
-  box-shadow : 0 0 10px 1px #FF9F43;
+  box-shadow : 0 0 10px 1px #66FFCC;
   border-radius : 4px;
 }
 .main-menu.menu-light .navigation > li ul .active > a {
@@ -598,7 +598,7 @@ body.fixed-footer footer.footer-dark {
 .main-menu.menu-dark .navigation > li.active > a {
   background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
   background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
-  box-shadow : 0 0 10px 1px #FF9F43;
+  box-shadow : 0 0 10px 1px #66FFCC;
   color : #FFFFFF;
   font-weight : 400;
   border-radius : 4px;
@@ -642,7 +642,7 @@ body.fixed-footer footer.footer-dark {
 .main-menu.menu-dark .navigation > li ul .active {
   background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
   background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
-  box-shadow : 0 0 10px 1px #FF9F43;
+  box-shadow : 0 0 10px 1px #66FFCC;
   border-radius : 4px;
 }
 .main-menu.menu-dark .navigation > li ul .active > a {
@@ -1755,7 +1755,7 @@ body.fixed-footer .main-menu.menu-fixed {
   background-color : #EA5455;
 }
 .avatar .avatar-status-away {
-  background-color : #FF9F43;
+  background-color : #66FFCC;
 }
 .avatar .avatar-status-offline {
   background-color : #173138;

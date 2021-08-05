@@ -24,7 +24,7 @@
                                     <div class="col-12">
                                         <label class="form-label text-white mb-1" for="issue"><b>Asunto del
                                                 ticket</b></label>
-                                        <input class="form-control border border-warning rounded-0" type="text" readonly
+                                        <input class="form-control border border-primary rounded-0" type="text" readonly
                                             id="issue" name="issue" value="{{ $ticket->issue }}" rows="3" />
 
                                     </div>
@@ -36,7 +36,7 @@
                                                     Ticket</label>
                                                 <span class="text-danger text-bold-600">OBLIGATORIO</span>
                                                 <select name="priority" id="priority"
-                                                    class="custom-select priority form-control bg-lp border border-warning rounded-0 @error('priority') is-invalid @enderror"
+                                                    class="custom-select priority form-control bg-lp border border-primary rounded-0 @error('priority') is-invalid @enderror"
                                                     required data-toggle="select" disabled>
                                                     <option value="0" @if($ticket->priority == '0') selected
                                                         @endif>Alto</option>
@@ -52,7 +52,7 @@
                                    <div class="col-12 mt-2 mb-2">
                                     <label class="form-label text-white" for="note"><b>Chat con el usuario</b></label>
 
-                                    <section class="chat-app-window mb-2 border border-warning rounded-0">
+                                    <section class="chat-app-window mb-2 border border-primary rounded-0">
                                         <div class="active-chat">
                                             <div class="user-chats ps ps--active-y bg-lp">
                                                 <div class="chats chat-thread">
@@ -128,7 +128,7 @@
 
                                         <span class="text-danger text-bold-600">Aqui podra escribir el mensaje para el admin</span>
                                         <textarea
-                                            class="form-control border border-warning rounded-0"
+                                            class="form-control border border-primary rounded-0"
                                             type="text" id="message" name="message" disabled rows="3"></textarea>
 
                                     </div>

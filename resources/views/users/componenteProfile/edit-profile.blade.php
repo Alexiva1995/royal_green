@@ -17,7 +17,7 @@
                 <div class="controls">
                     <label class=" white" for="wallet_address">Billetera</label>
                     <input type="text"
-                        class="form-control border border-warning rounded-0 @error('wallet_address') is-invalid @enderror"
+                        class="form-control border border-primary rounded-0 @error('wallet_address') is-invalid @enderror"
                         id="wallet_address" name="wallet_address"
                         value="{{ $user->wallet_address }}">
                     @error('wallet_address')
@@ -30,7 +30,7 @@
             <div class="form-group">
                 <div class="controls">
                     <label class=" white" for="type_wallet">Tipo de Billetera @if ($user->type_wallet != '') -> Billetera Selecionada: {{ $user->type_wallet }} @endif</label>
-                    <select name="type_wallet" class="form-control border border-warning rounded-0 @error('wallet_address') is-invalid @enderror">
+                    <select name="type_wallet" class="form-control border border-primary rounded-0 @error('wallet_address') is-invalid @enderror">
                         <option value="" selected disabled>Seleccione una billetera</option>
                         <option value="BTC">BTC</option>
                         <option value="USDT">USDT</option>
@@ -53,7 +53,7 @@
     <hr>
     <div class="media">
         <div class="custom-file">
-            <label class="custom-file-label  border border-warning rounded-0" for="photoDB" style="background: #1e1e1e;color: white;">Seleccione su
+            <label class="custom-file-label  border border-primary rounded-0" for="photoDB" style="background: #173138 ;color: white;">Seleccione su
                 Foto <b>(Se permiten JPG o PNG.
                 Tamaño máximo de 800kB)</b></label>
             <input type="file" id="photoDB"
@@ -91,7 +91,7 @@
                 <div class="controls">
                     <label class=" white" for="">Nombre Completo</label>
                     <input type="text"
-                        class="form-control border border-warning rounded-0 @error('name') is-invalid @enderror"
+                        class="form-control border border-primary rounded-0 @error('name') is-invalid @enderror"
                         id="fullname" name="fullname"
                         value="{{ $user->fullname }}">
                     @error('fullname')
@@ -108,7 +108,7 @@
                 <div class="controls">
                     <label class=" white" for="email">Email</label>
                     <input type="email"
-                        class="form-control border border-warning rounded-0 @error('email') is-invalid @enderror"
+                        class="form-control border border-primary rounded-0 @error('email') is-invalid @enderror"
                         id="email" name="email"
                         value="{{ $user->email }}">
                     @error('email')
@@ -124,7 +124,7 @@
                 <div class="controls">
                     <label class=" white" for="whatsapp">Telefono</label>
                     <input type="text"
-                        class="form-control border border-warning rounded-0 @error('whatsapp') is-invalid @enderror"
+                        class="form-control border border-primary rounded-0 @error('whatsapp') is-invalid @enderror"
                         name="whatsapp" value="{{ $user->whatsapp }}">
                     @error('whatsapp')
                     <span class="invalid-feedback" role="alert">
@@ -140,7 +140,7 @@
                 <div class="controls">
                     <label class=" white" for="password">Contraseña Actual</label>
             
-                    <input id="password" type="password" class="form-control border border-warning rounded-0" name="current_password"
+                    <input id="password" type="password" class="form-control border border-primary rounded-0" name="current_password"
                     autocomplete="current-password">
             
                 </div>
@@ -152,7 +152,7 @@
             <div class="controls">
             <label for="password" class="white">Nueva Contraseña</label>
             
-                <input id="new_password" type="password" class="form-control border border-warning rounded-0" name="new_password"
+                <input id="new_password" type="password" class="form-control border border-primary rounded-0" name="new_password"
                     autocomplete="current-password">
             </div>
         </div>
@@ -163,7 +163,7 @@
             <div class="controls">
             <label for="password" class="white">Confirme la Contraseña</label>
             
-                <input id="new_confirm_password" type="password" class="form-control border border-warning rounded-0"
+                <input id="new_confirm_password" type="password" class="form-control border border-primary rounded-0"
                     name="new_confirm_password" autocomplete="current-password">
             </div>
         </div>
@@ -188,7 +188,7 @@
                 <div class="controls">
                     <label class=" white" for="address">Dirección</label>
                     <textarea type="text"
-                        class="form-control border border-warning white rounded-0 @error('address') is-invalid @enderror"
+                        class="form-control border border-primary white rounded-0 @error('address') is-invalid @enderror"
                         id="address"name="address" style="background: #11262C;">{{ $user->address}}</textarea>
                     @error('address')
                     <span class="invalid-feedback" role="alert">

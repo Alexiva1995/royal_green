@@ -13,7 +13,7 @@
 
         
         <!-- Left bg-->
-        <div class="d-none d-lg-flex col-lg-8 align-items-center legazy_bg">
+        <div class="d-none d-lg-flex col-lg-9 align-items-center royal_bg">
             <div class="align-items-center justify-content-center">
                 <div class= "row justify-content-center">
                     <div class="col-auto">
@@ -24,16 +24,16 @@
         </div>
 
         <!-- Login-->
-        <div class="d-flex col-lg-4 align-items-center auth-bg p-lg-4">
+        <div class="d-flex col-lg-3 align-items-center auth-bg p-lg-4">
             
             <div class="row">
-                <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2">
+                <div class="col-12 col-sm-12 col-md-12 col-lg-12 px-xl-2">
                     <h2 class="card-title fw-bold mb-1 text-white">Iniciar Sesión</h2>
                     <form class="auth-login-form mt-2" action="{{ route('login') }}" method="POST">
                         @csrf
                         <div class="mb-1">
                             <label class="form-label text-white" for="username">Usuario</label>
-                            <input class="form-control border border-warning rounded-0" id="username" type="text" required name="username"
+                            <input class="form-control border border-primary rounded-0" id="username" type="text" required name="username"
                                 placeholder="john example" aria-describedby="username" autofocus="" tabindex="1" />
                         </div>
                         <div class="mb-1">
@@ -42,7 +42,7 @@
                                     href="page-auth-forgot-password-v2.html"><small>Olvide mi contraseña</small></a>
                             </div>
                             <div class="input-group input-group-merge form-password-toggle">
-                                <input class="form-control form-control-merge border border-warning rounded-0" required id="password" type="password"
+                                <input class="form-control form-control-merge border border-primary rounded-0" required id="password" type="password"
                                     name="password" placeholder="························" aria-describedby="password"
                                     tabindex="2" /><span class="input-group-text cursor-pointer"><i
                                         data-feather="eye"></i></span>
@@ -51,7 +51,7 @@
     
                         <div class="mb-1">
                             <div class="form-check">
-                                <input class="form-check-input border-warning rounded-0" id="remember-me" type="checkbox" tabindex="3" />
+                                <input class="form-check-input border-primary rounded-0" id="remember-me" type="checkbox" tabindex="3" />
                                 <label class="form-check-label text-white" for="remember-me">Recordar datos</label>
                             </div>
                         </div>

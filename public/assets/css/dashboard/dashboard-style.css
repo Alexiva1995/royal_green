@@ -84,7 +84,7 @@
   .btn-darks:hover {
     border: #173138 1px solid!important;
     background: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 94%) !important;
-    box-shadow : 0 8px 25px -8px #1E1E1E;
+    box-shadow : 0 8px 25px -8px #173138 ;
   }
 
   .btn-tree{
@@ -403,6 +403,8 @@ right connector from last child*/
 
   input[type=text]:hover:not([disabled]), 
   input[type=text]:focus, 
+  input[type=textarea]:hover:not([disabled]), 
+  input[type=textarea]:focus, 
   input[type=search], 
   input[type=search]:focus, 
   input[type=search]:active, 
@@ -427,7 +429,7 @@ right connector from last child*/
 
 
 .bg-lp{
-  background-color: #1E1E1E
+  background-color: #173138 
   }
 
   body::-webkit-scrollbar {

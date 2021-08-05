@@ -20,7 +20,7 @@
                                      <div class="col-12">
                                          <label class="form-label text-white mb-1" for="issue"><b>Asunto del
                                                  ticket</b></label>
-                                         <input class="form-control border border-warning rounded-0" required type="text"
+                                         <input class="form-control border border-primary rounded-0" required type="text"
                                              id="issue" name="issue" rows="3" />
 
                                      </div>
@@ -47,7 +47,7 @@
                                          <label class="form-label text-white mb-1" for="message"><b>Chat con el
                                                  administrador</b></label>
 
-                                         <section class="chat-app-window mb-2 border border-warning rounded-0">
+                                         <section class="chat-app-window mb-2 border border-primary rounded-0">
                                              <div class="active-chat">
                                                  <div class="user-chats ps ps--active-y bg-lp">
                                                      <div class="chats chat-thread">
@@ -78,20 +78,15 @@
                                          <br>
                                         <span class="text-danger text-bold-600">Aqui podra escribir el mensaje para el admin</span>
                                          <textarea
-                                             class="form-control border border-warning rounded-0 chat-window-message"
+                                             class="form-control border border-primary rounded-0 chat-window-message"
                                              type="text" id="message" name="message" required rows="3"></textarea>
                                      </div>
-
-
                                      <div class="col-12">
                                          <button type="submit"
                                              class="btn btn-primary mr-1 mb-1 waves-effect waves-light">Enviar
                                              Ticket</button>
                                      </div>
-
                                  </div>
-
-
 
                              </div>
                      </div>

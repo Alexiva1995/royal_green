@@ -2628,7 +2628,7 @@ body[data-col='1-column'] .header-navbar.floating-nav {
 }
 
 .card .card-img-overlay .text-muted {
-    color: #1E1E1E !important
+    color: #173138  !important
 }
 
 .card.card-minimal {
@@ -3851,7 +3851,7 @@ _:-ms-lang(x) {
 }
 
 .modal .modal-header.bg-warning .close span {
-    color: #FF9F43
+    color: #66FFCC
 }
 
 .modal .modal-header.bg-dark .close span {

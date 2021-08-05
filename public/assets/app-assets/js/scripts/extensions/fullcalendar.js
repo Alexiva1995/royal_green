@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
     primary: "#66FFCC",
     success: "#28c76f",
     danger: "#ea5455",
-    warning: "#ff9f43"
+    warning: "#66FFCC"
   };
 
   // chip text object for different event types
