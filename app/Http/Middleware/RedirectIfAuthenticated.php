@@ -33,12 +33,12 @@ class RedirectIfAuthenticated
             if (!$request->session()->has('home')) {
                 session(['home' => 1]);
                 if (empty($request->referred_id)) {
-                    return redirect('/home');
+                    return redirect('/');
                 }
 
             }
             if ($request->getPathInfo =! 'login' || $request->getPathInfo =! 'register') {
-                return redirect('/home');
+                return redirect('/');
             }
         }
 

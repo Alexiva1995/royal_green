@@ -1358,7 +1358,7 @@ input:focus~.bg-light {
 
 .alert-primary,
 .primary {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .btn-outline-primary.btn-outline-lighten-1:hover {
@@ -1391,7 +1391,7 @@ input:focus~.bg-light {
 }
 
 .bg-primary {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .bg-primary .card-footer,
@@ -1408,7 +1408,7 @@ input:focus~.bg-light {
 }
 
 .alert-primary .alert-link {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .bg-rgba-primary {
@@ -1416,33 +1416,33 @@ input:focus~.bg-light {
 }
 
 .border-primary {
-    border: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .border-top-primary {
-    border-top: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-top: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .border-bottom-primary {
-    border-bottom: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-bottom: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .border-left-primary {
-    border-left: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-left: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .border-right-primary {
-    border-right: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-right: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .badge-primary.badge-glow,
 .bg-primary.badge-glow,
 .border-primary.badge-glow {
-    box-shadow: 0 0 10px linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    box-shadow: 0 0 10px linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .badge.badge-primary {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .overlay-primary {
@@ -1452,7 +1452,7 @@ input:focus~.bg-light {
 
 .btn-primary {
     border-color: #4839EB !important;
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     color: #FFF
 }
 
@@ -1463,13 +1463,13 @@ input:focus~.bg-light {
 }
 
 .btn-primary:hover {
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
-    box-shadow: 0 8px 25px -8px linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
+    box-shadow: 0 8px 25px -8px linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-flat-primary {
     background-color: transparent;
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-flat-primary:hover {
@@ -1504,18 +1504,18 @@ input:focus~.bg-light {
 .btn-outline-primary {
     border: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
     background-color: transparent;
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .divider.divider-primary .divider-text:after,
 .divider.divider-primary .divider-text:before,
 .vs-checkbox-primary input:checked~.vs-checkbox {
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .btn-outline-primary:hover {
     background-color: rgba(115, 103, 240, .08);
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-outline-primary:active {
@@ -1550,7 +1550,7 @@ input:focus~.bg-light {
 .dropup.dropdown-icon-wrapper .btn-flat-primary~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-outline-primary~.dropdown-menu .dropdown-item:hover i,
 .dropup.dropdown-icon-wrapper .btn-primary~.dropdown-menu .dropdown-item:hover i {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .dropdown.dropdown-icon-wrapper .btn-flat-primary~.dropdown-menu .dropdown-item:active i,
@@ -1570,7 +1570,7 @@ input:focus~.bg-light {
 }
 
 .bullet.bullet-primary {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .pagination-primary .page-item.active .page-link {
@@ -1579,7 +1579,7 @@ input:focus~.bg-light {
 }
 
 .pagination-primary .page-item .page-link:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .pagination-primary .page-item.next-item .page-link:hover,
@@ -1590,7 +1590,7 @@ input:focus~.bg-light {
 
 .nav-pill-primary .nav-item .nav-link.active {
     color: #FFF;
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .progress-bar-primary {
@@ -1598,7 +1598,7 @@ input:focus~.bg-light {
 }
 
 .progress-bar-primary .progress-bar {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .chip-primary,
@@ -1606,7 +1606,7 @@ input:focus~.bg-light {
 .vs-checkbox-primary input:checked~.vs-checkbox .vs-checkbox--check,
 input[type=checkbox].bg-primary+.custom-control-label:before,
 input[type=radio].bg-primary+.custom-control-label:before {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .chip-primary .chip-body {
@@ -1614,24 +1614,24 @@ input[type=radio].bg-primary+.custom-control-label:before {
 }
 
 .custom-switch-primary .custom-control-input:checked~.custom-control-label::before {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     color: #FFF;
     -webkit-transition: all .2s ease-out;
     transition: all .2s ease-out
 }
 
 .vs-radio-primary input:checked~.vs-radio .vs-radio--circle {
-    background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    background: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     box-shadow: 0 3px 12px 0 rgba(115, 103, 240, .4) !important
 }
 
 .bg-primary.bg-darken-1,
 .btn-primary.btn-darken-1 {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .primary.darken-1 {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .btn-primary.btn-darken-1 {
@@ -1650,32 +1650,32 @@ input[type=radio].bg-primary+.custom-control-label:before {
 }
 
 .btn-outline-primary.btn-outline-darken-1 {
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .btn-outline-primary.btn-outline-darken-1:hover {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .border-primary.border-darken-1 {
-    border: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .border-top-primary.border-top-darken-1 {
-    border-top: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-top: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .border-bottom-primary.border-bottom-darken-1 {
-    border-bottom: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-bottom: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .border-left-primary.border-left-darken-1 {
-    border-left: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-left: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .border-right-primary.border-right-darken-1 {
-    border-right: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-right: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .overlay-primary.overlay-darken-1 {

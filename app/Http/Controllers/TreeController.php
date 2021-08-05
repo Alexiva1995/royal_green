@@ -258,6 +258,37 @@ class TreeController extends Controller
         }
     }
 
+    public function getChidrenHasta5($parent, $array_tree_user, $nivel, $typeTree, $allNetwork)
+    {   
+        try {
+            if (!is_array($array_tree_user))
+            $array_tree_user = [];
+        
+            $data = $this->getData($parent, $nivel, $typeTree);
+            
+            if (count($data) > 0) {
+                if ($allNetwork == 1) {
+                    foreach($data as $user){
+                        if ($user->nivel == 1) {
+                            $array_tree_user [] = $user;
+                        }
+                    }
+                }else{
+                    foreach($data as $user){
+                        if ($user->nivel < 5) {
+                            $array_tree_user [] = $user;
+                            $array_tree_user = $this->getChidrenHasta5($user->id, $array_tree_user, ($nivel+1), $typeTree, $allNetwork);
+                        }
+                    }
+                }
+            }
+            return $array_tree_user;
+        } catch (\Throwable $th) {
+            Log::error('Tree - getChildrens2 -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
     /**
      * Permite obtener a todos mis patrocinadores
      *

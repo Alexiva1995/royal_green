@@ -4,7 +4,7 @@
 @push('custom_css')
 <style>
     .bg-fucsia {
-        background: transparent linear-gradient(180deg, #007DFF 0%, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) 100%) 0% 0% no-repeat padding-box;
+        background: transparent linear-gradient(180deg, #007DFF 0%, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) 100%) 0% 0% no-repeat padding-box;
     }
 
     .text-rosado {

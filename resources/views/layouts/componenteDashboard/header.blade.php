@@ -50,7 +50,7 @@
                             </span>
                             @else
                             <span>
-                                <img class="round" src="{{asset('assets/img/legazy_pro/logo.svg')}}"
+                                <img class="round" src="{{asset('assets/img/royal_green/logos/logo.svg')}}"
                                     alt="{{ Auth::user()->fullname }}" height="50" width="50">
                             </span>
                             @endif

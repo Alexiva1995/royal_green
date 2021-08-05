@@ -25,7 +25,7 @@ $new = \App\Models\News::where('status', '1')->get();
       content: '';
   }
   .text-center.slick-slide.slick-current.slick-active.slick-center {
-        background: rgba(214, 168, 62, 0.3);
+        background: rgba(44, 119, 140, 0.822);
         padding: 10px;
     }
 </style>

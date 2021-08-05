@@ -93,8 +93,8 @@
 .bg-gradient-primary {
     background: repeat-x #640064;
     color: #FFF;
-    background-image: -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .5));
-    background-image: linear-gradient(30deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .5))
+    background-image: -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .5));
+    background-image: linear-gradient(30deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .5))
 }
 
 .bg-gradient-primary:active,
@@ -103,8 +103,8 @@
 }
 
 .gradient-light-primary {
-    background: -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) 0, #CE9FFC 100%);
-    background: linear-gradient(30deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) 0, #CE9FFC 100%);
+    background: -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) 0, #CE9FFC 100%);
+    background: linear-gradient(30deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) 0, #CE9FFC 100%);
     color: #FFF
 }
 

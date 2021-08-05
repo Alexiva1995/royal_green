@@ -113,7 +113,7 @@ class HomeController extends Controller
         $porcentajes = (($totalPuntos / $rankSig->points) * 100);
         $ranks = Ranks::all();
         foreach ($ranks as $rank) {
-            $rank->img = asset('assets/img/rangos/'.Str::slug($rank->name, '-').'.png');
+            $rank->img = asset('assets/img/royal_green/rangos/'.Str::slug($rank->name, '-').'.png');
         }
         // $ranks->prepend([
         //     'name' => 'Sin Rango',

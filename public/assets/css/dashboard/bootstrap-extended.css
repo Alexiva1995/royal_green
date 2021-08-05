@@ -515,7 +515,7 @@ select.form-control:not([multiple='multiple']) {
   padding : 0.6rem;
 }
 .form-label-group > input:focus:not(:placeholder-shown) ~ label, .form-label-group > input:not(:active):not(:placeholder-shown) ~ label, .form-label-group textarea:focus:not(:placeholder-shown) ~ label, .form-label-group textarea:not(:active):not(:placeholder-shown) ~ label {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  color : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
   -webkit-transition : all 0.25s ease-in-out;
           transition : all 0.25s ease-in-out;
   opacity : 1;
@@ -2887,8 +2887,8 @@ body[data-col='1-column'] .header-navbar.floating-nav {
   position : absolute;
   bottom : 0;
   top : 100%;
-  background : -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, 0.5)) !important;
-  background :         linear-gradient(30deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, 0.5)) !important;
+  background : -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, 0.5)) !important;
+  background :         linear-gradient(30deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, 0.5)) !important;
   box-shadow : 0 0 8px 0 rgba(115, 103, 240, 0.5) !important;
   -webkit-transform : translateY(0px);
       -ms-transform : translateY(0px);

@@ -129,10 +129,10 @@
   font-size : 1.7rem;
 }
 .ecommerce-application .ecommerce-header-items .view-options .view-btn-option .btn.view-btn.active {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  color : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
 }
 .ecommerce-application .ecommerce-header-items .view-options .view-btn-option .btn.view-btn.active:hover, .ecommerce-application .ecommerce-header-items .view-options .view-btn-option .btn.view-btn.active:active {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  color : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
 }
 .ecommerce-application .ecommerce-header-items .view-options .view-btn-option .btn.view-btn:hover, .ecommerce-application .ecommerce-header-items .view-options .view-btn-option .btn.view-btn:active {
   color : #626262;

@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {return view('welcome');})->middleware('auth');
-
 
 Auth::routes();
 
@@ -24,8 +21,6 @@ Route::get('/', 'HomeController@home')->middleware('auth');
 
 Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 {
-
-
     // Inicio
     Route::get('/home', 'HomeController@index')->name('home');
      // Inicio de usuarios

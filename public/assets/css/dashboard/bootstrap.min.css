@@ -270,7 +270,7 @@ a {
 }
 
 a:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 a:not([href]):not([tabindex]):focus {
@@ -3127,7 +3127,7 @@ fieldset:disabled a.btn {
 .btn-primary {
     color: #FFF;
     background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-primary:hover {
@@ -3140,7 +3140,7 @@ fieldset:disabled a.btn {
 .btn-primary:disabled {
     color: #FFF;
     background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-primary:not(:disabled):not(.disabled).active,
@@ -3406,13 +3406,13 @@ fieldset:disabled a.btn {
 
 .btn-outline-primary {
     color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-outline-primary:hover {
     color: #FFF;
     background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-outline-primary.disabled,
@@ -3426,7 +3426,7 @@ fieldset:disabled a.btn {
 .show>.btn-outline-primary.dropdown-toggle {
     color: #FFF;
     background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-outline-secondary.focus,
@@ -3661,11 +3661,11 @@ fieldset:disabled a.btn {
 }
 
 .btn-link {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-link:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .btn-link.focus,
@@ -3978,7 +3978,7 @@ fieldset:disabled a.btn {
 .dropdown-item:active {
     color: #FFF;
     text-decoration: none;
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .dropdown-item.disabled,
@@ -4319,7 +4319,7 @@ fieldset:disabled a.btn {
 .custom-control-input:checked~.custom-control-label::before {
     color: #FFF;
     border-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .custom-control-input:focus~.custom-control-label::before {
@@ -4327,7 +4327,7 @@ fieldset:disabled a.btn {
 }
 
 .custom-control-input:focus:not(:checked)~.custom-control-label::before {
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .custom-control-input:not(:disabled):active~.custom-control-label::before {
@@ -4380,7 +4380,7 @@ fieldset:disabled a.btn {
 
 .custom-checkbox .custom-control-input:indeterminate~.custom-control-label::before {
     border-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before,
@@ -4825,7 +4825,7 @@ fieldset:disabled a.btn {
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
     color: #FFF;
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .nav-fill .nav-item {
@@ -5747,7 +5747,7 @@ fieldset:disabled a.btn {
     z-index: 1;
     color: #FFF;
     background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .page-item.disabled .page-link {
@@ -5829,7 +5829,7 @@ fieldset:disabled a.btn {
 
 .badge-primary {
     color: #FFF;
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 a.badge-primary:focus,
@@ -6273,7 +6273,7 @@ a.badge-dark:focus {
     z-index: 2;
     color: #FFF;
     background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .list-group-horizontal {
@@ -7160,7 +7160,7 @@ a.close.disabled {
     width: 1rem;
     margin-left: -.5rem;
     content: '';
-    border-bottom: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-bottom: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .carousel,
@@ -7535,7 +7535,7 @@ a.close.disabled {
 }
 
 .bg-primary {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 a.bg-primary:focus,
@@ -7671,7 +7671,7 @@ button.bg-dark:hover {
 }
 
 .border-primary {
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 .border-secondary {
@@ -12795,7 +12795,7 @@ button.bg-dark:hover {
 }
 
 .text-primary {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 a.text-primary:focus,

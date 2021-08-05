@@ -36,25 +36,25 @@ class Packages extends Model
     {
         $imagen = '';
         if($this->price == 50){
-            $imagen = 'Recurso 3 2.svg';
+            $imagen = 'paquete_50.svg';
         }elseif($this->price == 100){
-            $imagen = 'Recurso 3 3.svg';
+            $imagen = 'paquete_100.svg';
         }elseif($this->price == 200){
-            $imagen = 'Recurso 3 4.svg';
+            $imagen = 'paquete_200.svg';
         }elseif($this->price == 300){
-            $imagen = 'Recurso 3 5.svg';
+            $imagen = 'paquete_300.svg';
         }elseif($this->price == 500){
-            $imagen = 'Recurso 3 6.svg';
+            $imagen = 'paquete_500.svg';
         }elseif($this->price == 1000){
-            $imagen = 'Recurso 3 7.svg';
+            $imagen = 'paquete_1000.svg';
         }elseif($this->price == 2000){
-            $imagen = 'Recurso 3 8.svg';
+            $imagen = 'paquete_2000.svg';
         }elseif($this->price == 3000){
-            $imagen = 'Recurso 3 9.svg';
+            $imagen = 'paquete_3000.svg';
         }elseif($this->price == 5000){
-            $imagen = 'Recurso 3 10.svg';
+            $imagen = 'paquete_5000.svg';
         }elseif($this->price == 10000){
-            $imagen = 'Recurso 3 11.svg';
+            $imagen = 'paquete_10000.svg';
         }
 
         return asset('assets/img/'.$imagen);

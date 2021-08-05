@@ -4,7 +4,7 @@
     @include('dashboard.componente.partials.tranding-view')
 
         <div class="row" id="dashboard-analytics">
-            <div class="col-sm-6 col-12 mt-1">
+            <div class="col-sm-6 col-12 mt-1 art">
                 <div class="card h-80 p-2"
                     style="background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);">
 
@@ -137,7 +137,7 @@
                     </div>
 
                     <div class="card-header d-flex align-items-center mb-2 justify-content-center">
-                        <img class="text-center" src="{{Auth::user()->inversionMasAlta() != null ?Auth::user()->inversionMasAlta()->getPackageOrden->img() : asset('assets/img/legazy_pro/logo.svg')}}" alt=""
+                        <img class="text-center" src="{{Auth::user()->inversionMasAlta() != null ?Auth::user()->inversionMasAlta()->getPackageOrden->img() : asset('assets/img/royal_green/logos/logo.svg')}}" alt=""
                             style="width: @if(Auth::user()->inversionMasAlta() == null)70% @else 62% @endif; margin-top: -15px;">
                     </div>
 
@@ -166,7 +166,7 @@
                     value="{{(Auth::user()->rank_id == null) ? 0 : Auth::user()->rank_id}}">
                     <div class="card-header d-flex align-items-center mb-2 carrusel_rango">
                         <div class="text-center">
-                            <img src="https://icons-for-free.com/iconfiles/png/512/page+quality+rank+icon-1320190816917337266.png" alt="" height="200" class="m-auto">
+                            <img src="{{ asset('assets/img/royal_green/rangos/sin_rango.svg') }}" alt="" height="200" class="m-auto">
                             <h3 class="text-white mb-0">
                                 <strong>Sin Rango</strong>
                             </h3>
@@ -182,7 +182,7 @@
                     </div>
 
                     <div class="card-header d-flex align-items-center mb-2 ">
-                        <img src="{{asset('assets/img/Line28.png')}}" alt="" style="width: 100%;" height="1">
+                        <img src="{{asset('assets/img/Line28.svg')}}" alt="" style="width: 100%;" height="1">
                     </div>
 
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">

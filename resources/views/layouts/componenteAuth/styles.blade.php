@@ -21,7 +21,7 @@
         height: 100vh;
     }
     .legazy_bg{
-        background: url("{{ asset('assets/img/legazy_pro/bg.jpg') }}");
+        background: url("{{ asset('assets/img/royal_green/bg.jpg') }}");
         justify-content: center;
         text-align:center;
         background-repeat:no-repeat;

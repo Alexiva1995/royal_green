@@ -82,7 +82,7 @@
         <div class="modal-content bg-lp" >
             <div class="modal-header bg-lp" >
             <h5 class="modal-title text-white" id="exampleModalLabel">Porcentaje de ganancia</h5>
-            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 94%)">
+            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="background: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 94%)">
                 <span aria-hidden="true">&times;</span>
             </button>
             </div>

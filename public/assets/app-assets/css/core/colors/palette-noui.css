@@ -63,19 +63,19 @@
 }
 
 .slider-primary .noUi-connect {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  background : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
 }
 
 .slider-primary.noUi-connect {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  background : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
 }
 
 .slider-primary .noUi-handle {
-  border-color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  border-color : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
 }
 
 .slider-primary.circle-filled .noUi-handle, .slider-primary.square .noUi-handle {
-  background : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  background : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
 }
 
 .slider-secondary .noUi-connect {

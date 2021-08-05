@@ -17,7 +17,7 @@
             <div class="align-items-center justify-content-center">
                 <div class= "row justify-content-center">
                     <div class="col-auto">
-                         <img src="{{ asset('assets/img/legazy_pro/logo.svg') }}" alt="">
+                         <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="">
                     </div>
                 </div>
             </div>

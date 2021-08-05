@@ -8,7 +8,7 @@
 
     <title>Bienvenido a HDLRS</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/legazy_pro/user.png')}}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/img/royal_green/user.png')}}">
 
     <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/bootstrap.css')}}">
     <link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">

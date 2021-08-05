@@ -346,7 +346,7 @@ body.dark-layout .dropdown-menu .dropdown-divider {
   border-color : #414561;
 }
 body.dark-layout .btn-white ~ .dropdown-menu .dropdown-item:not(.acitve):hover {
-  color : linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+  color : linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
 }
 body.dark-layout .btn-dark ~ .dropdown-menu .dropdown-item:hover, body.dark-layout .btn-outline-dark ~ .dropdown-menu .dropdown-item:hover, body.dark-layout .btn-flat-dark ~ .dropdown-menu .dropdown-item:hover {
   color : #C2C6DC;
@@ -466,8 +466,8 @@ body.dark-layout .activity-timeline {
   border-color : #414561;
 }
 body.dark-layout #dashboard-analytics .bg-analytics {
-  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
-  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
+  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
+  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
 }
 body.dark-layout #dashboard-analytics .bg-analytics p {
   color : #FFFFFF;
@@ -1395,8 +1395,8 @@ body.dark-layout.horizontal-layout.vertical-overlay-menu .main-menu .nav-item.ac
   border-radius : 0;
 }
 body.dark-layout.horizontal-layout.vertical-overlay-menu .main-menu .nav-item.active.sidebar-group-active .open ul li.active a {
-  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43) !important;
-  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43) !important;
+  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC) !important;
+  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC) !important;
   margin-bottom : 7px;
   box-shadow : 0 0 6px 1px rgba(115, 103, 240, 0.6) !important;
   color : #FFFFFF;

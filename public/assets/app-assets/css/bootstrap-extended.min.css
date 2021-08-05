@@ -329,7 +329,7 @@ pre code {
 }
 
 .form-control:focus~.form-control-position i {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 label {
@@ -489,7 +489,7 @@ select.form-control:not([multiple=multiple]) {
 
 .custom-control-input:not(:disabled):active~.custom-control-label::before {
     background-color: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .form-label-group {
@@ -528,7 +528,7 @@ select.form-control:not([multiple=multiple]) {
 .form-label-group textarea:not(:active):not(:placeholder-shown)~label,
 .form-label-group>input:focus:not(:placeholder-shown)~label,
 .form-label-group>input:not(:active):not(:placeholder-shown)~label {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     -webkit-transition: all .25s ease-in-out;
     transition: all .25s ease-in-out;
     opacity: 1
@@ -582,14 +582,14 @@ select.form-control:not([multiple=multiple]) {
     -webkit-transform: rotate(0);
     -ms-transform: rotate(0);
     transform: rotate(0);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .vs-checkbox-con input:checked~.vs-checkbox .vs-checkbox--check {
     -webkit-transform: translate(0);
     -ms-transform: translate(0);
     transform: translate(0);
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .vs-checkbox-con input:checked~.vs-checkbox .vs-checkbox--check .vs-icon {
@@ -612,7 +612,7 @@ select.form-control:not([multiple=multiple]) {
     -webkit-transform: translate(3px);
     -ms-transform: translate(3px);
     transform: translate(3px);
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .vs-checkbox-con input:active:checked+.vs-checkbox .vs-checkbox--check .vs-icon {
@@ -1532,7 +1532,7 @@ html [type=button] {
 
 .dropdown .dropdown-menu .dropdown-item:hover {
     background-color: #F8F8F8;
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .dropdown .dropdown-menu .dropdown-item.active {
@@ -1903,7 +1903,7 @@ html [type=button] {
 }
 
 .header-navbar .navbar-container .bookmark-wrapper ul.nav li>a.nav-link i:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .header-navbar .navbar-container .bookmark-input {
@@ -2019,7 +2019,7 @@ html [type=button] {
 }
 
 .header-navbar .navbar-container ul.nav li i.ficon:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .header-navbar .navbar-container ul.nav li .media-list {
@@ -3078,7 +3078,7 @@ body[data-col='1-column'] .header-navbar.floating-nav {
 }
 
 .nav.nav-pills .nav-item.dropdown.show .dropdown-item.active:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .nav.nav-pills.nav-justified {
@@ -3170,8 +3170,8 @@ body[data-col='1-column'] .header-navbar.floating-nav {
     position: absolute;
     bottom: 0;
     top: 100%;
-    background: -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .5)) !important;
-    background: linear-gradient(30deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .5)) !important;
+    background: -webkit-linear-gradient(60deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .5)) !important;
+    background: linear-gradient(30deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .5)) !important;
     box-shadow: 0 0 8px 0 rgba(115, 103, 240, .5) !important;
     -webkit-transform: translateY(0);
     -ms-transform: translateY(0);
@@ -3393,7 +3393,7 @@ ul.list-inline.list-inline-pipe>li+li:before {
 }
 
 .list-group .list-group-item.active:hover {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .list-group .list-group-item.active:focus {
@@ -3642,7 +3642,7 @@ _:-ms-lang(x) {
 .pagination .page-item.last .page-link,
 .pagination .page-item.next-item .page-link,
 .pagination .page-item.prev-item .page-link {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .pagination .page-item.first.disabled .page-link,
@@ -3733,7 +3733,7 @@ _:-ms-lang(x) {
 }
 
 .pagination .page-item .page-link:hover {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .pagination .page-item.active {
@@ -3810,7 +3810,7 @@ _:-ms-lang(x) {
 .modal .modal-header .close span {
     font-weight: 400;
     font-size: 2rem;
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .modal .modal-header .close:active,
@@ -3835,7 +3835,7 @@ _:-ms-lang(x) {
 }
 
 .modal .modal-header.bg-primary .close span {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .modal .modal-header.bg-success .close span {
@@ -3906,7 +3906,7 @@ _:-ms-lang(x) {
 }
 
 .popover.bs-popover-bottom .arrow:after {
-    border-bottom-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-bottom-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .icon-bg-circle {

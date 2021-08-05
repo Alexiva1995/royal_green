@@ -256,8 +256,8 @@
   border-radius : 4px;
 }
 .horizontal-menu .header-navbar.navbar-horizontal ul#main-menu-navigation > li.active > a {
-  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
-  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
+  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
+  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
   box-shadow : 0 0 6px 1px rgba(115, 103, 240, 0.6);
   color : #FFFFFF;
   border-radius : 4px;
@@ -341,8 +341,8 @@
   color : #494949;
 }
 .horizontal-layout.vertical-overlay-menu:not(.dark-layout) .main-menu .navigation li ul li.active ul li.active a {
-  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
-  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), #FF9F43);
+  background : -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
+  background :         linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), #66FFCC);
   box-shadow : 0 0 10px 1px rgba(115, 103, 240, 0) !important;
   color : #FFFFFF;
   border-radius : 4px;

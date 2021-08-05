@@ -1,119 +1,88 @@
 @extends('layouts.dashboard')
 
-@section('title', $type)
-
-@push('custom_css')
-
-<style>
-    .padre li img{
-        width: 100%;
-    }
-</style>
-@endpush
-
 @section('content')
 
-<h1 class="text-white">Arbol Binario</h1>
-
-{{-- <body style="background: #11262C;"> --}}
 <div class="container">
-    <div class="row">
-        <div class="col-md-6 col-sm-12 text-center">
-            <div class="row">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class=" d-flex white mt-2">
-                                <button class="btn-tree text-left" style="width: 247px;">Puntos Por la
-                                    Derecha: <b>{{$binario['totald']}}</b></button>
-                            </div>
-                        </div>
-                    </div>
 
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class=" d-flex white mt-2">
-                                <button class="btn-tree text-left" style="width: 247px;">Puntos por la
-                                    Izquierda: <b>{{$binario['totali']}}</b></button>
-                            </div>
-                        </div>
-                    </div>
+    <div class="row mt-3 mb-5 pb-3">
 
-                </div>
+        @include('genealogy.component.points')
 
-
-            </div>
-        </div>
         <div class="col-md-4 col-sm-12 art" id="tarjeta">
-            <div class="container">
+            <div class="container p-2">
                 <div class="row">
-                    <div class="col-4">
-                        <img id="imagen" class="p-1" style="width: 118%;margin-top: 7px;padding-top: 15px;" height="80px">
+                    <div class="col-12 mb-3 d-flex justify-content-center">
+                        <img id="imagen" class="rounded-circle" width="110px" height="110px">
                     </div>
-                    <div class="col-6 ml-1">
-                        <div class="white mt-1">
-                            <p>Nombre: <span id="nombre"></span></p>
+
+                    <div class="col-12">
+                        <div class="white">
+                            <p><b>Fecha de Ingreso:</b> <span id="fecha_ingreso"></span></p>
                         </div>
                         <div class="white">
-                            <p>Estado: <span id="estado"></span></p>
+                            <p><b>Email:</b> <span id="email"></span></p>
                         </div>
                         <div class="white">
-                            <p>Inversión: <span id="inversion"></span></p>
+                            <p><b>Estado:</b> <span id="estado"></span></p>
                         </div>
                     </div>
+                    @if (Auth::user()->admin == 1)
+                    <div class="d-flex white col-8" style="margin-left: 66px;">
+                        <a class="white btn-tree text-center" style="margin-left: 72px;" id="ver_arbol" href=> Ver
+                            Arbol</a>
+                    </div>
+                    @endif
                 </div>
             </div>
-
-            <div class="d-flex white mb-2" style="margin-left: 66px;margin-right: 63px;">
-                <a class="white btn-tree text-center" style="width: 175px;background: #173138;margin-left: 72px;"
-                    id="ver_arbol" href=> Ver Arbol</a>
-            </div>
-
         </div>
+
     </div>
-</div>
 
+    <div class="col-12">
+        <div class="padre">
+            <ul>
+                <li class="baseli">
 
-<div class="col-12">
-    <div class="padre">
-        <ul>
-            <li class="baseli">
-                <a class="base" href="#">
-                    @if (empty($base->photoDB))
-                    <img src="{{asset('assets/img/legazy_pro/logo.svg')}}" alt="{{$base->name}}" title="{{$base->name}}"
-                        class="pt-1 rounded-circle" style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">
-                    @else
-                    <img src="{{asset('storage/photo/'.$base->photoDB)}}" alt="{{$base->name}}" title="{{$base->name}}"
-                        class="pt-1 rounded-circle" style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">                        
-                    @endif
-                </a>
-                {{-- Nivel 1 --}}
-                <ul>
-                    @foreach ($trees as $child)
-                    {{-- genera el lado binario derecho haciendo vacio --}}
-                    @include('genealogy.component.sideEmpty', ['side' => 'D', 'cant' => count($trees),'ladouser' => $child->binary_side])
-                    <li href="#prestamo" data-toggle="modal">
-                        @include('genealogy.component.subniveles', ['data' => $child])
-                        @if (!empty($child->children))
-                        {{-- nivel 2 --}}
-                        <ul>
-                            @foreach ($child->children as $child2)
-                            {{-- genera el lado binario derecho haciendo vacio --}}
-                            @include('genealogy.component.sideEmpty', ['side' => 'D', 'cant' => count($child->children),'ladouser' => $child2->binary_side])
-                            <li>
-                                @include('genealogy.component.subniveles', ['data' => $child2])
-                                @if (!empty($child2->children))
-                                {{-- nivel 3 --}}
-                                <ul>
+                    <a class="base" href="#">
+                        @if (empty($base->photoDB))
+                        <img src="{{asset('assets/img/royal_green/logos/logo.svg')}}" alt="{{$base->name}}"
+                            title="{{$base->name}}" class="pt-1 rounded-circle"
+                            style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">
+                        @else
+                        <img src="{{asset('storage/photo/'.$base->photoDB)}}" alt="{{$base->name}}"
+                            title="{{$base->name}}" class="pt-1 rounded-circle"
+                            style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">
+                        @endif
+                    </a>
+
+                    {{-- Nivel 1 --}}
+                    <ul>
+                        @foreach ($trees as $child)
+                        {{-- genera el lado binario derecho haciendo vacio --}}
+                        @include('genealogy.component.sideEmpty', ['side' => 'D', 'cant' => count($trees),'ladouser' =>
+                        $child->binary_side])
+                        <li href="#prestamo" data-toggle="modal">
+                            @include('genealogy.component.subniveles', ['data' => $child])
+                            @if (!empty($child->children))
+                            {{-- nivel 2 --}}
+                            <ul>
+                                @foreach ($child->children as $child2)
+                                {{-- genera el lado binario derecho haciendo vacio --}}
+                                @include('genealogy.component.sideEmpty', ['side' => 'D', 'cant' =>
+                                count($child->children),'ladouser' => $child2->binary_side])
+                                <li>
+                                    @include('genealogy.component.subniveles', ['data' => $child2])
+                                    @if (!empty($child2->children))
+                                    {{-- nivel 3 --}}
+                                    <ul>
                                         @foreach ($child2->children as $child3)
                                         {{-- genera el lado binario derecho haciendo vacio --}}
-                                        @include('genealogy.component.sideEmpty', ['side' => 'D', 'cant' => count($child2->children),'ladouser' => $child3->binary_side])
+                                        @include('genealogy.component.sideEmpty', ['side' => 'D', 'cant' =>
+                                        count($child2->children),'ladouser' => $child3->binary_side])
                                         <li>
                                             @include('genealogy.component.subniveles', ['data' => $child3])
                                             {{-- @if (!empty($child->children)) --}}
-                                             {{-- nivel 4 
+                                            {{-- nivel 4 
                                             <ul>
                                                 @foreach ($child->children as $child)
                                                 <li>
@@ -136,46 +105,64 @@
                                             {{-- @endif --}}
                                         </li>
                                         {{-- genera el lado binario izquierdo haciendo vacio --}}
-                                        @include('genealogy.component.sideEmpty', ['side' => 'I', 'cant' => count($child2->children),'ladouser' => $child3->binary_side])
-                                        @endforeach 
+                                        @include('genealogy.component.sideEmpty', ['side' => 'I', 'cant' =>
+                                        count($child2->children),'ladouser' => $child3->binary_side])
+                                        @endforeach
                                     </ul>
-                                {{-- fin nivel 3 --}}
-                                @endif
-                            </li>
-                            {{-- genera el lado binario izquierdo haciendo vacio --}}
-                            @include('genealogy.component.sideEmpty', ['side' => 'I', 'cant' => count($child->children),'ladouser' => $child2->binary_side])
-                            @endforeach
-                        </ul>
-                        {{-- fin nivel 2 --}}
-                        @endif
-                    </li>
-                    {{-- genera el lado binario izquierdo haciendo vacio --}}
-                    @include('genealogy.component.sideEmpty', ['side' => 'I', 'cant' => count($trees),'ladouser' => $child->binary_side])
-                    @endforeach
-                </ul>
-                {{-- fin nivel 1 --}}
-            </li>
-        </ul>
+                                    {{-- fin nivel 3 --}}
+                                    @endif
+                                </li>
+                                {{-- genera el lado binario izquierdo haciendo vacio --}}
+                                @include('genealogy.component.sideEmpty', ['side' => 'I', 'cant' =>
+                                count($child->children),'ladouser' => $child2->binary_side])
+                                @endforeach
+                            </ul>
+                            {{-- fin nivel 2 --}}
+                            @endif
+                        </li>
+                        {{-- genera el lado binario izquierdo haciendo vacio --}}
+                        @include('genealogy.component.sideEmpty', ['side' => 'I', 'cant' => count($trees),'ladouser' =>
+                        $child->binary_side])
+                        @endforeach
+                    </ul>
+                    {{-- fin nivel 1 --}}
+                </li>
+            </ul>
+        </div>
     </div>
+
+    @if (Auth::id() != $base->id)
+    <div class="col-12 text-center">
+        <a class="btn btn-info" href="{{route('genealogy_type', strtolower($type))}}">Regresar a mi arbol</a>
+    </div>
+    @endif
+
 </div>
-@if (Auth::id() != $base->id)
-<div class="col-12 text-center">
-    <a class="btn btn-info" href="{{route('genealogy_type', strtolower($type))}}">Regresar a mi arbol</a>
-</div>
-@endif
-</div>
+
 <script type="text/javascript">
     function tarjeta(data, url) {
-        //console.log('assets/img/sistema/favicon.png');
+
+        // console.log(data);
+
         $('#nombre').text(data.fullname);
+
         if (data.photoDB == null) {
-            $('#imagen').attr('src', "{{asset('assets/img/legazy_pro/logo.svg')}}");
+            $('#imagen').attr('src', "{{asset('assets/img/royal_green/logos/arbol.svg')}}");
         } else {
-            $('#imagen').attr('src', '/storage/photo/' + data.photoDB);
+            $('#imagen').attr('src', '/storage/photo/' + data.photoDB); 
         }
 
-        $('#ver_arbol').attr('href', url);
-        $('#inversion').text(data.inversion);
+        var date_db = new Date (data.created_at);
+        var year = date_db.getFullYear();
+        var month = (1 + date_db.getMonth()).toString();
+        month = month.length > 1 ? month : '0' + month;
+        var day = date_db.getDate().toString();
+        day = day.length > 1 ? day : '0' + day;
+        var date = month + '/' + day + '/' + year;
+        $('#fecha_ingreso').text(date);
+
+        $('#email').text(data.email);
+
         if (data.status == 0) {
             $('#estado').html('<span class="badge badge-warning">Inactivo</span>');
         } else if (data.status == 1) {
@@ -184,10 +171,16 @@
             $('#estado').html('<span class="badge badge-danger">Eliminado</span>');
         }
 
+        // if(data.inversion != ' '){
+        //     $('#inversion').text(data.inversion);
+        // }else{
+        //     $('#inversion').text('Sin inversion');
+        // }
+
+        $('#ver_arbol').attr('href', url);
+
         $('#tarjeta').removeClass('d-none');
     }
 
 </script>
-{{-- </body> --}}
-
 @endsection

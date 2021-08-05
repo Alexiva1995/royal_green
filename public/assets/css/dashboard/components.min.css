@@ -215,7 +215,7 @@ html body[data-col='1-column'] .footer {
 }
 
 html .pace .pace-progress {
-    background: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    background: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .app-content.center-layout {
@@ -476,8 +476,8 @@ body.fixed-footer footer.footer-dark {
 }
 
 .main-menu.menu-light .navigation>li.active>a {
-    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
-    background: linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
+    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
+    background: linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
     box-shadow: 0 0 10px 1px rgba(115, 103, 240, .7);
     color: #FFF;
     font-weight: 400;
@@ -529,8 +529,8 @@ body.fixed-footer footer.footer-dark {
 }
 
 .main-menu.menu-light .navigation>li ul .active {
-    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
-    background: linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
+    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
+    background: linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
     box-shadow: 0 0 10px 1px rgba(115, 103, 240, .7);
     border-radius: 4px
 }
@@ -681,8 +681,8 @@ body.fixed-footer footer.footer-dark {
 }
 
 .main-menu.menu-dark .navigation>li.active>a {
-    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
-    background: linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
+    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
+    background: linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
     box-shadow: 0 0 10px 1px rgba(115, 103, 240, .7);
     color: #FFF;
     font-weight: 400;
@@ -734,8 +734,8 @@ body.fixed-footer footer.footer-dark {
 }
 
 .main-menu.menu-dark .navigation>li ul .active {
-    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
-    background: linear-gradient(118deg, linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%), rgba(115, 103, 240, .7));
+    background: -webkit-linear-gradient(332deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
+    background: linear-gradient(118deg, linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%), rgba(115, 103, 240, .7));
     box-shadow: 0 0 10px 1px rgba(115, 103, 240, .7);
     border-radius: 4px
 }
@@ -972,7 +972,7 @@ body.fixed-footer footer.footer-dark {
 
 .dropdown-notification .dropdown-menu.dropdown-menu-right::before {
     background: linear-gradient(90deg, rgba(17,38,44,1) 4%, rgba(54,99,112,1) 100%);
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .dropdown-notification .dropdown-menu-header {
@@ -2094,7 +2094,7 @@ body.fixed-footer .main-menu.menu-fixed {
 }
 
 .navbar-container .bookmark-input input:focus {
-    border: 1px solid linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%)
+    border: 1px solid linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%)
 }
 
 .navbar-container .bookmark-input .search-list {
@@ -3725,7 +3725,7 @@ input[type=month].form-control {
 
 .floating-label-form-group-with-focus label,
 .floating-label-form-group-with-value label {
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     text-transform: uppercase;
     font-weight: 400
 }
@@ -3745,14 +3745,14 @@ input[type=month].form-control {
 .select2-container--classic.select2-container--open .select2-selection--single,
 .select2-container--default.select2-container--focus .select2-selection--multiple,
 .select2-container--default.select2-container--open .select2-selection--single {
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     outline: 0
 }
 
 .select2-container--classic .select2-selection--single:focus,
 .select2-container--default .select2-selection--single:focus {
     outline: 0;
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .15) !important
 }
 
@@ -3775,13 +3775,13 @@ input[type=month].form-control {
 .select2-container--classic .select2-selection--multiple:focus,
 .select2-container--default .select2-selection--multiple:focus {
     outline: 0;
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     box-shadow: 0 3px 10px 0 rgba(0, 0, 0, .15) !important
 }
 
 .select2-container--classic .select2-selection--multiple .select2-selection__choice,
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    background-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     border-color: #4839EB !important;
     color: #FFF;
     padding: 5px
@@ -3899,7 +3899,7 @@ table.dataTable.table-striped tbody tr:nth-of-type(even) {
 }
 
 .select2 .form-control::focus {
-    border-color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important
+    border-color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important
 }
 
 table.dataTable {
@@ -3965,8 +3965,8 @@ table.dataTable.complex-headers thead th {
 
 table.dataTable tbody tr.selected {
     background-color: rgba(115, 103, 240, .05) !important;
-    color: linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
-    box-shadow: 0 0 1px 0 linear-gradient(90deg, rgba(172,118,19,1) 0%, rgba(214,168,62,1) 68%) !important;
+    color: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
+    box-shadow: 0 0 1px 0 linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 68%) !important;
     border-radius: 5px
 }
 
