@@ -13,104 +13,100 @@ $referred = DB::table('users')
 @endphp
 @endif
 
+@push('custom_css')
 <style>
     html {
-        overflow: hidden;
+        overflow-x: hidden;
     }
 
 </style>
+@endpush
 
 @section('content')
-<!-- BEGIN: Content-->
-<div class="auth-wrapper auth-v2">
-    <div class="auth-inner row m-0">
-
-        <!-- Left bg-->
-        <div class="d-none d-lg-flex col-lg-8 align-items-center royal_bg">
-            <div class="align-items-center justify-content-center">
-                <div class="row justify-content-center">
-                    <div class="col-auto">
-                        <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <!-- Login-->
-        <div class="d-flex col-lg-4 align-items-center auth-bg p-lg-4">
-
-            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2">
-                <h2 class="card-title fw-bold mb-2 text-white">Crear Cuenta</h2>
-                @if (!empty($referred))
-                <h5>Referido por: {{$referred->fullname}}</h5>
-                @endif
-            <form class="auth-login-form mt-2" action="{{ route('register') }}" method="POST">
-                @csrf
-                <div class="mb-2">
-                    <label class="form-label text-white mb-1" for="fullname"><b>Nombre y Apellido</b></label>
-                    <input class="form-control border border-primary rounded-0" id="fullname" type="text" required
-                        name="fullname" placeholder="john example" />
-                </div>
-                <div class="mb-2">
-                    <label class="form-label text-white mb-1" for="username"><b>Nombre de usuario</b></label>
-                    <input class="form-control border border-primary rounded-0" id="username" type="text" required
-                        name="username" placeholder="john example" />
-                </div>
-                <div class="mb-2">
-                    <label class="form-label text-white mb-1" for="email"><b>Correo Electronico</b></label>
-                    <input class="form-control border border-primary rounded-0" id="email" type="email" required
-                        name="email" placeholder="john@example.com" />
-                </div>
-                <div class="mb-2">
-                    {{-- <label class="form-label text-white mb-1" for="referred_id"><b>Auspiciador</b></label> --}}
-                    @if (!empty($referred))
-                    <input class="form-control border border-primary rounded-0" id="referred_id" type="hidden"
-                        name="referred_id" placeholder="" aria-describedby="referred_id" autofocus="" readonly
-                        value="{{request()->referred_id}}" />
-                    @else
-                    <input class="form-control border border-primary rounded-0" id="referred_id" type="hidden"
-                        name="referred_id" placeholder="Sin Auspiciador" aria-describedby="referred_id" autofocus=""
-                        readonly value="1" />
-                    @endif
-                </div>
-
-                <div class="mb-2">
-                    <div class="d-flex justify-content-between">
-                        <label class="form-label text-white mb-1" for="password"><b>Contraseña</b></label>
-                    </div>
-                    <div class="input-group input-group-merge form-password-toggle">
-                        <input class="form-control form-control-merge border border-primary rounded-0" id="password"
-                            type="password" required name="password" placeholder="························"
-                            aria-describedby="password" tabindex="2" />
-                        <span class="input-group-text cursor-pointer rounded-0"><i data-feather="eye"></i></span>
-                    </div>
-                </div>
-                <div class="mb-2">
-                    <div class="d-flex justify-content-between">
-                        <label class="form-label text-white mb-1" for="password"><b>Confirmar Contraseña</b></label>
-                    </div>
-                    <div class="input-group input-group-merge form-password-toggle">
-                        <input class="form-control form-control-merge border border-primary rounded-0" type="password"
-                            required name="password_confirmation" placeholder="························"
-                            aria-describedby="password" tabindex="2" />
-                        {{-- <span class="input-group-text cursor-pointer rounded-0"><i data-feather="eye"></i></span> --}}
-                    </div>
-                </div>
-
-                <button class="btn btn-primary w-100 rounded-0 mt-2" type="submit" tabindex="4">Crear cuenta</button>
-            </form>
-            <p class="text-center mt-2"><span>¿Ya tienes una cuenta?</span><a
-                    href="{{ route('login') }}"><span>&nbsp;<b>Iniciar sesión</b></span></a></p>
+<div class="row auth-inner">
+    <!-- Left bg-->
+    <div class="col-sm-5 col-lg-8 d-none d-sm-flex d-md-flex d-lg-flex align-items-center royal_bg">
+        <div class="">
+            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="">
         </div>
     </div>
-    <!-- /Login-->
+    <!-- Login-->
+    <div class="col-12 col-sm-7 col-lg-4 d-flex align-items-center p-2">
+        <div class="row">
+            <h2 class="fw-bold text-white col-12">Crear Cuenta</h2>
+            @if (!empty($referred))
+            <h4 class="mt-1 text-white">Referido por: <b class="text-primary"> {{$referred->fullname}}</b></h4>
+            @endif
+            <form class="mt-2" id="validate" action="{{ route('register') }}" method="POST">
+                @csrf
+                <div class="row">
+                    <div class="mb-2 col-6">
+                        <label class="form-label text-white mb-1" for="fullname"><b>Nombre y Apellido</b></label>
+                        <input class="form-control border border-primary rounded" type="text" name="fullname"
+                            placeholder="john example" required autofocus tabindex="1" />
+                    </div>
+                    <div class="mb-2 col-6">
+                        <label class="form-label text-white mb-1" for="username"><b>Nombre de usuario</b></label>
+                        <input class="form-control border border-primary rounded" type="text" name="username"
+                            placeholder="john example" required tabindex="2" />
+                    </div>
+                </div>
+                <div class="mb-2 col-12">
+                    <label class="form-label text-white mb-1" for="email"><b>Correo Electronico</b></label>
+                    <input class="form-control border border-primary rounded" type="email" name="email"
+                        placeholder="john@example.com" required tabindex="3" />
+                </div>
+                <div class="mb-2 col-12 d-none">
+                    <label class="form-label text-white mb-1" for="referred_id"><b>Auspiciador</b></label>
+                    @if (!empty($referred))
+                    <input class="form-control border border-primary rounded" type="text" name="referred_id" readonly
+                        value="{{request()->referred_id}}" />
+                    @else
+                    <input class="form-control border border-primary rounded" type="text" name="referred_id"
+                        placeholder="Sin Auspiciador" readonly value="1" />
+                    @endif
+                </div>
+                <div class="row">
+                    <div class="mb-2 col-6">
+                        <label class="form-label text-white mb-1" for="password"><b>Contraseña</b></label>
+                        <div class="input-group input-group-merge form-password-toggle">
+                            <input class="form-control border border-primary rounded-left" type="password"
+                                name="password" placeholder="························" required tabindex="4" /><span
+                                class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                        </div>
+                    </div>
+                    <div class="mb-2 col-6">
+                        <label class="form-label text-white mb-1" for="password_confirmation"><b>Confirmar
+                                C.</b></label>
+                        <div class="input-group input-group-merge form-password-toggle">
+                            <input class="form-control border border-primary rounded-left" type="password"
+                                name="password_confirmation" placeholder="························" required
+                                tabindex="5" /><span class="input-group-text cursor-pointer"><i
+                                    data-feather="eye"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-1 col-12">
+                    <div class="form-check">
+                        <input class="form-check-input border-primary rounded" type="checkbox" name="term" required
+                            tabindex="6" />
+                        <label class="form-check-label" for="term"><b><a href="#" class="text-white">¿Aceptas los Terminos y
+                                Condiciones?</a></b></label>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-outline-primary w-100 rounded mt-1" type="submit" tabindex="7">Crear
+                        cuenta</button>
+                </div>
+            </form>
+            <p class="text-center mt-2 text-white">¿Ya tienes una cuenta?&nbsp;<a
+                    href="{{ route('login') }}">&nbsp;<b>Iniciar sesión</b></a></p>
+        </div>
+    </div>
 </div>
-</div>
-<!-- END: Content-->
 @endsection
 
-@push('page_js')
-
+@push('custom_js')
 <script>
     $(window).on('load', function () {
         if (feather) {
@@ -121,6 +117,7 @@ $referred = DB::table('users')
         }
     })
 
-</script>
+    $("#validate").validate();
 
+</script>
 @endpush
