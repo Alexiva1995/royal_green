@@ -23,10 +23,19 @@
             <h2 class="fw-bold text-white col-12">Iniciar Sesión</h2>
             <form class="mt-2" id="validate" action="{{ route('login') }}" method="POST">
                 @csrf
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <div class="mb-1 col-12">
                     <label class="form-label text-white" for="username"><b>Usuario</b></label>
-                    <input class="form-control border border-primary rounded"
-                        type="text" name="username" placeholder="john example" autofocus required tabindex="1" />
+                    <input class="form-control border border-primary rounded" type="text" name="username"
+                        placeholder="john example" autofocus required tabindex="1" />
                 </div>
                 <div class="mb-1 col-12">
                     <div class="d-flex justify-content-between">

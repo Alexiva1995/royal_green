@@ -39,6 +39,15 @@ $referred = DB::table('users')
             @endif
             <form class="mt-2" id="validate" action="{{ route('register') }}" method="POST">
                 @csrf
+                @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
                 <div class="row">
                     <div class="mb-2 col-6">
                         <label class="form-label text-white mb-1" for="fullname"><b>Nombre y Apellido</b></label>
@@ -90,8 +99,9 @@ $referred = DB::table('users')
                     <div class="form-check">
                         <input class="form-check-input border-primary rounded" type="checkbox" name="term" required
                             tabindex="6" />
-                        <label class="form-check-label" for="term"><b><a href="#" class="text-white">¿Aceptas los Terminos y
-                                Condiciones?</a></b></label>
+                        <label class="form-check-label" for="term"><b><a href="#" class="text-white">¿Aceptas los
+                                    Terminos y
+                                    Condiciones?</a></b></label>
                     </div>
                 </div>
                 <div class="col-12">

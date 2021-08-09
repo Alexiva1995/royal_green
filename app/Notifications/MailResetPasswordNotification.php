@@ -41,12 +41,13 @@ class MailResetPasswordNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->greeting('¡Hola!')
-            ->subject('Reinicio de contraseña')
-            ->line('Esta recibiendo este correo porque se ha pedido reiniciar la contraseña desde su cuenta.')
-            ->action('Reiniciar contrasesña', url('password/reset', $this->token))
-            ->line('Si usted no pidio reiniciar la contraseña, no necesita realizar ninguna acción.');
+        $token = $this->token;
+        return (new MailMessage)->view('auth.passwords.email-code', compact('token'));
+            // ->greeting('¡Hola!')
+            // ->subject('Reinicio de contraseña')
+            // ->line('Esta recibiendo este correo porque se ha pedido reiniciar la contraseña desde su cuenta.')
+            // ->action('Reiniciar contrasesña', url('password/reset', $this->token))
+            // ->line('Si usted no pidio reiniciar la contraseña, no necesita realizar ninguna acción.');
     }
 
     /**

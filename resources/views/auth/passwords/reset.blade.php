@@ -1,65 +1,82 @@
-@extends('layouts.app')
+@extends('layouts.auth')
+
+@push('custom_css')
+<link rel="stylesheet" type="text/css" href="{{asset('assets/auth/css/email.css')}}">
+@endpush
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
-
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+<div class="row d-flex justify-content-center">
+    <div class="text-center col-12">
+        <img src="{{asset('assets/img/royal_green/logos/logo.svg')}}" class="img-fluid" width="650px" alt="bg">
+    </div>
+    <div class="col-10 col-ms-5 col-md-6 col-lg-4 row">
+        <div class="card" style="background: #11262C;">
+            <div class="card-header d-flex justify-content-center">
+                <h3 class="card-title text-input-holder text-white"><b>Cambiar Contraseña</b></h3>
+            </div>
+            <div class="card-body col-12">
+                <form method="POST" id="validate" action="{{ route('password.update') }}">
+                    @csrf
+                    <input type="hidden" name="token" value="{{ $token }}">
+                    @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                    @endif
+                    <div class="row">
+                        <div class="col-12 mb-1">
+                            <input type="email" class="form-control border border-primary rounded" name="email"
+                                value="{{ $email ?? old('email') }}" required placeholder="Correo electronico">
+                        </div>
+                        <div class="mb-1 col-12">
+                            <div class="input-group input-group-merge form-password-toggle">
+                                <input class="form-control border border-primary rounded-left" type="password"
+                                    name="password" placeholder="Nueva contraseña" required tabindex="2" /><span
+                                    class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                        <div class="mb-1 col-12">
+                            <div class="input-group input-group-merge form-password-toggle">
+                                <input class="form-control border border-primary rounded-left" type="password"
+                                    name="password_confirmation" placeholder="Confirmar contraseña" required
+                                    tabindex="2" /><span class="input-group-text cursor-pointer"><i
+                                        data-feather="eye"></i></span>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-outline-primary rounded mt-1">
+                                <b>Cambiar Contraseña</b>
+                            </button>
+                            <a href="{{route('login')}}" class="btn btn-danger rounded mt-1">
+                                <b>Volver al inicio</b>
+                            </a>
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
 @endsection
+
+
+@push('custom_js')
+<script>
+    // eye
+    $(window).on('load', function () {
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+    })
+
+    $("#validate").validate();
+
+</script>
+@endpush

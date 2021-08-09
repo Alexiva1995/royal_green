@@ -1,28 +1,27 @@
-@font-face {
+/* @font-face {
     font-family: "Work Sans";
     font-style: normal;
     font-weight: 300;
     src: local("Work Sans Light"), local("WorkSans-Light"),
       url(https://fonts.gstatic.com/s/worksans/v2/FD_Udbezj8EHXbdsqLUpl3hCUOGz7vYGh680lGh-uXM.woff)
         format("woff");
-  }
-  *,
+  } */
+  /* *,
   *::before,
   *::after {
     box-sizing: border-box;
-  }
+  } */
   html,
   body {
     font-size: 12px;
     overflow: hidden;
     text-align: center;
-    font-family: "Work Sans", sans-serif;
     line-height: 1.4;
     overflow: hidden;
     width: 100%;
     background: linear-gradient(150deg, rgb(0, 137, 155) 0%, #017d8d 50%, #015964 50%, #012E34 100%);
   }
-  .under,
+  /* .under,
   html,
   body {
     height: 100vh;
@@ -153,12 +152,12 @@
   }
   
   .wave {
-    background: #f0f0f0; /*color de fondo*/
+    background: #f0f0f0;
   }
 
   .under {
     background-color: #012E34;
-  }
+  } */
 
   .card .card-title {
     font-weight: 500;
