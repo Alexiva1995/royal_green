@@ -15,6 +15,7 @@
 
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
+                                    <th>ID Usuario</th>
                                     <th>Usuario</th>
 
                                     <th>Email</th>
@@ -32,6 +33,7 @@
                                  @foreach ($ticket as $item)
                                 <tr class="text-center text-white">
                                     <td>{{ $item->id}}</td>
+                                    <td>{{ $item->getUser->id}}</td>
                                     <td>{{ $item->getUser->fullname}}</td>
                                     <td>{{ $item->getUser->email}}</td>
                 

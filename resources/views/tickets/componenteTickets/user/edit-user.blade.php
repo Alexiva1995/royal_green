@@ -4,7 +4,7 @@
 
 <section>
 <div class="row match-height d-flex justify-content-center">
-    <div class="col-md-6 col-12">
+    <div class="col-md-12 col-12">
         <div class="card">
 
             <div class="card-header">
@@ -15,16 +15,15 @@
                 <div class="card-body">
                         <div class="row">
 
-                                    <div class="col-12">
-                                        <label class="form-label text-white mb-1" for="issue"><b>Asunto del ticket</b></label>
+                                    <div class="col-6">
+                                        <label class="form-label text-white" for="issue"><b>Asunto del ticket</b></label>
                                         <input class="form-control rounded-0 border-primary" type="text" id="issue" name="issue" value="{{ $ticket->issue }}"/>
                                     </div>
 
-                                    <div class="col-12 mt-1">
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <div class="controls">
                                                 <label for="priority" class="text-white">Prioridad del Ticket</label>
-                                                <span class="text-danger text-bold-600">OBLIGATORIO</span>
                                                 <select name="priority" class="custom-select priority form-control rounded-0 border-primary">
                                                     <option value="0" @if($ticket->priority == '0') selected @endif>Alto</option>
                                                     <option value="1" @if($ticket->priority == '1') selected @endif>Medio</option>

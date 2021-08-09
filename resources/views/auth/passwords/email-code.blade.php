@@ -24,7 +24,7 @@
                     <tr>
                         <td style="text-align:center;">
                           <a href="https://royalgreen.company/start" title="logo" target="_blank">
-                            <img width="60" src="#" title="logo" alt="logo">
+                            <img width="200" src="https://royalgreen.company/start/recursos/files/logo_royal-300x78.png" title="logo" alt="logo">
                           </a>
                         </td>
                     </tr>
@@ -48,8 +48,7 @@
                                             No podemos simplemente enviarle su contraseña anterior. Se ha generado un enlace único para restablecer su contraseña. Para restablecer su contraseña, haga clic en el siguiente enlace y siga las instrucciones.
                                         </p>
                                         <a href="javascript:void(0);"
-                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Reset
-                                            Password</a>
+                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Cambiar Contraseña</a>
                                     </td>
                                 </tr>
                                 <tr>
