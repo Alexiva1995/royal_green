@@ -43,6 +43,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     Route::prefix('wallet')->group(function ()
     {
         Route::get('/', 'WalletController@index')->name('wallet.index');
+
+        Route::get('/bonoBinario', 'WalletController@bonoBinario')->name('wallet.bonoBinario');
     });
 
     // Ruta para la pagos
@@ -172,4 +174,5 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     });
 
     Route::get('dataGrafica', 'HomeController@dataGrafica')->name('dataGrafica');
+    Route::get('testRank', 'RankController@testRank')->name('testRank');
 });
