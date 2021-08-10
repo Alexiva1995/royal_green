@@ -18,64 +18,69 @@ class RanksTableSeeder extends Seeder
             
             [
               "id"=>"1",
-              "name"=>"Business",
-              "description"=>"En este punto ya haz creado la base para construir un negocio de talla
-              mundial.",
-              "points"=>"500",
+              "name"=>"ónix",
+              "description"=>"",
+              "points"=>"5000",
             ],
             [
               "id"=>"2",
-              "name"=>"Business PRO",
-              "description"=>"Los directivos de la compañía te enviarán un mensaje de
-              reconocimiento por la consecución de este gran logro.",
+              "name"=>"Cuarzo",
+              "description"=>"",
               "points"=>"10000",
             ],
             [
               "id"=>"3",
-              "name"=>"SHARK",
-              "description"=>"La compañía te ayudará a seguir creciendo y te desarrollará la marca
-              personal para que continúes creciendo en esta industria.",
-              "points"=>"50000",
+              "name"=>"Jade",
+              "description"=>"",
+              "points"=>"25000",
             ],
             [
               "id"=>"4",
-              "name"=>"SHARK PRO",
-              "description"=>"La compañía te obsequiará un lujoso anillo y a partir de este
-              momento serás parte del prestigioso SHARKS CLUB.",
-              "points"=>"100000",
+              "name"=>"Turquesa",
+              "description"=>"",
+              "points"=>"40000",
             ],
             [
               "id"=>"5",
-              "name"=>"SHARK ELITE",
-              "description"=>"La compañía te premiará con un viaje a Cancún.",
-              "points"=>"200000",
+              "name"=>"Amatista",
+              "description"=>"",
+              "points"=>"70000",
             ],
             [
               "id"=>"6",
-              "name"=>"SHARK BLUE",
-              "description"=>"La compañía te obsequiará un Apple Kit.",
-              "points"=>"500000",
+              "name"=>"Topacio élite",
+              "description"=>"Tener dos directos turquesa.",
+              "points"=>"110000",
             ],
             [
               "id"=>"7",
-              "name"=>"SHARK BLACK",
-              "description"=>"La compañía te llevará a Dubai a conocer nuestras oficinas.",
-              "points"=>"1200000",
+              "name"=>"Zafiro",
+              "description"=>"Tener dos directos amatista.",
+              "points"=>"300000",
             ],
             [
               "id"=>"8",
-              "name"=>"SHARK WHITE",
-              "description"=>"La compañía te premiará con un lujoso y exclusivo mercedes Benz.",
-              "points"=>"3000000",
+              "name"=>"Rubí",
+              "description"=>"Tener dos directos topacio élite.",
+              "points"=>"450000",
             ],
             [
               "id"=>"9",
-              "name"=>"SHARK VIP",
-              "description"=>"En este punto haz cambiado tu vida y la de miles de personas más,
-              seguramente estas experimentando aventuras y sensaciones que
-              jamás pensaste vivenciar y en reconocimiento a tu excelente trabajo
-              y dedicación la compañía te premiara con un Lamborghini.",
-              "points"=>"10000000",
+              "name"=>"Esmeralda",
+              "description"=>"Tener dos directos zafiro.",
+              "points"=>"700000",
+            ],
+            [
+              "id"=>"10",
+              "name"=>"Doble esmeralda",
+              "description"=>"Tener dos directos Rubíes.",
+              "points"=>"1200000",
+            ],
+            [
+              "id"=>"11",
+              "name"=>"Esmeralda imperial",
+              "description"=>"Tener dos directos esmeralda.",
+              "points"=>"2000000",
             ],
     ];
     foreach ($arrayRank as $rank ) {
