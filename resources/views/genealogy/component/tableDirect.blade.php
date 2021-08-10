@@ -1,4 +1,4 @@
-<h1 class="text-white">Referidos Directos</h1>
+<h1 class="text-white">Referidos</h1>
 <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
     <thead class="">
         <tr class="text-center text-white bg-purple-alt2">
@@ -6,6 +6,7 @@
             <th>Usuario</th>
             <th>Paquete</th>
             <th>Estado</th>
+            <th>Tipo</th>
             <th>Fecha</th>
         </tr>
     </thead>
@@ -34,6 +35,13 @@
             @elseif($item->status == '5')
             <td> <a class=" btn btn-danger text-white text-bold-600">Eliminado</a></td>
             @endif
+            <td>
+                @if($item->nivel == 1)
+                Directo
+                @elseif($item->nivel == 2)
+                Indirecto
+                @endif
+            </td>
             <td>{{date('d-m-Y', strtotime($item->created_at))}}</td>
         </tr>
         @endforeach

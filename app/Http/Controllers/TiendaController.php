@@ -405,4 +405,20 @@ class TiendaController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
+    public function ordenHistory()
+    {
+        try {
+            // title
+            // View::sxhare('titleg', 'Tienda - Grupos');
+
+            $ordenes = OrdenPurchases::where('iduser', '=', Auth::user()->id)->get();
+
+           
+            return view('shop.orderhistory', compact('ordenes'));
+        } catch (\Throwable $th) {
+            // Log::error('Tienda - Index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
 }

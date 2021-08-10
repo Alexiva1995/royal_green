@@ -46,7 +46,9 @@ class TreeController extends Controller
         try {
             $allNetwork = ($network == 'direct') ? 1 : 0;
             $users = $this->getChidrens2(Auth::id(), [], 1, 'referred_id', $allNetwork);
-            $title = ($network == 'direct') ? 'Directo' : ' En Red';
+      
+            //$title = ($network == 'direct') ? 'Directo' : ' En Red';
+            $title = '';
             //Titulo
             return view('genealogy.listNetwork', compact('users', 'title', 'allNetwork'));
         } catch (\Throwable $th) {
@@ -236,8 +238,14 @@ class TreeController extends Controller
             $array_tree_user = [];
         
             $data = $this->getData($parent, $nivel, $typeTree);
-            
+        
             if (count($data) > 0) {
+                /*
+                for($i = 0; $i < $allNetwork; $i++){
+                    $array_tree_user [] = $data[$i];
+                    $array_tree_user = $this->getChidrens2($data[$i]->id, $array_tree_user, ($nivel+1), $typeTree, $allNetwork);
+                }
+                
                 if ($allNetwork == 1) {
                     foreach($data as $user){
                         if ($user->nivel == 1) {
@@ -245,11 +253,16 @@ class TreeController extends Controller
                         }
                     }
                 }else{
+                */
                     foreach($data as $user){
                         $array_tree_user [] = $user;
-                        $array_tree_user = $this->getChidrens2($user->id, $array_tree_user, ($nivel+1), $typeTree, $allNetwork);
+                        if($user->nivel <= $allNetwork){
+                            $array_tree_user = $this->getChidrens2($user->id, $array_tree_user, ($nivel+1), $typeTree, $allNetwork);
+                        }
                     }
+                /*
                 }
+                */
             }
             return $array_tree_user;
         } catch (\Throwable $th) {
