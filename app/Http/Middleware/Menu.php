@@ -243,6 +243,53 @@ class Menu
                 // ],
             ],
             // Fin Cierre Comisiones
+            'Crons' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'fa fa-list-alt',
+                'complementoruta' => '',
+                'submenus' => [
+                    /*
+                    [
+                        'name' => 'Rentabilidad',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('reports.actualizarganancias'),
+                        'complementoruta' => ''
+                    ],*//*
+                    [
+                        'name' => 'Comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('pagarComisiones'),
+                        'complementoruta' => ''
+                    ],*//*
+                    [
+                        'name' => 'Cambiar estatus inversion',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.checkStatus'),
+                        'complementoruta' => ''
+                    ],*/
+                    [
+                        'name' => 'Bono binario',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('wallet.bonoBinario'),
+                        'complementoruta' => ''
+                    ],/*
+                    [
+                        'name' => 'Eliminar bonos',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('wallet.BinaryPointDelete'),
+                        'complementoruta' => ''
+                    ],*/
+                    [
+                        'name' => 'Check role',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('testRank'),
+                        'complementoruta' => ''
+                    ]
+
+                ]
+            ],
             // Liquidaciones
             'Liquidaciones' => [
                 'submenu' => 1,
