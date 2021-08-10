@@ -325,7 +325,7 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Directos',
+                        'name' => 'Referidos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('genealogy_list_network', 'direct'),
                         'complementoruta' => ''
