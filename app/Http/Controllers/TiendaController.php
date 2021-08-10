@@ -414,7 +414,7 @@ class TiendaController extends Controller
 
             $ordenes = OrdenPurchases::where('iduser', '=', Auth::user()->id)->get();
 
-
+           
             return view('shop.orderhistory', compact('ordenes'));
         } catch (\Throwable $th) {
             // Log::error('Tienda - Index -> Error: '.$th);

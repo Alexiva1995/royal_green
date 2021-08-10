@@ -102,10 +102,10 @@ class Menu
                 'complementoruta' => '',
                 'submenus' => [
                     [
-                        'name' => 'Ordenes',
+                        'name' => 'Historial de Ordenes',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
-                        'complementoruta' => '' 
+                        'ruta' => route('shop.orden.history'),
+                        'complementoruta' => '',
                     ],
                     [
                         'name' => 'Billetera',
@@ -333,7 +333,29 @@ class Menu
                 ],
             ],
             // Fin Red
+            'Crons' => [
+                'submenu' => 1,
+                'ruta' => 'javascript:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'fa fa-list-alt',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Bono binario',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('wallet.bonoBinario'),
+                        'complementoruta' => ''
+                    ],
+                
+                    [
+                        'name' => 'Check role',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('testRank'),
+                        'complementoruta' => ''
+                    ]
 
+                ]
+            ],
             // Usuarios
             'Usuarios' => [
                 'submenu' => 0,
