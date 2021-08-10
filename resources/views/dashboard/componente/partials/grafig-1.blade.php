@@ -14,11 +14,11 @@
           var options = {
             colors: ['#BA8621'],
             series: [{
-              name: "Numero de ventas",
+              name: "Referidos",
               data: response.data.valores
           }],
             chart: {
-            height: 350,
+            height: 650,
             type: 'line',
             zoom: {
               enabled: false

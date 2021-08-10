@@ -35,4 +35,13 @@
             order: [0, 'desc']
         })
     </script>
+
+    <script>
+        $('.myTable2').DataTable({
+            responsive: true,
+            order: [[ 0, "desc" ]],
+            searching: false,
+            bLengthChange: false,
+        })
+    </script>
 @endpush
