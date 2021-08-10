@@ -29,6 +29,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/chat-ticket.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/dashboard-style.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/tree-matriz.css')}}">
 
 
 @stack('custom_css')
