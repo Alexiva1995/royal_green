@@ -238,6 +238,32 @@
                     <div class="card-sub">
                         <p class="white text-bold-700" style="margin-top: -50px;">Próximo rango = {{$data['rangos']['puntos_sig']}} </p>
                     </div>
+
+                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white mt-2">
+                        <h4 class="text-white font-weight-bold">Bono de Bienvenida</h4>
+                    </div>
+                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white mt-0">
+                        <p class="mt-1 mb-0">Total Puntos:</p>
+                    </div>
+
+                    <div class="card-sub d-flex align-items-center ">
+                        <h2 class="gold text-bold-700 mb-1">{{$data['rangos']['puntos']}}</h2>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <div class="progress ml-2">
+                            <div id="bar" class="progress-bar active" role="progressbar" aria-valuenow="0"
+                                aria-valuemin="0" aria-valuemax="100" style="width: {{$data['rangos']['porcentage']}}%">
+                                <span class="sr-only">{{$data['rangos']['porcentage']}}% Complete</span>
+                            </div>
+                        </div>
+                        <div class="card-sub d-flex align-items-center ">
+                            <p class="white text-bold-700" style="margin-top: -30px;">{{$data['rangos']['porcentage']}}% </p>
+                        </div>
+                    </div>
+                    <div class="card-sub">
+                        <p class="white text-bold-700" style="margin-top: -50px;">Próximo Bono = {{$data['rangos']['puntos_sig']}} </p>
+                    </div>
                 </div>
             </div>
 
