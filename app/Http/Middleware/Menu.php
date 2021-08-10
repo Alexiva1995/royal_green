@@ -35,9 +35,8 @@ class Menu
      */
     public function menuUsuario()
     {
-       // $orden = app($OrdenService)->find($id);
-
         return [
+
             // Inicio
             'Dashboard' => [
                 'submenu' => 0,
@@ -48,15 +47,15 @@ class Menu
             ],
             // Fin inicio
 
-            // Tienda
-            'Tienda' => [
+            // Market
+            'Market' => [
                 'submenu' => 0,
                 'ruta' => route('shop'),
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                 'icon' => 'feather icon-shopping-cart',
                 'complementoruta' => '',
             ],
-            // Fin añadir Tienda
+            // Fin Market
 
             // Negocio
             'Negocio' => [
@@ -67,19 +66,19 @@ class Menu
                 'complementoruta' => '',
                 'submenus' => [
                     [
-                        'name' => 'Árbol binario',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_type', 'matriz'),
-                        'complementoruta' => ''
-                    ],
-                    [
                         'name' => 'Árbol unilevel',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('genealogy_type', 'tree'),
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Directos',
+                        'name' => 'Árbol binario',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('genealogy_type', 'matriz'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Referidos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('genealogy_list_network', 'direct'),
                         'complementoruta' => ''
@@ -93,12 +92,76 @@ class Menu
                 ],
             ],
             // Fin añadir Negocio
-            //INVERSIONES
+
+            // Financiero
+            'Financiero' => [
+                'submenu' => 1,
+                'ruta' => 'javascripts:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-dollar-sign',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Ordenes',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => '' 
+                    ],
+                    [
+                        'name' => 'Billetera',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Retiros',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                ],
+            ],
+            // Fin Financiero
+
+            // Soporte
+            'Soporte' => [
+                'submenu' => 0,
+                'ruta' => route('ticket.list-user'),
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-help-circle',
+                'complementoruta' => '',
+            ],
+            // Fin Soporte
+
+        ];
+
+    }
+
+    /**
+     * Permite Obtener el menu del admin
+     *
+     * @return void
+     */
+    public function menuAdmin()
+    {
+        return [
+
+            // Inicio
+            'Dashboard' => [
+                'submenu' => 0,
+                'ruta' => route('home'),
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-home',
+                'complementoruta' => '',
+            ],
+            // Fin inicio
+
+            // Inversiones
             'Inversiones' => [
                 'submenu' => 0,
                 'ruta' => route('inversiones.index'),
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-credit-card',
+                'icon' => 'feather icon-dollar-sign',
                 'complementoruta' => '',
                 // 'submenus' => [
                 //     [
@@ -115,80 +178,131 @@ class Menu
                 //     ]
                 // ],
             ],
-            // Financiero
-            'Financiero' => [
+            // Fin Inversiones
+
+            // Contabilidad
+            'Contabilidad' => [
                 'submenu' => 1,
-                'ruta' => 'javascripts:;',
+                'ruta' => '',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-dollar-sign',
+                'icon' => 'feather icon-clipboard',
                 'complementoruta' => '',
                 'submenus' => [
                     [
-                        'name' => 'Wallet',
+                        'name' => 'Ordenes',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('wallet.index'),
-                        'complementoruta' => '' 
+                        'ruta' => route('reports.pedidos'),
+                        'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Retiros',
+                        'name' => 'Rentabilidad',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('payments.index'),
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Remover Billetera',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Beneficio Royal',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                ]
+            ],
+            // Fin Contabilidad
+
+            // Auditoria
+            'Auditoria' => [
+                'submenu' => 1,
+                'ruta' => '',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-layout',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Dashboard',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Rangos',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Wallet',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Red',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Historial de puntos',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Modificar Billetera',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                ]
+             ],
+            // Fin Auditoria
+
+            // Liquidaciones
+            'Liquidaciones' => [
+                'submenu' => 1,
+                'ruta' => 'javascripts:;',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-pocket',
+                'complementoruta' => '',
+                'submenus' => [
+                    [
+                        'name' => 'Por generar',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('settlement'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Pendientes',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('settlement.pending'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Realizadas',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('settlement.history.status', 'Pagadas'),
                         'complementoruta' => ''
                     ],
                 ],
             ],
-            // Fin Financiero
+            // Fin Liquidaciones
 
-            // Soporte
-            'Soporte' => [
+            // Retiros
+            'Retiros' => [
                 'submenu' => 0,
-                'ruta' => route('ticket.list-user'),
+                'ruta' => '',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-help-circle',
+                'icon' => 'feather icon-send',
                 'complementoruta' => '',
             ],
-            // Fin Soporte
-        ];
-
-    }
-
-    /**
-     * Permite Obtener el menu del admin
-     *
-     * @return void
-     */
-    public function menuAdmin()
-    {
-        return [
-            // Inicio
-            'Dashboard' => [
-                'submenu' => 0,
-                'ruta' => route('home'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-home',
-                'complementoruta' => '',
-            ],
-            // Fin inicio
-
-            // Ordenes
-            'Ordenes' => [
-                'submenu' => 0,
-                'ruta' => route('reports.pedidos'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-file-text',
-                'complementoruta' => '',
-            ],
-            // Fin Ordenes
-
-            // Paquetes
-            'Paquetes' => [
-                'submenu' => 0,
-                'ruta' => route('products.package-list'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-archive',
-                'complementoruta' => '',
-            ],
-            // Fin Paquetes
+            // Fin Retiros
 
             // Red
             'Red' => [
@@ -220,105 +334,15 @@ class Menu
             ],
             // Fin Red
 
-            // Inversiones
-            'Inversiones' => [
+            // Usuarios
+            'Usuarios' => [
                 'submenu' => 0,
-                'ruta' => route('inversiones.index'),
+                'ruta' => route('users.list-user'),
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-dollar-sign',
+                'icon' => 'feather icon-user',
                 'complementoruta' => '',
-                // 'submenus' => [
-                //     [
-                //         'name' => 'Activas',
-                //         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                //         'ruta' => route('inversiones.index', 1),
-                //         'complementoruta' => ''
-                //     ],
-                //     [
-                //         'name' => 'Culminadas',
-                //         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                //         'ruta' => route('inversiones.index', 2),
-                //         'complementoruta' => ''
-                //     ]
-                // ],
             ],
-            // Fin Cierre Comisiones
-            'Crons' => [
-                'submenu' => 1,
-                'ruta' => 'javascript:;',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'fa fa-list-alt',
-                'complementoruta' => '',
-                'submenus' => [
-                    /*
-                    [
-                        'name' => 'Rentabilidad',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('reports.actualizarganancias'),
-                        'complementoruta' => ''
-                    ],*//*
-                    [
-                        'name' => 'Comisiones',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('pagarComisiones'),
-                        'complementoruta' => ''
-                    ],*//*
-                    [
-                        'name' => 'Cambiar estatus inversion',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('inversiones.checkStatus'),
-                        'complementoruta' => ''
-                    ],*/
-                    [
-                        'name' => 'Bono binario',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('wallet.bonoBinario'),
-                        'complementoruta' => ''
-                    ],/*
-                    [
-                        'name' => 'Eliminar bonos',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('wallet.BinaryPointDelete'),
-                        'complementoruta' => ''
-                    ],*/
-                    [
-                        'name' => 'Check role',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('testRank'),
-                        'complementoruta' => ''
-                    ]
-
-                ]
-            ],
-            // Liquidaciones
-            'Liquidaciones' => [
-                'submenu' => 1,
-                'ruta' => 'javascripts:;',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-pocket',
-                'complementoruta' => '',
-                'submenus' => [
-                    [
-                        'name' => 'Por generar',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Pendientes',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement.pending'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Realizadas',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement.history.status', 'Pagadas'),
-                        'complementoruta' => ''
-                    ],
-                ],
-            ],
-            // Fin Retiros
+            // Fin Usuarios
 
             // Soporte
             'Soporte' => [
@@ -329,6 +353,7 @@ class Menu
                 'complementoruta' => '',
             ],
             // Fin Soporte
+
         ];
     }
 }

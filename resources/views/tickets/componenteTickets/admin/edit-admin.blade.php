@@ -4,7 +4,7 @@
 
 <section id="basic-vertical-layouts">
     <div class="row match-height d-flex justify-content-center">
-        <div class="col-md-6 col-12">
+        <div class="col-md-12 col-12">
             <div class="card bg-lp">
 
                 <div class="card-header">
@@ -21,8 +21,8 @@
                             <div class="row">
 
 
-                                <div class="col-12">
-                                    <label class="form-label text-white mb-1" for="issue"><b>Asuto del
+                                <div class="col-4">
+                                    <label class="form-label text-white" for="issue"><b>Asuto del
                                             Ticket</b></label>
                                     <input class="form-control border border-primary rounded-0" type="text" id="issue"
                                         name="issue" rows="3" value="{{ $ticket->issue }}" readonly />
@@ -30,7 +30,7 @@
                                 </div>
 
 
-                                <div class="col-12">
+                                <div class="col-4">
                                     <div class="form-group">
                                         <div class="controls">
                                             <label for="status" class="text-white">Estado del Ticket</label>
@@ -48,7 +48,7 @@
                                 </div>
 
 
-                                <div class="col-12">
+                                <div class="col-4">
                                     <div class="form-group">
                                         <div class="controls">
                                             <label for="priority" class="text-white">Prioridad del
