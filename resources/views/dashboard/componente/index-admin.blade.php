@@ -57,21 +57,30 @@
 
 
             <div class="col-sm-6 col-md-4 col-12 mt-1">
-                <div class="card p-2" style="background: #173138; height: 230px;">
+                <div class="card p-0" style="background: #173138; height: 260px;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Paquete de inversión</b></h5>
                     </div>
 
-                    <div class="card-header d-flex align-items-center mb-2 justify-content-center">
+                    <div class="card-header d-flex align-items-center mb-0 justify-content-center">
                         <img class="text-center" src="{{Auth::user()->inversionMasAlta() != null ?Auth::user()->inversionMasAlta()->getPackageOrden->img() : asset('assets/img/royal_green/logos/logo.svg')}}" alt=""
                             style="width: @if(Auth::user()->inversionMasAlta() == null)70% @else 62% @endif; margin-top: -15px;">
+                    </div>
+                    <div class="progresscircle blue" data-value='{{Auth::user()->progreso()}}'>
+                        <span class="progress-left">
+                            <span class="progress-circle"></span>
+                        </span>
+                        <span class="progress-right">
+                            <span class="progress-circle"></span>
+                        </span>
+                        <div class="progress-value">{{Auth::user()->progreso()}}%</div>
                     </div>
 
                 </div>
             </div>
 
             <div class="col-sm-6 col-md-4 col-12 mt-1">
-                <div class="card py-2" style="background: #173138; height: 230px;">
+                <div class="card py-2" style="background: #173138; height: 260px;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Link de referido</b></h5>
                     </div>
@@ -91,7 +100,7 @@
             </div>
 
             <div class="col-sm-6 col-md-4 col-12 mt-1">
-                <div class="card pt-2 h-80" style="background: #173138; height: 230px;">
+                <div class="card pt-2 h-80" style="background: #173138; height: 260px;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Lado Binario</b></h5>
                     </div>
@@ -164,15 +173,15 @@
                     value="{{(Auth::user()->rank_id == null) ? 0 : Auth::user()->rank_id}}">
                     <div class="card-header d-flex align-items-center mb-2 carrusel_rango">
                         <div class="text-center">
-                            <img src="{{ asset('assets/img/royal_green/rangos/sin_rango.svg') }}" alt="" height="200" class="m-auto">
-                            <h3 class="text-white mb-0">
+                            <img src="{{ asset('assets/img/royal_green/rangos/sin_rango.svg') }}" alt="" height="110" class="m-auto">
+                            <h3 class="text-white mb-0" style="width: 150px;">
                                 <strong>Sin Rango</strong>
                             </h3>
                         </div>
                         @foreach ($data['rangos']['ranks'] as $rango)
                         <div class="text-center mt-2">
-                            <img src="{{$rango->img}}" alt="" height="200" class="m-auto">
-                            <h3 class="text-white mb-0">
+                            <img src="{{$rango->img}}" alt="" height="110" class="m-auto">
+                            <h3 class="text-white mb-0" style="width: 150px;">
                                 <strong>{{$rango->name}}</strong>
                             </h3>
                         </div>
@@ -209,7 +218,7 @@
             </div>
 
             <div class="col-sm-6 col-12 mt-1">
-                <div class="card h-100 p-2" style="background: #173138;">
+                <div class="card h-100 p-0" style="background: #173138;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white"><b>Referidos - 2021</b></h5>
                     </div>
@@ -218,16 +227,41 @@
             </div>
 
 
-            <div class="col-12 mt-1 mb-3">
-                <div class="card h-100 p-2" style="background: #173138;">
-                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
-                        <h5 class="mt-1 mb-0 text-white mb-2"><b>Últimos Pedidos</b></h5>
+            <div class="col-12 mt-3">
+                <div class="card bg-lp">
+                    <div class="card-content">
+                        <div class="card-body card-dashboard p-0">
+                            <div class="table-responsive">
+                            <h3 class="text-white p-0">Últimos Pedidos</h3>
+                                <table class="table nowrap scroll-horizontal-vertical myTable2 table-striped">
+                                    <thead>
+
+                                        <tr class="text-center text-dark text-uppercase pl-2">                                
+                                            <th>Fecha</th>
+                                            <th>Descripción</th>
+                                            <th>Email</th>
+                                            <th>Monto</th>    
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+
+                                        <tr class="text-center text-white pl-2">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-
-                    {{-- @include('dashboard.componente.partials.tranding-view-btc') --}}
-
                 </div>
             </div>
+
+            {{-- permite llamar a las opciones de las tablas --}}
+            @include('layouts.componenteDashboard.optionDatatable')
 
             <div class="col-12 mt-1 mb-3 d-none">
                 <div class="card h-100 p-2" style="background: #173138;">
