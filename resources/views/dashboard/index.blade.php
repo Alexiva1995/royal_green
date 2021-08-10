@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/pages/dashboard-analytics.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/pages/card-analytics.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/apexcharts/apexcharts.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/pages/custom-dashboard.css')}}">
 <style>
     .carrusel_rango::after {
         background: transparent;

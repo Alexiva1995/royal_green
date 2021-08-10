@@ -1,0 +1,19 @@
+.hr{
+    width: 90%;
+    height: 1px;
+    background-color: #66FFCC;
+    display: flex;
+    align-self: center;
+}
+
+.progress{
+    height: 40px !important;
+    width: 100% !important; 
+    border-radius: 20px !important; 
+    padding: 8px !important;
+}
+
+.progress-bar{
+    background: linear-gradient(270deg, #22E5B1 0%, #38D4D7 100%) !important; 
+    border-radius: 20px !important;
+}
