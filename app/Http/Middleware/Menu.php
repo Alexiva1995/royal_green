@@ -319,9 +319,9 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Árbol binario',
+                        'name' => 'Árbol unilevel',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_type', 'matriz'),
+                        'ruta' => route('genealogy_type', 'tree'),
                         'complementoruta' => ''
                     ],
                     [

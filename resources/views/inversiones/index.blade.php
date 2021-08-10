@@ -7,14 +7,8 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <h1 class="text-white">Inversiones</h1>
-
                     @if(auth()->user()->admin == 1)
-                    <div class="">
-                        
                         <button class="btn btn-primary bg-white mt-1 waves-effect waves-light text-white ml-auto" data-toggle="modal" data-target="#modalPorcentajeGanancia">Cambiar %</button>
-                        
-                    </div>
-                        
                     @endif
                     <div>
                         <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100 text-white ">
@@ -41,9 +35,9 @@
 
                                 @php
                                 $ganancia = $inversion->capital - $inversion->invertido;
-
                                 $porcentaje = ($ganancia / $inversion->invertido) * 100;
                                 @endphp
+
                                 <tr class="text-center text-white">
                                     <td>{{$inversion->id}}</td>
                                     <td>{{$inversion->correo}}</td>
@@ -68,7 +62,6 @@
                             </tbody>
                         </table>
                     </div>
-                   
                 </div>
             </div>
         </div>

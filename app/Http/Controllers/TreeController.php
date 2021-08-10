@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\WalletBinary;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\View;
 
 class TreeController extends Controller
 {
@@ -22,13 +21,24 @@ class TreeController extends Controller
     public function index($type)
     {
         try {
-            //Titulo
             $trees = $this->getDataEstructura(Auth::id(), $type);
             $type = ucfirst($type);
             $base = Auth::user();
             $base->logoarbol = asset('assets/img/sistema/favicon.png');
             $binario = $this->getBinaryPoints(Auth::user()->id);
-            return view('genealogy.tree', compact('trees', 'type', 'base', 'binario'));
+
+            $total_red = $this->getTotalUserBinary(Auth::user()->id);
+            $red_d = $total_red['derecha'];
+            $red_i = $total_red['izquierda'];
+            $type_tm = 0;
+            
+            if($type == 'Tree'){
+            $type_tm = 1;
+            }elseif($type == 'Matriz'){
+                $type_tm = 2;
+            }
+
+            return view('genealogy.tree', compact('trees', 'type', 'base', 'binario', 'type_tm', 'red_d', 'red_i'));
         } catch (\Throwable $th) {
             Log::error('Tree - indexNewtwork -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -85,6 +95,35 @@ class TreeController extends Controller
         return $data;
     }
 
+    
+    public function getTotalUserBinary($iduser)
+    {
+        try {
+            $total_users = $this->getTotalUser($iduser);
+
+            $directos = collect($total_users['directos']);
+            $indirectos = collect($total_users['indirectos']);
+
+            // suma los indirectos y los directos DERECHOS
+            $directos_d = count($directos->where('binary_side', 'D'));
+            $indirectos_d = count($indirectos->where('binary_side', 'D'));
+            $total_d = $directos_d + $indirectos_d;
+
+            // suma los indirectos y los directos IZQUIERDOS
+            $directos_i = count($directos->where('binary_side', 'I'));
+            $indirectos_i = count($indirectos->where('binary_side', 'I')->where('referred_id', '!=', $iduser));
+            $total_i = $directos_i + $indirectos_i;
+
+            return [
+                'derecha' => $total_d,
+                'izquierda' => $total_i
+            ];
+        } catch (\Throwable $th) {
+            Log::error('Tree - getTotalUser -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
     /**
      * Permite obtener la cantidad de usuarios tantos directos, como indirectos
      *
@@ -94,8 +133,9 @@ class TreeController extends Controller
     public function getTotalUser(int $iduser): array
     {
         try {
-            $directos = count($this->getChidrens2($iduser, [], 1, 'referred_id', 1));
-            $indirectos = count($this->getChidrens2($iduser, [], 1, 'referred_id', 0));
+            $directos = ($this->getChidrens2($iduser, [], 1, 'referred_id', 1));
+            $indirectos = ($this->getChidrens2($iduser, [], 1, 'referred_id', 0));
+
             return [
                 'directos' => $directos,
                 'indirectos' => $indirectos
@@ -148,7 +188,19 @@ class TreeController extends Controller
             $base = User::find($id);
             $base->logoarbol = asset('assets/img/sistema/favicon.png');
             $binario = $this->getBinaryPoints(Auth::user()->id);
-            return view('genealogy.tree', compact('trees', 'type', 'base', 'binario'));
+
+            $total_red = $this->getTotalUserBinary($id);
+            $red_d = $total_red['derecha'];
+            $red_i = $total_red['izquierda'];
+            $type_tm = 0;
+
+            if($type == 'Tree'){
+            $type_tm = 1;
+            }elseif($type == 'Matriz'){
+                $type_tm = 2;
+            }
+
+            return view('genealogy.tree', compact('trees', 'type', 'base', 'binario', 'type_tm', 'red_d', 'red_i'));
         } catch (\Throwable $th) {
             Log::error('Tree - moretree -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
