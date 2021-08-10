@@ -102,3 +102,67 @@ background-color: #66FFCC !important;
 .progresscircle.blue .progress-circle{
     border-color: #22E5B2;
 }
+
+/* //////FIN DE BARRA CIRCULAR */
+
+
+/* ////// RADIO BUTTONS PERSONALIZADOS /////// */
+
+.content-input input,
+.content-select select{
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+ 
+.content-input input{
+	visibility: hidden;
+	position: absolute;
+	right: 0;
+}
+
+.content-input{
+	position: relative;
+	margin-bottom: 30px;
+	padding:5px 0 5px 40px; /* Damos un padding de 60px para posicionar el elemento <i> en este espacio*/
+	display: block;
+}
+.content-input input + .radioclass {
+    background: transparent;
+    border:2px solid #66FFCC;
+    position: absolute; 
+    width: 30px;
+    height: 30px;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    border-radius: 100%;
+}
+/* Estas reglas se aplicarán a todos las elementos i después de cualquier input*/
+.content-input input + .radioclass i{
+ background: #fff;
+ border:2px solid rgba(0,0,0,0.2);
+ position: absolute; 
+}
+
+ 
+/* Estas reglas se aplicarán a todos los i despues de un input de tipo radio*/
+.content-input input[type=radio] + .radioclass i{
+ height: 20px;
+ width: 20px;
+ border-radius: 100%;
+ left: 3px;
+ top: 3px;
+}
+
+.content-input input[type=radio]:checked + .radioclass i:before{
+	transform: scale(1);
+	opacity: 1;
+}
+.content-input:hover input[type=radio]:not(:checked) + .radioclass i{
+	background: #22E5B2;
+}
+
+.radiochecked{
+    background: #66FFCC !important;
+}

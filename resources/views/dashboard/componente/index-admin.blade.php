@@ -122,33 +122,55 @@
 
                         @if (Auth::user()->binary_side_register == 'I')
                             <div class="col">     
-                                <a href="#"
+                                {{-- <a href="#"
                                     class="btn btn-primary btn-block padding-button-short mt-1 waves-effect waves-light text-white"
                                     v-on:click="updateBinarySide('I')">
                                     IZQUIERDA
-                                </a>
+                                </a> --}}
+                                <label class="content-input">
+                                    <input type="radio">IZQUIERDA
+                                    <div class="radioclass">
+                                        <i class="radiochecked"></i>
+                                    </div>
+                                </label>
                             </div>
                             <div class="col">
-                                <a href="#"
+                                {{-- <a href="#"
                                     class="btn btn-block btn-outline-warning padding-button-short mt-1 waves-effect waves-light text-white"
                                     v-on:click="updateBinarySide('D')" style="height: 44.78px">
                                     DERECHA
-                                </a>
+                                </a> --}}
+                                <label class="content-input">
+                                    <input type="radio" v-on:click="updateBinarySide('D')">DERECHA
+                                    <div class="radioclass">
+                                    </div>
+                                </label>
                             </div>
                         @else
                                 <div class="col">
-                                    <a href="#"
+                                    {{-- <a href="#"
                                         class="btn btn-block btn-outline-warning padding-button-short mt-1 waves-effect waves-light text-white"
                                         v-on:click="updateBinarySide('I')">
                                         IZQUIERDA
-                                    </a>
+                                    </a> --}}
+                                    <label class="content-input">
+                                        <input type="radio" v-on:click="updateBinarySide('I')">IZQUIERDA
+                                        <div class="radioclass">
+                                        </div>
+                                    </label>
                                 </div>
                                 <div class="col">
-                                    <a href="#"
+                                    {{-- <a href="#"
                                         class="btn btn-block btn-primary padding-button-short mt-1 waves-effect waves-light text-white"
                                         v-on:click="updateBinarySide('D')" style="height: 44.78px">
                                         DERECHA
-                                    </a>
+                                    </a> --}}
+                                    <label class="content-input">
+                                        <input type="radio">DERECHA
+                                        <div class="radioclass">
+                                            <i class="radiochecked"></i>
+                                        </div>
+                                    </label>
                                 </div>
                             
                         @endif
@@ -232,7 +254,7 @@
                     <div class="card-content">
                         <div class="card-body card-dashboard p-0">
                             <div class="table-responsive">
-                            <h3 class="text-white p-0">Últimos Pedidos</h3>
+                            <h3 class="text-white p-1">Últimos Pedidos</h3>
                                 <table class="table nowrap scroll-horizontal-vertical myTable2 table-striped">
                                     <thead>
 
@@ -263,7 +285,7 @@
             {{-- permite llamar a las opciones de las tablas --}}
             @include('layouts.componenteDashboard.optionDatatable')
 
-            <div class="col-12 mt-1 mb-3 d-none">
+            {{-- <div class="col-12 mt-1 mb-3 d-none">
                 <div class="card h-100 p-2" style="background: #173138;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h5 class="mt-1 mb-0 text-white mb-2"><b>Precio de las acciones</b></h5>
@@ -272,7 +294,7 @@
                     @include('dashboard.componente.partials.tranding-view-btc')
 
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
