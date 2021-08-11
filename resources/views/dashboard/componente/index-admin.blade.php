@@ -283,7 +283,7 @@
                         <div class="card-body card-dashboard p-0">
                             <div class="table-responsive">
                             <h3 class="text-white p-1">Últimos Pedidos</h3>
-                                <table class="table nowrap scroll-horizontal-vertical myTable2 table-striped">
+                                <table class="table nowrap scroll-horizontal-vertical myTable2">
                                     <thead>
 
                                         <tr class="text-center text-dark text-uppercase pl-2">                                
@@ -297,10 +297,81 @@
                                     <tbody>
 
                                         <tr class="text-center text-white pl-2">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
                                         </tr>
                                     </tbody>
                                 </table>
