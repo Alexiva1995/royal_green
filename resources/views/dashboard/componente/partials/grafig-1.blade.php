@@ -25,7 +25,7 @@
             },
           },
           dataLabels: {
-            enabled: true,
+            enabled: false,
           },
           
           colors: ['#66FFCC'],
@@ -41,6 +41,7 @@
             }
           },
           grid: {
+            borderColor: '#204446',
           row: {
             colors: [], // takes an array which will be repeated on columns
             opacity: 0.5
@@ -49,6 +50,7 @@
         xaxis: {
           categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
           labels: {
+            rotate: -45,
             style: {
                 colors: ['#fff', '#fff', '#fff', '#fff', '#fff', '#fff' ,'#fff', '#fff', '#fff', '#fff', '#fff', '#fff']
             },               

@@ -1,8 +1,6 @@
 <div class="row mt-1">
     <div class="col-12">
 
-    {{-- @include('dashboard.componente.partials.tranding-view') --}}
-
         <div class="row" id="dashboard-analytics">
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-80 p-2 art-2">
@@ -384,16 +382,6 @@
             {{-- permite llamar a las opciones de las tablas --}}
             @include('layouts.componenteDashboard.optionDatatable')
 
-            {{-- <div class="col-12 mt-1 mb-3 d-none">
-                <div class="card h-100 p-2" style="background: #173138;">
-                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
-                        <h5 class="mt-1 mb-0 text-white mb-2"><b>Precio de las acciones</b></h5>
-                    </div>
-
-                    @include('dashboard.componente.partials.tranding-view-btc')
-
-                </div>
-            </div> --}}
         </div>
     </div>
 </div>
