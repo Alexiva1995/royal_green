@@ -46,16 +46,21 @@ span.input-group-text.cursor-pointer {
     color: #66FFCC;
 }
 
-.royal_bg {
+.royal_bg{
     background: url("../../img/royal_green/fondos/auth.svg");
-    justify-content: center;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-}
+    /* justify-content: center;
+    text-align:center; */
+    background-repeat:no-repeat;
+    background-size: cover;
+  }
 
 a:hover {
   color: #b6ffe7;
   text-decoration: none;
+}
+
+.logo{
+    margin: 20px 0 0 20px;
 }
 
 

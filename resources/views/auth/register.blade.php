@@ -25,9 +25,9 @@ $referred = DB::table('users')
 @section('content')
 <div class="row auth-inner">
     <!-- Left bg-->
-    <div class="col-sm-5 col-lg-8 d-none d-sm-flex d-md-flex d-lg-flex align-items-center royal_bg">
+    <div class="col-sm-5 col-lg-8 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
         <div class="">
-            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="">
+            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="" class="logo">
         </div>
     </div>
     <!-- Login-->
