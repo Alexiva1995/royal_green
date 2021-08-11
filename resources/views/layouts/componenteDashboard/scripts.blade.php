@@ -20,6 +20,7 @@
 
 <script type="text/javascript">      
     window.csrf_token = "{{ csrf_token() }}"
+    window.url_asset = "{{asset('/')}}"
   </script>
 
 <!-- BEGIN: Custom js-->
