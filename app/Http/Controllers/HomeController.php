@@ -69,7 +69,7 @@ class HomeController extends Controller
     {
         try {
             $data = $this->dataDashboard(Auth::id());
-            return view('dashboard.indexUser', compact('data'));
+            return view('dashboard.index', compact('data'));
         } catch (\Throwable $th) {
             Log::error('Home - indexUser -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
