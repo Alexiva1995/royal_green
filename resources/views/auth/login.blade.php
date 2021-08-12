@@ -12,15 +12,18 @@
 @section('content')
 <div class="row auth-inner">
     <!-- Left bg-->
-    <div class="col-sm-6 col-lg-9 d-none d-sm-flex d-md-flex d-lg-flex align-items-center royal_bg">
+    <div class="col-sm-6 col-md-7 col-lg-7 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
         <div class="">
-            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="">
+            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="" class="logo">
         </div>
     </div>
     <!-- Login-->
-    <div class="col-12 col-sm-6 col-lg-3 d-flex align-items-center p-2">
+    <div class="col-12 col-sm-6 col-lg-5 col-md-5 d-flex align-items-center p-2 px-4">
         <div class="row">
             <h2 class="fw-bold text-white col-12">Iniciar Sesión</h2>
+            <p class=" text-white col-12">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim porro aliquam magni mollitia hic illum.
+            </p>
             <form class="mt-2" id="validate" action="{{ route('login') }}" method="POST">
                 @csrf
                 @if ($errors->any())
@@ -40,8 +43,8 @@
                 <div class="mb-1 col-12">
                     <div class="d-flex justify-content-between">
                         <label class="form-label text-white" for="password"><b>Contraseña</b></label><a
-                            href="{{ route('password.request') }}"><small>Olvide
-                                mi contraseña</small></a>
+                            href="{{ route('password.request') }}"><small><b><u>Olvide
+                                mi contraseña</u></b> </small></a>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
                         <input class="form-control border border-primary rounded-left" type="password" name="password"
