@@ -25,13 +25,13 @@ $referred = DB::table('users')
 @section('content')
 <div class="row auth-inner">
     <!-- Left bg-->
-    <div class="col-sm-5 col-lg-8 d-none d-sm-flex d-md-flex d-lg-flex align-items-center royal_bg">
+    <div class="col-sm-5 col-lg-6 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
         <div class="">
-            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="">
+            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="" class="logo">
         </div>
     </div>
     <!-- Login-->
-    <div class="col-12 col-sm-7 col-lg-4 d-flex align-items-center p-2">
+    <div class="col-12 col-sm-7 col-lg-6 d-flex align-items-center p-2">
         <div class="row">
             <h2 class="fw-bold text-white col-12">Crear Cuenta</h2>
             @if (!empty($referred))

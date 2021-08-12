@@ -1,8 +1,6 @@
 <div class="row mt-1">
     <div class="col-12">
 
-    {{-- @include('dashboard.componente.partials.tranding-view') --}}
-
         <div class="row" id="dashboard-analytics">
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-80 p-2 art-2">
@@ -116,7 +114,7 @@
                                 DERECHA
                                 @endif
                             </h1>
-                            <svg style="position: absolute; right: 20px; top: 20px;" width="137" height="137" viewBox="0 0 107 107" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg style="position: absolute; right: 20px; top: 20px;" width="117" height="117" viewBox="0 0 107 107" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M49.8214 57.1746L49.8214 76.0696C46.3538 76.964 43.3317 79.091 41.3217 82.052C39.3117 85.0129 38.4517 88.6045 38.903 92.1535C39.3543 95.7025 41.0858 98.9653 43.773 101.33C46.4602 103.695 49.9186 105 53.5 105C57.0814 105 60.5398 103.695 63.227 101.33C65.9142 98.9653 67.6457 95.7026 68.097 92.1535C68.5483 88.6045 67.6883 85.0129 65.6783 82.052C63.6683 79.091 60.6462 76.964 57.1786 76.0696L57.1786 57.1746L86.6071 57.1746L86.6071 76.0696C83.1395 76.964 80.1174 79.091 78.1074 82.052C76.0974 85.0129 75.2374 88.6045 75.6887 92.1535C76.14 95.7026 77.8715 98.9653 80.5587 101.33C83.2459 103.695 86.7043 105 90.2857 105C93.867 105 97.3255 103.695 100.013 101.33C102.7 98.9653 104.431 95.7026 104.883 92.1535C105.334 88.6045 104.474 85.0129 102.464 82.052C100.454 79.091 97.4319 76.964 93.9643 76.0696L93.9643 57.1746C93.9623 55.2261 93.1866 53.3579 91.8072 51.9801C90.4279 50.6022 88.5578 49.8273 86.6071 49.8254L57.1786 49.8254L57.1786 30.9304C60.6462 30.036 63.6683 27.909 65.6783 24.948C67.6883 21.9871 68.5483 18.3955 68.097 14.8465C67.6457 11.2975 65.9142 8.03467 63.227 5.66972C60.5398 3.30476 57.0814 2 53.5 2C49.9186 2 46.4602 3.30476 43.773 5.66972C41.0858 8.03467 39.3543 11.2975 38.903 14.8465C38.4517 18.3955 39.3117 21.9871 41.3217 24.948C43.3317 27.909 46.3538 30.036 49.8214 30.9304L49.8214 49.8254L20.3929 49.8254C18.4423 49.8273 16.5721 50.6022 15.1928 51.9801C13.8134 53.3579 13.0377 55.2261 13.0357 57.1746L13.0357 76.0696C9.56811 76.964 6.54606 79.091 4.53604 82.052C2.52602 85.0129 1.66605 88.6045 2.11732 92.1535C2.56858 95.7025 4.30011 98.9653 6.98732 101.33C9.67454 103.695 13.133 105 16.7143 105C20.2957 105 23.7541 103.695 26.4413 101.33C29.1285 98.9653 30.86 95.7025 31.3113 92.1535C31.7626 88.6045 30.9026 85.0129 28.8926 82.052C26.8826 79.091 23.8605 76.964 20.3929 76.0696L20.3929 57.1746L49.8214 57.1746ZM60.8571 90.2464C60.8571 91.6999 60.4256 93.1208 59.6172 94.3294C58.8088 95.538 57.6598 96.48 56.3155 97.0362C54.9711 97.5925 53.4918 97.738 52.0647 97.4545C50.6376 97.1709 49.3266 96.4709 48.2977 95.4431C47.2688 94.4153 46.5681 93.1058 46.2842 91.6802C46.0004 90.2545 46.146 88.7768 46.7029 87.4339C47.2597 86.091 48.2027 84.9432 49.4126 84.1357C50.6225 83.3281 52.0449 82.8971 53.5 82.8971C55.4506 82.8991 57.3208 83.674 58.7001 85.0518C60.0794 86.4296 60.8552 88.2978 60.8571 90.2464ZM97.6428 90.2464C97.6428 91.6999 97.2113 93.1208 96.4029 94.3294C95.5945 95.538 94.4455 96.48 93.1011 97.0362C91.7568 97.5925 90.2775 97.738 88.8504 97.4545C87.4232 97.1709 86.1123 96.4709 85.0834 95.4431C84.0545 94.4153 83.3538 93.1058 83.0699 91.6802C82.786 90.2545 82.9317 88.7768 83.4886 87.4339C84.0454 86.091 84.9884 84.9432 86.1983 84.1357C87.4082 83.3281 88.8306 82.8971 90.2857 82.8971C92.2363 82.8991 94.1065 83.674 95.4858 85.0518C96.8651 86.4296 97.6409 88.2978 97.6428 90.2464ZM46.1429 16.7536C46.1429 15.3001 46.5744 13.8792 47.3828 12.6706C48.1912 11.462 49.3402 10.52 50.6845 9.96376C52.0289 9.40751 53.5082 9.26197 54.9353 9.54555C56.3625 9.82912 57.6734 10.5291 58.7023 11.5569C59.7312 12.5847 60.4319 13.8942 60.7158 15.3198C60.9997 16.7455 60.854 18.2232 60.2971 19.5661C59.7403 20.909 58.7973 22.0568 57.5874 22.8643C56.3775 23.6719 54.9551 24.1029 53.5 24.1029C51.5494 24.1009 49.6792 23.326 48.2999 21.9482C46.9206 20.5704 46.1448 18.7022 46.1429 16.7536ZM24.0715 90.2464C24.0715 91.6999 23.64 93.1208 22.8315 94.3294C22.0231 95.538 20.8741 96.48 19.5298 97.0362C18.1854 97.5925 16.7061 97.738 15.279 97.4544C13.8519 97.1709 12.541 96.4709 11.512 95.4431C10.4831 94.4153 9.78242 93.1058 9.49854 91.6802C9.21466 90.2545 9.36036 88.7768 9.9172 87.4339C10.474 86.091 11.417 84.9432 12.6269 84.1357C13.8368 83.3281 15.2592 82.8971 16.7143 82.8971C18.665 82.8991 20.5351 83.674 21.9144 85.0518C23.2938 86.4296 24.0695 88.2978 24.0715 90.2464Z" fill="#204446" stroke="#204446" stroke-width="2.5"/>
                                 </svg>
                                 
@@ -283,7 +281,7 @@
                         <div class="card-body card-dashboard p-0">
                             <div class="table-responsive">
                             <h3 class="text-white p-1">Últimos Pedidos</h3>
-                                <table class="table nowrap scroll-horizontal-vertical myTable2 table-striped">
+                                <table class="table nowrap scroll-horizontal-vertical myTable2">
                                     <thead>
 
                                         <tr class="text-center text-dark text-uppercase pl-2">                                
@@ -297,10 +295,81 @@
                                     <tbody>
 
                                         <tr class="text-center text-white pl-2">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
+                                        </tr>
+                                        <tr class="text-center text-white pl-2">
+                                            <td>01/01/2021</td>
+                                            <td>
+                                                <div class="d-flex flex-column">
+                                                    <strong>Comisión</strong>
+                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                </div>
+                                            </td>
+                                            <td>info@royalgreen.com</td>
+                                            <td>$5,20</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -313,16 +382,6 @@
             {{-- permite llamar a las opciones de las tablas --}}
             @include('layouts.componenteDashboard.optionDatatable')
 
-            {{-- <div class="col-12 mt-1 mb-3 d-none">
-                <div class="card h-100 p-2" style="background: #173138;">
-                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
-                        <h5 class="mt-1 mb-0 text-white mb-2"><b>Precio de las acciones</b></h5>
-                    </div>
-
-                    @include('dashboard.componente.partials.tranding-view-btc')
-
-                </div>
-            </div> --}}
         </div>
     </div>
 </div>
