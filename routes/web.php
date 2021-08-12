@@ -56,6 +56,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     Route::prefix('inversiones')->group(function ()
     {
         Route::get('/lists', 'InversionController@index')->name('inversiones.index');
+        Route::get('/activacionManual', 'InversionController@activacion')->name('inversiones.activacion');
+        Route::post('/activacionManual', 'InversionController@activaciones')->name('inversiones.activaciones');
         // Route::get('/{tipo?}/lists', 'InversionController@index')->name('inversiones.index');
         Route::get('/cambiarStatus', 'InversionController@checkStatus')->name('inversiones.checkStatus');
     });
