@@ -240,19 +240,19 @@ class Menu
                         'name' => 'Wallet',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => ''
+                        'complementoruta' => route('logWallet')
                     ],
                     [
                         'name' => 'Red',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => ''
+                        'complementoruta' => route('logNetwork')
                     ],
                     [
                         'name' => 'Historial de puntos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => ''
+                        'complementoruta' => route('logHistoryPoints')
                     ],
                     [
                         'name' => 'Modificar Billetera',

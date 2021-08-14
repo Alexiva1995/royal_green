@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLogRanksTable extends Migration
+class CreateLogNetworksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateLogRanksTable extends Migration
      */
     public function up()
     {
-        Schema::create('log_ranks', function (Blueprint $table) {
+        Schema::create('log_networks', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateLogRanksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('log_ranks');
+        Schema::dropIfExists('log_networks');
     }
 }
