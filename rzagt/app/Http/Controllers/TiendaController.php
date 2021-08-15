@@ -21,7 +21,6 @@ use Shakurov\Coinbase\Facades\Coinbase;
 use CoinbaseCommerce\ApiClient;
 use CoinbaseCommerce\Resources\Charge;
 use Illuminate\Support\Facades\Session;
-use Hexters\CoinPayment\CoinPayment;
 
 class TiendaController extends Controller
 {
@@ -146,26 +145,9 @@ class TiendaController extends Controller
 
             if ($total > 0) {
                 if ($wallet > 0) {
-                    
                     $descripcion = 'Descuento del paquete con el saldo de la wallet';
                     $controllerWallet->saveRetiro(Auth::user()->ID, $wallet, $descripcion, 0, $wallet);
                 }
-                // $transaction['order_id'] = $idcompra; // invoice number
-                // $transaction['amountTotal'] = $total;
-                // $transaction['note'] = $producto->post_content;
-                // $transaction['buyer_name'] = Auth::user()->display_name;
-                // $transaction['buyer_email'] = Auth::user()->user_email;
-                // $transaction['redirect_url'] = route('tienda.estado', ['pendiente']); // When Transaction was comleted
-                // $transaction['cancel_url'] = route('tienda.estado', ['cancelada']); // When user click cancel link
-    
-                // $transaction['items'][] = [
-                //     'itemDescription' => 'Producto '.$producto->post_title,
-                //     'itemPrice' => (FLOAT) $total, // USD
-                //     'itemQty' => (INT) 1,
-                //     'itemSubtotalAmount' => (FLOAT) $total // USD
-                // ];
-    
-                // return CoinPayment::generatelink($transaction);
                 $charge = Coinbase::createCharge([
                     'name' => 'Producto '.$producto->post_title,
                     'description' => $producto->post_content,
@@ -497,6 +479,47 @@ class TiendaController extends Controller
     }
 
 
+      /**
+     * Obtiene todas las compras pendientes de coinbase
+     * 
+     * @access public
+     * @return array
+     */
+	public function getShoppingCoinbase(){
+        $fecha = Carbon::now();
+
+        $comprasID = DB::table('wp_posts as wp')
+                    ->select('wp.ID as post_id', 'wp.post_date', 'wp.post_status', 'code_coinbase', 'id_coinbase')
+                    ->whereDate('wp.post_date', '>=', $fecha->copy()->subDays(2))
+                    ->where([
+                        ['wp.code_coinbase', '!=', ''],
+                        ['wp.post_status', '=', 'wc-on-hold']
+                    ])
+                    ->get();
+        return $comprasID;
+    }
+
+      /**
+     * Obtienes todas las compras completada de coinbase
+     * 
+     * @access public
+     * @return array
+     */
+	public function getShoppingCoinbaseComplete(){
+        $fecha = Carbon::now();
+
+        $comprasID = DB::table('wp_posts as wp')
+                    ->select('wp.ID as post_id', 'wp.post_date', 'wp.post_status', 'code_coinbase', 'id_coinbase')
+                    ->whereDate('wp.post_date', '>=', $fecha->copy()->subDays(2))
+                    ->where([
+                        ['wp.code_coinbase', '!=', ''],
+                        ['wp.post_status', '=', 'wc-completed']
+                    ])
+                    ->get();
+        return $comprasID;
+    }
+
+
     /**
      * Obtiene todas las compras que fueron hecha dentro del sistema
      * 
@@ -510,7 +533,7 @@ class TiendaController extends Controller
         $comprasID = DB::table($settings->prefijo_wp.'postmeta as wpm')
                     ->join($settings->prefijo_wp.'posts as wp', 'wp.ID', 'wpm.post_id')
                     ->select('wpm.post_id', 'wp.post_date', 'wp.post_status', 'code_coinbase', 'id_coinbase')
-                    ->whereDate('wp.post_date', '=', $fecha->copy()->subDays(5))
+                    ->whereDate('wp.post_date', '>=', $fecha->copy()->subDays(5))
                     ->where([
                         ['meta_key', '=', '_payment_method_title'],
                         ['meta_value', '=', 'Wallet']
@@ -656,54 +679,50 @@ class TiendaController extends Controller
      */
     public function ArregloCompra2()
     {
-        $compras = $this->getShopping();
-        
+        $compras = $this->getShoppingCoinbase();
+        // dd($compras);
         $arregloCompras = [];
         $fecha = Carbon::now();
-        $fecha30dias = $fecha->copy()->subDays(2);
         foreach ($compras as $compra) {
-            $fechaCompra = new Carbon($compra->post_date);
-            if ($fechaCompra >= $fecha30dias) {
-                $estadoEntendible = '';
-                switch ($compra->post_status) {
-                    case 'wc-completed':
-                        $estadoEntendible = 'Completado';
-                        break;
-                    case 'wc-pending':
-                        $estadoEntendible = 'Pendiente de Pago';
-                        break;
-                    case 'wc-processing':
-                        $estadoEntendible = 'Procesando';
-                        break;
-                    case 'wc-on-hold':
-                        $estadoEntendible = 'En Espera';
-                        break;
-                    case 'wc-cancelled':
-                        $estadoEntendible = 'Cancelado';
-                        break;
-                    case 'wc-refunded':
-                        $estadoEntendible = 'Reembolsado';
-                        break;
-                    case 'wc-failed':
-                        $estadoEntendible = 'Fallido';
-                        break;
-                }
-                if ($compra->post_status == 'wc-pending' || $compra->post_status == 'wc-processing' || $compra->post_status == 'wc-on-hold') {
-                    $datos = $this->getDatos($compra->post_id);
-                
-                    $user = User::find($datos['iduser']);
-                    array_push($arregloCompras,[
-                        'usuario' => (!empty($user->display_name)) ? $user->display_name : 'Usuario No Disponibles',
-                        'idcompra' => $compra->post_id,
-                        'total' => $datos['total'],
-                        'iduser' => $datos['iduser'],
-                        'billetera' => (!empty($user->wallet_amount)) ? $user->wallet_amount : 0,
-                        'fecha' => $compra->post_date,
-                        'estado' => $estadoEntendible,
-                        'code_coinbase' => $compra->code_coinbase,
-                        'id_coinbase' => $compra->id_coinbase,
-                    ]);
-                }
+            $estadoEntendible = '';
+            switch ($compra->post_status) {
+                case 'wc-completed':
+                    $estadoEntendible = 'Completado';
+                    break;
+                case 'wc-pending':
+                    $estadoEntendible = 'Pendiente de Pago';
+                    break;
+                case 'wc-processing':
+                    $estadoEntendible = 'Procesando';
+                    break;
+                case 'wc-on-hold':
+                    $estadoEntendible = 'En Espera';
+                    break;
+                case 'wc-cancelled':
+                    $estadoEntendible = 'Cancelado';
+                    break;
+                case 'wc-refunded':
+                    $estadoEntendible = 'Reembolsado';
+                    break;
+                case 'wc-failed':
+                    $estadoEntendible = 'Fallido';
+                    break;
+            }
+            if ($compra->post_status == 'wc-pending' || $compra->post_status == 'wc-processing' || $compra->post_status == 'wc-on-hold') {
+                $datos = $this->getDatos($compra->post_id);
+            
+                $user = User::find($datos['iduser']);
+                array_push($arregloCompras,[
+                    'usuario' => (!empty($user->display_name)) ? $user->display_name : 'Usuario No Disponibles',
+                    'idcompra' => $compra->post_id,
+                    'total' => $datos['total'],
+                    'iduser' => $datos['iduser'],
+                    'billetera' => (!empty($user->wallet_amount)) ? $user->wallet_amount : 0,
+                    'fecha' => $compra->post_date,
+                    'estado' => $estadoEntendible,
+                    'code_coinbase' => $compra->code_coinbase,
+                    'id_coinbase' => $compra->id_coinbase,
+                ]);
             }
         }
         if (!empty($arregloCompras)) {
@@ -723,53 +742,20 @@ class TiendaController extends Controller
      */
     public function ArregloCompra3()
     {
-        $compras = $this->getShopping();
+        $compras = $this->getShoppingCoinbaseComplete();
         $arregloCompras = [];
         $fecha = Carbon::now();
-        $fecha30dias = $fecha->copy()->subDays(2);
         foreach ($compras as $compra) {
-            $fechaCompra = new Carbon($compra->post_date);
-            if ($fechaCompra >= $fecha30dias) {
-                $estadoEntendible = '';
-                switch ($compra->post_status) {
-                    case 'wc-completed':
-                        $estadoEntendible = 'Completado';
-                        break;
-                    case 'wc-pending':
-                        $estadoEntendible = 'Pendiente de Pago';
-                        break;
-                    case 'wc-processing':
-                        $estadoEntendible = 'Procesando';
-                        break;
-                    case 'wc-on-hold':
-                        $estadoEntendible = 'En Espera';
-                        break;
-                    case 'wc-cancelled':
-                        $estadoEntendible = 'Cancelado';
-                        break;
-                    case 'wc-refunded':
-                        $estadoEntendible = 'Reembolsado';
-                        break;
-                    case 'wc-failed':
-                        $estadoEntendible = 'Fallido';
-                        break;
-                }
-                if ($compra->post_status == 'wc-completed') {
-                    $datos = $this->getDatos($compra->post_id);
-                
-                    $user = User::find($datos['iduser']);
-                    array_push($arregloCompras,[
-                        'usuario' => (!empty($user->display_name)) ? $user->display_name : 'Usuario No Disponibles',
-                        'idcompra' => $compra->post_id,
-                        'total' => $datos['total'],
-                        'iduser' => $datos['iduser'],
-                        'billetera' => (!empty($user->wallet_amount)) ? $user->wallet_amount : 0,
-                        'fecha' => $compra->post_date,
-                        'estado' => $estadoEntendible,
-                        'code_coinbase' => $compra->code_coinbase,
-                        'id_coinbase' => $compra->id_coinbase,
-                    ]);
-                }
+            $estadoEntendible = 'Completado';
+            if ($compra->post_status == 'wc-completed') {
+                $datos = $this->getDatos($compra->post_id);
+            
+                $user = User::find($datos['iduser']);
+                array_push($arregloCompras,[
+                    'idcompra' => $compra->post_id,
+                    'iduser' => $datos['iduser'],
+                    'estado' => $estadoEntendible,
+                ]);
             }
         }
         if (!empty($arregloCompras)) {
@@ -779,6 +765,24 @@ class TiendaController extends Controller
             }
         }
         return $arregloCompras;
+    }
+
+    /**
+     * Permite procesar las compras realizadas
+     *
+     * @param Request $resquet
+     * @param string $estado
+     * @return void
+     */
+    public function webhook(Request $resquet, $estado)
+    {
+        dd($resquet);
+        // $coinbaseWP = DB::table('wp_posts')->where('code_coinbase', )->select('id')->first();
+        if ($estado == 'Completado') {
+            
+        }elseif ($estado == 'Cancelado') {
+            
+        }
     }
     
     /**
@@ -799,7 +803,7 @@ class TiendaController extends Controller
                 $activacion->activarUsuarios($datoscompra['iduser']);
                 $comisiones = new ComisionesController;
                 $comisiones->registePackageToRentabilizar($datoscompra['iduser']);
-                $comisiones->payBonus();
+                $comisiones->payBono($datoscompra['iduser'], $id);
             }
     
             if ($activacion2 == null) {

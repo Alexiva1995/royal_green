@@ -31,10 +31,20 @@ class ComisionesController extends Controller
     public function payBonus()
     {
         $compras = $this->funciones->getAllCompras();
-        $this->bonoDirecto($compras);
-        $this->bonoIndirecto($compras);
         $this->puntosBinarios($compras);
-        // $this->puntosRangos();
+    }
+
+    /**
+     * Permite pagar las compras de los bonos directos he indirectos una sola vez
+     */
+    public function payBono($iduser, $idcompra)
+    {
+        $compra = $this->funciones->getInfoPurchase($idcompra, $iduser);
+        if (!empty($compra)) {
+            $compra = $compra[0];
+            $this->bonoDirecto($compra);
+            $this->bonoIndirecto($compra);
+        }
     }
 
     /**
@@ -55,7 +65,10 @@ class ComisionesController extends Controller
             $checkComision = Commission::where([
                 ['user_id', '=', $iduser],
                 ['compra_id', '=', $idcompra],
+                ['referred_email', '=', $referred_email]
             ])->first();
+
+            // dump($iduser, $idcompra, $checkComision);
 
             if ($checkComision == null) {
 
@@ -110,33 +123,29 @@ class ComisionesController extends Controller
      *
      * @return void
      */
-    public function bonoDirecto($compras)
+    public function bonoDirecto($compra)
     {   
         try {
-            if (!empty($compras)) {
-                foreach ($compras as $compra) {
-                    if ($compra['idcompra'] != 5964 && $compra['idcompra'] != 6571) {
-                        $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
-                        if (!empty($sponsors)) {
-                            foreach ($sponsors as $sponsor) {
-                                if ($compra['idusuario'] != $sponsor->ID) {
-                                    if ($sponsor->nivel == 1) {
-                                        $userReferido = User::find($compra['idusuario']);
+            if (!empty($compra)) {
+                $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
+                if (!empty($sponsors)) {
+                    foreach ($sponsors as $sponsor) {
+                        if ($compra['idusuario'] != $sponsor->ID) {
+                            if ($sponsor->nivel == 1) {
+                                $userReferido = User::find($compra['idusuario']);
 
-                                        $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
-                                        $pagar = ($totalCompra * 0.10);
-                                        // if ($compra['idcompra'] == 6187) {
-                                        //     dd($totalCompra, $compra['total'], $this->getValueSub($compra['idusuario']), $pagar);
-                                        // }
-                                        
-                                        $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
-                                        if ($pagar > 0) {
-                                            $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
-                                        }
-                                    }
+                                $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
+                                $pagar = ($totalCompra * 0.10);
+                                // if ($compra['idcompra'] == 6187) {
+                                //     dd($totalCompra, $compra['total'], $this->getValueSub($compra['idusuario']), $pagar);
+                                // }
+                                
+                                $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
+                                if ($pagar > 0) {
+                                    $this->guardarComision($sponsor->ID, $compra['idcompra'], $pagar, $userReferido->user_email, 1, $concepto, 'Bono Directo');
                                 }
                             }
-                        }    
+                        }
                     }
                 }
             }
@@ -150,48 +159,44 @@ class ComisionesController extends Controller
      *
      * @return void
      */
-    public function bonoIndirecto($compras)
+    public function bonoIndirecto($compra)
     {
         try {
-            if (!empty($compras)) {
-                foreach ($compras as $compra) {
-                    if ($compra['idcompra'] != 5964 && $compra['idcompra'] != 6571) {
-                        $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
-                        if (!empty($sponsors)) {
-                            foreach ($sponsors as $sponsor) {           
-                                $paquete = null;
-                                if ($sponsor->paquete != null) {
-                                    $paquete = json_decode($sponsor->paquete);
-                                }                     
-                                $nivel = 0;
-                                $porcentaje = 0;
-                                if (!empty($paquete)) {
-                                    if (!empty($paquete->idproducto)) {
-                                        if ($paquete->idproducto >= 5653) {
-                                            $nivel = 2;
-                                            $porcentaje = 0.03;
-                                        }
-                                        if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
-                                            $nivel = 3;
-                                            $porcentaje = 0.02;
-                                            if ($sponsor->nivel == 2) {
-                                                $nivel = 2;
-                                                $porcentaje = 0.03;
-                                            }
-                                        }
+            if (!empty($compra)) {
+                $sponsors = $this->funciones->getSponsor($compra['idusuario'], [], 0, 'ID', 'referred_id');
+                if (!empty($sponsors)) {
+                    foreach ($sponsors as $sponsor) {           
+                        $paquete = null;
+                        if ($sponsor->paquete != null) {
+                            $paquete = json_decode($sponsor->paquete);
+                        }                     
+                        $nivel = 0;
+                        $porcentaje = 0;
+                        if (!empty($paquete)) {
+                            if (!empty($paquete->idproducto)) {
+                                if ($paquete->idproducto >= 5653) {
+                                    $nivel = 2;
+                                    $porcentaje = 0.03;
+                                }
+                                if ($paquete->idproducto >= 5655 && $paquete->idproducto <= 5658) {
+                                    $nivel = 3;
+                                    $porcentaje = 0.02;
+                                    if ($sponsor->nivel == 2) {
+                                        $nivel = 2;
+                                        $porcentaje = 0.03;
                                     }
                                 }
-                                if ($nivel > 0) {
-                                    if ($sponsor->nivel == $nivel) {
-                                        $userReferido = User::find($compra['idusuario']);
-                                        $idcomision = $compra['idcompra'].'10';
-                                        $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
-                                        $pagar = ($totalCompra * $porcentaje);
-                                        $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
-                                        if ($pagar > 0) {
-                                            $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Indirecto');
-                                        }
-                                    }
+                            }
+                        }
+                        if ($nivel > 0) {
+                            if ($sponsor->nivel == $nivel) {
+                                $userReferido = User::find($compra['idusuario']);
+                                $idcomision = $compra['idcompra'].'10';
+                                $totalCompra = ($compra['total'] - $this->getValueSub($compra['idusuario']));
+                                $pagar = ($totalCompra * $porcentaje);
+                                $concepto = 'N° '.$compra['idcompra'].' - '.$userReferido->display_name;
+                                if ($pagar > 0) {
+                                    $this->guardarComision($sponsor->ID, $idcomision, $pagar, $userReferido->user_email, 1, $concepto, 'Bono Indirecto');
                                 }
                             }
                         }
@@ -212,8 +217,15 @@ class ComisionesController extends Controller
     {
         try {
             $fecha = Carbon::now();
-            $users = User::all()->where('status', '=', 1);
+            $users = User::where([
+                ['status', '=', 1],
+                ['puntos->binario_izq', '>', 0],
+                ['puntos->binario_der', '>', 0]
+            ])->get();
             foreach ($users as $user) {
+                // if ($user->ID == 6084) {
+                //     $this->verificarBinarioActivo($user->ID);
+                // }
                 if ($this->verificarBinarioActivo($user->ID) == 1) {
                     $puntos = json_decode($user->puntos);
                     $paquete = json_decode($user->paquete);
@@ -228,8 +240,9 @@ class ComisionesController extends Controller
                     if (!empty($paquete)) {
                         $porcentaje = $paquete->porc_binario;
                     }
-                    
+                    // dump($pagar, $porcentaje);
                     if ($pagar != 0 && $porcentaje != 0) {
+                        // dd('entre');
                         $puntos->binario_izq = ($puntos->binario_izq - (float)$pagar);
                         $puntos->binario_der = ($puntos->binario_der - (float)$pagar);
 
@@ -493,9 +506,10 @@ class ComisionesController extends Controller
      *
      * @param integer $iduser
      * @param float $bonobinario
+     * @param string $fechaAnterior
      * @return void
      */
-    public function bonoConstrucion(int $iduser, float $bonobinario)
+    public function bonoConstrucion(int $iduser, float $bonobinario, $fechaAnterior = null)
     {
         try {
             $fecha = Carbon::now();
@@ -512,6 +526,9 @@ class ComisionesController extends Controller
                                 $userReferido = User::find($iduser);
                                 $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;
                                 $idcomision = '40'.$fecha->format('Ymd').$i;
+                                if ($fechaAnterior != null) {
+                                    $idcomision = '40'.$fechaAnterior.$i;
+                                }
                                 $totalcomision = ($bonobinario * $porcentaje);
                                 // dump($sponsor->ID.' - '.$idcomision.' - '.$totalcomision.' - '.$userReferido->user_email.' - '.$i.' - '.$concepto.' - '.'Bono Construcion');
                                 $this->guardarComision($sponsor->ID, $idcomision, $totalcomision, $userReferido->user_email, $i, $concepto, 'Bono Construcion');
@@ -604,15 +621,18 @@ class ComisionesController extends Controller
         try {
             if($validate){
                 $porcentaje = $request->porcentage;
-                $ordenes = $this->funciones->getAllComprasRentabilidad();
+                $ordenes = DB::table('log_rentabilidad')->where('progreso', '<', 100)->get();
                 foreach ($ordenes as $orden) {
-                    if ($this->filtrarUserRentabilidad($orden['idusuario'])) {
-                        $user = User::find($orden['idusuario']);
+                    if ($this->filtrarUserRentabilidad($orden->iduser)) {
+                        $user = User::find($orden->iduser);
                         if (!empty($user)) {
-                            $this->registePackageToRentabilizar($orden['idusuario']);
-                            foreach ($orden['productos'] as $producto) {
-                                $this->saveRentabilidad($orden['idcompra'], $orden['idusuario'], $producto, $porcentaje, $orden['tipo_activacion']);
-                            }
+                            $tmp = json_decode($orden->detalles_producto);
+                            $producto = [
+                                'idproducto' => $orden->idproducto,
+                                'nombre' => $tmp->nombre,
+                                'precio' => $orden->precio
+                            ];
+                             $this->saveRentabilidad($orden->idcompra, $orden->iduser, $producto, $porcentaje, $orden->nivel_minimo_cobro);
                         }
                     }
                 }
@@ -847,6 +867,7 @@ class ComisionesController extends Controller
     {
         $ordenes = $this->funciones->getInforShopping($iduser);
         foreach ($ordenes as $orden) {
+            // dump($iduser, $orden);
             foreach ($orden['productos'] as $paquete) {
 
                 $checkRentabilidad1 = DB::table('log_rentabilidad')->where([
@@ -1254,7 +1275,10 @@ class ComisionesController extends Controller
      */
     public function usuarioEliminarPuntos($email, $fecha = null)
     {
-        $wallets = DB::table('walletlog')->where('email_referred', $email)->get();
+        $wallets = DB::table('walletlog')->where('email_referred', $email)
+                    // ->whereDate('created_at', '=', '20210806')
+                    ->groupBy('iduser')
+                    ->get();
         foreach ($wallets as $wallet) {
             $this->eliminarRegistrosPuntos($wallet->id);
         }
@@ -1389,4 +1413,26 @@ class ComisionesController extends Controller
             
         }
     }
-}
+
+    /**
+     * Permite pagar los bonos de construcion que no se pagaron bien
+     *
+     * @return void
+     */
+    public function payBonoConstrucion()
+    {
+        $binarios = Commission::where([
+            ['tipo_comision', '=', 'Bono Binario'],
+            // ['referred_email', '=', 'sindyemely223@outlook.com']
+        ])
+        ->whereBetween('date', ['20210729', '20210731'])
+        // ->whereDate('date', '>', '20210701')
+        ->get();
+        foreach ($binarios as $binario) {
+            $fechaTemp = new Carbon($binario->date);
+            // dump($binario->user_id, $binario->total, $fechaTemp);
+            $this->bonoConstrucion($binario->user_id, $binario->total, $fechaTemp->format('Ymd'));
+        }
+
+    }  
+} 

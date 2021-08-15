@@ -148,10 +148,12 @@ class HomeController extends Controller
         if (empty(request()->email)) {
             $usuarios = DB::table($settings->prefijo_wp.'users')
                         ->orderBy('display_name', 'ASC')
+                        ->select('ID', 'display_name', 'rol_id', 'user_email', 'wallet_amount', 'verificar_correo', 'pay_rentabilidad', 'pay_retiro', 'activar_pay_comision', 'referred_id')
                         ->paginate(100);
         }else{
             $usuarios = DB::table($settings->prefijo_wp.'users')
                         ->where('user_email', 'like', '%'.request()->email.'%')
+                        ->select('ID', 'display_name', 'rol_id', 'user_email', 'wallet_amount', 'verificar_correo', 'pay_rentabilidad', 'pay_retiro', 'activar_pay_comision', 'referred_id')
                         ->get();
             if ($usuarios->isEmpty()) {
                 return redirect()->back()->with('msj', 'Correo Incorrecto - '.request()->email);
@@ -161,27 +163,70 @@ class HomeController extends Controller
 
         foreach ($usuarios as $llave) {
           $usuario = User::find($llave->referred_id);
-          $masinfo = DB::table('user_campo')->where('ID', $llave->ID)->select('phone')->first();
+        //   $masinfo = DB::table('user_campo')->where('ID', $llave->ID)->select('phone')->first();
           array_push($datos, [
             'ID' => $llave->ID,
             'display_name' => $llave->display_name,
             'user_email' => $llave->user_email,
             // 'country' => $llave->country,
-            'rol_id' => $llave->rol_id,
-            'status' => $llave->status,
+            // 'rol_id' => $llave->rol_id,
+            // 'status' => $llave->status,
             'nombre_referido' => ($usuario) ? $usuario->user_email : 'Usuario no disponible',
-            'phone' => $masinfo->phone,
+            // 'phone' => $masinfo->phone,
             'wallet' => $llave->wallet_amount,
             '2fact' => (!empty($llave->verificar_correo)) ? 1 : 0,
             'renta' => $llave->pay_rentabilidad,
             'retiro' => $llave->pay_retiro,
-            'binario' => $comisionController->verificarBinarioActivo($llave->ID),
+            // 'binario' => $comisionController->verificarBinarioActivo($llave->ID),
             'activar_pay_comision' => $llave->activar_pay_comision,
           ]);
         }
 
         return view('admin.userRecords')->with(compact('datos', 'usuarios'));
     }
+
+    public function user_records2($status){
+
+        $comisionController = new ComisionesController();
+         view()->share('title', 'Listado de Usuarios');
+
+            // DO MENU
+        view()->share('do',
+                collect(['name' => 'usuarios', 'text' => 'Listado de Usuarios']));
+
+        $datos = [];
+        $settings = Settings::first();
+
+        $usuarios = DB::table($settings->prefijo_wp.'users')
+                    ->where('status', '=', $status)
+                    ->select('ID', 'display_name', 'rol_id', 'user_email', 'wallet_amount', 'verificar_correo', 'pay_rentabilidad', 'pay_retiro', 'activar_pay_comision', 'referred_id')
+                    // ->orderBy('display_name', 'ASC')
+                    ->paginate(100);
+        
+
+
+        foreach ($usuarios as $llave) {
+            $usuario = User::find($llave->referred_id);
+          array_push($datos, [
+            'ID' => $llave->ID,
+            'display_name' => $llave->display_name,
+            'user_email' => $llave->user_email,
+            // 'country' => $llave->country,
+            'rol_id' => $llave->rol_id,
+            // 'status' => $llave->status,
+            'nombre_referido' => ($usuario) ? $usuario->user_email : 'Usuario no disponible',
+            'wallet' => $llave->wallet_amount,
+            '2fact' => (!empty($llave->verificar_correo)) ? 1 : 0,
+            'renta' => $llave->pay_rentabilidad,
+            'retiro' => $llave->pay_retiro,
+            // 'binario' => $comisionController->verificarBinarioActivo($llave->ID),
+            'activar_pay_comision' => $llave->activar_pay_comision,
+          ]);
+        }
+
+        return view('admin.userRecords')->with(compact('datos', 'usuarios'));
+    }
+
 
 
     /**

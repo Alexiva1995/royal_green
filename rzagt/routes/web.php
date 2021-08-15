@@ -28,6 +28,11 @@ Route::group(['prefix' => 'installer', 'middleware' => 'licencia'], function (){
 
 });
 
+// Route::get('/', function ()
+// {
+//   return redirect('https://royalgreen.company');
+// });
+
 Route::get('/clear-cache', function() {
   $exitCode = Artisan::call('config:clear');
   $exitCode = Artisan::call('cache:clear');
@@ -72,6 +77,8 @@ Route::group(['prefix' => 'autentication'], function (){
 
 
 // Tienda Online
+
+Route::post('tienda/webhook/{estado}', 'TiendaController@webhook')->name('webhook');
 
 Route::group(['prefix' => 'tienda', 'middleware' => ['auth', 'licencia', 'guest']], function (){
 
@@ -388,6 +395,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
 
     // Modificacion del usuario por parte del admin
+    Route::get('/userrecords_status/{status}', 'HomeController@user_records2')->name('admin.userrecords2')->middleware('admin');
     Route::get('/userrecords/{email?}', 'HomeController@user_records')->name('admin.userrecords')->middleware('admin');
     Route::get('/useredit/{id}', 'ActualizarController@user_edit')->name('admin.useredit')->middleware('admin');
     Route::get('/userinactive', 'HomeController@userActiveManual')->name('admin.userinactive')->middleware('admin');

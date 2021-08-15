@@ -43,14 +43,14 @@ class StatusUser extends Command
     public function handle()
     {
         try {
-            $users = User::all();
-            $activacion = new ActivacionController;
-            foreach ($users as $user ) {
-                if ($user->rol_id != 0) {
-                    $activacion->activarUsuarios($user->ID);
-                }
-            }
-            $this->info('Usuarios Verificados Correctamente '.Carbon::now());
+            // $users = User::all();
+            // $activacion = new ActivacionController;
+            // foreach ($users as $user ) {
+            //     if ($user->rol_id != 0) {
+            //         $activacion->activarUsuarios($user->ID);
+            //     }
+            // }
+            // $this->info('Usuarios Verificados Correctamente '.Carbon::now());
 
             $comision = new ComisionesController;    
             $comision->payBonus();

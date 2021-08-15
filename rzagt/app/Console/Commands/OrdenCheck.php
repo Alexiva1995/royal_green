@@ -46,13 +46,13 @@ class OrdenCheck extends Command
             $informacion->ordenesSistema();
             $informacion->activarPaquetes();
             $horaActual = Carbon::now();
-            $this->info('Ordenes de compra actualizadas '.$horaActual);
+            \Log::info('Ordenes de compra actualizadas '.$horaActual);
 
-            $comisiones = new ComisionesController(); 
-            $comisiones->payBonus();
-            $this->info('Pagos pagados '.$horaActual);
+            // $comisiones = new ComisionesController(); 
+            // $comisiones->payBonus();
+            // $this->info('Pagos pagados '.$horaActual);
         } catch (\Throwable $th) {
-            $this->info($th);
+            \Log::error($th);
         }
     }
 }

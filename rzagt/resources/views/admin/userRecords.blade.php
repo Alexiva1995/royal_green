@@ -43,23 +43,9 @@
 								Correo
 							</th>
 							<th class="text-center">
-								Telefono
-							</th>
-							<th class="text-center">
-								Pais
-							</th>
-							<th class="text-center">
 								Referido por
 							</th>
-							{{-- <th class="text-center">
-								Rango
-							</th> --}}
-							<th class="text-center">
-								Binario
-							</th>
-							<th class="text-center">
-								Estatus
-							</th>
+
 							<th class="text-center">
 								Google Autenthic
 							</th>
@@ -82,14 +68,6 @@
 						$cont = "";
 						@endphp
 						@foreach($datos as $usuario)
-						@php
-
-						$falta = DB::table('user_campo')
-						->where('ID', '=', $usuario['ID'])
-						->get();
-
-						$roles = DB::table('roles')->get();
-						@endphp
 						<tr>
 							<td class="text-center">
 								{{ $usuario['ID'] }}
@@ -101,35 +79,7 @@
 								{{ $usuario['user_email'] }}
 							</td>
 							<td class="text-center">
-								{{ $usuario['phone'] }}
-							</td>
-							<td class="text-center">
-								@foreach($falta as $fal)
-								{{ $fal->pais }}
-								@endforeach
-							</td>
-							<td class="text-center">
 								{{ $usuario['nombre_referido'] }}
-							</td>
-
-							<td class="text-center">
-
-								@if ($usuario['binario'] == 1)
-								Activo
-								@else
-								Inactivo
-								@endif
-
-							</td>
-
-							<td class="text-center">
-
-								@if ($usuario['status'] == 1)
-								Activo
-								@else
-								Inactivo
-								@endif
-
 							</td>
 							<td class="text-center">
 								@if ($usuario['2fact'] == 1)

@@ -195,39 +195,56 @@ class IndexController extends Controller
         $compras = $this->getShopping($iduser);
         if (!empty($compras)) {
             foreach ($compras as $compra) {
-                $detallesCompra = $this->getShoppingDetails($compra->post_id);
-                if ($detallesCompra->null) {
-                    $arregProducto = $this->getProductos($compra->post_id);
-                    if ($arregProducto->null) {
-                        $productos = [];
-                        foreach ($arregProducto as $product) {
-                            $idProducto = $this->getIdProductos($product->order_item_id);
-                            $detalleProduct = $this->getProductDetails($idProducto);
-                            if ($detalleProduct->null) {
-                                $precio = $this->getTotalProductos($product->order_item_id);
-                                $productos [] = [
-                                    'idproducto' => $idProducto,
-                                    'precio' => $precio,
-                                    'nombre' => $detalleProduct->post_title,
-                                    'img' => $detalleProduct->post_excerpt,
-                                    'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
-                                    'porc_binario' => $detalleProduct->bono_binario
-                                ];
-                            }
-                        }
-                        $arreCompras [] = [
-                            'idusuario' => $iduser,
-                            'idcompra' => $compra->post_id,
-                            'fecha' => $detallesCompra->post_date,
-                            'productos' => $productos,
-                            'total' => $this->getShoppingTotal($compra->post_id),
-                            'tipo_activacion' => $detallesCompra->to_ping
-                        ];
-                    }
+                $tmp = $this->getInfoPurchase($compra->post_id, $iduser);
+                if (!empty($tmp)) {
+                    $arreCompras = $tmp;
                 }
             }
         }
         return $arreCompras;
+    }
+
+    /**
+     * Arma la informacion de una compra en especifico
+     *
+     * @param integer $idcompra
+     * @param integer $iduser
+     * @return array
+     */
+    public function getInfoPurchase($idcompra, $iduser): array
+    {
+        $compra = [];
+        $detallesCompra = $this->getShoppingDetails($idcompra);
+        if ($detallesCompra->null) {
+            $arregProducto = $this->getProductos($idcompra);
+            if ($arregProducto->null) {
+                $productos = [];
+                foreach ($arregProducto as $product) {
+                    $idProducto = $this->getIdProductos($product->order_item_id);
+                    $detalleProduct = $this->getProductDetails($idProducto);
+                    if ($detalleProduct->null) {
+                        $precio = $this->getTotalProductos($product->order_item_id);
+                        $productos [] = [
+                            'idproducto' => $idProducto,
+                            'precio' => $precio,
+                            'nombre' => $detalleProduct->post_title,
+                            'img' => $detalleProduct->post_excerpt,
+                            'img2' => asset('assets/paquetes/rg'.$precio.'.png'),
+                            'porc_binario' => $detalleProduct->bono_binario
+                        ];
+                    }
+                }
+                $compra [] = [
+                    'idusuario' => $iduser,
+                    'idcompra' => $idcompra,
+                    'fecha' => $detallesCompra->post_date,
+                    'productos' => $productos,
+                    'total' => $this->getShoppingTotal($idcompra),
+                    'tipo_activacion' => $detallesCompra->to_ping
+                ];
+            }
+        }
+        return $compra;
     }
 
     /**
@@ -506,11 +523,12 @@ class IndexController extends Controller
                         ['post_type', '=', 'shop_order'],
                         ['post_status', '=', 'wc-completed'],
                         ['to_ping', '!=', 'Manual']
-                    ])->orWhere([
-                        ['post_type', '=', 'shop_order'],
-                        ['post_status', '=', 'wc-completed'],
-                        ['ID', '=', 6571]
                     ])
+                    // ->where([
+                    //     ['post_type', '=', 'shop_order'],
+                    //     ['post_status', '=', 'wc-completed'],
+                    //     ['ID', '=', 17360]
+                    // ])
                     ->orderBy('ID')
                     ->get();
         $arreCompras = [];
@@ -556,38 +574,29 @@ class IndexController extends Controller
     public function ordenesSistema()
     {
         $tienda = new TiendaController;
-        // $fecha = Carbon::now();
-        // $compras = DB::table('coinpayment_transactions')->where([['status', '=', 0]])->whereDate('created_at', '>=', $fecha->subDays(1))->get();
-        // foreach ($compras as $compra) {
-        //     $result = CoinPayment::getstatusbytxnid($compra->txn_id);
-        //     // dump($compra, $result);
-        //     if (is_array($result)) {
-        //         DB::table('coinpayment_transactions')->where('id', '=', $compra->id)->update(['status' => $result['status']]);
-        //     //     $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
-        //     //     $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
-        //     }
-        // }
-
-        // $compras2 = DB::table('coinpayment_transactions')->where('status', '=', 100)->whereDate('created_at', '>=', $fecha->subDays(2))->get();
-        // foreach ($compras2 as $compra) {
-        //     $checkCompra = DB::table('wp_posts')->where([
-        //         ['ID', '=', $compra->order_id],
-        //         ['post_status', '=', 'wc-on-hold']
-        //     ])->first();
-        //     if ($checkCompra != null) {
-        //         // dump($compra);
-        //         $tienda->actualizarBD($compra->order_id, 'wc-completed', 'Coinbase');
-        //         // $tienda->accionSolicitud($compra->order_id, 'wc-completed', 'Coinbase');
-        //     }
-        // }
+        $activacion = new ActivacionController;
+        $comisioncontroller = new ComisionesController;
         $compras = $tienda->ArregloCompra2();
+        // dd($compras);
         foreach ($compras as $compra) {
             if (!empty($compra['code_coinbase'])) {
                 $charge = Coinbase::getCharge($compra['code_coinbase']);
-                dump($charge);
+                // dump($charge);
                 foreach ($charge['data']['timeline'] as $statusCoin) {
                     if ($statusCoin['status'] == 'COMPLETED') {
                         $tienda->actualizarBD($compra['idcompra'], 'wc-completed', 'Coinbase');
+                        $comisioncontroller->registePackageToRentabilizar($compra['iduser']);
+                        $activacion->activarUsuarios($compra['iduser']);
+                        $comisioncontroller->payBono($compra['iduser'], $compra['idcompra']);
+                    }
+                    if ($statusCoin['status'] == 'CANCELED') {
+                        $tienda->actualizarBD($compra['idcompra'], 'wc-cancelled', 'Coinbase');
+                    }
+                    if ($statusCoin['status'] == 'EXPIRED') {
+                        $tienda->actualizarBD($compra['idcompra'], 'wc-cancelled', 'Coinbase');
+                    }
+                    if ($statusCoin['status'] == 'UNRESOLVED') {
+                        $tienda->actualizarBD($compra['idcompra'], 'wc-cancelled', 'Coinbase');
                     }
                 }
             }
@@ -616,6 +625,7 @@ class IndexController extends Controller
                 $comisioncontroller = new ComisionesController;
                 $comisioncontroller->registePackageToRentabilizar($solicitud['iduser']);
                 $activacion->activarUsuarios($solicitud['iduser']);
+                $comisioncontroller->payBono($solicitud['iduser'], $solicitud['idcompra']);
             }
         }
     }

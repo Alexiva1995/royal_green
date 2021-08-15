@@ -54,7 +54,7 @@ class WalletController extends Controller
 				['iduser', '=', Auth::user()->ID], 
 				['credito', '!=', 0]
 				])->get();
-			$totalGanado = $wallets->sum('credito');
+			// $totalGanado = $wallets->sum('credito');
 			$cuentawallet = DB::table('user_campo')->where('ID', Auth::user()->ID)->select('paypal')->get()[0];
 			$cuentawallet = $cuentawallet->paypal;
 	
@@ -165,7 +165,7 @@ class WalletController extends Controller
 				['iduser', '=', $id], 
 				['credito', '!=', 0]
 				])->get();
-			$totalGanado = $wallets->sum('credito');
+			// $totalGanado = $wallets->sum('credito');
 			$cuentawallet = DB::table('user_campo')->where('ID', $id)->select('paypal')->get()[0];
 			$cuentawallet = $cuentawallet->paypal;
 	

@@ -3,12 +3,9 @@
 @section('content')
 <section id="dashboard-analytics">
 	@include('dashboard.componentView.alert')
-	<div class="row">
-		{{-- primeros cuadro --}}
-		@include('dashboard.componenteIndex.first_square')
-		{{-- secundo cuadro --}}
-		@include('dashboard.componenteIndex.second_square')
-	</div>
+	@if (Auth::user()->)
+		
+	@endif
 		
 		{{-- tecer cuadro --}}
 		{{-- @include('dashboard.componenteIndex.third_square') --}}

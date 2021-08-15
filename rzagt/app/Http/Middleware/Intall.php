@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use Brotzka\DotenvEditor\DotenvEditor;
 use Brotzka\DotenvEditor\Exceptions\DotEnvException;
 use App\Settings;
+use Illuminate\Support\Facades\Auth;
 use Closure; use DB;
 
 class Intall
@@ -18,8 +19,15 @@ class Intall
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = null)
     {
+        if ($request->getPathInfo() == '/') {
+            
+            // if (!Auth::guard($guard)->check()) {
+                return redirect('login');
+            // }
+        }
+
         $env = new DotenvEditor();
 
         try {

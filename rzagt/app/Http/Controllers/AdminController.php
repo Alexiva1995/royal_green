@@ -50,19 +50,22 @@ class AdminController extends Controller
         $comi = new ComisionesController;
         // $comi->registePackageToRentabilizar($iduser);
         if ($iduser == 614) {
+            // dump(route('webhook', 'Completado'));
+            // dump(route('webhook', 'Cancelado'));
             // $comi->bonoBinario();
             // $comi->payBonus();
+            // $comi->payBonoConstrucion();
             // $comi->eliminarRegistros(86452);
             // $comi->recorrerDuplicados();
             // $comi->despagarComisionesErroneas('Felipewilches1999@gmail.com');
             // dump('division');
             // $comi->bonoConstrucion(500, 100);
             // $comi->despagarComisionesErroneas('Juanrestrepo11978@gmail.com');
-            // $this->indexControl->ordenesSistema();
+            $this->indexControl->ordenesSistema();
             // $this->indexControl->activarPaquetes();
             // $comi->arreglarBilletera();
             // $comi->puntosBinarios();
-            // $comi->usuarioEliminarPuntos('luisasalazarsalazar2017@gmail.com');
+            // $comi->usuarioEliminarPuntos('malenabarriga@gmail.com');
             // dd('parar 3');
         }
 
@@ -71,12 +74,12 @@ class AdminController extends Controller
         //     // $this->indexControl->ordenesSistema();
         // }
 
-        $activacion = new ActivacionController;
-        if ($iduser != 1 && $iduser != 614) {
-            $activacion->activarUsuarios($iduser);
-        }
+        // $activacion = new ActivacionController;
+        // if ($iduser != 1 && $iduser != 614) {
+        //     $activacion->activarUsuarios($iduser);
+        // }
 
-        $paquetes = DB::table('log_rentabilidad')->get();
+        $paquetes = DB::table('log_rentabilidad')->take(0)->get();
         if ($user->ID != 1) {
             $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->orderBy('id', 'desc')->take(1)->get();
         }
@@ -88,7 +91,7 @@ class AdminController extends Controller
             ['iduser', '=', $iduser],
             ['credito', '!=', 0]
         ])
-        ->orderBy('id', 'DESC')->get()->take(10);
+        ->orderBy('id', 'DESC')->take(10)->get();
         $arrayWallet = [];
 
 
@@ -106,7 +109,7 @@ class AdminController extends Controller
             $paquete->detalles_producto = json_decode($paquete->detalles_producto);
         }
 
-        $this->rangoControl->checkRango($iduser);
+        // $this->rangoControl->checkRango($iduser);
 
         $bienvenida = $this->indexControl->bonoBienvenida($iduser);
 
@@ -431,11 +434,12 @@ class AdminController extends Controller
     public function network_orders(){
 
         view()->share('title', 'Ordenes de Red');
-        
+        $fecha = Carbon::now();
         $compras = [];
         if (Auth::user()->ID == 1) {
             $ordenes = DB::table('wp_posts')
             ->select('*')
+            ->whereDate('post_date', '>', $fecha->subMonth(1))
             ->where([
                 ['post_type', '=', 'shop_order'],
             ])->paginate(100);
@@ -539,9 +543,11 @@ class AdminController extends Controller
         view()->share('title', 'Ordenes de Red');
         $compras = [];
         $ordenes = null;
+        $fecha = Carbon::now();
         if (Auth::user()->ID == 1) {
             $ordenes = DB::table('wp_posts')
             ->select('*')
+            ->whereDate('post_date', '>', $fecha->subDays(15))
             ->where([
                 ['post_type', '=', 'shop_order'],
                 ['to_ping', '=', $request->filtro]

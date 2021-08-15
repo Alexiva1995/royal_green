@@ -40,8 +40,11 @@ $referred = DB::table($settings->prefijo_wp.'users')
                         {{-- <p >Fill the below form to create a new account.</p> --}}
                         <div class="card-content">
                             <div class="card-body pt-0">
+                                <div class="alert alert-primary" role="alert" style="color: #ffffff !important;">
+                                    El sistema esta en mantenimiento, disculpen las molestias ocacionadas
+                                  </div>
 
-                                <form method="POST" action="{{ route('autenticacion.save-register') }}">
+                                <form method="POST" class="d-none" action="{{ route('autenticacion.save-register') }}">
                                     {{ csrf_field() }}
 
                                     @foreach($campos as $campo)

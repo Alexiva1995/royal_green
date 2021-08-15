@@ -34,6 +34,10 @@
                             <div class="card-body pt-1">
                                 {{-- registro --}}
 
+                                <div class="alert alert-primary" role="alert" style="color: #ffffff !important;">
+                                    Debido a que hemos tenido un incremento de más del 300% de usuarios en los últimos 2 meses, nuestro equipo de programación se encuentra trabajando arduamente desde el lunes 9 de Agosto para poder optimizar nuestras funciones en inscripciones, pagos  y demás; es por esta razón que para agilizar nuestro mantenimiento y migración total de servidores, suspenderemos el acceso al Backoffice sábado y domingo. El ingreso a nuestra plataforma estará habilitado nuevamente el día Lunes 16 de Agosto a las 5pm (GMT-6: México). Nuevamente pedimos disculpas por las molestias que esto pueda causar y agradecemos su comprensión.
+                                  </div>
+
                                 <form class="login-form inicio " method="POST"
                                     action="{{ route('autenticacion-login') }}">
                                     {{ csrf_field() }}

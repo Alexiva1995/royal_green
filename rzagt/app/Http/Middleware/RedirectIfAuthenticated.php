@@ -22,6 +22,14 @@ class RedirectIfAuthenticated
     public function handle($request, Closure $next, $guard = null)
     {
         if (Auth::guard($guard)->check()) {
+
+            if (Auth::user()->ID != 1) {
+                if (Auth::user()->ID != 614) {
+                    Auth::logout();
+                    return redirect('login');
+                }
+            }
+
             if ($request->getPathInfo() == '/login'){
                 return redirect('admin');
             }

@@ -219,10 +219,28 @@
                     </li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="{{route('admin.userrecords')}}">
-                    <span class="menu-title">Lista de Usuarios</span>
+            <li class=" nav-item">
+                <a href="javascripts:;">
+                    <span class="menu-title" data-i18n="Link de Referidos">
+                        Lista de Usuarios
+                    </span>
                 </a>
+                <ul class="menu-content">
+                    <li class="nav-item">
+                        <a href="{{route('admin.userrecords2', 1)}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Usuarios Activos
+                            </span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{route('admin.userrecords2', 0)}}">
+                            <span class="menu-title" data-i18n="Historial de Ordenes">
+                                Usuarios Inactivos
+                            </span>
+                        </a>
+                    </li>
+                </ul>
             </li>
             <li class="nav-item">
                 <a href="{{route('disable_retiro.update', [Auth::user()->ID, true])}}">
