@@ -2,6 +2,7 @@
 @push('page_css')
 {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/tables/datatable/datatables.min.css')}}"> --}}
 <link rel="stylesheet" type="text/css" href="{{asset('assets/js/librerias/datatables/datatables.min.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/pages/custom-datatable.css')}}">
 @endpush
 
 {{-- para los js --}}
@@ -41,7 +42,7 @@
             responsive: true,
             order: [[ 0, "desc" ]],
             searching: false,
-            bLengthChange: false,
+            bLengthChange: true,
             pageLength: 5,
             language: {
                 paginate: {

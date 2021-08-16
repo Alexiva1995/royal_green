@@ -110,7 +110,7 @@ class Menu
                     [
                         'name' => 'Billetera',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('wallet.index'),
                         'complementoruta' => ''
                     ],
                     [

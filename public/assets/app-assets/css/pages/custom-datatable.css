@@ -1,0 +1,51 @@
+/* ////// DATATABLE PERSONALIZADO /////// */
+.myTable2 thead{
+    background-color: #66FFCC !important;
+}
+    
+.myTable2 thead tr{
+    background-color: transparent !important;
+}
+
+.dataTables_length, .dataTables_info{
+    padding-left: 1rem !important;
+}
+
+.custom-pagination-li{
+    margin: 0px 6px;
+    border-radius: 50% !important;
+}
+
+.custom-pagination-li-a2{
+    border-radius: 50% !important;
+    background: transparent !important;
+    color: #66FFCC !important;
+}
+
+.custom-pagination-li-a{
+    border-radius: 50% !important;
+    background: transparent !important;
+    border: 2px solid #66FFCC !important;
+    color: #66FFCC !important;
+}
+
+.custom-pagination-li-active{
+    border-radius: 50% !important;
+}
+
+.custom-pagination-li-active-a{
+    color: black !important;
+}
+
+table.dataTable th, table.dataTable td {
+    border-bottom: 1px solid #204446 !important;
+}
+
+.dot{
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #15820F;
+    position: absolute;
+    margin: 6px -14px;
+}
