@@ -9,7 +9,7 @@
             </button>
             </div>
 
-            <form action="{{route('updatePorcentajeGanancia')}}" method="POST">
+            <form action="{{route('updatePorcentajeGanancia')}}" method="POST"> 
                 @csrf 
                 @method('PUT')
                 <div class="modal-body bg-lp" >
