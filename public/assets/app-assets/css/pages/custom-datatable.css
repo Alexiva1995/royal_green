@@ -11,6 +11,10 @@
     padding-left: 1rem !important;
 }
 
+.dataTables_filter{
+    padding-right: 1rem !important;
+}
+
 .custom-pagination-li{
     margin: 0px 6px;
     border-radius: 50% !important;

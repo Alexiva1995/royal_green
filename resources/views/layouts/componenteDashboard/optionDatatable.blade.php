@@ -41,7 +41,7 @@
         $('.myTable2').DataTable({
             responsive: true,
             order: [[ 0, "desc" ]],
-            searching: false,
+            searching: true,
             bLengthChange: true,
             pageLength: 5,
             language: {
