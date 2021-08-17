@@ -37,15 +37,27 @@ class AdminController extends Controller
 
     public function index()
     {
-        $data = $this->getDataDashboard(Auth::user()->ID);
-        view()->share('title', 'Resumen');
-        $principal = 1;
-        return view('dashboard.index', compact('data', 'principal'));
+        if (Auth::user()->ID == 614) {
+            // $inversiones = DB::table('log_rentabilidad')->where('nivel_minimo_cobro', 0)->select('idcompra', 'id')->get();
+            // foreach ($inversiones as $inversion) {
+            //     $check = DB::table('wp_posts')->where([
+            //         ['ID', '=', $inversion->idcompra],
+            //         ['to_ping', '=', 'Manual']
+            //     ])->first();
+            //     if (!empty($check)) {
+            //         DB::table('log_rentabilidad')->where('id', $inversion->id)->update(['nivel_minimo_cobro' => 7]);
+            //     }
+            // }
+        }
+        if (Auth::user()->ID == 1) {
+            return redirect()->route('new_admin');
+        }else{
+            return redirect()->route('new_dashboard');
+        }
     }
 
     public function getDataDashboard($iduser)
     {
-        $user = User::find($iduser);
 
         $comi = new ComisionesController;
         // $comi->registePackageToRentabilizar($iduser);
@@ -61,61 +73,25 @@ class AdminController extends Controller
             // dump('division');
             // $comi->bonoConstrucion(500, 100);
             // $comi->despagarComisionesErroneas('Juanrestrepo11978@gmail.com');
-            $this->indexControl->ordenesSistema();
+            // $this->indexControl->ordenesSistema();
             // $this->indexControl->activarPaquetes();
             // $comi->arreglarBilletera();
             // $comi->puntosBinarios();
             // $comi->usuarioEliminarPuntos('malenabarriga@gmail.com');
-            // dd('parar 3');
         }
 
-        // if ($iduser == 1) {
-        //     $comi->payBonus();
-        //     // $this->indexControl->ordenesSistema();
-        // }
-
-        // $activacion = new ActivacionController;
-        // if ($iduser != 1 && $iduser != 614) {
-        //     $activacion->activarUsuarios($iduser);
-        // }
-
-        $paquetes = DB::table('log_rentabilidad')->take(0)->get();
-        if ($user->ID != 1) {
-            $paquetes = DB::table('log_rentabilidad')->where('iduser', $iduser)->orderBy('id', 'desc')->take(1)->get();
-        }
-
-        $walletlast = Wallet::where([
-            ['iduser', '=', $iduser],
-            ['debito', '!=', 0]
-        ])->orWhere([
-            ['iduser', '=', $iduser],
-            ['credito', '!=', 0]
-        ])
-        ->orderBy('id', 'DESC')->take(10)->get();
-        $arrayWallet = [];
-
-
-        foreach ($walletlast as $wallet) {
-            $arrayWallet [] = [
-                'signo' => ($wallet->tipotransacion == 2) ? 0 : 1,
-                'monto' => ($wallet->tipotransacion == 2) ? $wallet->debito : $wallet->credito,
-                'tipo' => ($wallet->tipotransacion == 2) ? 'Comision' : 'Retiro',
-                'fecha' => date('Y-m-d', strtotime($wallet->created_at))
-            ];
-        }
-
-        foreach ($paquetes as $paquete) {
+        // obtiene la informacion de la ultima rentabilidad agregada
+        $paquete = DB::table('log_rentabilidad')->where('iduser', $iduser)->orderBy('id', 'desc')->first();
+        if (!empty($paquete)) {
             $paquete->img = asset('assets/paquetes/rg'.$paquete->precio.'.png');
             $paquete->detalles_producto = json_decode($paquete->detalles_producto);
         }
 
-        // $this->rangoControl->checkRango($iduser);
-
+        // obtiene la informacion del bono de bienvenida
         $bienvenida = $this->indexControl->bonoBienvenida($iduser);
 
         $data = [
-            'paquetes' => $paquetes,
-            'wallets' => $arrayWallet,
+            'paquetes' => $paquete,
             'rangospoints' => $this->rangoControl->getPointRango($iduser),
             'bienvenida' => $bienvenida
         ];
@@ -135,12 +111,13 @@ class AdminController extends Controller
             if (request()->iduser != null) {
                 $iduser = request()->iduser;
             }
-
+            
             $data = $this->getDataDashboard($iduser);
             $principal = 0;
             view()->share('title', 'Resumen de Usuarios');
             return view('dashboard.subdashboard', compact('data', 'iduser', 'principal'));
         } catch (\Throwable $th) {
+            // dd($th);
             return redirect()->back()->with('msj', 'ID de usuario Incorrecto');
         }
     }
@@ -230,44 +207,7 @@ class AdminController extends Controller
         return view('dashboard.networkRecords')->with(compact('allReferido'));
 
     }
-
-    /**
-
-     * Permite Borrar a todos los usuarios del sistema menos al admin
-
-     *
-
-     * @return void
-
-     */
-
-    public function deleteTodos()
-
-        {
-
-            $usuario = User::All();
-
-
-
-		foreach ($usuario as $usuari) {
-
-			if ($usuari->ID != 1) {
-
-            $user = User::find($usuari->ID);
-
-            DB::table('user_campo')->where('ID', $usuari->ID)->delete();
-
-            $user->delete();  
-
-            }
-
-		}
-
-            return redirect('office/admin/userrecords')->with('msj', 'Todos los usuarios han sidos borrados menos el Administrador');
-
-        }
-
-    
+  
 
     public function personal_orders(){
           // TITLE

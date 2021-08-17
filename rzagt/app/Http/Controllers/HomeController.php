@@ -37,6 +37,9 @@ class HomeController extends Controller
                 if (empty(Auth::user()->verificar_correo)) {
                     return redirect()->route('autenticacion.2fact');
                 }else{
+                    if (Auth::user()->ID == 1) {
+                        return redirect()->route('new_admin');
+                    }
                     return redirect('admin');
                 }
 
@@ -153,7 +156,7 @@ class HomeController extends Controller
         }else{
             $usuarios = DB::table($settings->prefijo_wp.'users')
                         ->where('user_email', 'like', '%'.request()->email.'%')
-                        ->select('ID', 'display_name', 'rol_id', 'user_email', 'wallet_amount', 'verificar_correo', 'pay_rentabilidad', 'pay_retiro', 'activar_pay_comision', 'referred_id')
+                        ->select('ID', 'display_name', 'rol_id', 'user_email', 'wallet_amount', 'verificar_correo', 'pay_rentabilidad', 'pay_retiro', 'activar_pay_comision', 'referred_id', 'status')
                         ->get();
             if ($usuarios->isEmpty()) {
                 return redirect()->back()->with('msj', 'Correo Incorrecto - '.request()->email);
@@ -170,7 +173,7 @@ class HomeController extends Controller
             'user_email' => $llave->user_email,
             // 'country' => $llave->country,
             // 'rol_id' => $llave->rol_id,
-            // 'status' => $llave->status,
+            'status' => $llave->status,
             'nombre_referido' => ($usuario) ? $usuario->user_email : 'Usuario no disponible',
             // 'phone' => $masinfo->phone,
             'wallet' => $llave->wallet_amount,

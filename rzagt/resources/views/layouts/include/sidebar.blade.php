@@ -77,7 +77,7 @@
                 </a>
                 <ul class="menu-content">
                     <li class="nav-item">
-                        <a href="{{route('networkorders')}}">
+                        <a href="{{route('new.contabilidad.ordens')}}">
                             <span class="menu-title" data-i18n="Historial de Ordenes">
                                 Ordenes
                             </span>

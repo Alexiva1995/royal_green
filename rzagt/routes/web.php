@@ -114,6 +114,30 @@ Route::group(['prefix' => 'tienda', 'middleware' => ['auth', 'licencia', 'guest'
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']], function() {
 
+  Route::group(['prefix' => 'new'], function ()
+  {
+    // Dashboard admin y User
+    Route::get('/', 'AdminNewController@index')->name('new_admin');
+    Route::get('/dashboard', 'UserNewController@index')->name('new_dashboard');
+
+    // Contabilidad
+    Route::group(['prefix' => 'contabilidad'], function ()
+    {
+      // Ordenes
+      Route::prefix('ordenes')->group(function ()
+      {
+        // index
+        Route::get('/', 'OrdenNewController@index')->name('new.contabilidad.ordens');
+        // filtro por fecha
+        Route::get('filterdate', 'OrdenNewController@ordenFilterDate')->name('new.contabilidad.ordnes.filter.date');
+        // filtro por tipo orden
+        Route::get('filtertype', 'OrdenNewController@ordenFilterType')->name('new.contabilidad.ordnes.filter.type');
+        // filtro por user
+        Route::get('filteruser', 'OrdenNewController@ordenFilterUser')->name('new.contabilidad.ordnes.filter.user');
+      });
+    });
+  });
+
   Route::post('changeside', 'HomeController@changeSide')->name('change.side');
 
     // Actualiza todos la informacion para los usuarios
@@ -204,14 +228,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
 
     Route::group(['prefix' => 'chart'], function(){
 
-        Route::get('ventas', 'IndexController@chartVentas')->name('chart.ventas');
-
-        Route::get('pagos', 'IndexController@charPagos')->name('chart.pagos');
-
-        // Route::get('rangos', 'IndexController@chartRangos')->name('chart.rangos');
-
-        Route::get('usuarios', 'IndexController@chartUsuarios')->name('chart.usuarios');
-
+        Route::get('/all', 'AdminNewController@dataGraficos');
     });
 
     // Configuraciones

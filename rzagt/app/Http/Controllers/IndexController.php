@@ -680,7 +680,7 @@ class IndexController extends Controller
             ['requisito' => 50000, 'bono' => 5000],
         ];
 
-        $directos = $this->getChidrens2($iduser, [], 1, 'referred_id', 1);
+        $directos = User::where('referred_id', $iduser)->select('ID')->get();
 
         $totalCompra = 0;
         foreach ($directos as $directo) {

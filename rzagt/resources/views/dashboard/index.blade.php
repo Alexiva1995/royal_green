@@ -3,8 +3,20 @@
 @section('content')
 <section id="dashboard-analytics">
 	@include('dashboard.componentView.alert')
-	@if (Auth::user()->)
-		
+	@if (Auth::user()->ID != 1)
+	<div class="row">
+		{{-- primeros cuadro --}}
+		@include('dashboard.componenteIndex.first_square')
+		{{-- secundo cuadro --}}
+		@include('dashboard.componenteIndex.second_square')
+	</div>
+	@else
+	<div class="row">
+		{{-- primeros cuadro --}}
+		@include('dashboard.componenteIndex.firstAdminSquare')
+		{{-- secundo cuadro --}}
+		@include('dashboard.componenteIndex.secondAdminSquare')
+	</div>
 	@endif
 		
 		{{-- tecer cuadro --}}
@@ -13,6 +25,9 @@
 
 @endsection
 @push('custom_js')
+@if (Auth::user()->ID == 1)
+<script src="{{asset('assets/scripts/graficasAdmin.js')}}"></script>
+@endif
 <script src="{{asset('assets/scripts/graficas.js')}}"></script>
 @endpush
 

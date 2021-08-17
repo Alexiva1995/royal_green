@@ -8,7 +8,7 @@
             <div class="card-body">
                 <form method="GET" action="{{ route('admin.subdashboard') }}">
                     <div class="row">
-                        {{ csrf_field() }}
+                        {{-- {{ csrf_field() }} --}}
                     <div class="col-12 col-sm-6 col-md-10">
                         <label class="control-label " style="text-align: center; margin-top:4px;">ID Usuarios</label>
                         <input class="form-control form-control-solid placeholder-no-fix" type="number" autocomplete="off"

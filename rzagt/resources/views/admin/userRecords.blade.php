@@ -45,7 +45,11 @@
 							<th class="text-center">
 								Referido por
 							</th>
-
+							@if (request()->email)
+								<th class="text-center">
+									Status
+								</th>
+							@endif
 							<th class="text-center">
 								Google Autenthic
 							</th>
@@ -81,6 +85,15 @@
 							<td class="text-center">
 								{{ $usuario['nombre_referido'] }}
 							</td>
+							@if (request()->email)
+							<td class="text-center">
+								@if ($usuario['status'] == 1)								
+									Activo
+								@else
+									Inactivo
+								@endif
+							</td>
+							@endif
 							<td class="text-center">
 								@if ($usuario['2fact'] == 1)
 								<a class="btn btn-info" href="{{ route('disable_2fact.update', $usuario['ID']) }}">

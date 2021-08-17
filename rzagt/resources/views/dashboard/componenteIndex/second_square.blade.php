@@ -1,44 +1,4 @@
 <div class="col-md-6 col-12">
-    @if ($principal == 1)
-    <h5 class="text-white">BINARIO</h5>
-    <div class="card">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-12">
-                    <h4>Lado Binario Selecionado: {{(Auth::user()->ladoregistrar == 'I') ? 'Izquierda' : 'Derecha'}}
-                    </h4>
-                </div>
-                <div class="col-12 text-center">
-                    <h5 for="">Selecione para cambiar el lado a referir</h5>
-                </div>
-                <div class="col-12 text-center d-flex justify-content-center">
-
-                    <div class="vs-radio-con m-2" onclick="updateSideBinary('I')">
-                        <input type="radio" name="vueradio">
-                        <span class="vs-radio">
-                            <span class="vs-radio--border"></span>
-                            <span class="vs-radio--circle"></span>
-                        </span>
-                        <span class="">Izquierda</span>
-                    </div>
-                    <div class="vs-radio-con m-2" onclick="updateSideBinary('D')">
-                        <input type="radio" name="vueradio">
-                        <span class="vs-radio">
-                            <span class="vs-radio--border"></span>
-                            <span class="vs-radio--circle"></span>
-                        </span>
-                        <span class="">Derecha</span>
-                    </div>
-                </div>
-                <div class="col-12 mt-1 text-center">
-                    <button onclick="copyToClipboard('copy')" class="btn btn-primary">
-                        Link de Referido
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endif
     <h5 class="text-white">PROXIMO RANGO</h5>
     <div class="card card-green-alt">
         <div class="row">
@@ -112,14 +72,14 @@
                 </div>
             </div>
             {{-- Grafica --}}
-            @if ($principal == 1)
+            {{-- @if ($principal == 1)
             <div class="col-12 mt-2">
                 <div class="col-12">
                     <h5 class="text-white">Referidos - {{date('Y')}}</h5>
                     <div id="grafica_user"></div>
                 </div>
             </div>
-            @endif
+            @endif --}}
         </div>
     </div>
 </div>

@@ -464,11 +464,18 @@ class TiendaController extends Controller
                         'guid' => $linkProducto.$id
                     ]);
 
+                    
+
                     $this->saveOrdenPostmeta($id, $data, $request->activacion, $iduser);
                     $this->saveOrderItems($id, $producto->post_title, $data);
                     
                     $this->actualizarBD($id, $estado, $request->activacion);
                     $this->accionSolicitud($id, 'wc-completed', $request->activacion);
+
+                    $activacion = new ActivacionController;
+                    $activacion->activarUsuarios($request->iduser);
+                    $comisiones = new ComisionesController;
+                    $comisiones->registePackageToRentabilizar($request->iduser);
 
                     return redirect()->route('tienda-solicitudes')->with('msj', 'Paquete activado al ID usuario '.$iduser.' ID de la compra '.$id);
                 }
@@ -798,11 +805,10 @@ class TiendaController extends Controller
         try {
             if ($estado == 'wc-completed') {
                 $datoscompra = $this->getDatos($id);
-                
-                $activacion = new ActivacionController;
-                $activacion->activarUsuarios($datoscompra['iduser']);
+                // $activacion = new ActivacionController;
+                // $activacion->activarUsuarios($datoscompra['iduser']);
                 $comisiones = new ComisionesController;
-                $comisiones->registePackageToRentabilizar($datoscompra['iduser']);
+                // $comisiones->registePackageToRentabilizar($datoscompra['iduser']);
                 $comisiones->payBono($datoscompra['iduser'], $id);
             }
     
