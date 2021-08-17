@@ -225,21 +225,9 @@ class Menu
                 'complementoruta' => '',
                 'submenus' => [
                     [
-                        'name' => 'Dashboard',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('audit.dashboard'),
-                        'complementoruta' => ''
-                    ],
-                    [
                         'name' => 'Rangos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('audit.rangos'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Wallet',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('logWallet'),
                         'complementoruta' => ''
                     ],
                     [
