@@ -243,6 +243,11 @@
                     <div class="card-sub">
                         <p class="white text-bold-700" style="margin-top: -50px;">Próximo rango = {{$data['rangos']['puntos_sig']}} </p>
                     </div>
+                    @isset($requisito)
+                    <div class="alert alert-danger">
+                        <p class="text-bold-700">{{$requisito}}</p>
+                    </div>
+                    @endisset
 
                     
                 </div>
