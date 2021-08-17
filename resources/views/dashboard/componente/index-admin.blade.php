@@ -245,7 +245,7 @@
                     </div>
                     @isset($requisito)
                     <div class="alert alert-danger">
-                        <p class="text-bold-700">{{$requisito}} para optar por el siguiente rango</p>
+                        <p class="text-bold-700 text-center">{{$requisito}} para optar por el siguiente rango</p>
                     </div>
                     @endisset
 
@@ -281,84 +281,28 @@
 
                                     </thead>
                                     <tbody>
-
+                                        @foreach($ordenes as $orden)
                                         <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
+                                            <td>{{$orden->created_at}}</td>
                                             <td>
                                                 <div class="d-flex flex-column">
                                                     <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                                        <p style="margin: 0; padding: 0; position: relative;">
+                                                            @if ($orden->status == '0')
+                                                            <span class="dot enespera"></span> En Espera
+                                                            @elseif($orden->status == '1')
+                                                            <span class="dot completado"></span> Completado
+                                                            @elseif($orden->status >= '2')
+                                                            <span class="dot cancelado"></span> Cancelado
+                                                            @endif
+                                                        </p>
+                                                            
                                                 </div>
                                             </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
+                                            <td>{{$orden->getOrdenUser->email}}</td>
+                                            <td>{{$orden->total}}</td>
                                         </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
