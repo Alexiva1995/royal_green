@@ -184,7 +184,6 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 
         Route::put('updatePorcentajeGanancia', 'InversionController@updatePorcentajeGanancia')->name('updatePorcentajeGanancia');
 
-        Route::get('logNetwork', 'WalletController@logNetwork')->name('logNetwork');
         Route::get('logHistoryPoints', 'WalletController@logHistoryPoints')->name('logHistoryPoints');
     });
 

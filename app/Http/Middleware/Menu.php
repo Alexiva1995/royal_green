@@ -231,12 +231,6 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Red',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
-                        'complementoruta' => route('logNetwork')
-                    ],
-                    [
                         'name' => 'Historial de puntos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
