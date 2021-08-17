@@ -110,7 +110,7 @@ class Menu
                     [
                         'name' => 'Billetera',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('wallet.index'),
                         'complementoruta' => ''
                     ],
                     [
@@ -227,19 +227,19 @@ class Menu
                     [
                         'name' => 'Dashboard',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('audit.dashboard'),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Rangos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('audit.rangos'),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Wallet',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('wallet.index'),
                         'complementoruta' => ''
                     ],
                     [

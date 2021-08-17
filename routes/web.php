@@ -147,6 +147,15 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('package-create', 'PackagesController@create')->name('products.package-create');
         });
 
+        //Ruta de Auditorias
+        Route::prefix('audit')->group(function()
+        {
+            //Ruta auditorias realizadas
+            Route::get('/', 'AuditController@index')->name('audit.dashboard');
+            Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
+            // Route::resource('liquidation', 'LiquidactionController');
+        });
+
          //Ruta de liquidacion
         Route::prefix('settlement')->group(function()
         {
