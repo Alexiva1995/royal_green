@@ -66,8 +66,7 @@ class RankController extends Controller
                     if(isset($izquierda) && isset($derecha)){
                         $this->guardarRank( $rol_new, $rol_actual, $iduser);
                     }else{
-                        $requisitos = "Necesitas 2 Directos Turquesa para optar por el siguiente rango";
-                        return $requisitos;
+                        return "Necesitas 2 Directos Turquesa";
                     }
                     break;
                 case 7:

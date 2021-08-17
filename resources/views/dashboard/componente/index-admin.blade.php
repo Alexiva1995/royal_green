@@ -245,7 +245,7 @@
                     </div>
                     @isset($requisito)
                     <div class="alert alert-danger">
-                        <p class="text-bold-700">{{$requisito}}</p>
+                        <p class="text-bold-700">{{$requisito}} para optar por el siguiente rango</p>
                     </div>
                     @endisset
 
