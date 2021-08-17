@@ -115,6 +115,7 @@ class HomeController extends Controller
         foreach ($ranks as $rank) {
             $rank->img = asset('assets/img/royal_green/rangos/'.Str::slug($rank->name, '-').'.png');
         }
+        $nameRankActual = (Ranks::find($rol_actual) == null ? "Sin Rango" : Ranks::find($rol_actual)->name);
         // $ranks->prepend([
         //     'name' => 'Sin Rango',
         //     'img' => 'https://icons-for-free.com/iconfiles/png/512/page+quality+rank+icon-1320190816917337266.png'
@@ -125,7 +126,8 @@ class HomeController extends Controller
             'puntos' => number_format($totalPuntos, 2, ',', '.'),
             'porcentage' => $porcentajes,
             'puntos_sig' => number_format($rankSig->points, 2, ',', '.'),
-            'name_rank_sig' => $rankSig->name
+            'name_rank_sig' => $rankSig->name,
+            'name_rank_actual' => $nameRankActual
         ];
         return $data;
     }
