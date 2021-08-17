@@ -18,7 +18,7 @@
               data: response.data.valores
           }],
             chart: {
-            height: 650,
+            height: 440,
             type: 'line',
             zoom: {
               enabled: false

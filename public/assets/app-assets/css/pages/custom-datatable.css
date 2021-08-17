@@ -49,7 +49,18 @@ table.dataTable th, table.dataTable td {
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: #15820F;
     position: absolute;
     margin: 6px -14px;
+}
+
+.completado{
+    background: #15820F;
+}
+
+.enespera{
+    background: #21b2b7;
+}
+
+.cancelado{
+   background: #ce0e0e;
 }

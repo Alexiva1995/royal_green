@@ -154,7 +154,6 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::prefix('audit')->group(function()
         {
             //Ruta auditorias realizadas
-            Route::get('/', 'AuditController@index')->name('audit.dashboard');
             Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
             // Route::resource('liquidation', 'LiquidactionController');
         });
@@ -185,8 +184,6 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 
         Route::put('updatePorcentajeGanancia', 'InversionController@updatePorcentajeGanancia')->name('updatePorcentajeGanancia');
 
-        Route::get('logWallet', 'WalletController@logWallet')->name('logWallet');
-        Route::get('logNetwork', 'WalletController@logNetwork')->name('logNetwork');
         Route::get('logHistoryPoints', 'WalletController@logHistoryPoints')->name('logHistoryPoints');
     });
 
