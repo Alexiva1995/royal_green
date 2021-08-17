@@ -5,7 +5,7 @@
 
  <section id="basic-vertical-layouts">
      <div class="row match-height d-flex justify-content-center">
-         <div class="col-md-6 col-12">
+         <div class="col-12">
              <div class="card bg-lp">
                  <div class="card-header">
                      <h4 class="card-title text-white">Creacion de Ticket</h4>

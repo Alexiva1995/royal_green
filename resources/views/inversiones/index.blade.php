@@ -108,6 +108,7 @@
         );
     });
 
+
     function filterByUserType(userTypeColumnData) {
         let userTypeSelected = $('#userTypeFilter').val();
         if (userTypeSelected === "0") {
@@ -115,6 +116,5 @@
         }
         return userTypeColumnData === userTypeSelected;
     }
-
 </script>
 @endpush

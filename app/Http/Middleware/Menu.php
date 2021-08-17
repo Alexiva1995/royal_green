@@ -265,27 +265,27 @@ class Menu
             // Fin Auditoria
 
             // Liquidaciones
-            'Liquidaciones' => [
+            'Retiros' => [
                 'submenu' => 1,
                 'ruta' => 'javascripts:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                 'icon' => 'feather icon-pocket',
                 'complementoruta' => '',
                 'submenus' => [
+                    // [
+                    //     'name' => 'Por generar',
+                    //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                    //     'ruta' => route('settlement'),
+                    //     'complementoruta' => ''
+                    // ],
                     [
-                        'name' => 'Por generar',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Pendientes',
+                        'name' => 'Por confirmar',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.pending'),
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Realizadas',
+                        'name' => 'Confirmados',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.history.status', 'Pagadas'),
                         'complementoruta' => ''
@@ -295,13 +295,13 @@ class Menu
             // Fin Liquidaciones
 
             // Retiros
-            'Retiros' => [
-                'submenu' => 0,
-                'ruta' => '',
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-send',
-                'complementoruta' => '',
-            ],
+            // 'Retiros' => [
+            //     'submenu' => 0,
+            //     'ruta' => '',
+            //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+            //     'icon' => 'feather icon-send',
+            //     'complementoruta' => '',
+            // ],
             // Fin Retiros
 
             // Red

@@ -169,19 +169,6 @@
         </div>
         </div>
 
-        
-
-    </div>
-    <hr>
-
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                <div class="controls">
-                    <h2 class="font-weight-bold white">Más Información</h2>
-                </div>
-            </div>
-        </div>
   
         <div class="col-12">
             <div class="form-group">
@@ -198,6 +185,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-12">
             <div class="form-group">
                 <div class="controls">
@@ -209,9 +197,11 @@
                 </div>
             </div>
         </div>
+
         <div class="col-12 d-flex flex-sm-row flex-column justify-content-end">
             <button type="submit"
                 class="btn btn-outline-warning padding-button-short mt-1 waves-effect waves-light text-white">GUARDAR</button>
         </div>
+        
     </div>
 </form>
