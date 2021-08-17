@@ -153,6 +153,54 @@ class WalletController extends Controller
         }
     }
 
+
+    public function bonoOchoPorciento($id)
+    {
+        $orden = OrdenPurchases::findOrFail($id);
+        
+        $user = $orden->getOrdenUser;
+       
+        $inversion = $user->inversionMasAlta();
+       
+        //$comision = collect();
+
+        if(isset($inversion)){
+            /*
+            $comision->push([
+                'porcentaje' => 0.08,
+                'iduser' => $inversion->iduser,
+                'comision' => $inversion->invertido,
+                'referido' => $inversion->getInversionesUser->fullname,
+                'inversion_id' => $inversion->id,
+                'orden_id' => $inversion->orden_id,
+                'package_id' => $inversion->package_id
+            ]);
+            */
+            
+            $sponsors = $this->treeController->getSponsor($user->id, [], 0, 'ID', 'referred_id');
+            
+            if (!empty($sponsors)) {
+                foreach ($sponsors as $sponsor) {
+                    if ($sponsor->nivel === 1) {
+                        $pocentaje = 0.08;
+                        $comision = ($inversion->invertido * $pocentaje);
+                        $concepto = 'Bono inicio';
+                        
+                        $this->preSaveWallet($sponsor->id, $user->id, $orden->id, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje);
+
+                        if($sponsor->inversionMasAlta() != null){
+                            $inver = Inversion::findOrFail($sponsor->inversionMasAlta()->id);
+                            $inver->ganacia += $comision;
+                            
+                            $inver->save();
+                        }
+    
+                    }
+                }
+            }
+          
+        }
+    }
     /**
      * Permite obtener el total disponible en comisiones
      *

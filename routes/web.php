@@ -57,6 +57,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     Route::prefix('inversiones')->group(function ()
     {
         Route::get('/lists', 'InversionController@index')->name('inversiones.index');
+        Route::get('/activacionManual', 'InversionController@activacion')->name('inversiones.activacion');
+        Route::post('/activacionManual', 'InversionController@activaciones')->name('inversiones.activaciones');
         // Route::get('/{tipo?}/lists', 'InversionController@index')->name('inversiones.index');
         Route::get('/cambiarStatus', 'InversionController@checkStatus')->name('inversiones.checkStatus');
     });
@@ -146,6 +148,15 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('package-grupos', 'GroupsController@index')->name('products.package-grupos');
             Route::get('package-index', 'PackagesController@index')->name('products.package-index');
             Route::get('package-create', 'PackagesController@create')->name('products.package-create');
+        });
+
+        //Ruta de Auditorias
+        Route::prefix('audit')->group(function()
+        {
+            //Ruta auditorias realizadas
+            Route::get('/', 'AuditController@index')->name('audit.dashboard');
+            Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
+            // Route::resource('liquidation', 'LiquidactionController');
         });
 
          //Ruta de liquidacion
