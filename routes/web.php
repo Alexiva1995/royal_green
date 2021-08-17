@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -149,6 +150,14 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('package-create', 'PackagesController@create')->name('products.package-create');
         });
 
+        //Ruta de Auditorias
+        Route::prefix('audit')->group(function()
+        {
+            //Ruta auditorias realizadas
+            Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
+            // Route::resource('liquidation', 'LiquidactionController');
+        });
+
          //Ruta de liquidacion
         Route::prefix('settlement')->group(function()
         {
@@ -178,6 +187,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('pagarUtilidad', 'WalletController@pagarUtilidad')->name('pagarUtilidad');
 
         Route::put('updatePorcentajeGanancia', 'InversionController@updatePorcentajeGanancia')->name('updatePorcentajeGanancia');
+
+        Route::get('logHistoryPoints', 'WalletController@logHistoryPoints')->name('logHistoryPoints');
     });
 
     Route::get('dataGrafica', 'HomeController@dataGrafica')->name('dataGrafica');

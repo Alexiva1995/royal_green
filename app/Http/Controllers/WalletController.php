@@ -539,4 +539,35 @@ class WalletController extends Controller
             $this->bonoBinario();
         }
     }
+
+
+    public function logWallet()
+    {
+        try{        
+            return view('logs.wallet');
+        } catch (\Throwable $th) {
+            Log::error('Wallet - logWallet -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    public function logNetwork()
+    {
+        try{        
+            return view('logs.network');
+        } catch (\Throwable $th) {
+            Log::error('Wallet - logNetwork -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    public function logHistoryPoints()
+    {
+        try{        
+            return view('logs.PointsHistory');
+        } catch (\Throwable $th) {
+            Log::error('Wallet - logHistoryPoints -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }  
+    }
 }
