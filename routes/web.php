@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     Route::prefix('inversiones')->group(function ()
     {
         Route::get('/lists', 'InversionController@index')->name('inversiones.index');
+        Route::get('/activacionManual', 'InversionController@activacion')->name('inversiones.activacion');
+        Route::post('/activacionManual', 'InversionController@activaciones')->name('inversiones.activaciones');
         // Route::get('/{tipo?}/lists', 'InversionController@index')->name('inversiones.index');
         Route::get('/cambiarStatus', 'InversionController@checkStatus')->name('inversiones.checkStatus');
     });
@@ -181,6 +184,10 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('pagarUtilidad', 'WalletController@pagarUtilidad')->name('pagarUtilidad');
 
         Route::put('updatePorcentajeGanancia', 'InversionController@updatePorcentajeGanancia')->name('updatePorcentajeGanancia');
+
+        Route::get('logWallet', 'WalletController@logWallet')->name('logWallet');
+        Route::get('logNetwork', 'WalletController@logNetwork')->name('logNetwork');
+        Route::get('logHistoryPoints', 'WalletController@logHistoryPoints')->name('logHistoryPoints');
     });
 
     Route::get('dataGrafica', 'HomeController@dataGrafica')->name('dataGrafica');
