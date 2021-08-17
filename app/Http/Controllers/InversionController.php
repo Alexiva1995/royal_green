@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inversion;
+use App\Models\OrdenPurchases;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Models\PorcentajeUtilidad;
-
+use App\Models\User;
+use App\Models\Packages;
+use App\Http\Controllers\WalletController;
 
 class InversionController extends Controller
 {
@@ -21,6 +24,8 @@ class InversionController extends Controller
     public function __construct()
     {
         // $this->middleware('kyc')->only('index');
+        $this->WalletController = new WalletController();
+
     }
 
     public function index()
@@ -35,8 +40,8 @@ class InversionController extends Controller
                 $inversiones = Inversion::where('iduser', '=',Auth::id())->orderBy('status')->get();
             }
 
-            foreach ($inversiones as $inversion) {
-                $inversion->correo = $inversion->getInversionesUser->email;
+            foreach ($inversiones as $invers) {
+                $invers->correo = $invers->getInversionesUser->email;
             }
             
             return view('inversiones.index', compact('inversiones'));
@@ -45,6 +50,124 @@ class InversionController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
+    public function activacion()
+    {
+        $user = User::whereDoesntHave('getUserInversiones',function($inversion){
+            $inversion->where('status','=' ,1);
+        })->get();
+
+        $paquetes = Packages::all();
+
+        return view('inversiones.activacion', compact('user', 'paquetes'));
+    }
+
+
+    public function activaciones(request $request)
+    {
+        // try {
+            //CREAMOS LA ORDEN
+            $paquete = Packages::find($request->paquete);
+
+            $user = User::findOrFail($request->id);
+
+            $inv = $user->inversionMasAlta();
+
+            if(isset($inv->invertido)){
+
+                $inversion = $inv;
+                $pagado = $inversion->invertido;
+
+                $nuevoInvertido = ($paquete->price - $pagado);
+                // $porcentaje = ($nuevoInvertido * 0.03);
+                $porcentaje = 0;
+
+                $total = ($nuevoInvertido + $porcentaje);
+                //ACTUALIZAMOS LA INVERSION
+
+                $data = [
+                    'iduser' => $request->id,
+                    'package_id' => $paquete->id,
+                    'cantidad' => 1,
+                    'total' => $total,
+                    'monto' => $nuevoInvertido
+                ];
+
+                $orden = OrdenPurchases::create($data);
+
+            }else{
+                //$porcentaje = ($paquete->price * 0.03);
+                $porcentaje = 0;
+
+                $total = ($paquete->price + $porcentaje);
+                $data = [
+                    'iduser' => $request->id,
+                    'package_id' => $paquete->id,
+                    'cantidad' => 1,
+                    'total' => $total,
+                    'monto' => $paquete->price
+                ];
+
+                $orden = OrdenPurchases::create($data);
+
+            }
+
+            ////////////////////////////////////
+            //LE colocamos los puntos
+
+            if(isset($request->comision)){
+
+                $this->WalletController->payPointsBinary($orden->id);
+
+            }
+
+            if(isset($user->inversionMasAlta()->invertido)){
+
+                $inversion = $user->inversionMasAlta();
+                $pagado = $inversion->invertido;
+
+                $nuevoInvertido = ($orden->getPackageOrden->price - $pagado);
+                $porcentaje = ($nuevoInvertido * 0.03);
+
+                $total = ($nuevoInvertido + $porcentaje);
+                //ACTUALIZAMOS LA INVERSION
+                $inversion->invertido += $nuevoInvertido;
+
+                $inversion->limite = $inversion->invertido * 2;
+
+                $inversion->package_id = $orden->package_id;
+                $inversion->save();
+                $inversion = $inversion->id;
+                dd($inversion);
+
+
+            }else{
+
+                $inversion = $this->saveInversion($paquete->id,$orden->monto, $paquete->expired, $user->id);
+                // $inversion = $this->saveInversion($paquete->id, $orden->id, $orden->monto, $paquete->expired, $user->id);
+
+                
+                if(isset($request->comision)){
+
+                    $this->WalletController->bonoOchoPorciento($orden->id);
+
+                }
+            }
+
+            $orden->inversion_id = $inversion;
+            $orden->save();
+
+            $user->status = '1';
+            $user->save();
+
+        // } catch (\Throwable $th) {
+        //     Log::error('Inversion - ActivacionManual -> Error: '.$th);
+        //     abort(403, "Ocurrio un error, contacte con el administrador");
+        // }
+
+        return back()->with('msj-success', 'Orden actualizada exitosamente');
+    }
+    
 
     // public function index($tipo)
     // {

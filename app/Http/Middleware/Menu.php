@@ -110,7 +110,7 @@ class Menu
                     [
                         'name' => 'Billetera',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('wallet.index'),
                         'complementoruta' => ''
                     ],
                     [
@@ -158,25 +158,25 @@ class Menu
 
             // Inversiones
             'Inversiones' => [
-                'submenu' => 0,
-                'ruta' => route('inversiones.index'),
+                'submenu' => 1,
+                'ruta' => '',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                 'icon' => 'feather icon-dollar-sign',
                 'complementoruta' => '',
-                // 'submenus' => [
-                //     [
-                //         'name' => 'Activas',
-                //         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                //         'ruta' => route('inversiones.index', 1),
-                //         'complementoruta' => ''
-                //     ],
-                //     [
-                //         'name' => 'Culminadas',
-                //         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                //         'ruta' => route('inversiones.index', 2),
-                //         'complementoruta' => ''
-                //     ]
-                // ],
+                'submenus' => [
+                    [
+                        'name' => 'Lista de Inversiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.index'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Activacion Manual',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('inversiones.activacion'),
+                        'complementoruta' => ''
+                    ]
+                 ],
             ],
             // Fin Inversiones
 
@@ -227,32 +227,32 @@ class Menu
                     [
                         'name' => 'Dashboard',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('audit.dashboard'),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Rangos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('audit.rangos'),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Wallet',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('logWallet'),
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Red',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => ''
+                        'complementoruta' => route('logNetwork')
                     ],
                     [
                         'name' => 'Historial de puntos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => ''
+                        'complementoruta' => route('logHistoryPoints')
                     ],
                     [
                         'name' => 'Modificar Billetera',

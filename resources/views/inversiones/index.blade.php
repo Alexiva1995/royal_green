@@ -6,15 +6,25 @@
         <div class="card bg-lp">
             <div class="card-content">
                 <div class="card-body card-dashboard">
-                    <h1 class="text-white">Inversiones</h1>
                     @if(auth()->user()->admin == 1)
-                        <button class="btn btn-primary bg-white mt-1 waves-effect waves-light text-white ml-auto" data-toggle="modal" data-target="#modalPorcentajeGanancia">Cambiar %</button>
-                    @endif
+                    {{-- <button class="btn btn-primary text-white float-right" data-toggle="modal" data-target="#modalPorcentajeGanancia">Cambiar %</button> --}}
+                    <div class="row d-flex justify-content-center">
+                        <h1 class="text-white col-10">Inversiones</h1>
+                        <div class="col-2">
+                            <label for="status">Filtro de Estado</label>
+                            <select class="form-control" data-toggle="select" onchange="filterTable()" name="status"
+                                id="userTypeFilter">
+                                <option value="0">Todas la Inversiones</option>
+                                <option value="Activo">Activos</option>
+                                <option value="Culminado">Culminados</option>
+                            </select>
+                        </div>
+                        @endif
+                    </div>
                     <div>
-                        <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100 text-white ">
-
-                            <thead class="">
-
+                        <table
+                            class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100 text-white">
+                            <thead>
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>#</th>
                                     <th>Correo</th>
@@ -27,17 +37,15 @@
                                     {{-- <th>Porcentaje fondo</th> --}}
                                     <th>Fecha</th>
                                     <th>Estado</th>
+                                    <th>Accion</th>
                                 </tr>
-
                             </thead>
                             <tbody>
                                 @foreach ($inversiones as $inversion)
-
-                                @php
+                                {{-- @php
                                 $ganancia = $inversion->capital - $inversion->invertido;
                                 $porcentaje = ($ganancia / $inversion->invertido) * 100;
-                                @endphp
-
+                                @endphp --}}
                                 <tr class="text-center text-white">
                                     <td>{{$inversion->id}}</td>
                                     <td>{{$inversion->correo}}</td>
@@ -52,12 +60,17 @@
                                     <td>{{date('Y-m-d', strtotime($inversion->created_at))}}</td>
                                     <td>
                                         @if($inversion->status == 1)
-                                            Activo
+                                        Activo
                                         @elseif($inversion->status == 2)
-                                            Inactivo
+                                        Culminado
                                         @endif
                                     </td>
+                                    <td>
+                                        <button class="btn btn-success text-white float-right" data-toggle="modal"
+                                            data-target="#modalRentabilidad">Pagar Rentabilidad</button></td>
                                 </tr>
+                                <!-- MODAL PARA ACTUALIZAR PORCENTAJE DE GANANCIA -->
+                                @include('inversiones.componentes.rentabilidad')
                                 @endforeach
                             </tbody>
                         </table>
@@ -69,34 +82,39 @@
 </div>
 
 <!-- MODAL PARA ACTUALIZAR PORCENTAJE DE GANANCIA -->
-@if(auth()->user()->admin == 1)
-    <div class="modal fade" id="modalPorcentajeGanancia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content bg-lp" >
-            <div class="modal-header bg-lp" >
-            <h5 class="modal-title text-white" id="exampleModalLabel">Porcentaje de ganancia</h5>
-            <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close" style="background: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 94%)">
-                <span aria-hidden="true">&times;</span>
-            </button>
-            </div>
-            <form action="{{route('updatePorcentajeGanancia')}}" method="POST">
-                @csrf 
-                @method('PUT')
-                <div class="modal-body bg-lp" >
-                    <label for="porcentaje_ganancia" class="text-white">Ingrese el nuevo porcentaje de ganancia</label>
-                    <input type="number" step="any" name="porcentaje_ganancia" class="form-control" required style="background: #5f5f5f5f; color: white; border: 2px solid #66FFCC !important">
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary text-white">Guardar</button>
-                </div>
-            </form>
-        </div>
-        </div>
-    </div>
-@endif
+@include('inversiones.componentes.gain')
 
 @endsection
 
 {{-- permite llamar a las opciones de las tablas --}}
 @include('layouts.componenteDashboard.optionDatatable')
+
+@push('custom_js')
+
+<script>
+    function filterTable() {
+        $('.myTable').DataTable().draw();
+    }
+
+    $(document).ready(function () {
+        $.fn.dataTable.ext.search.push(
+            function (settings, data, dataIndex) {
+                let userTypeColumnData = data[6];
+                if (!filterByUserType(userTypeColumnData)) {
+                    return false;
+                }
+                return true;
+            }
+        );
+    });
+
+    function filterByUserType(userTypeColumnData) {
+        let userTypeSelected = $('#userTypeFilter').val();
+        if (userTypeSelected === "0") {
+            return true;
+        }
+        return userTypeColumnData === userTypeSelected;
+    }
+
+</script>
+@endpush
