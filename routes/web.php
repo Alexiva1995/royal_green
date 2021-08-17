@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -183,6 +184,10 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('pagarUtilidad', 'WalletController@pagarUtilidad')->name('pagarUtilidad');
 
         Route::put('updatePorcentajeGanancia', 'InversionController@updatePorcentajeGanancia')->name('updatePorcentajeGanancia');
+
+        Route::get('logWallet', 'WalletController@logWallet')->name('logWallet');
+        Route::get('logNetwork', 'WalletController@logNetwork')->name('logNetwork');
+        Route::get('logHistoryPoints', 'WalletController@logHistoryPoints')->name('logHistoryPoints');
     });
 
     Route::get('dataGrafica', 'HomeController@dataGrafica')->name('dataGrafica');
