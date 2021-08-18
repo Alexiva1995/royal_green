@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LogRanks;
 use Illuminate\Http\Request;
 
 class AuditController extends Controller
@@ -14,7 +15,9 @@ class AuditController extends Controller
     public function index()
     {
         try {
-             return view('audit.index');
+            $logRanks = LogRanks::all();
+            dd($logRanks);
+             return view('audit.index', compact('logRanks'));
          } catch (\Throwable $th) {
              Log::error('AuditController - index -> Error: '.$th);
              abort(403, "Ocurrio un error, contacte con el administrador");
@@ -96,7 +99,8 @@ class AuditController extends Controller
     public function rangos()
     {
         try {
-             return view('audit.rangos');
+            $logRanks = LogRanks::all();
+             return view('audit.rangos', compact('logRanks'));
          } catch (\Throwable $th) {
              Log::error('AuditController - index -> Error: '.$th);
              abort(403, "Ocurrio un error, contacte con el administrador");
