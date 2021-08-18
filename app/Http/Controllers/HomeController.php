@@ -177,16 +177,6 @@ class HomeController extends Controller
         }
     }
 
-    /**
-     * Lleva a la vista de terminos y condiciones
-     *
-     * @return void
-     */
-    public function terminosCondiciones()
-    {
-        return view('terminos_condiciones.index');
-    }
-
     public function dataGrafica()
     {
         $anno = Carbon::now()->format('Y');

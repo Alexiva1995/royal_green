@@ -189,6 +189,7 @@ class LiquidactionController extends Controller
                 $referido = User::find($comi->referred_id);
                 $comi->referido = ($referido != null) ? $referido->only('fullname') : 'Usuario no Disponible';
             }
+            
             $user = User::find($comiciones->pluck('iduser')[0]);
 
             $detalles = [

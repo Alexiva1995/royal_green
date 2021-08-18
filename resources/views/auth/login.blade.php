@@ -44,7 +44,7 @@
                     <div class="d-flex justify-content-between">
                         <label class="form-label text-white" for="password"><b>Contraseña</b></label><a
                             href="{{ route('password.request') }}"><small><b><u>Olvide
-                                mi contraseña</u></b> </small></a>
+                                        mi contraseña</u></b> </small></a>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
                         <input class="form-control border border-primary rounded-left" type="password" name="password"

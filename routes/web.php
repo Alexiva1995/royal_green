@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\WalletController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +18,11 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', 'HomeController@home')->middleware('auth');
+
+Route::get('terminos', function () {
+    return view('auth.term');
+})->name('term');
+
 
 Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 {
@@ -166,11 +170,11 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('/pending', 'LiquidactionController@indexPendientes')->name('settlement.pending');
             Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
             Route::get('/{status}/history', 'LiquidactionController@indexHistory')->name('settlement.history.status');
+
+            // Route::get('liquidation-store','LiquidactionController@store')->name('liquidation.store');
+            // Route::get('liquidation-edit/{id}','LiquidactionController@edit')->name('liquidation.edit');
+            // Route::get('liquidation-show/{id}','LiquidactionController@show')->name('liquidation.show');
             Route::resource('liquidation', 'LiquidactionController');
-
-
-            Route::get('liquidation/show/{$id}', 'LiquidactionController@show')->name('settlement.show');
-            
         });
 
         //Rutas para el cierre de productos
