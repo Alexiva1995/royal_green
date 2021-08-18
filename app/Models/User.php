@@ -205,6 +205,16 @@ class User extends Authenticatable
         return floatval($result);
     }
 
+       /**
+     * Permite obtener todo el historial de rangos obtenidos
+     *
+     * @return void
+     */
+    public function getLogRanks()
+    {
+        return $this->hasMany('App\Models\LogRanks', 'iduser');
+    }
+
 
     
 }
