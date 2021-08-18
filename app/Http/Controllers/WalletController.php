@@ -461,7 +461,7 @@ class WalletController extends Controller
             ['status', '=', 0],
             ['puntos_i', '>', 0],
         ])->selectRaw('iduser, SUM(puntos_d) as totald, SUM(puntos_i) as totali')->groupBy('iduser')->get();
-
+        
         foreach ($binarios as $binario) {
             $puntos = 0;
             $side_mayor = $side_menor = '';
@@ -474,15 +474,32 @@ class WalletController extends Controller
                 $side_mayor = 'I';
                 $side_menor = 'D';
             }
+        
             if ($puntos > 0) {
-                $comision = ($puntos * 0.1);
+            
                 $sponsor = User::find($binario->iduser);
-                $sponsor->point_rank += $puntos;
-                $concepto = 'Bono Binario - '.$puntos;
-                $idcomision = $binario->iduser.Carbon::now()->format('Ymd');
-                $this->setPointBinaryPaid($puntos, $side_menor, $binario->iduser, $side_mayor);
-                $this->preSaveWallet($sponsor->id, $sponsor->id, null, $comision, $concepto);
-                $sponsor->save();
+                if($sponsor->inversionMasAlta() != null){
+                    $paquete = $sponsor->inversionMasAlta()->getPackageOrden;
+                    if($paquete->price < 1000){
+                        $comision = ($puntos * 0.08);
+                    }elseif($paquete->price >= 1000 && $paquete->price < 5000){
+                        $comision = ($puntos * 0.09);
+                    }elseif($paquete->price >= 5000 && $paquete->price < 25000){
+                        $comision = ($puntos * 0.10);
+                    }elseif($paquete->price >= 25000 && $paquete->price < 50000){
+                        $comision = ($puntos * 0.11);
+                    }elseif($paquete->price >= 50000){
+                        $comision = ($puntos * 0.12);
+                    }
+                
+                    $sponsor->point_rank += $puntos;
+                    $concepto = 'Bono Binario - '.$puntos;
+                    $idcomision = $binario->iduser.Carbon::now()->format('Ymd');
+                    $this->setPointBinaryPaid($puntos, $side_menor, $binario->iduser, $side_mayor);
+                    $this->preSaveWallet($sponsor->id, $sponsor->id, null, $comision, $concepto);
+                    $sponsor->save();
+                }
+                
             }
         }
     }
