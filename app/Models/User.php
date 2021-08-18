@@ -210,9 +210,9 @@ class User extends Authenticatable
      *
      * @return void
      */
-    public function getLogRanks()
+    public function getRanksRecords()
     {
-        return $this->hasMany('App\Models\LogRanks', 'iduser');
+        return $this->hasMany('App\Models\RankRecords', 'iduser');
     }
 
 

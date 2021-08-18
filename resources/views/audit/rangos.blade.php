@@ -6,7 +6,7 @@
         <div class="card-content">
             <div class="card-body card-dashboard p-0">
                 <div class="table-responsive">
-                <h3 class="text-white p-1">Últimos Pedidos</h3>
+                <h3 class="text-white p-1">Historial de Rangos</h3>
                     <table class="table nowrap scroll-horizontal-vertical myTable2">
                         <thead>
 
@@ -19,12 +19,12 @@
 
                         </thead>
                         <tbody>
-                            @foreach($logRanks as $rank)
+                            @foreach($rankRecord as $rank)
                             <tr class="text-center text-white pl-2">
                                 <td>{{$rank->id}}</td>
                                 <td>{{$rank->getUserRank->name}}</td>
                                 <td>{{$rank->getRank->name}}</td>
-                                <td>{{$rank->created_at}}</td>
+                                <td>{{$rank->fecha_inicio}}</td>
                             </tr>
                             @endforeach
                         </tbody>
