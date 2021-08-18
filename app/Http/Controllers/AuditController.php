@@ -3,95 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\RankRecords;
+use App\Models\WalletBinary;
 use Illuminate\Http\Request;
 use Datatables;
 
 
 class AuditController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        try {
-             return view('audit.index');
-         } catch (\Throwable $th) {
-             Log::error('AuditController - index -> Error: '.$th);
-             abort(403, "Ocurrio un error, contacte con el administrador");
-         }
-    }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
-    /**
-     * Display a listing of the resource.
+     * Muestra la vista de Rangos
      *
      * @return \Illuminate\Http\Response
      */
@@ -106,7 +27,7 @@ class AuditController extends Controller
     }
 
     /**
-     * Process datatables ajax request.
+     * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -131,9 +52,41 @@ class AuditController extends Controller
                 ->make(true);
         }
     }
-    // public function dataRangos(Request $request)
-    // {
-    //     return Datatables::of(RankRecords::query())->make(true);
 
-    // }
+    public function puntosBinarios()
+    {
+        try {
+             return view('audit.puntos');
+         } catch (\Throwable $th) {
+             Log::error('AuditController - index -> Error: '.$th);
+             abort(403, "Ocurrio un error, contacte con el administrador");
+         }
+    }
+
+    /**
+     * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function dataPuntos(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = WalletBinary::latest()->get();
+            return Datatables::of($data)
+                ->addColumn('id', function($data){
+                    return $data->id;
+                })
+                ->addColumn('usuario', function($data){
+                    return $data->getUserBinary->name;
+                })
+                ->addColumn('puntos_derecha', function($data){
+                    return $data->puntos_d;
+                })
+                ->addColumn('puntos_izquierda', function($data){
+                    return $data->puntos_i;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
 }

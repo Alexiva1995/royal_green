@@ -6,15 +6,15 @@
         <div class="card-content">
             <div class="card-body card-dashboard p-0">
                 <div class="table-responsive">
-                <h3 class="text-white p-1">Historial de Rangos</h3>
-                    <table class="table nowrap scroll-horizontal-vertical myTable2 yajra-datatable" id="rangos-datatable">
+                <h3 class="text-white p-1">Historial de Puntos Binarios</h3>
+                    <table class="table nowrap scroll-horizontal-vertical myTable2 yajra-datatable" id="puntos-datatable">
                         <thead>
 
                             <tr class="text-center text-dark text-uppercase pl-2">                                
                                 <th>ID</th>
                                 <th>Usuario</th>  
-                                <th>Rango</th>
-                                <th>Fecha</th>   
+                                <th>Puntos Derecha</th>
+                                <th>Puntos Izquierda</th> 
                             </tr>
 
                         </thead>
@@ -30,4 +30,4 @@
 @endsection
 
 {{-- permite llamar a las opciones de las tablas --}}
-@include('audit.rangosDatatableSideServer')
+@include('audit.puntosDatatableSideServer')
