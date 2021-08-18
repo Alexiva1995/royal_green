@@ -59,7 +59,6 @@
 <script>
    $(document).ready(function () {
     let idrango = parseInt($('#idrango').val())
-  console.log(idrango);
   $('.carrusel_rango').slick({
           infinite: true,
           centerMode: true,
@@ -96,7 +95,6 @@
 
 $(".progresscircle").each(function() {
   var value = $(this).attr('data-value');
-  console.log("VALUE", value)
 
 var left = $(this).find('.progress-left .progress-circle');
 var right = $(this).find('.progress-right .progress-circle');

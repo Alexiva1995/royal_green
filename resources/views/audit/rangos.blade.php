@@ -7,26 +7,18 @@
             <div class="card-body card-dashboard p-0">
                 <div class="table-responsive">
                 <h3 class="text-white p-1">Historial de Rangos</h3>
-                    <table class="table nowrap scroll-horizontal-vertical myTable2">
+                    <table class="table nowrap scroll-horizontal-vertical myTable2 yajra-datatable">
                         <thead>
 
                             <tr class="text-center text-dark text-uppercase pl-2">                                
                                 <th>ID</th>
-                                <th>Usuario</th>
+                                <th>Usuario</th>  
                                 <th>Rango</th>
-                                <th>Fecha</th>    
+                                <th>Fecha</th>   
                             </tr>
 
                         </thead>
                         <tbody>
-                            @foreach($rankRecord as $rank)
-                            <tr class="text-center text-white pl-2">
-                                <td>{{$rank->id}}</td>
-                                <td>{{$rank->getUserRank->name}}</td>
-                                <td>{{$rank->getRank->name}}</td>
-                                <td>{{$rank->fecha_inicio}}</td>
-                            </tr>
-                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -38,4 +30,4 @@
 @endsection
 
 {{-- permite llamar a las opciones de las tablas --}}
-@include('layouts.componenteDashboard.optionDatatable')
+@include('audit.datatableSideServer')

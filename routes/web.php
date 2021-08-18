@@ -155,6 +155,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         {
             //Ruta auditorias realizadas
             Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
+            Route::get('/rangos-data', 'AuditController@dataRangos')->name('audit-data');
             // Route::resource('liquidation', 'LiquidactionController');
         });
 
