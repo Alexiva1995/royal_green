@@ -167,6 +167,10 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
             Route::get('/{status}/history', 'LiquidactionController@indexHistory')->name('settlement.history.status');
             Route::resource('liquidation', 'LiquidactionController');
+
+
+            Route::get('liquidation/show/{$id}', 'LiquidactionController@show')->name('settlement.show');
+            
         });
 
         //Rutas para el cierre de productos

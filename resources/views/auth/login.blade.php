@@ -36,8 +36,8 @@
                 </div>
                 @endif
                 <div class="mb-1 col-12">
-                    <label class="form-label text-white" for="username"><b>Usuario</b></label>
-                    <input class="form-control border border-primary rounded" type="text" name="username"
+                    <label class="form-label text-white" for="email"><b>Usuario</b></label>
+                    <input class="form-control border border-primary rounded" type="text" name="email"
                         placeholder="john example" autofocus required tabindex="1" />
                 </div>
                 <div class="mb-1 col-12">
