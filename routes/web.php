@@ -197,5 +197,4 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 
     Route::get('dataGrafica', 'HomeController@dataGrafica')->name('dataGrafica');
     Route::get('testRank', 'RankController@testRank')->name('testRank');
-    Route::get('testBonus', 'BonusController@checkBonus')->name('testBonus');
 });

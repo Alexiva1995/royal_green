@@ -393,6 +393,34 @@ class WalletController extends Controller
     }
 
     /**
+     * Permite pagar el bono indirecto
+     *
+     * @return void
+     */
+    public function bonoIndirecto()
+    {
+        try {
+            $ordenes = $this->getOrdens(null);
+            // dd($ordenes);
+            foreach ($ordenes as $orden) {
+                $comision = ($orden->total * 0.1);
+                $sponsor = User::find($orden->getOrdenUser->referred_id);
+                $nivel2 = User::find($sponsor->referred_id);
+                if ($nivel2->status == '1') {
+                    $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
+                    $this->preSaveWallet($nivel2->id, $orden->iduser, $orden->id, $comision, $concepto);
+                }else{
+                    $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
+                    $this->preSaveWallet($nivel2->id, $orden->iduser, $orden->id, 0, $concepto);
+                }
+            }
+        } catch (\Throwable $th) {
+            Log::error('Wallet - bonoDirecto -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    /**
      * Permite pagar los puntos binarios
      *
      * @return void
