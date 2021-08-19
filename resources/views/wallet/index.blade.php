@@ -4,12 +4,7 @@
 @section('content')
 <div class="row">
     <div class="col-sm-6 col-12 mt-1">
-        <div class="card h-80 p-2 art-2">
-    
-            <div class="float-right d-flex">
-                <img class="float-right" src="{{ asset('assets/img/icon/money.svg') }}" alt="">
-            </div>
-    
+        <div class="card h-80 p-2 art-2"> 
             <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                 <h2 class="mt-1 mb-0 text-white font-weight-light"><b>Saldo disponible</b></h2>
             </div>
