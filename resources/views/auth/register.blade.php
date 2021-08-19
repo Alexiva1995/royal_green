@@ -99,9 +99,9 @@ $referred = DB::table('users')
                     <div class="form-check">
                         <input class="form-check-input border-primary rounded" type="checkbox" name="term" required
                             tabindex="6" />
-                        <label class="form-check-label" for="term"><b><a href="#" class="text-white">¿Aceptas los
-                                    Terminos y
-                                    Condiciones?</a></b></label>
+                        <label class="form-check-label" for="term"><b><a href="{{ route('term') }}" class="text-primary">
+                                    ¿Aceptas los Terminos y Condiciones?
+                                </a></b></label>
                     </div>
                 </div>
                 <div class="col-12">
