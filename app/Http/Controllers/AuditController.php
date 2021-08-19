@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RankRecords;
 use Illuminate\Http\Request;
+use Datatables;
+
 
 class AuditController extends Controller
 {
@@ -87,7 +90,6 @@ class AuditController extends Controller
         //
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -102,4 +104,36 @@ class AuditController extends Controller
              abort(403, "Ocurrio un error, contacte con el administrador");
          }
     }
+
+    /**
+     * Process datatables ajax request.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function dataRangos(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = RankRecords::latest()->get();
+            return Datatables::of($data)
+                ->addColumn('id', function($data){
+                    return $data->id;
+                })
+                ->addColumn('usuario', function($data){
+                    return $data->getUserRank->name;
+                })
+                ->addColumn('rango', function($data){
+                    return $data->getRank->name;
+                })
+                ->addColumn('fecha', function($data){
+                    return $data->fecha_inicio;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+    // public function dataRangos(Request $request)
+    // {
+    //     return Datatables::of(RankRecords::query())->make(true);
+
+    // }
 }
