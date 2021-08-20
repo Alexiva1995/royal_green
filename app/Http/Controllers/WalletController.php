@@ -39,6 +39,7 @@ class WalletController extends Controller
             $wallets = Wallet::all()->where('iduser', Auth::user()->id)->where('tipo_transaction', 0);
         }else{
             $wallets = Auth::user()->getWallet->where('tipo_transaction', 0);
+            // dd($wallets);
         }
         $saldoDisponible = $wallets->where('status', 0)->sum('monto');
         return view('wallet.index', compact('wallets', 'saldoDisponible'));
@@ -378,7 +379,7 @@ class WalletController extends Controller
                 // dd($sponsor);
                 if ($sponsor->status == '1') {
                     $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
-                    $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, $comision, $concepto);
+                    $this->preSaveWallet($orden->iduser, $sponsor->id, $orden->id, $comision, $concepto);
                     Log::info('Bono Directo Pagado');
                     // dd($comision, $concepto, $sponsor->id);
 
@@ -388,7 +389,7 @@ class WalletController extends Controller
                             $comision = ($orden->total * 0.03);
                             if ($nivel2->status == '1') {
                                 $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
-                                $this->preSaveWallet($nivel2->id, $orden->iduser, $orden->id, $comision, $concepto);
+                                $this->preSaveWallet($orden->iduser, $nivel2->id, $orden->id, $comision, $concepto);
                                 Log::info('Bono Indirecto Pagado');
                                 // dd($comision, $concepto, $nivel2->id);
 
@@ -399,7 +400,7 @@ class WalletController extends Controller
                                         $comision = ($orden->total * 0.02);
                                         if ($nivel3->status == '1') {
                                             $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
-                                            $this->preSaveWallet($nivel3->id, $orden->iduser, $orden->id, $comision, $concepto);
+                                            $this->preSaveWallet($orden->iduser, $nivel3->id, $orden->id, $comision, $concepto);
                                             Log::info('Bono Indirecto Pagado');
                                             // dd($comision, $concepto, $nivel3->id);
                                         }
