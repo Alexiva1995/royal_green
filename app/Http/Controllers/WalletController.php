@@ -370,27 +370,54 @@ class WalletController extends Controller
      *
      * @return void
      */
-    public function bonoDirecto()
+    public function bonos($user, $orden)
     {
         try {
-            $ordenes = $this->getOrdens(null);
-            // dd($ordenes);
-            foreach ($ordenes as $orden) {
                 $comision = ($orden->total * 0.1);
-                $sponsor = User::find($orden->getOrdenUser->referred_id);
+                $sponsor = User::find($user->referred_id);
+                // dd($sponsor);
                 if ($sponsor->status == '1') {
                     $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
                     $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, $comision, $concepto);
+                    Log::info('Bono Directo Pagado');
+                    // dd($comision, $concepto, $sponsor->id);
+
+                    //******PAGO DEL BONO INDIRECTO NIVEL 2 *********//
+                        if(isset($sponsor->referred_id) && $sponsor->referred_id != 0 && $user->inversionMasAlta()->invertido >= 1000){
+                            $nivel2 = User::find($sponsor->referred_id);
+                            $comision = ($orden->total * 0.03);
+                            if ($nivel2->status == '1') {
+                                $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
+                                $this->preSaveWallet($nivel2->id, $orden->iduser, $orden->id, $comision, $concepto);
+                                Log::info('Bono Indirecto Pagado');
+                                // dd($comision, $concepto, $nivel2->id);
+
+                                //******PAGO DEL BONO INDIRECTO NIVEL 3 *********//
+                                    if(isset($nivel2->referred_id) && $nivel2->referred_id != 0  && $user->inversionMasAlta()->invertido >= 5000){
+                                        $nivel2 = User::find($sponsor->referred_id);
+                                        $nivel3 = User::find($nivel2->referred_id);
+                                        $comision = ($orden->total * 0.02);
+                                        if ($nivel3->status == '1') {
+                                            $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
+                                            $this->preSaveWallet($nivel3->id, $orden->iduser, $orden->id, $comision, $concepto);
+                                            Log::info('Bono Indirecto Pagado');
+                                            // dd($comision, $concepto, $nivel3->id);
+                                        }
+                                    }
+
+                            }
+                        
                 }else{
                     $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
                     $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, 0, $concepto);
                 }
             }
         } catch (\Throwable $th) {
-            Log::error('Wallet - bonoDirecto -> Error: '.$th);
+            Log::error('Wallet - bonos -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
 
     /**
      * Permite pagar los puntos binarios
@@ -548,8 +575,6 @@ class WalletController extends Controller
      */
     public function payAll()
     {
-        $this->bonoDirecto();
-        Log::info('Bono Directo Pagado');
         $this->payPointsBinary();
         Log::info('Puntos Binarios Pagado');
         if (env('APP_ENV' != 'local')) {
