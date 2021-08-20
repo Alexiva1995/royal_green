@@ -72,7 +72,8 @@ class LiquidactionController extends Controller
             foreach ($liquidaciones as $liqui) {
                 $liqui->fullname = $liqui->getUserLiquidation->fullname;
             }
-            return view('settlement.history', compact('liquidaciones', 'estado'));
+            $type = $status;
+            return view('settlement.history', compact('liquidaciones', 'estado', 'type'));
         } catch (\Throwable $th) {
             Log::error('Liquidaction - indexHistory -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
