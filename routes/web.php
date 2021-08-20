@@ -159,8 +159,9 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         {
             //Ruta auditorias realizadas
             Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
-            Route::get('/rangos-data', 'AuditController@dataRangos')->name('audit-data');
-            // Route::resource('liquidation', 'LiquidactionController');
+            Route::get('/rangos-data', 'AuditController@dataRangos')->name('audit.datarangos');
+            Route::get('/puntos', 'AuditController@puntosBinarios')->name('audit.puntos');
+            Route::get('/puntos-data', 'AuditController@dataPuntos')->name('audit.datapuntos');
         });
 
          //Ruta de liquidacion
@@ -192,8 +193,6 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('pagarUtilidad', 'WalletController@pagarUtilidad')->name('pagarUtilidad');
 
         Route::put('updatePorcentajeGanancia', 'InversionController@updatePorcentajeGanancia')->name('updatePorcentajeGanancia');
-
-        Route::get('logHistoryPoints', 'WalletController@logHistoryPoints')->name('logHistoryPoints');
     });
 
     Route::get('dataGrafica', 'HomeController@dataGrafica')->name('dataGrafica');

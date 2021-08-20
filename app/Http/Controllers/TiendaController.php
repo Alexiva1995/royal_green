@@ -272,6 +272,8 @@ class TiendaController extends Controller
         $user = User::findOrFail($orden->iduser);
 
         $this->walletController->payAll();
+        
+        $this->walletController->bonos($user, $orden);
   
         if(isset($user->inversionMasAlta()->invertido)){
       

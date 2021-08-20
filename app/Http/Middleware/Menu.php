@@ -234,7 +234,7 @@ class Menu
                         'name' => 'Historial de puntos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => route('logHistoryPoints')
+                        'complementoruta' => route('audit.puntos')
                     ],
                     [
                         'name' => 'Modificar Billetera',
