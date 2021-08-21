@@ -126,7 +126,7 @@ class WalletController extends Controller
                     $wallet = Wallet::create($data);
                     $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['monto']);
                     $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                    // $wallet->update(['balance' => $saldoAcumulado]);
+                    $wallet->update(['monto' => - $data['monto']]);
                 }else{
                     if ($data['orden_purchases_id'] != null) {
                         $check = Wallet::where([

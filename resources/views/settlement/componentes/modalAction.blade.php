@@ -13,9 +13,13 @@
                 <form action="{{route('settlement.process')}}" method="post">
                     @csrf
                     <input type="hidden" name="idliquidation" :value="ComisionesDetalles.idliquidaction">
+                    <input type="hidden" name="iduser" :value="ComisionesDetalles.iduser">
+                    <input type="hidden" name="fullname" :value="ComisionesDetalles.fullname">
+                    <input type="hidden" name="total" :value="ComisionesDetalles.total">
+
                     <input type="hidden" name="action" :value="StatusProcess">
-                    <h5>Usuario: <strong v-text="ComisionesDetalles.fullname"></strong></h5>
-                    <h5>Total: <strong v-text="ComisionesDetalles.total"></strong></h5> 
+                    <h5 class="text-white">Usuario: <strong v-text="ComisionesDetalles.fullname"></strong></h5>
+                    <h5 class="text-white">Total: <strong v-text="ComisionesDetalles.total"></strong></h5> 
 
                     <div class="form-group" v-if="StatusProcess == 'aproved'">
                         <label for="">Hash</label>

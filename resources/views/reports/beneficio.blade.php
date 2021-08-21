@@ -8,7 +8,7 @@
             <div class="col-md-4 col-12 mt-2">
                 <div class="card btn-secondary text-white text-center mx-2">
                     <p class="card-title  my-2">Ganancia Total</p>
-                    <span class="font-large-2 font-weight-bolder">{{number_format($comision-$retiro,2,".",",")}}</span>
+                    <span class="font-large-2 font-weight-bolder">{{number_format($comision + $retiro,2,".",",")}}</span>
                 </div>
             </div>
             
