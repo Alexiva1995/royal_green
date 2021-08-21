@@ -273,8 +273,8 @@ class TiendaController extends Controller
 
         $this->walletController->payAll();
         
-        $this->walletController->bonos($user, $orden);
-  
+        
+        
         if(isset($user->inversionMasAlta()->invertido)){
       
             $inversion = $user->inversionMasAlta();
@@ -306,6 +306,7 @@ class TiendaController extends Controller
         $user = User::findOrFail($orden->iduser);
         $user->status = '1';
         $user->save();
+        $this->walletController->bonos($user, $orden);
 
         return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
     }

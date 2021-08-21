@@ -188,6 +188,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::prefix('reports')->group(function(){
             Route::get('purchase', 'ReporteController@indexPedidos')->name('reports.pedidos');
             Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
+            Route::get('beneficio-royal', 'ReporteController@indexBeneficio')->name('reports.beneficio');
         });
 
         Route::get('pagarUtilidad', 'WalletController@pagarUtilidad')->name('pagarUtilidad');
