@@ -110,6 +110,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
 
         Route::post('liquidation/retirarSaldo', 'LiquidactionController@retirarSaldo')->name('retirarSaldo');
+        
+        Route::get('liquidation/history', 'LiquidactionController@retiroHistory')->name('retiro.history');
     });
 
      //Ruta de los Tickets
