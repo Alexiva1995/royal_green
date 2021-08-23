@@ -110,6 +110,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
 
         Route::post('liquidation/retirarSaldo', 'LiquidactionController@retirarSaldo')->name('retirarSaldo');
+        
+        Route::get('liquidation/history', 'LiquidactionController@retiroHistory')->name('retiro.history');
     });
 
      //Ruta de los Tickets
@@ -188,6 +190,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::prefix('reports')->group(function(){
             Route::get('purchase', 'ReporteController@indexPedidos')->name('reports.pedidos');
             Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
+            Route::get('beneficio-royal', 'ReporteController@indexBeneficio')->name('reports.beneficio');
         });
 
         Route::get('pagarUtilidad', 'WalletController@pagarUtilidad')->name('pagarUtilidad');
