@@ -263,13 +263,19 @@ class Menu
                     [
                         'name' => 'Por confirmar',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement.pending'),
+                        'ruta' => route('settlement.pending'), 
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Confirmados',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.history.status', 'Pagadas'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Reservados',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('settlement.history.status', 'Reservadas'),
                         'complementoruta' => ''
                     ],
                 ],
