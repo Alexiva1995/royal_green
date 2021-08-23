@@ -43,11 +43,16 @@ class UpdateRol extends Command
     {
 
         \Log::info('Ejecutado');
-           $usuarios = DB::table('wp_users')->select('ID')->where('rol_id', '>=', 1)->get();
+        $this->info('ejecutando '.Carbon::now());
+           $usuarios = DB::table('wp_users')->select('ID')->where([
+               ['status', '=', 1],
+               ['puntos_rank', '>', 0]
+           ])->get();
            $rango = new RangoController();
            foreach($usuarios as $usuario){
             $rango->checkRango($usuario->ID);
            }
+           \Log::info('Rango Actualizados -> '.Carbon::now());
         $this->info('Rango Actualizados '.Carbon::now());
     }
 }

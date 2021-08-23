@@ -27,7 +27,7 @@ class User extends Authenticatable
         'clave', 'activacion', 'token_correo', 'verificar_correo', 'toke_google',
         'tipouser', 'puntos', 'paquete', 'ladomatrix', 'ladoregistrar', 
         'icono_paquete', 'clave_maestra', 'fecha_activacion', 'rentabilidad', 'porc_rentabilidad', 
-        'check_token_google', 'pay_rentabilidad', 'pay_retiro', 'activar_pay_comision'
+        'check_token_google', 'pay_rentabilidad', 'pay_retiro', 'activar_pay_comision', 'puntos_rank'
     ];
 
     /**

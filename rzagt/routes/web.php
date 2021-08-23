@@ -132,6 +132,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
         Route::get('filterdate', 'OrdenNewController@ordenFilterDate')->name('new.contabilidad.ordnes.filter.date');
         // filtro por tipo orden
         Route::get('filtertype', 'OrdenNewController@ordenFilterType')->name('new.contabilidad.ordnes.filter.type');
+        // filtro por estado
+        Route::get('filterstatus', 'OrdenNewController@ordenFilterStatus')->name('new.contabilidad.ordnes.filter.status');
         // filtro por user
         Route::get('filteruser', 'OrdenNewController@ordenFilterUser')->name('new.contabilidad.ordnes.filter.user');
       });

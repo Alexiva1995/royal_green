@@ -42,8 +42,10 @@ class ComisionesController extends Controller
         $compra = $this->funciones->getInfoPurchase($idcompra, $iduser);
         if (!empty($compra)) {
             $compra = $compra[0];
-            $this->bonoDirecto($compra);
-            $this->bonoIndirecto($compra);
+            if ($compra['tipo_activacion'] != 'Manual') {
+                $this->bonoDirecto($compra);
+                $this->bonoIndirecto($compra);
+            }
         }
     }
 
@@ -429,6 +431,7 @@ class ComisionesController extends Controller
                 $punto_rank = $puntos;
                 $puntosUser->rank = ((float) $puntosUser->rank + (float) $puntos);
                 $idcomision = $idcompra.'30';
+                $user->puntos_rank = ($user->puntos_rank + $punto_rank);
             }
 
             $user->puntos = json_encode($puntosUser);
@@ -517,22 +520,21 @@ class ComisionesController extends Controller
             if (!empty($sponsors)) {
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->nivel > 0 && $sponsor->nivel <= 11) {
-                        for ($i=1; $i <= ($sponsor->rol_id-1); $i++) { 
-                            $porcentaje = $this->porceNivelRango($sponsor->rol_id, $i);
-                            if ($sponsor->ID == 1220 && $i == 1) {
-                                $porcentaje = 0.05;
+                        $porcentaje = 0.02;
+                        $cobra = $this->porceNivelRango($sponsor->rol_id, $sponsor->nivel);
+                        if ($sponsor->ID == 1220 && $sponsor->nivel == 1) {
+                            $porcentaje = 0.05;
+                        }
+                        if ($cobra) {
+                            $userReferido = User::find($iduser);
+                            $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;
+                            $idcomision = '40'.$fecha->format('Ymd').$sponsor->nivel;
+                            if ($fechaAnterior != null) {
+                                $idcomision = '40'.$fechaAnterior.$sponsor->nivel;
                             }
-                            if ($porcentaje > 0) {
-                                $userReferido = User::find($iduser);
-                                $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;
-                                $idcomision = '40'.$fecha->format('Ymd').$i;
-                                if ($fechaAnterior != null) {
-                                    $idcomision = '40'.$fechaAnterior.$i;
-                                }
-                                $totalcomision = ($bonobinario * $porcentaje);
-                                // dump($sponsor->ID.' - '.$idcomision.' - '.$totalcomision.' - '.$userReferido->user_email.' - '.$i.' - '.$concepto.' - '.'Bono Construcion');
-                                $this->guardarComision($sponsor->ID, $idcomision, $totalcomision, $userReferido->user_email, $i, $concepto, 'Bono Construcion');
-                            }
+                            $totalcomision = ($bonobinario * $porcentaje);
+                            // dump($sponsor->ID.' - '.$idcomision.' - '.$totalcomision.' - '.$userReferido->user_email.' - '.$i.' - '.$concepto.' - '.'Bono Construcion');
+                            $this->guardarComision($sponsor->ID, $idcomision, $totalcomision, $userReferido->user_email, $sponsor->nivel, $concepto, 'Bono Construcion');
                         }
                     }
                 }
@@ -547,63 +549,21 @@ class ComisionesController extends Controller
      *
      * @param integer $rol
      * @param integer $nivel
-     * @return float
+     * @return bool
      */
-    public function porceNivelRango(int $rol,  int $nivel): float
+    public function porceNivelRango(int $rol,  int $nivel): bool
     {
-        $valor = 0;
+        $result = false;
         $arrayRango = [
-            2 => 0.02, 3 => 0.02, 4 => 0.02,
-            5 => 0.02, 6 => 0.02, 7 => 0.02,
-            8 => 0.02, 9 => 0.02, 10 => 0.02,
-            11 => 0.02, 12 => 0.02
+            1 => 2, 2 => 3, 3 => 4, 4 => 5, 5 => 6,
+            6 => 7, 7=> 8, 8 => 9, 9 => 10, 10 => 11, 11 => 12
         ];
-
-        if ($nivel >= 1 && $rol >= 2) {
-            $valor = $arrayRango[$rol];
+        if (array_key_exists($nivel, $arrayRango)) {
+            if ($rol >= $arrayRango[$nivel]) {
+                $result = true;
+            }
         }
-
-        if ($nivel >= 2 && $rol >= 3) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 3 && $rol >= 4) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 4 && $rol >= 5) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 5 && $rol >= 6) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 6 && $rol >= 7) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 7 && $rol >= 8) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 8 && $rol >= 9) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 9 && $rol >= 10) {
-            $valor = $arrayRango[$rol];
-        }
-        
-        if ($nivel >= 10 && $rol >= 11) {
-            $valor = $arrayRango[$rol];
-        }
-
-        if ($nivel >= 11 && $rol >= 12) {
-            $valor = $arrayRango[$rol];
-        }
-        
-        return $valor;
+        return $result;
     }
 
     /**
@@ -741,7 +701,7 @@ class ComisionesController extends Controller
                 $user = User::find($iduser);
                 $user->wallet_amount = ($user->wallet_amount + $ganado);
                 $user->save();
-        
+                // $tmp = new Carbon('20210810');
                 $dataLogRentabilidadPay = [
                     'iduser' => $iduser,
                     'id_log_renta' => $idRentabilidad,
@@ -866,6 +826,7 @@ class ComisionesController extends Controller
     public function registePackageToRentabilizar($iduser)
     {
         $ordenes = $this->funciones->getInforShopping($iduser);
+        // dd($ordenes);
         foreach ($ordenes as $orden) {
             // dump($iduser, $orden);
             foreach ($orden['productos'] as $paquete) {

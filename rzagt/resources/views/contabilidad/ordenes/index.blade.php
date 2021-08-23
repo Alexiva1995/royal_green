@@ -57,8 +57,27 @@
 		</div>
 	</div>
 </div>
-<h5>Filtro por id de usuario</h5>
+{{-- filtro por tipo de orden --}}
+<h5>Filtro por estado</h5>
+<div class="card">
+	<div class="card-content">
+		<div class="card-body">
+			<form method="get" action="{{route('new.contabilidad.ordnes.filter.status')}}" id="formfilterstatus">
+				<div class="row">
+					<input type="hidden" name="status" id="filtrostatus">
+					<div class="col-12 col-md-6 text-center">
+						<button class="btn btn-primary mt-2" type="button" onclick="filterstatus('En Espera')">En Espera</button>
+					</div>
+					<div class="col-12 col-md-6 text-center">						
+						<button class="btn btn-primary mt-2" type="button" onclick="filterstatus('Completado')">Completados</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
 {{-- por tipo de idusuario  --}}
+<h5>Filtro por id de usuario</h5>
 <div class="card">
     <div class="card-content">
         <div class="card-body">
@@ -85,17 +104,22 @@
     <div class="card-header">
         @if (!empty(request()->fecha1))
         <div class="card-title">
-            Filtro por Fecha - (Desde: {{request()->fecha1}} - Hasta: {{request()->fecha2}}) - Pagina: {{request()->page}}
+            Filtro por Fecha - (Desde: {{request()->fecha1}} - Hasta: {{request()->fecha2}}) - Pagina: {{(empty(request()->page)) ? 1 : request()->page}}
         </div>
         @endif
         @if (!empty(request()->iduser))
         <div class="card-title">
-            Filtro por Usuario - ID Usuario: {{request()->iduser}} - Pagina: {{request()->page}}
+            Filtro por Usuario - ID Usuario: {{request()->iduser}} - Pagina: {{(empty(request()->page)) ? 1 : request()->page}}
         </div>
         @endif
         @if (!empty(request()->orden))
         <div class="card-title">
-            Filtro por Tipo Orden - Tipo: {{request()->orden}} - Pagina: {{request()->page}}
+            Filtro por Tipo Orden - Tipo: {{request()->orden}} - Pagina: {{(empty(request()->page)) ? 1 : request()->page}}
+        </div>
+        @endif
+		@if (!empty(request()->status))
+        <div class="card-title">
+            Filtro por Estado - Tipo: {{request()->status}} - Pagina: {{(empty(request()->page)) ? 1 : request()->page}}
         </div>
         @endif
     </div>
@@ -151,6 +175,10 @@
 	function filter(filter) {
 		$('#filtroorden').val(filter)
 		$("#formfilter").submit()
+	}
+	function filterstatus(filter) {
+		$('#filtrostatus').val(filter)
+		$("#formfilterstatus").submit()
 	}
 </script>
 

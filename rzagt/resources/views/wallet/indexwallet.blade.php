@@ -29,14 +29,14 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
 <div class="alert alert-info">
     <button class="close" data-close="alert"></button>
     <span style="color: white">
-        Todos los retiros realizados serán procesados los días viernes y sábados
+        Los retiros estarán habilitados los días Lunes entre los horarios de 10am a 4pm GMT-6: México, los cuales serán procesados a mas tardar en las siguientes 24 horas.
     </span>
   </div>
 
 {{-- alertas --}}
 @include('dashboard.componentView.alert')
 
-<div class="col-12">
+{{-- <div class="col-12">
     <div class="card">
         <div class="card-content">
             <div class="card-body">
@@ -44,7 +44,7 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="card">
     <div class="card-content">
@@ -135,9 +135,9 @@ if ($fecha->dayOfWeek >= 1 && $fecha->dayOfWeek <= 2) { $activo=true; }
                 <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModalRetiro">Retiro</button>
             </div>
              @else
-             <h5>
+             {{-- <h5>
                 Los retiros se encontrarán disponibles de Lunes a Sábado hasta las 12pm GMT-6: México
-             </h5>
+             </h5> --}}
             @endif
         @endif
         @if ($pagosPendientes)

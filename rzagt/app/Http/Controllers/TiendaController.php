@@ -474,8 +474,6 @@ class TiendaController extends Controller
 
                     $activacion = new ActivacionController;
                     $activacion->activarUsuarios($request->iduser);
-                    $comisiones = new ComisionesController;
-                    $comisiones->registePackageToRentabilizar($request->iduser);
 
                     return redirect()->route('tienda-solicitudes')->with('msj', 'Paquete activado al ID usuario '.$iduser.' ID de la compra '.$id);
                 }
@@ -808,7 +806,7 @@ class TiendaController extends Controller
                 // $activacion = new ActivacionController;
                 // $activacion->activarUsuarios($datoscompra['iduser']);
                 $comisiones = new ComisionesController;
-                // $comisiones->registePackageToRentabilizar($datoscompra['iduser']);
+                $comisiones->registePackageToRentabilizar($datoscompra['iduser']);
                 $comisiones->payBono($datoscompra['iduser'], $id);
             }
     

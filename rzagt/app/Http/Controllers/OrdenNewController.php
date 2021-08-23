@@ -46,8 +46,8 @@ class OrdenNewController extends Controller
                 return view('contabilidad.ordenes.index', compact('ordenes'));
             }
         } catch (\Throwable $th) {
-            dd($th);
-            // return redirect()->back()->with('msj2', 'ocurrio un error');
+            // dd($th);
+            return redirect()->back()->with('msj2', 'ocurrio un error');
         }
     }
 
@@ -67,6 +67,35 @@ class OrdenNewController extends Controller
             if ($validate) {
                 $parametros = $request->orden;
                 $ordenes = $this->queryOrden($parametros, 'activacion');
+                // dd($ordenes);
+                return view('contabilidad.ordenes.index', compact('ordenes'));
+            }
+        } catch (\Throwable $th) {
+            // dd($th);
+            return redirect()->back()->with('msj2', 'ocurrio un error');
+        }
+    }
+
+    /**
+     * Obtenienes las ordenes filtradas por el estado de la compra
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function ordenFilterStatus(Request $request)
+    {
+        $validate = $request->validate([
+            'status' => ['required', 'string'],
+        ]);
+
+        try {
+            if ($validate) {
+                $arregloEstado = [
+                    'Completado' => 'wc-completed',
+                    'En Espera' => 'wc-on-hold'
+                ];
+                $parametros = $arregloEstado[$request->status];
+                $ordenes = $this->queryOrden($parametros, 'estado');
                 // dd($ordenes);
                 return view('contabilidad.ordenes.index', compact('ordenes'));
             }
@@ -99,8 +128,8 @@ class OrdenNewController extends Controller
                 return view('contabilidad.ordenes.index', compact('ordenes'));
             }
         } catch (\Throwable $th) {
-            dd($th);
-            // return redirect()->back()->with('msj2', 'ocurrio un error');
+            // dd($th);
+            return redirect()->back()->with('msj2', 'ocurrio un error');
         }
     }
 
@@ -119,6 +148,7 @@ class OrdenNewController extends Controller
             $query = DB::table('wp_posts')
                         ->select('ID as idorden', 'post_date', 'post_status', 'to_ping as tipo_activacion')
                         ->whereBetween('post_date', [$parametros['fecha1'], $parametros['fecha2']])
+                        ->orderBy('ID', 'desc')
                         ->paginate(100);
         }
 
@@ -126,6 +156,15 @@ class OrdenNewController extends Controller
             $query = DB::table('wp_posts')
                         ->select('ID as idorden', 'post_date', 'post_status', 'to_ping as tipo_activacion')
                         ->where('to_ping', $parametros)
+                        ->orderBy('ID', 'desc')
+                        ->paginate(100);
+        }
+
+        if ($tipo == 'estado') {
+            $query = DB::table('wp_posts')
+                        ->select('ID as idorden', 'post_date', 'post_status', 'to_ping as tipo_activacion')
+                        ->where('post_status', $parametros)
+                        ->orderBy('ID', 'desc')
                         ->paginate(100);
         }
 
@@ -133,7 +172,8 @@ class OrdenNewController extends Controller
             $idordens = $this->getOrdensIduser($parametros);
             $query = DB::table('wp_posts')
                         ->select('ID as idorden', 'post_date', 'post_status', 'to_ping as tipo_activacion')
-                        ->whereIn('ID', $idordens )
+                        ->whereIn('ID', $idordens)
+                        ->orderBy('ID', 'desc')
                         ->paginate(100);
         }
         if (!empty($query)) {

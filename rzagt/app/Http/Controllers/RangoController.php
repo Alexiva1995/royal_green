@@ -80,11 +80,11 @@ class RangoController extends Controller
 	public function verificarPuntos($iduser, $requisito): int
 	{
 		$result = 0;
-		$fecha = Carbon::now();
-		$puntos = Wallet::where('iduser', $iduser)
-						// ->whereDate('created_at', '>=', $fecha->subMonths(3))
-						->get()->sum('puntos');
-		if ($puntos >= $requisito ) {
+		$puntos = User::where([
+			['ID', '=', $iduser],
+			['puntos_rank', '>', $requisito]
+		])->first();
+		if (!empty($puntos)) {
 			$result = 1;
 		}
 

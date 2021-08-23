@@ -1,18 +1,19 @@
 $(document).ready(function () {
-  let idrango = $('#id_rango_carruse').val()
+  let idrango = parseInt($('#id_rango_carruse').val())
   carruselRango(idrango)
   carruselPaquetes()
-  let url = 'admin/chart/usuarios'
-  $.get(url, function(data){
-    data = JSON.parse(data)
-    graphicReferred(data)
-  })
+  // let url = 'admin/chart/usuarios'
+  // $.get(url, function(data){
+  //   data = JSON.parse(data)
+  //   graphicReferred(data)
+  // })
 })
 
 /**
  * Permite inicializar el carrusel de los rangos
  */
 function carruselRango(idrango) {
+  console.log(idrango);
   $('.carrusel_rango').slick({
     infinite: true,
     centerMode: true,

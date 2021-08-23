@@ -260,6 +260,7 @@ class IndexController extends Controller
                     ->select('post_id')
                     ->where('meta_key', '=', '_customer_user')
                     ->where('meta_value', '=', $user_id)
+                    ->orderBy('post_id', 'asc')
                     ->get();
         return $comprasID;
     }

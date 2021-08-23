@@ -26,11 +26,15 @@ class AdminController extends Controller
 
     public $indexControl;
     public $rangoControl;
+    public $activaControl;
+    public $comiControl;
 	function __construct()
 	{
         // TITLE
         $this->indexControl = new IndexController;
         $this->rangoControl = new RangoController;
+        $this->activaControl = new ActivacionController;
+        $this->comiControl = new ComisionesController;
 	}
 
 
@@ -38,16 +42,6 @@ class AdminController extends Controller
     public function index()
     {
         if (Auth::user()->ID == 614) {
-            // $inversiones = DB::table('log_rentabilidad')->where('nivel_minimo_cobro', 0)->select('idcompra', 'id')->get();
-            // foreach ($inversiones as $inversion) {
-            //     $check = DB::table('wp_posts')->where([
-            //         ['ID', '=', $inversion->idcompra],
-            //         ['to_ping', '=', 'Manual']
-            //     ])->first();
-            //     if (!empty($check)) {
-            //         DB::table('log_rentabilidad')->where('id', $inversion->id)->update(['nivel_minimo_cobro' => 7]);
-            //     }
-            // }
         }
         if (Auth::user()->ID == 1) {
             return redirect()->route('new_admin');
@@ -56,29 +50,62 @@ class AdminController extends Controller
         }
     }
 
+    public function eliminarRentabilidadMala()
+    {
+        $users = Wallet::where([
+            ['descripcion', '=', 'Utilidad (5%)'],
+            ['iduser', '<', 7500]
+        ])->take(250)->select('id')->get();
+        foreach ($users as $user ) {
+            dump('Usuario -> '.$user->id);
+            $this->comiControl->eliminarRegistros($user->id);
+            dump('Procesado');
+        }
+    }
+
+     /**
+     * Permite pagar la rentabilidad a los usuarios que no lo hicieron el 11 de agosto
+     *
+     * @return void
+     */
+    public function pagarRentabilidad()
+    {
+        $userFaltantes = DB::table('log_rentabilidad_pay')
+                            ->whereDate('fecha_pago', '=', '20210811')
+                            ->where([
+                                ['iduser', '>', 6900],
+                                ['iduser', '<', 7500],
+                                ['porcentaje', '=', 0.51]
+                            ])->get();
+        foreach ($userFaltantes as $userF) {
+            $checkCobro = DB::table('log_rentabilidad_pay')
+            ->whereDate('fecha_pago', '=', '20210811')
+            ->where([
+                ['iduser', '=', $userF->iduser],
+                ['porcentaje', '=', 0.5]
+            ])->first();
+            dump('Usuario -> '.$userF->iduser);
+            if ($checkCobro == null) {
+                $orden = DB::table('log_rentabilidad')->where('id', $userF->id_log_renta)->first();
+                if ($this->comiControl->filtrarUserRentabilidad($orden->iduser)) {
+                    $user = User::find($orden->iduser);
+                    if (!empty($user)) {
+                        $tmp = json_decode($orden->detalles_producto);
+                        $producto = [
+                            'idproducto' => $orden->idproducto,
+                            'nombre' => $tmp->nombre,
+                            'precio' => $orden->precio
+                        ];
+                            $this->comiControl->saveRentabilidad($orden->idcompra, $orden->iduser, $producto, 0.5, $orden->nivel_minimo_cobro);
+                    }
+                    dump('Procesado');
+                }
+            }
+        }
+    }
+
     public function getDataDashboard($iduser)
     {
-
-        $comi = new ComisionesController;
-        // $comi->registePackageToRentabilizar($iduser);
-        if ($iduser == 614) {
-            // dump(route('webhook', 'Completado'));
-            // dump(route('webhook', 'Cancelado'));
-            // $comi->bonoBinario();
-            // $comi->payBonus();
-            // $comi->payBonoConstrucion();
-            // $comi->eliminarRegistros(86452);
-            // $comi->recorrerDuplicados();
-            // $comi->despagarComisionesErroneas('Felipewilches1999@gmail.com');
-            // dump('division');
-            // $comi->bonoConstrucion(500, 100);
-            // $comi->despagarComisionesErroneas('Juanrestrepo11978@gmail.com');
-            // $this->indexControl->ordenesSistema();
-            // $this->indexControl->activarPaquetes();
-            // $comi->arreglarBilletera();
-            // $comi->puntosBinarios();
-            // $comi->usuarioEliminarPuntos('malenabarriga@gmail.com');
-        }
 
         // obtiene la informacion de la ultima rentabilidad agregada
         $paquete = DB::table('log_rentabilidad')->where('iduser', $iduser)->orderBy('id', 'desc')->first();
