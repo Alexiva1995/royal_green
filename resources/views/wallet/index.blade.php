@@ -26,94 +26,43 @@
                     <h3 class="text-white p-1">Últimos Pedidos</h3>
                         <table class="table nowrap scroll-horizontal-vertical myTable2">
                             <thead>
-    
+
                                 <tr class="text-center text-dark text-uppercase pl-2">                                
                                     <th>Fecha</th>
                                     <th>Descripción</th>
                                     <th>Email</th>
                                     <th>Monto</th>    
                                 </tr>
-    
+
                             </thead>
                             <tbody>
-    
+                                @foreach($wallets as $orden)
                                 <tr class="text-center text-white pl-2">
-                                    <td>01/01/2021</td>
+                                    <td>{{date('d-m-Y', strtotime($orden->created_at));}}</td>
                                     <td>
                                         <div class="d-flex flex-column">
+                                            @if($orden->tipo_transaction == 0)
                                             <strong>Comisión</strong>
-                                                <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
+                                            @else
+                                            <strong>Retiro</strong>
+                                            @endif
+
+                                                <p style="margin: 0; padding: 0; position: relative;">
+                                                    @if ($orden->status == '0')
+                                                    <span class="dot enespera"></span> En Espera
+                                                    @elseif($orden->status == '1')
+                                                    <span class="dot completado"></span> Completado
+                                                    @elseif($orden->status >= '2')
+                                                    <span class="dot cancelado"></span> Cancelado
+                                                    @endif
+                                                </p>
+                                                    
                                         </div>
                                     </td>
-                                    <td>info@royalgreen.com</td>
-                                    <td>$5,20</td>
+                                    <td>{{$orden->getWalletUser->email}}</td>
+                                    <td>{{$orden->monto}}</td>
                                 </tr>
-                                <tr class="text-center text-white pl-2">
-                                    <td>01/01/2021</td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            <strong>Comisión</strong>
-                                                <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                        </div>
-                                    </td>
-                                    <td>info@royalgreen.com</td>
-                                    <td>$5,20</td>
-                                </tr>
-                                <tr class="text-center text-white pl-2">
-                                    <td>01/01/2021</td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            <strong>Comisión</strong>
-                                                <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                        </div>
-                                    </td>
-                                    <td>info@royalgreen.com</td>
-                                    <td>$5,20</td>
-                                </tr>
-                                <tr class="text-center text-white pl-2">
-                                    <td>01/01/2021</td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            <strong>Comisión</strong>
-                                                <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                        </div>
-                                    </td>
-                                    <td>info@royalgreen.com</td>
-                                    <td>$5,20</td>
-                                </tr>
-                                <tr class="text-center text-white pl-2">
-                                    <td>01/01/2021</td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            <strong>Comisión</strong>
-                                                <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                        </div>
-                                    </td>
-                                    <td>info@royalgreen.com</td>
-                                    <td>$5,20</td>
-                                </tr>
-                                <tr class="text-center text-white pl-2">
-                                    <td>01/01/2021</td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            <strong>Comisión</strong>
-                                                <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                        </div>
-                                    </td>
-                                    <td>info@royalgreen.com</td>
-                                    <td>$5,20</td>
-                                </tr>
-                                <tr class="text-center text-white pl-2">
-                                    <td>01/01/2021</td>
-                                    <td>
-                                        <div class="d-flex flex-column">
-                                            <strong>Comisión</strong>
-                                                <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                        </div>
-                                    </td>
-                                    <td>info@royalgreen.com</td>
-                                    <td>$5,20</td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

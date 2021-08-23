@@ -8,9 +8,16 @@
                 <div class="card-body card-dashboard">
                     @if(auth()->user()->admin == 1)
                     {{-- <button class="btn btn-primary text-white float-right" data-toggle="modal" data-target="#modalPorcentajeGanancia">Cambiar %</button> --}}
-                    <div class="row d-flex justify-content-center">
-                        <h1 class="text-white col-10">Inversiones</h1>
+                    <div class="row d-flex justify-content-between">
+                        <h1 class="text-white col-3">Inversiones</h1>
+                        <div class="col-3">
+                            <button class="btn btn-success text-white float-right mt-1" data-toggle="modal"
+                                            data-target="#modalRentabilidad">Pagar Rentabilidad</button>
+                            <!-- MODAL PARA ACTUALIZAR PORCENTAJE DE GANANCIA -->
+                            @include('inversiones.componentes.rentabilidad')
+                        </div>
                         <div class="col-2">
+                            
                             <label for="status">Filtro de Estado</label>
                             <select class="form-control" data-toggle="select" onchange="filterTable()" name="status"
                                 id="userTypeFilter">
@@ -37,7 +44,6 @@
                                     {{-- <th>Porcentaje fondo</th> --}}
                                     <th>Fecha</th>
                                     <th>Estado</th>
-                                    <th>Accion</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -65,12 +71,8 @@
                                         Culminado
                                         @endif
                                     </td>
-                                    <td>
-                                        <button class="btn btn-success text-white float-right" data-toggle="modal"
-                                            data-target="#modalRentabilidad">Pagar Rentabilidad</button></td>
                                 </tr>
-                                <!-- MODAL PARA ACTUALIZAR PORCENTAJE DE GANANCIA -->
-                                @include('inversiones.componentes.rentabilidad')
+                                
                                 @endforeach
                             </tbody>
                         </table>
