@@ -12,13 +12,13 @@
 @section('content')
 <div class="row auth-inner">
     <!-- Left bg-->
-    <div class="col-sm-6 col-md-7 col-lg-7 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
+    <div class="col-sm-6 col-md-8 col-lg-8 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
         <div class="">
             <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="" class="logo">
         </div>
     </div>
     <!-- Login-->
-    <div class="col-12 col-sm-6 col-lg-5 col-md-5 d-flex align-items-center p-2 px-4">
+    <div class="col-12 col-sm-6 col-lg-4 col-md-4 d-flex align-items-center p-2 px-4">
         <div class="row">
             <h2 class="fw-bold text-white col-12">Iniciar Sesión</h2>
             <p class=" text-white col-12">

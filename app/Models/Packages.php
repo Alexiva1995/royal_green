@@ -36,27 +36,27 @@ class Packages extends Model
     {
         $imagen = '';
         if($this->price == 50){
-            $imagen = 'paquete_50.svg';
+            $imagen = 'rg50.png';
         }elseif($this->price == 100){
-            $imagen = 'paquete_100.svg';
-        }elseif($this->price == 200){
-            $imagen = 'paquete_200.svg';
-        }elseif($this->price == 300){
-            $imagen = 'paquete_300.svg';
+            $imagen = 'rg100.png';
+        }elseif($this->price == 250){
+            $imagen = 'rg250.png';
         }elseif($this->price == 500){
-            $imagen = 'paquete_500.svg';
+            $imagen = 'rg500.png';
         }elseif($this->price == 1000){
-            $imagen = 'paquete_1000.svg';
+            $imagen = 'rg1000.png';
         }elseif($this->price == 2000){
-            $imagen = 'paquete_2000.svg';
-        }elseif($this->price == 3000){
-            $imagen = 'paquete_3000.svg';
+            $imagen = 'rg2000.png';
         }elseif($this->price == 5000){
-            $imagen = 'paquete_5000.svg';
+            $imagen = 'rg5000.png';
         }elseif($this->price == 10000){
-            $imagen = 'paquete_10000.svg';
+            $imagen = 'rg10000.png';
+        }elseif($this->price == 25000){
+            $imagen = 'rg25000.png';
+        }elseif($this->price == 50000){
+            $imagen = 'rg50000.png';
         }
 
-        return asset('assets/img/'.$imagen);
+        return asset('assets/img/royal_green/paquetes/'.$imagen);
     }
 }
