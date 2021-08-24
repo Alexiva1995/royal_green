@@ -36,7 +36,7 @@
                         </div>
 
                         <div class="card-sub d-flex align-items-center ">
-                            <p class="text-bold-700 mb-0 text-white">{{number_format(Auth::user()->progreso() * 2,2)}}% </p>
+                            <p class="text-bold-700 mb-0 text-white">{{round(Auth::user()->progreso() * 2, 2)}}% </p>
                         </div>
 
                     </div>
@@ -67,7 +67,7 @@
                                 <span class="progress-right">
                                     <span class="progress-circle"></span>
                                 </span>
-                                <div class="progress-value">{{Auth::user()->progreso()}}%</div>
+                                <div class="progress-value">{{round(Auth::user()->progreso(), 2)}}%</div>
                             </div>
                         </div>
                         
@@ -214,7 +214,6 @@
                     <div class="hr"></div>
                     <div class="card-header text-right pb-0 pt-0 white">
                         <p class="mt-1 mb-0">Rango Actual:  {{$data['rangos']['name_rank_actual']}}</p>
-                        <p class="mt-1 mb-0">Próximo Rango -> {{$data['rangos']['name_rank_sig']}}</p>
                     </div>
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white mt-2">
                         <p class="mt-1 mb-0">Total Puntos:</p>
@@ -232,7 +231,7 @@
                             </div>
                         </div>
                         <div class="card-sub d-flex align-items-center ">
-                            <p class="white text-bold-700" style="margin-top: -30px;">{{$data['rangos']['porcentage']}}% </p>
+                            <p class="white text-bold-700" style="margin-top: -30px;">{{round($data['rangos']['porcentage'],2)}}% </p>
                         </div>
                     </div>
                     <div class="card-sub">

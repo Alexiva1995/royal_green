@@ -507,7 +507,7 @@ class LiquidactionController extends Controller
                 return redirect()->back()->with('msj-danger', 'El monto minimo de retirar es 50 Usd');
             }
 
-            $feed = ($bruto * 0.06);
+            $feed = ($bruto * 0.045);
             $total = ($bruto - $feed);
           
             $arrayLiquidation = [
