@@ -3,7 +3,7 @@
 {{-- contenido --}}
 @section('content')
 <div class="row">
-    <div class="col-sm-6 col-12 mt-1">
+    <div class="col-sm-4 col-12 mt-1">
         <div class="card h-80 p-2 art-2"> 
             <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                 <h2 class="mt-1 mb-0 text-white font-weight-light"><b>Saldo disponible</b></h2>
@@ -18,12 +18,12 @@
         </div>
     </div>
     
-    <div class="col-sm-6 col-12 mt-1">
+    <div class="col-sm-8 col-12 mt-1">
         <div class="card bg-lp">
             <div class="card-content">
                 <div class="card-body card-dashboard p-0">
                     <div class="table-responsive">
-                    <h3 class="text-white p-1">Últimos Pedidos</h3>
+                    <h3 class="text-white p-1">Billetera</h3>
                         <table class="table nowrap scroll-horizontal-vertical myTable2">
                             <thead>
 
@@ -41,20 +41,21 @@
                                     <td>{{date('d-m-Y', strtotime($orden->created_at));}}</td>
                                     <td>
                                         <div class="d-flex flex-column">
-                                            @if($orden->tipo_transaction == 0)
+                                            {{-- @if($orden->tipo_transaction == 0)
                                             <strong>Comisión</strong>
                                             @else
                                             <strong>Retiro</strong>
-                                            @endif
+                                            @endif --}}
 
                                                 <p style="margin: 0; padding: 0; position: relative;">
-                                                    @if ($orden->status == '0')
+                                                    {{-- @if ($orden->status == '0')
                                                     <span class="dot enespera"></span> En Espera
                                                     @elseif($orden->status == '1')
                                                     <span class="dot completado"></span> Completado
                                                     @elseif($orden->status >= '2')
                                                     <span class="dot cancelado"></span> Cancelado
-                                                    @endif
+                                                    @endif --}}
+                                                    {{$orden->descripcion}}
                                                 </p>
                                                     
                                         </div>
@@ -73,6 +74,7 @@
 </div>
 
 @endsection
-@include('layouts.componenteDashboard.modalRetirar')
 {{-- permite llamar a las opciones de las tablas --}}
 @include('layouts.componenteDashboard.optionDatatable')
+
+@include('layouts.componenteDashboard.modalRetirar')

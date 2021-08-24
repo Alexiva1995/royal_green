@@ -35,15 +35,17 @@ class WalletController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->admin == 1) {
-            $wallets = Wallet::all()->where('iduser', Auth::user()->id)->where('tipo_transaction', 0);
-        }else{
+        try{
             $wallets = Auth::user()->getWallet->where('tipo_transaction', 0);
-            // dd($wallets);
+            $saldoDisponible = $wallets->where('status', 0)->sum('monto');
+            return view('wallet.index', compact('wallets', 'saldoDisponible'));
+
+        } catch (\Throwable $th) {
+            Log::error('Wallet - Index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
-        $saldoDisponible = $wallets->where('status', 0)->sum('monto');
-        return view('wallet.index', compact('wallets', 'saldoDisponible'));
     }
+
 
      /**
      * Lleva a la vista de pagos
