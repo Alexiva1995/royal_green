@@ -60,7 +60,7 @@
                                                     
                                         </div>
                                     </td>
-                                    <td>{{$orden->getWalletUser->email}}</td>
+                                    <td>{{$orden->getWalletReferred->email}}</td>
                                     <td>{{$orden->monto}}</td>
                                 </tr>
                                 @endforeach

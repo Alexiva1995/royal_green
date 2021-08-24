@@ -138,6 +138,7 @@ class WalletController extends Controller
                         ])->first();
                         if ($check == null) {
                             $wallet = Wallet::create($data);
+                            // dd($wallet->getWalletUser);
                             $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['monto']);
                             $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
                             $this->aceleracion($data['iduser'], $data['referred_id'], $data['monto'], $data['descripcion']);
@@ -382,8 +383,8 @@ class WalletController extends Controller
                 // dd($sponsor);
                 // dd($user->inversionMasAlta()->invertido);
                 if ($sponsor->status == '1') {
-                    $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
-                    $this->preSaveWallet($orden->iduser, $sponsor->id, $orden->id, $comision, $concepto);
+                    $concepto = 'Bono Directo  - N° '.$orden->id.' - '.$orden->getOrdenUser->fullname;
+                    $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, $comision, $concepto);
                     Log::info('Bono Directo Pagado');
                     // dd("Usuario " . $orden->iduser, "Referido " . $sponsor->id, "Id de Orden " . $orden->id, "Comision " . $comision, "Concepto " . $concepto);
 
@@ -403,8 +404,8 @@ class WalletController extends Controller
                     $comision = ($orden->total * 0.03);
                     if ($nivel2->status == '1' && $paqueteReferido >= 1000) {
                         // dd("Usuario " . $orden->iduser, "Referido " . $nivel2->id, "Id de Orden " . $orden->id, "Comision " . $comision, "Concepto " . $concepto);
-                        $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
-                        $this->preSaveWallet($orden->iduser, $nivel2->id, $orden->id, $comision, $concepto);
+                        $concepto = 'Bono Indirecto - N° '.$orden->id.' - '.$orden->getOrdenUser->fullname;
+                        $this->preSaveWallet($nivel2->id, $orden->iduser, $orden->id, $comision, $concepto);
                         Log::info('Bono Indirecto Pagado');
                     }
                 }
@@ -423,8 +424,8 @@ class WalletController extends Controller
                             $comision = ($orden->total * 0.02);
                             if ($nivel3->status == '1' && $paqueteReferido >= 5000) {
                                 // dd("Usuario" . $orden->iduser, "Referido " . $nivel3->id, "Id de Orden " . $orden->id, "Comision " . $comision, "Concepto " . $concepto);
-                                $concepto = 'Bono indirecto del Usuario '.$orden->getOrdenUser->fullname;
-                                $this->preSaveWallet($orden->iduser, $nivel3->id, $orden->id, $comision, $concepto);
+                                $concepto = 'Bono Indirecto - N° '.$orden->id.' - '.$orden->getOrdenUser->fullname;
+                                $this->preSaveWallet($nivel3->id, $orden->iduser, $orden->id, $comision, $concepto);
                                 Log::info('Bono Indirecto Pagado');
                             }
                         }
