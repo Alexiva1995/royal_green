@@ -2,7 +2,7 @@
 {{--<link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/extensions/sweetalert2.min.css')}}">--}}
 <style>
     .swal2-icon.swal2-success .swal2-success-ring{
-        border: .25em solid rgba(214,168,62,1) !important;
+        border: .25em solid #66FFCC !important;
     }
     
     .swal2-icon.swal2-success [class^=swal2-success-line]{

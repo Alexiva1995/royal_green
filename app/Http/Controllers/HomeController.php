@@ -61,6 +61,7 @@ class HomeController extends Controller
         try {
             $data = $this->dataDashboard(Auth::id());
             $requisito = $this->rankController->checkRank(Auth::id());
+            // dd($requisito);
             $ordenes = OrdenPurchases::all();
             return view('dashboard.index', compact('data', 'requisito', 'ordenes'));
         } catch (\Throwable $th) {
@@ -73,7 +74,9 @@ class HomeController extends Controller
     {
         try {
             $data = $this->dataDashboard(Auth::id());
-            return view('dashboard.index', compact('data'));
+            $requisito = $this->rankController->checkRank(Auth::id());
+            // dd($requisito);
+            return view('dashboard.index', compact('data', 'requisito'));
         } catch (\Throwable $th) {
             Log::error('Home - indexUser -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -111,7 +114,7 @@ class HomeController extends Controller
     public function getDataRangos(): array
     {
         $rol_actual = (Auth::user()->rank_id == null)? 0 : Auth::user()->rank_id;
-        $rol_sig = ($rol_actual + 1 != 10)? ($rol_actual + 1) : 9;
+        $rol_sig = ($rol_actual + 1 < 11)? ($rol_actual + 1) : 11;
         $rankSig = Ranks::find($rol_sig);
         $totalPuntos = (Auth::user()->point_rank != null) ? Auth::user()->point_rank : 0;
         $porcentajes = (($totalPuntos / $rankSig->points) * 100);
