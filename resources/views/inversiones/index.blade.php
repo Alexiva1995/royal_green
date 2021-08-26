@@ -11,13 +11,10 @@
                     <div class="row d-flex justify-content-between">
                         <h1 class="text-white col-3">Inversiones</h1>
                         <div class="col-3">
-                            <button class="btn btn-success text-white float-right mt-1" data-toggle="modal"
-                                            data-target="#modalRentabilidad">Pagar Rentabilidad</button>
-                            <!-- MODAL PARA ACTUALIZAR PORCENTAJE DE GANANCIA -->
-                            @include('inversiones.componentes.rentabilidad')
+                            <button class="btn btn-success text-white" data-toggle="modal"
+                                data-target="#modalRentabilidad">Pagar Rentabilidad</button>
                         </div>
                         <div class="col-2">
-                            
                             <label for="status">Filtro de Estado</label>
                             <select class="form-control" data-toggle="select" onchange="filterTable()" name="status"
                                 id="userTypeFilter">
@@ -28,64 +25,62 @@
                         </div>
                         @endif
                     </div>
-                    <div>
-                        <table
-                            class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100 text-white">
-                            <thead>
-                                <tr class="text-center text-white bg-purple-alt2">
-                                    <th>#</th>
-                                    <th>Correo</th>
-                                    {{-- <th>Paquete</th> --}}
-                                    <th>Inversion</th>
-                                    <th>Ganancia</th>
-                                    {{-- <th>Capital</th> --}}
-                                    <th>Progreso</th>
-                                    {{-- <th>Ganancia acumulada</th> --}}
-                                    {{-- <th>Porcentaje fondo</th> --}}
-                                    <th>Fecha</th>
-                                    <th>Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($inversiones as $inversion)
-                                {{-- @php
+                </div>
+                <div>
+                    <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100 text-white">
+                        <thead>
+                            <tr class="text-center text-white bg-purple-alt2">
+                                <th>#</th>
+                                <th>Correo</th>
+                                {{-- <th>Paquete</th> --}}
+                                <th>Inversion</th>
+                                <th>Ganancia</th>
+                                {{-- <th>Capital</th> --}}
+                                <th>Progreso</th>
+                                {{-- <th>Ganancia acumulada</th> --}}
+                                {{-- <th>Porcentaje fondo</th> --}}
+                                <th>Fecha</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($inversiones as $inversion)
+                            {{-- @php
                                 $ganancia = $inversion->capital - $inversion->invertido;
                                 $porcentaje = ($ganancia / $inversion->invertido) * 100;
                                 @endphp --}}
-                                <tr class="text-center text-white">
-                                    <td>{{$inversion->id}}</td>
-                                    <td>{{$inversion->correo}}</td>
-                                    {{-- <td>{{$inversion->getPackageOrden->getGroup->name }} -
-                                    {{$inversion->getPackageOrden->name}}</td> --}}
-                                    <td>$ {{number_format($inversion->invertido, 2, ',', '.')}}</td>
-                                    <td>$ {{number_format($inversion->ganacia, 2, ',', '.')}}</td>
-                                    {{-- <td>$ {{number_format($inversion->capital, 2, ',', '.')}}</td> --}}
-                                    <td>{{number_format($inversion->progreso() * 2,2, ',', '.')}} %</td>
-                                    {{-- <td>$ {{number_format($inversion->ganancia_acumulada,2, ',', '.')}}</td> --}}
-                                    {{-- <td>{{number_format($inversion->porcentaje_fondo,2, ',', '.')}} %</td> --}}
-                                    <td>{{date('Y-m-d', strtotime($inversion->created_at))}}</td>
-                                    <td>
-                                        @if($inversion->status == 1)
-                                        Activo
-                                        @elseif($inversion->status == 2)
-                                        Culminado
-                                        @endif
-                                    </td>
-                                </tr>
-                                
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            <tr class="text-center text-white">
+                                <td>{{$inversion->id}}</td>
+                                <td>{{$inversion->correo}}</td>
+                                {{-- <td>{{$inversion->getPackageOrden->getGroup->name }} -
+                                {{$inversion->getPackageOrden->name}}</td> --}}
+                                <td>$ {{number_format($inversion->invertido, 2, ',', '.')}}</td>
+                                <td>$ {{number_format($inversion->ganacia, 2, ',', '.')}}</td>
+                                {{-- <td>$ {{number_format($inversion->capital, 2, ',', '.')}}</td> --}}
+                                <td>{{number_format($inversion->progreso() * 2,2, ',', '.')}} %</td>
+                                {{-- <td>$ {{number_format($inversion->ganancia_acumulada,2, ',', '.')}}</td> --}}
+                                {{-- <td>{{number_format($inversion->porcentaje_fondo,2, ',', '.')}} %</td> --}}
+                                <td>{{date('Y-m-d', strtotime($inversion->created_at))}}</td>
+                                <td>
+                                    @if($inversion->status == 1)
+                                    Activo
+                                    @elseif($inversion->status == 2)
+                                    Culminado
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 
 <!-- MODAL PARA ACTUALIZAR PORCENTAJE DE GANANCIA -->
-@include('inversiones.componentes.gain')
-
+@include('inversiones.componentes.rentabilidad')
 @endsection
 
 {{-- permite llamar a las opciones de las tablas --}}
@@ -118,5 +113,6 @@
         }
         return userTypeColumnData === userTypeSelected;
     }
+
 </script>
 @endpush

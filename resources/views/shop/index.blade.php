@@ -27,12 +27,12 @@
                                 <div class="card text-center" style="background:#11262C">
                                     <div class="card-body">
                                         <div class="card-header d-flex align-items-center" style="background: #173138;">
-                                            <img class="m-2" src="{{$items->img()}}" alt="" style="width: 100%; heigh:100%;">
+                                            <img class="mb-1" src="{{$items->img()}}" alt="" style="width: 100%; heigh:100%;">
                                         </div>
                                         <form action="{{route('shop.procces')}}" method="POST" target="_blank" class="d-inline">
                                         @csrf
                                         <input type="hidden" name="idproduct" value="{{$items->id}}">
-                                        <button class="btn btn-block text-white" type="submit" style="background: #cb9b32;" @if($invertido >= $items->price) disabled @endif>
+                                        <button class="btn btn-block btn-outline-primary text-white rounded" type="submit" @if($invertido >= $items->price) disabled @endif>
                                             @if($invertido == null)
                                                 Comprar
                                             @else

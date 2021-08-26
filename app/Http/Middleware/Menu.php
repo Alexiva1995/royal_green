@@ -116,7 +116,7 @@ class Menu
                     [
                         'name' => 'Retiros',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('retiro.history'),
                         'complementoruta' => ''
                     ],
                 ],
@@ -235,13 +235,7 @@ class Menu
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
                         'complementoruta' => route('audit.puntos')
-                    ],
-                    [
-                        'name' => 'Modificar Billetera',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
-                        'complementoruta' => ''
-                    ],
+                    ]
                 ]
              ],
             // Fin Auditoria
@@ -261,23 +255,23 @@ class Menu
                     //     'complementoruta' => ''
                     // ],
                     [
-                        'name' => 'Por confirmar',
+                        'name' => 'Generar',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.pending'), 
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Confirmados',
+                        'name' => 'Realizados',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.history.status', 'Pagadas'),
                         'complementoruta' => ''
                     ],
-                    [
-                        'name' => 'Reservados',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement.history.status', 'Reservadas'),
-                        'complementoruta' => ''
-                    ],
+                    // [
+                    //     'name' => 'Reservados',
+                    //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                    //     'ruta' => route('settlement.history.status', 'Reservadas'),
+                    //     'complementoruta' => ''
+                    // ],
                 ],
             ],
             // Fin Liquidaciones

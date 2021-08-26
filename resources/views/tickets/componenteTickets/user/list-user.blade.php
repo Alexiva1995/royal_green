@@ -19,7 +19,7 @@
                                     <th>Email</th>
                                     <th>Estado</th>                                 
                                     <th>Prioridad</th>
-                                    <th>tiempo</th>
+                                    {{-- <th>tiempo</th> --}}
                                     <th>Fecha de creacion</th>
                                     <th>Accion</th>
                                 </tr>
@@ -52,11 +52,11 @@
                                     @endif
 
 
-                                    @if ($time_msj != 'NULL')
+                                    {{-- @if ($time_msj != 'NULL')
                                     <td>{{$time_msj}}</td>
                                     @else
                                     <td>Esperando Respuesta</td>
-                                    @endif
+                                    @endif --}}
 
                                     <td>{{ $item->created_at}}</td>
                                     
