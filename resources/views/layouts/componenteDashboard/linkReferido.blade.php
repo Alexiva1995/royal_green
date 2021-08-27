@@ -6,7 +6,7 @@
     }
     
     .swal2-icon.swal2-success [class^=swal2-success-line]{
-        background: linear-gradient(90deg, rgba(17,38,44,1) 0%, rgba(54,99,112,1) 94%) !important;
+        background: linear-gradient(90deg, #42e1ac  0%, #66FFCC  94%) !important;
     }
 
     .swal2-show, .swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left], .swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right], .swal2-icon.swal2-success .swal2-success-fix{

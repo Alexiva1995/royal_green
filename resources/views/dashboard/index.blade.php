@@ -118,7 +118,6 @@ return percentage / 100 * 360
 @endpush
 
 @section('content')
-@if (Auth::user()->rank_id < 11)
 @if (Auth::user()->admin == 1)
 
 @include('dashboard.componente.index-admin')
@@ -140,7 +139,6 @@ return percentage / 100 * 360
 {{-- Tercera Seccion --}}
 {{-- @include('dashboard.componente.thirdsection') --}}
 {{-- Fin Tercera Seccion --}}
-@endif
 @endif
 
 {{-- link de referido --}}
