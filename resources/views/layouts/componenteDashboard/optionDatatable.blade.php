@@ -28,7 +28,7 @@
             order: [[ 0, "desc" ]],
             searching: true,
             bLengthChange: true,
-            pageLength: 5,
+            pageLength: 10,
             language: {
                 paginate: {
                     next:				">",

@@ -61,8 +61,7 @@ class HomeController extends Controller
         try {
             $data = $this->dataDashboard(Auth::id());
             $requisito = $this->rankController->checkRank(Auth::id());
-            // dd($requisito);
-            $ordenes = OrdenPurchases::all();
+            $ordenes = OrdenPurchases::latest()->take(7)->get();
             return view('dashboard.index', compact('data', 'requisito', 'ordenes'));
         } catch (\Throwable $th) {
             Log::error('Home - index -> Error: '.$th);
