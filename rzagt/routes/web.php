@@ -219,6 +219,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'licencia', 'guest']
     Route::group(['prefix' => 'price', 'middleware' => 'admin'], function(){
         Route::get('/historial', 'PagoController@historyPrice')->name('price-historial');
         Route::get('/confirmar/{tipo}', 'PagoController@confimPrice')->name('price-confirmar');
+        Route::post('/confirmar.all', 'PagoController@confirmAll')->name('price-confirmar-todo');
         Route::get('/aceptarpago/{id}', 'PagoController@aprobarPago')->name('price-aprobar');
         Route::get('/rechazarpago/{id}', 'PagoController@rechazarPago')->name('price-rechazar');
         Route::post('/filtro', 'PagoController@filtro')->name('price-filtro');

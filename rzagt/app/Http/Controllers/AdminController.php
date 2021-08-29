@@ -41,8 +41,27 @@ class AdminController extends Controller
 
     public function index()
     {
-        if (Auth::user()->ID == 614) {
-        }
+        // if (Auth::user()->ID == 614) {
+        //     $pagos = DB::table('pagos')->where('estado', 0)->select('iduser')->get();
+        //     foreach ($pagos as $pago) {
+        //         dump($pago->iduser);
+        //         $verificarTipo = DB::table('log_rentabilidad')->where([
+        //             ['iduser', '=', $pago->iduser],				
+        //         ])->get()->last();
+        //         $checkPago = DB::table('wp_posts')->where([
+        //             ['ID', '=', $verificarTipo->idcompra],+
+        //             ['to_ping', '=', 'Manual'],
+        //         ])->first();
+        //         if ($checkPago != null) {
+        //             DB::table('log_rentabilidad')->where([
+        //                 ['iduser', '=', $pago->iduser],
+        //                 ['idcompra', '=', $checkPago->ID]
+        //             ])->update(['nivel_minimo_cobro' => 7]);
+        //             dump('procesado');
+        //         }
+        //     }
+        //     dd('parar');
+        // }
         if (Auth::user()->ID == 1) {
             return redirect()->route('new_admin');
         }else{
@@ -646,4 +665,3 @@ class AdminController extends Controller
     }
 
 }
-

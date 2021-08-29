@@ -82,7 +82,7 @@ class RangoController extends Controller
 		$result = 0;
 		$puntos = User::where([
 			['ID', '=', $iduser],
-			['puntos_rank', '>', $requisito]
+			['puntos_rank', '>=', $requisito]
 		])->first();
 		if (!empty($puntos)) {
 			$result = 1;
@@ -139,12 +139,10 @@ class RangoController extends Controller
 		$user = User::find($iduser);
 		$rangonew = $user->rol_id + 1;
 		$data = [];
+		$puntos = $user->puntos_rank;
 		if ($rangonew < 12) {
 			$rolnuevo = Rol::find($rangonew);
 			$fecha = Carbon::now();
-			$puntos = Wallet::where('iduser', $iduser)
-							// ->whereDate('created_at', '>=', $fecha->subMonths(3))
-							->get()->sum('puntos');
 			$progresoRanfo = (($puntos * 100)  / 1);
 			if ($rolnuevo->grupal) {
 				$progresoRanfo = (($puntos * 100)  / $rolnuevo->grupal);

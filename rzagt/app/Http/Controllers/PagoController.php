@@ -116,6 +116,20 @@ class PagoController extends Controller
 		return $newPagos;
 	}
 
+	public function confirmAll(Request $request)
+	{
+		$validate = $request->validate(([
+			'pagos' => 'required'
+		]));
+
+		if ($validate) {
+			foreach ($request->pagos as $idpago) {
+				$this->aprobarPago($idpago, false);
+			}
+			return redirect()->back()->with('msj', 'Los Pagos Selecionados Aprobado sastifactoriamente');
+		}
+	}
+
 	/**
 	 * Aprueba los pagos solicitados
 	 * 
@@ -123,7 +137,7 @@ class PagoController extends Controller
 	 * @param int $id - id del pago a procesar
 	 * @return view
 	 */
-	public function aprobarPago($id)
+	public function aprobarPago($id, $return = true)
 	{
 		try {
 			$fecha = new Carbon;
@@ -161,7 +175,10 @@ class PagoController extends Controller
 
 			$pagos->save();
 
-			return redirect()->back()->with('msj', 'Pago Aprobado sastifactoriamente');
+			if ($return ) {
+				return redirect()->back()->with('msj', 'Pago Aprobado sastifactoriamente');
+			}
+			
 		} catch (\Throwable $th) {
 			dd($th);
 		}
