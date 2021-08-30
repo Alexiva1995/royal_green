@@ -60,11 +60,11 @@ class ReporteController extends Controller
     {
         try {
             $beneficios = Wallet::all();
+            $ingreso = OrdenPurchases::where('status', '1')->sum('monto');
             $comision = Wallet::where('tipo_transaction', 0)->sum('monto');
-            $retiro = Wallet::where('tipo_transaction', 1)->sum('monto');
             // dd($comision);
 
-            return view('reports.beneficio', compact('beneficios', 'comision', 'retiro'));
+            return view('reports.beneficio', compact('beneficios', 'ingreso', 'comision'));
         } catch (\Throwable $th) {
             Log::error('ReporteController - indexBeneficio -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -72,6 +72,16 @@ class ReporteController extends Controller
 
     }
 
+
+    public function rangoFecha($from, $to)
+    {
+        // $from = '2020-08-10';
+        // $to = '2021-08-26';
+        $ordenes = OrdenPurchases::where('status', '1')->whereDate('created_at', '>=', $from)->whereDate('created_at', '<=', $to)->sum('monto');
+        $comision = Wallet::where('tipo_transaction', '0')->whereDate('created_at', '>=', $from)->whereDate('created_at', '<=', $to)->sum('monto');
+        $data = [$ordenes, $comision];
+        return $data;
+    }
 
     public function graphisDashboard()
     {
