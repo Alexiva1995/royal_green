@@ -48,13 +48,14 @@
                                             @endif --}}
 
                                                 <p style="margin: 0; padding: 0; position: relative;">
-                                                    {{-- @if ($orden->status == '0')
+                                                    @if ($orden->status == '0')
                                                     <span class="dot enespera"></span> En Espera
                                                     @elseif($orden->status == '1')
                                                     <span class="dot completado"></span> Completado
                                                     @elseif($orden->status >= '2')
                                                     <span class="dot cancelado"></span> Cancelado
-                                                    @endif --}}
+                                                    @endif
+                                                    <br>
                                                     {{$orden->descripcion}}
                                                 </p>
                                                     
