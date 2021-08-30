@@ -62,6 +62,9 @@ $total = 0;
             <div class="table-responsive">
                 <form action="{{route('price-confirmar-todo')}}" method="post">
 					{{ csrf_field() }}
+                    <div class="mb-3 text-center">
+						<button type="submit" class="btn btn-primary">Aprobar Selecionados</button>
+					  </div>
                     <table id="mytable" class="table zero-configuration">
                         <thead>
                             <tr class="text-center">
@@ -154,9 +157,6 @@ $total = 0;
                             <td colspan="5"> {{$total}}</td>
                         </tfoot>
                     </table>
-					<div class="mt-3 text-center">
-						<button type="submit" class="btn btn-primary">Aprobar Selecionados</button>
-					  </div>
                 </form>
             </div>
         </div>
