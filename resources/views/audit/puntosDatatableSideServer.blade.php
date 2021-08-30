@@ -18,6 +18,7 @@
                 columns: [
                             { data: 'id', name: 'id' },
                             { data: 'usuario', name: 'usuario' },
+                            { data: 'referido', name: 'referido' },
                             { data: 'puntos_d', name: 'puntos_d' },
                             { data: 'puntos_i', name: 'puntos_i' },
                         ],

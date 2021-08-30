@@ -12,7 +12,8 @@
 
                             <tr class="text-center text-dark text-uppercase pl-2">                                
                                 <th>ID</th>
-                                <th>Usuario</th>  
+                                <th>Usuario</th>
+                                <th>Referido</th>
                                 <th>Puntos Derecha</th>
                                 <th>Puntos Izquierda</th> 
                             </tr>

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Datatables;
+use App\Models\User;
 use App\Models\RankRecords;
 use App\Models\WalletBinary;
 use Illuminate\Http\Request;
-use Datatables;
 
 
 class AuditController extends Controller
@@ -40,7 +41,7 @@ class AuditController extends Controller
                     return $data->id;
                 })
                 ->addColumn('usuario', function($data){
-                    return $data->getUserRank->name;
+                    return $data->getUserRank->email;
                 })
                 ->addColumn('rango', function($data){
                     return $data->getRank->name;
@@ -77,7 +78,10 @@ class AuditController extends Controller
                     return $data->id;
                 })
                 ->addColumn('usuario', function($data){
-                    return $data->getUserBinary->name;
+                    return $data->getUserBinary->email;
+                })
+                ->addColumn('referido', function($data){
+                    return User::find($data->getUserBinary->referred_id)->email;
                 })
                 ->addColumn('puntos_derecha', function($data){
                     return $data->puntos_d;
