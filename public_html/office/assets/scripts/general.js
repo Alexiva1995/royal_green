@@ -93,7 +93,9 @@ function eliminarProducto(iduser, disponible) {
 function totalRetiro(valor) {
     console.log(valor);
     let resul = valor
-    let tmp = valor * 0.045
+    let comision = (valor >= 250)? 0.045 : 0.085
+    $('#comision').val((comision * 100))
+    let tmp = valor * comision
     resul = valor - tmp
     $('#total').val(resul)
 }

@@ -53,6 +53,9 @@
                                 @else
                                 <button class="btn btn-info mt-1 text-white" disabled>{{$item->actualizar}}</button>
                                 @endif
+                                @if ($item->meta_value == 100)
+                                    <h5>Los paquetes de 100 usd no generarán pasivos, únicamente servirá para posicionamiento</h5>
+                                @endif
                             </div>
                         </div>
                     </div>

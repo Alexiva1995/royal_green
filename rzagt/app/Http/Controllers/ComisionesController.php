@@ -583,7 +583,15 @@ class ComisionesController extends Controller
                 $porcentaje = $request->porcentage;
                 $ordenes = DB::table('log_rentabilidad')->where('progreso', '<', 100)->get();
                 foreach ($ordenes as $orden) {
-                    if ($this->filtrarUserRentabilidad($orden->iduser)) {
+                    $fechaCompra = new Carbon($orden->created_at);
+                    $fechaLimite = new Carbon('20210901');
+                    $pagarRenta = true;
+                    if ($orden->precio == 100) {
+                        if ($fechaCompra > $fechaLimite) {
+                            $pagarRenta = false;
+                        }
+                    }
+                    if ($this->filtrarUserRentabilidad($orden->iduser) && $pagarRenta) {
                         $user = User::find($orden->iduser);
                         if (!empty($user)) {
                             $tmp = json_decode($orden->detalles_producto);

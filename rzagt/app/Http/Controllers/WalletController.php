@@ -448,6 +448,7 @@ class WalletController extends Controller
 	{
 		$user = User::find($iduser);
 		$user->wallet_amount = ($user->wallet_amount - $montoBruto);
+		$user->save();
 		$datosW = [
 			'iduser' => $user->ID,
 			'usuario' => $user->display_name,
@@ -463,7 +464,6 @@ class WalletController extends Controller
 			'tipotransacion' => 1,
 		];
 		$this->saveWallet($datosW);
-		$user->save();
 
 		$rentabilidad = DB::table('log_rentabilidad')->where([
 			['iduser', Auth::user()->ID],

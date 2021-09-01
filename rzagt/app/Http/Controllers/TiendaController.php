@@ -66,7 +66,7 @@ class TiendaController extends Controller
                     ->where([
                         ['wpm.meta_key', '=', '_price'],
                         ['wp.post_type', '=', 'product'],
-                        ['wp.pinged', '=', 'Visible']
+                        ['wp.pinged', '=', 'Visible'],
                     ])
                     ->select('wp.ID', 'wp.post_title', 'wp.post_content', 'wp.guid', 'wpm.meta_value', 'wp.post_excerpt as imagen')
                     ->orderBy('ID', 'asc')
