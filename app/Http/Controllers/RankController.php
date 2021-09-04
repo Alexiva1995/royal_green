@@ -38,7 +38,8 @@ class RankController extends Controller
         if ($rol_new <= $totalRanks) {
             $rolCheck = Ranks::find($rol_new);
             if ($user->point_rank >= $rolCheck->points) {
-                $this->saveRanksRecord($rol_new, $rol_actual, $iduser);
+               $saveRanks = $this->saveRanksRecord($rol_new, $rol_actual, $iduser);
+               return $saveRanks;
             }
         }
     }
@@ -60,45 +61,57 @@ class RankController extends Controller
         }else{
             switch ($rol_new) {
                 case 6:
-                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', 4)->first();
-                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', 4)->first();
+                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', '>=', 4)->first();
+                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id','>=', 4)->first();
                     if(isset($izquierda) && isset($derecha)){
                         $this->guardarRank( $rol_new, $rol_actual, $iduser);
+                    }else{
+                        return "Necesitas 2 Directos Turquesa";
                     }
                     break;
                 case 7:
-                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', 5)->first();
-                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', 5)->first();
+                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', '>=',5)->first();
+                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', '>=',5)->first();
                     if(isset($izquierda) && isset($derecha)){
                         $this->guardarRank( $rol_new, $rol_actual, $iduser);
+                    }else{
+                        return "Necesitas 2 Directos Amatista"; 
                     }
                     break;
                 case 8:
-                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', 6)->first();
-                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', 6)->first();
+                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', '>=',6)->first();
+                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', '>=',6)->first();
                     if(isset($izquierda) && isset($derecha)){
                         $this->guardarRank( $rol_new, $rol_actual, $iduser);
+                    }else{
+                        return "Necesitas 2 Directos Topacio Élite"; 
                     }
                     break;
                 case 9:
-                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', 7)->first();  
-                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', 7)->first();
+                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', '>=', 7)->first();  
+                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', '>=', 7)->first();
                     if(isset($izquierda) && isset($derecha)){
                         $this->guardarRank( $rol_new, $rol_actual, $iduser);
+                    }else{
+                        return "Necesitas 2 Directos Zafiro"; 
                     }
                     break;
                 case 10:
-                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', 8)->first();
-                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', 8)->first();
+                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', '>=', 8)->first();
+                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', '>=', 8)->first();
                     if(isset($izquierda) && isset($derecha)){
                         $this->guardarRank( $rol_new, $rol_actual, $iduser);
+                    }else{
+                        return "Necesitas 2 Directos Rubíes"; 
                     }
                     break;
                 case 11:
-                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', 9)->first();
-                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', 9)->first();
+                    $izquierda = User::where('status', '1')->where('binary_side', 'I')->where('referred_id', $iduser)->where('rank_id', '>=', 9)->first();
+                    $derecha = User::where('status', '1')->where('binary_side', 'D')->where('referred_id', $iduser)->where('rank_id', '>=', 9)->first();
                     if(isset($izquierda) && isset($derecha)){
                         $this->guardarRank( $rol_new, $rol_actual, $iduser);
+                    }else{
+                        return "Necesitas 2 Directos Esmeraldas"; 
                     }
                     break;
                 default:

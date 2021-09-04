@@ -4,7 +4,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class=" d-flex white mt-2">
-                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Puntos Izquierdos:
+                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Puntos izquierda:
                                 {{$binario['totali']}}</button>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class=" d-flex white mt-2">
-                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Puntos Derechos:
+                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Puntos Derecha:
                                 {{$binario['totald']}}</button>
                         </div>
                     </div>

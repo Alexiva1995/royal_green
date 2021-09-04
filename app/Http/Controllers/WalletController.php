@@ -35,14 +35,17 @@ class WalletController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->admin == 1) {
-            $wallets = Wallet::all()->where('iduser', Auth::user()->id)->where('tipo_transaction', 0);
-        }else{
+        try{
             $wallets = Auth::user()->getWallet->where('tipo_transaction', 0);
+            $saldoDisponible = $wallets->where('status', 0)->sum('monto');
+            return view('wallet.index', compact('wallets', 'saldoDisponible'));
+
+        } catch (\Throwable $th) {
+            Log::error('Wallet - Index -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
         }
-        $saldoDisponible = $wallets->where('status', 0)->sum('monto');
-        return view('wallet.index', compact('wallets', 'saldoDisponible'));
     }
+
 
      /**
      * Lleva a la vista de pagos
@@ -125,15 +128,17 @@ class WalletController extends Controller
                     $wallet = Wallet::create($data);
                     $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['monto']);
                     $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-                    // $wallet->update(['balance' => $saldoAcumulado]);
+                    $wallet->update(['monto' => - $data['monto']]);
                 }else{
                     if ($data['orden_purchases_id'] != null) {
                         $check = Wallet::where([
                             ['iduser', '=', $data['iduser']],
-                            ['orden_purchases_id', '=', $data['orden_purchases_id']]
+                            ['orden_purchases_id', '=', $data['orden_purchases_id']],
+                            ['referred_id', '=', $data['referred_id']]
                         ])->first();
                         if ($check == null) {
                             $wallet = Wallet::create($data);
+                            // dd($wallet->getWalletUser);
                             $saldoAcumulado = ($wallet->getWalletUser->wallet + $data['monto']);
                             $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
                             $this->aceleracion($data['iduser'], $data['referred_id'], $data['monto'], $data['descripcion']);
@@ -153,6 +158,54 @@ class WalletController extends Controller
         }
     }
 
+
+    public function bonoOchoPorciento($id)
+    {
+        $orden = OrdenPurchases::findOrFail($id);
+        
+        $user = $orden->getOrdenUser;
+       
+        $inversion = $user->inversionMasAlta();
+       
+        //$comision = collect();
+
+        if(isset($inversion)){
+            /*
+            $comision->push([
+                'porcentaje' => 0.08,
+                'iduser' => $inversion->iduser,
+                'comision' => $inversion->invertido,
+                'referido' => $inversion->getInversionesUser->fullname,
+                'inversion_id' => $inversion->id,
+                'orden_id' => $inversion->orden_id,
+                'package_id' => $inversion->package_id
+            ]);
+            */
+            
+            $sponsors = $this->treeController->getSponsor($user->id, [], 0, 'ID', 'referred_id');
+            
+            if (!empty($sponsors)) {
+                foreach ($sponsors as $sponsor) {
+                    if ($sponsor->nivel === 1) {
+                        $pocentaje = 0.08;
+                        $comision = ($inversion->invertido * $pocentaje);
+                        $concepto = 'Bono inicio';
+                        
+                        $this->preSaveWallet($sponsor->id, $user->id, $orden->id, $comision, $concepto, $sponsor->nivel, $sponsor->fullname, $pocentaje);
+
+                        if($sponsor->inversionMasAlta() != null){
+                            $inver = Inversion::findOrFail($sponsor->inversionMasAlta()->id);
+                            $inver->ganacia += $comision;
+                            
+                            $inver->save();
+                        }
+    
+                    }
+                }
+            }
+          
+        }
+    }
     /**
      * Permite obtener el total disponible en comisiones
      *
@@ -322,27 +375,71 @@ class WalletController extends Controller
      *
      * @return void
      */
-    public function bonoDirecto()
+    public function bonos($user, $orden)
     {
         try {
-            $ordenes = $this->getOrdens(null);
-            // dd($ordenes);
-            foreach ($ordenes as $orden) {
                 $comision = ($orden->total * 0.1);
-                $sponsor = User::find($orden->getOrdenUser->referred_id);
+                $sponsor = User::find($user->referred_id);
+                // dd($sponsor);
+                // dd($user->inversionMasAlta()->invertido);
                 if ($sponsor->status == '1') {
-                    $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
+                    $concepto = 'Bono Directo  - N° '.$orden->id.' - '.$orden->getOrdenUser->fullname;
                     $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, $comision, $concepto);
+                    Log::info('Bono Directo Pagado');
+                    // dd("Usuario " . $orden->iduser, "Referido " . $sponsor->id, "Id de Orden " . $orden->id, "Comision " . $comision, "Concepto " . $concepto);
+
                 }else{
-                    $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
-                    $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, 0, $concepto);
+                    // $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
+                    // $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, 0, $concepto);
                 }
-            }
+
+                //******PAGO DEL BONO INDIRECTO NIVEL 2 *********//
+                if(isset($sponsor->referred_id) && $sponsor->referred_id != 0){
+                    $nivel2 = User::find($sponsor->referred_id);
+                    if(isset($nivel2->inversionMasAlta()->invertido)){
+                        $paqueteReferido = $nivel2->inversionMasAlta()->invertido;
+                    }else{
+                        $paqueteReferido = 0;
+                    }
+                    $comision = ($orden->total * 0.03);
+                    if ($nivel2->status == '1' && $paqueteReferido >= 1000) {
+                        // dd("Usuario " . $orden->iduser, "Referido " . $nivel2->id, "Id de Orden " . $orden->id, "Comision " . $comision, "Concepto " . $concepto);
+                        $concepto = 'Bono Indirecto - N° '.$orden->id.' - '.$orden->getOrdenUser->fullname;
+                        $this->preSaveWallet($nivel2->id, $orden->iduser, $orden->id, $comision, $concepto);
+                        Log::info('Bono Indirecto Pagado');
+                    }
+                }
+
+                    //******PAGO DEL BONO INDIRECTO NIVEL 3 *********//
+                        if(isset($nivel2->referred_id) && $nivel2->referred_id != 0){
+                            $nivel2 = User::find($sponsor->referred_id);
+                            $nivel3 = User::find($nivel2->referred_id);
+                            if(isset($nivel3->inversionMasAlta()->invertido)){
+                                $paqueteReferido = $nivel3->inversionMasAlta()->invertido;
+                            }else{
+                                $paqueteReferido = 0;
+                            }
+
+                            // dd($paqueteReferido);
+                            $comision = ($orden->total * 0.02);
+                            if ($nivel3->status == '1' && $paqueteReferido >= 5000) {
+                                // dd("Usuario" . $orden->iduser, "Referido " . $nivel3->id, "Id de Orden " . $orden->id, "Comision " . $comision, "Concepto " . $concepto);
+                                $concepto = 'Bono Indirecto - N° '.$orden->id.' - '.$orden->getOrdenUser->fullname;
+                                $this->preSaveWallet($nivel3->id, $orden->iduser, $orden->id, $comision, $concepto);
+                                Log::info('Bono Indirecto Pagado');
+                            }
+                        }
+
+                            
+                        
+                
+            
         } catch (\Throwable $th) {
-            Log::error('Wallet - bonoDirecto -> Error: '.$th);
+            Log::error('Wallet - bonos -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
+
 
     /**
      * Permite pagar los puntos binarios
@@ -413,7 +510,7 @@ class WalletController extends Controller
             ['status', '=', 0],
             ['puntos_i', '>', 0],
         ])->selectRaw('iduser, SUM(puntos_d) as totald, SUM(puntos_i) as totali')->groupBy('iduser')->get();
-
+        
         foreach ($binarios as $binario) {
             $puntos = 0;
             $side_mayor = $side_menor = '';
@@ -426,15 +523,32 @@ class WalletController extends Controller
                 $side_mayor = 'I';
                 $side_menor = 'D';
             }
+        
             if ($puntos > 0) {
-                $comision = ($puntos * 0.1);
+            
                 $sponsor = User::find($binario->iduser);
-                $sponsor->point_rank += $puntos;
-                $concepto = 'Bono Binario - '.$puntos;
-                $idcomision = $binario->iduser.Carbon::now()->format('Ymd');
-                $this->setPointBinaryPaid($puntos, $side_menor, $binario->iduser, $side_mayor);
-                $this->preSaveWallet($sponsor->id, $sponsor->id, null, $comision, $concepto);
-                $sponsor->save();
+                if($sponsor->inversionMasAlta() != null){
+                    $paquete = $sponsor->inversionMasAlta()->getPackageOrden;
+                    if($paquete->price < 1000){
+                        $comision = ($puntos * 0.08);
+                    }elseif($paquete->price >= 1000 && $paquete->price < 5000){
+                        $comision = ($puntos * 0.09);
+                    }elseif($paquete->price >= 5000 && $paquete->price < 25000){
+                        $comision = ($puntos * 0.10);
+                    }elseif($paquete->price >= 25000 && $paquete->price < 50000){
+                        $comision = ($puntos * 0.11);
+                    }elseif($paquete->price >= 50000){
+                        $comision = ($puntos * 0.12);
+                    }
+                
+                    $sponsor->point_rank += $puntos;
+                    $concepto = 'Bono Binario - '.$puntos;
+                    $idcomision = $binario->iduser.Carbon::now()->format('Ymd');
+                    $this->setPointBinaryPaid($puntos, $side_menor, $binario->iduser, $side_mayor);
+                    $this->preSaveWallet($sponsor->id, $sponsor->id, null, $comision, $concepto);
+                    $sponsor->save();
+                }
+                
             }
         }
     }
@@ -483,12 +597,41 @@ class WalletController extends Controller
      */
     public function payAll()
     {
-        $this->bonoDirecto();
-        Log::info('Bono Directo Pagado');
         $this->payPointsBinary();
         Log::info('Puntos Binarios Pagado');
         if (env('APP_ENV' != 'local')) {
             $this->bonoBinario();
         }
+    }
+
+
+    public function logWallet()
+    {
+        try{        
+            return view('logs.wallet');
+        } catch (\Throwable $th) {
+            Log::error('Wallet - logWallet -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    public function logNetwork()
+    {
+        try{        
+            return view('logs.network');
+        } catch (\Throwable $th) {
+            Log::error('Wallet - logNetwork -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+    public function logHistoryPoints()
+    {
+        try{        
+            return view('logs.PointsHistory');
+        } catch (\Throwable $th) {
+            Log::error('Wallet - logHistoryPoints -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }  
     }
 }

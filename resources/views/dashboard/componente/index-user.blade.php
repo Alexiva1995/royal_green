@@ -4,11 +4,6 @@
         <div class="row" id="dashboard-analytics">
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-80 p-2 art-2">
-
-                    <div class="float-right d-flex">
-                        <img class="float-right" src="{{ asset('assets/img/icon/money.svg') }}" alt="">
-                    </div>
-
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
                         <h2 class="mt-1 mb-0 text-white font-weight-light"><b>Saldo disponible</b></h2>
                     </div>
@@ -17,7 +12,7 @@
                     </div>
 
                     <div class="card-header d-flex align-items-center mt-3">
-                        <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible" style="border: 1px solid #fff;"><b>RETIRAR</b></button>
+                        <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible" style="border: 1px solid #66FFCC;"><b>RETIRAR</b></button>
                     </div>
                 </div>
             </div>
@@ -41,7 +36,7 @@
                         </div>
 
                         <div class="card-sub d-flex align-items-center ">
-                            <p class="text-bold-700 mb-0 text-white">{{number_format(Auth::user()->progreso() * 2,2)}}% </p>
+                            <p class="text-bold-700 mb-0 text-white">{{round(Auth::user()->progreso() * 2, 2)}}% </p>
                         </div>
 
                     </div>
@@ -72,7 +67,7 @@
                                 <span class="progress-right">
                                     <span class="progress-circle"></span>
                                 </span>
-                                <div class="progress-value">{{Auth::user()->progreso()}}%</div>
+                                <div class="progress-value">{{round(Auth::user()->progreso(), 2)}}%</div>
                             </div>
                         </div>
                         
@@ -94,8 +89,13 @@
                                 
                         </div>
                         <div class="card-header d-flex align-items-center white mt-2">
-                            <button class="btn-darks btn-block mt-4" style="boder-color=#66FFCC; position: //" onclick="getlink('{{Auth::user()->binary_side_register}}')"><b>LINK DE
-                                    REFERIDO <i class="fa fa-copy"></i></b></button>
+                            <button class="btn-darks btn-block mt-4 rounded" style="boder-color=#66FFCC; position: //" onclick="getlink('{{Auth::user()->binary_side_register}}')">
+                                LINK DE REFERIDO
+                                <svg style="position: relative; top: -4px;left: 10px;" width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.5 15V16.75C11.5 17.2141 11.3156 17.6592 10.9874 17.9874C10.6592 18.3156 10.2141 18.5 9.75 18.5H2.75C2.28587 18.5 1.84075 18.3156 1.51256 17.9874C1.18437 17.6592 1 17.2141 1 16.75V7.125C1 6.66087 1.18437 6.21575 1.51256 5.88756C1.84075 5.55937 2.28587 5.375 2.75 5.375H4.5L11.5 15ZM10.3494 1H6.25C5.78587 1 5.34075 1.18437 5.01256 1.51256C4.68437 1.84075 4.5 2.28587 4.5 2.75V13.25C4.5 13.7141 4.68437 14.1592 5.01256 14.4874C5.34075 14.8156 5.78587 15 6.25 15H13.25C13.7141 15 14.1592 14.8156 14.4874 14.4874C14.8156 14.1592 15 13.7141 15 13.25V5.58675C15 5.35361 14.9534 5.12284 14.8629 4.90796C14.7724 4.69309 14.64 4.49846 14.4733 4.3355L11.5726 1.49875C11.2457 1.17908 10.8066 1.00006 10.3494 1V1Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                        
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -187,25 +187,23 @@
 
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-100" style="background: #173138;">
-                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
-                        <p class="mt-1 mb-0">Proximo rango -> {{$data['rangos']['name_rank_sig']}}</p>
-                    </div>
+                    
 
                     <input type="hidden" id="idrango"
                     value="{{(Auth::user()->rank_id == null) ? 0 : Auth::user()->rank_id}}">
                     <div class="card-header d-flex align-items-center mb-2 carrusel_rango">
-                        <div class="text-center">
+                        <div class="item text-center">
                             <img src="{{ asset('assets/img/royal_green/rangos/sin_rango.svg') }}" alt="" height="110" class="m-auto">
-                            <h3 class="text-white mb-0" style="width: 150px;">
+                            <h5 class="text-white mb-0" style="width: 150px; font-size: 12pt;">
                                 <strong>Sin Rango</strong>
-                            </h3>
+                            </h5>
                         </div>
                         @foreach ($data['rangos']['ranks'] as $rango)
-                        <div class="text-center mt-2">
+                        <div class="item text-center">
                             <img src="{{$rango->img}}" alt="" height="110" class="m-auto">
-                            <h3 class="text-white mb-0" style="width: 150px;">
+                            <h5 class="text-white mb-0" style="width: 150px; font-size: 12pt;">
                                 <strong>{{$rango->name}}</strong>
-                            </h3>
+                            </h5>
                         </div>
                         @endforeach
                     </div>
@@ -214,6 +212,9 @@
                         <img src="{{asset('assets/img/Line28.svg')}}" alt="" style="width: 100%;" height="1">
                     </div>
                     <div class="hr"></div>
+                    <div class="card-header text-right pb-0 pt-0 white">
+                        <p class="mt-1 mb-0">Rango Actual:  {{$data['rangos']['name_rank_actual']}}</p>
+                    </div>
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white mt-2">
                         <p class="mt-1 mb-0">Total Puntos:</p>
                     </div>
@@ -230,38 +231,19 @@
                             </div>
                         </div>
                         <div class="card-sub d-flex align-items-center ">
-                            <p class="white text-bold-700" style="margin-top: -30px;">{{$data['rangos']['porcentage']}}% </p>
+                            <p class="white text-bold-700" style="margin-top: -30px;">{{round($data['rangos']['porcentage'],2)}}% </p>
                         </div>
                     </div>
                     <div class="card-sub">
                         <p class="white text-bold-700" style="margin-top: -50px;">Próximo rango = {{$data['rangos']['puntos_sig']}} </p>
                     </div>
+                    @isset($requisito)
+                    <div class="alert alert-danger">
+                        <p class="text-bold-700">{{$requisito}} para optar por el siguiente rango</p>
+                    </div>
+                    @endisset
 
-                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white mt-2">
-                        <h4 class="text-white font-weight-bold">Bono de Bienvenida</h4>
-                    </div>
-                    <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white mt-0">
-                        <p class="mt-1 mb-0">Total Puntos:</p>
-                    </div>
-
-                    <div class="card-sub d-flex align-items-center ">
-                        <h2 class="gold text-bold-700 mb-1">{{$data['rangos']['puntos']}}</h2>
-                    </div>
-
-                    <div class="d-flex align-items-center">
-                        <div class="progress ml-2">
-                            <div id="bar" class="progress-bar active" role="progressbar" aria-valuenow="0"
-                                aria-valuemin="0" aria-valuemax="100" style="width: {{$data['rangos']['porcentage']}}%">
-                                <span class="sr-only">{{$data['rangos']['porcentage']}}% Complete</span>
-                            </div>
-                        </div>
-                        <div class="card-sub d-flex align-items-center ">
-                            <p class="white text-bold-700" style="margin-top: -30px;">{{$data['rangos']['porcentage']}}% </p>
-                        </div>
-                    </div>
-                    <div class="card-sub">
-                        <p class="white text-bold-700" style="margin-top: -50px;">Próximo Bono = {{$data['rangos']['puntos_sig']}} </p>
-                    </div>
+                    
                 </div>
             </div>
 
@@ -273,114 +255,6 @@
                         @include('dashboard.componente.partials.grafig-1')
                 </div>
             </div>
-
-
-            <div class="col-12 mt-3">
-                <div class="card bg-lp">
-                    <div class="card-content">
-                        <div class="card-body card-dashboard p-0">
-                            <div class="table-responsive">
-                            <h3 class="text-white p-1">Últimos Pedidos</h3>
-                                <table class="table nowrap scroll-horizontal-vertical myTable2">
-                                    <thead>
-
-                                        <tr class="text-center text-dark text-uppercase pl-2">                                
-                                            <th>Fecha</th>
-                                            <th>Descripción</th>
-                                            <th>Email</th>
-                                            <th>Monto</th>    
-                                        </tr>
-
-                                    </thead>
-                                    <tbody>
-
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                        <tr class="text-center text-white pl-2">
-                                            <td>01/01/2021</td>
-                                            <td>
-                                                <div class="d-flex flex-column">
-                                                    <strong>Comisión</strong>
-                                                        <p style="margin: 0; padding: 0; position: relative;"> <span class="dot"></span> Completada</p>
-                                                </div>
-                                            </td>
-                                            <td>info@royalgreen.com</td>
-                                            <td>$5,20</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {{-- permite llamar a las opciones de las tablas --}}
-            @include('layouts.componenteDashboard.optionDatatable')
 
         </div>
     </div>

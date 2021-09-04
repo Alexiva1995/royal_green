@@ -96,11 +96,18 @@ class TicketsController extends Controller
 
     // permite ver la lista de tickets
 
-    public function listUser(Request $request){
+    public function listUser(){
 
         $ticket = Ticket::where('iduser', Auth::id())->get();
 
+        // $ticket_msj = MessageTicket::all()->where('id_user', Auth::id())->where('type', 1);
+
+        // foreach($ticket_msj as $time){
+        //   $time_msj = $time->created_at->diffForHumans();
+        // }
+
         return view('tickets.componenteTickets.user.list-user')
+        // ->with('time_msj', $time_msj)
         ->with('ticket', $ticket);
     }
 

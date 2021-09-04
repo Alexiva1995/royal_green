@@ -19,6 +19,11 @@ Auth::routes();
 
 Route::get('/', 'HomeController@home')->middleware('auth');
 
+Route::get('terminos', function () {
+    return view('auth.term');
+})->name('term');
+
+
 Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
 {
     // Inicio
@@ -56,6 +61,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
     Route::prefix('inversiones')->group(function ()
     {
         Route::get('/lists', 'InversionController@index')->name('inversiones.index');
+        Route::get('/activacionManual', 'InversionController@activacion')->name('inversiones.activacion');
+        Route::post('/activacionManual', 'InversionController@activaciones')->name('inversiones.activaciones');
         // Route::get('/{tipo?}/lists', 'InversionController@index')->name('inversiones.index');
         Route::get('/cambiarStatus', 'InversionController@checkStatus')->name('inversiones.checkStatus');
     });
@@ -103,6 +110,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::post('/impersonate/{user}/start', 'ImpersonateController@start')->name('impersonate.start');
 
         Route::post('liquidation/retirarSaldo', 'LiquidactionController@retirarSaldo')->name('retirarSaldo');
+        
+        Route::get('liquidation/history', 'LiquidactionController@retiroHistory')->name('retiro.history');
     });
 
      //Ruta de los Tickets
@@ -147,6 +156,16 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('package-create', 'PackagesController@create')->name('products.package-create');
         });
 
+        //Ruta de Auditorias
+        Route::prefix('audit')->group(function()
+        {
+            //Ruta auditorias realizadas
+            Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
+            Route::get('/rangos-data', 'AuditController@dataRangos')->name('audit.datarangos');
+            Route::get('/puntos', 'AuditController@puntosBinarios')->name('audit.puntos');
+            Route::get('/puntos-data', 'AuditController@dataPuntos')->name('audit.datapuntos');
+        });
+
          //Ruta de liquidacion
         Route::prefix('settlement')->group(function()
         {
@@ -155,6 +174,10 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('/pending', 'LiquidactionController@indexPendientes')->name('settlement.pending');
             Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
             Route::get('/{status}/history', 'LiquidactionController@indexHistory')->name('settlement.history.status');
+
+            // Route::get('liquidation-store','LiquidactionController@store')->name('liquidation.store');
+            // Route::get('liquidation-edit/{id}','LiquidactionController@edit')->name('liquidation.edit');
+            // Route::get('liquidation-show/{id}','LiquidactionController@show')->name('liquidation.show');
             Route::resource('liquidation', 'LiquidactionController');
         });
 
@@ -167,6 +190,8 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::prefix('reports')->group(function(){
             Route::get('purchase', 'ReporteController@indexPedidos')->name('reports.pedidos');
             Route::get('commission', 'ReporteController@indexComision')->name('reports.comision');
+            Route::get('beneficio-royal', 'ReporteController@indexBeneficio')->name('reports.beneficio');
+            Route::get('rangofecha/{from}/{to}', 'ReporteController@rangoFecha')->name('reports.fecha');
         });
 
         Route::get('pagarUtilidad', 'WalletController@pagarUtilidad')->name('pagarUtilidad');

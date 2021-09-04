@@ -1,11 +1,8 @@
 @push('vendor_css')
-<!-- include summernote css -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-
 @endpush
 
 @push('page_vendor_js')
-<!-- include summernote js -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 @endpush
 

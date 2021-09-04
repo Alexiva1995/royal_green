@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Ranks;
+use Illuminate\Support\Str;
+use App\Models\OrdenPurchases;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
+use App\Http\Controllers\RankController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\WalletController;
-use App\Models\OrdenPurchases;
-use Carbon\Carbon;
-use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -20,6 +21,7 @@ class HomeController extends Controller
     public $servicioController;
     public $addsaldoController;
     public $walletController;
+    public $rankController;
 
     /**
      * Create a new controller instance.
@@ -32,6 +34,7 @@ class HomeController extends Controller
         $this->treeController = new TreeController;
 
         $this->walletController = new WalletController;
+        $this->rankController = new RankController;
     }
 
         /**
@@ -57,8 +60,9 @@ class HomeController extends Controller
     {
         try {
             $data = $this->dataDashboard(Auth::id());
-            
-            return view('dashboard.index', compact('data'));
+            $requisito = $this->rankController->checkRank(Auth::id());
+            $ordenes = OrdenPurchases::latest()->take(7)->get();
+            return view('dashboard.index', compact('data', 'requisito', 'ordenes'));
         } catch (\Throwable $th) {
             Log::error('Home - index -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -69,7 +73,9 @@ class HomeController extends Controller
     {
         try {
             $data = $this->dataDashboard(Auth::id());
-            return view('dashboard.index', compact('data'));
+            $requisito = $this->rankController->checkRank(Auth::id());
+            // dd($requisito);
+            return view('dashboard.index', compact('data', 'requisito'));
         } catch (\Throwable $th) {
             Log::error('Home - indexUser -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -107,7 +113,7 @@ class HomeController extends Controller
     public function getDataRangos(): array
     {
         $rol_actual = (Auth::user()->rank_id == null)? 0 : Auth::user()->rank_id;
-        $rol_sig = ($rol_actual + 1 != 10)? ($rol_actual + 1) : 9;
+        $rol_sig = ($rol_actual + 1 < 11)? ($rol_actual + 1) : 11;
         $rankSig = Ranks::find($rol_sig);
         $totalPuntos = (Auth::user()->point_rank != null) ? Auth::user()->point_rank : 0;
         $porcentajes = (($totalPuntos / $rankSig->points) * 100);
@@ -115,6 +121,7 @@ class HomeController extends Controller
         foreach ($ranks as $rank) {
             $rank->img = asset('assets/img/royal_green/rangos/'.Str::slug($rank->name, '-').'.png');
         }
+        $nameRankActual = (Ranks::find($rol_actual) == null ? "Sin Rango" : Ranks::find($rol_actual)->name);
         // $ranks->prepend([
         //     'name' => 'Sin Rango',
         //     'img' => 'https://icons-for-free.com/iconfiles/png/512/page+quality+rank+icon-1320190816917337266.png'
@@ -125,7 +132,8 @@ class HomeController extends Controller
             'puntos' => number_format($totalPuntos, 2, ',', '.'),
             'porcentage' => $porcentajes,
             'puntos_sig' => number_format($rankSig->points, 2, ',', '.'),
-            'name_rank_sig' => $rankSig->name
+            'name_rank_sig' => $rankSig->name,
+            'name_rank_actual' => $nameRankActual
         ];
         return $data;
     }
@@ -169,16 +177,6 @@ class HomeController extends Controller
             Log::error('Home - getDataGraphic -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
-    }
-
-    /**
-     * Lleva a la vista de terminos y condiciones
-     *
-     * @return void
-     */
-    public function terminosCondiciones()
-    {
-        return view('terminos_condiciones.index');
     }
 
     public function dataGrafica()
