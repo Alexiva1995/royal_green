@@ -57,65 +57,65 @@
 <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 <script src="{{asset('assets/js/dashboard.js')}}"></script>
 <script>
-   $(document).ready(function () {
-    let idrango = parseInt($('#idrango').val())
-  console.log(idrango);
-  $('.carrusel_rango').slick({
-          infinite: true,
-          centerMode: true,
-          centerPadding: '80px',
-          variableWidth: true,
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          touchMove: false,
-          initialSlide: (idrango),
-          accessibility: false,
-          arrows: false,
-          responsive: [
-            {
-              breakpoint: 768,
-              settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
-                slidesToShow: 3
+    $(document).ready(function () {
+      let idrango = parseInt($('#idrango').val())
+      console.log(idrango);
+      $('.carrusel_rango').slick({
+            infinite: true,
+            centerMode: true,
+            centerPadding: '80px',
+            variableWidth: true,
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            touchMove: false,
+            initialSlide: (idrango),
+            accessibility: false,
+            arrows: false,
+            responsive: [
+              {
+                breakpoint: 768,
+                settings: {
+                  arrows: false,
+                  centerMode: true,
+                  centerPadding: '40px',
+                  slidesToShow: 3
+                }
+              },
+              {
+                breakpoint: 480,
+                settings: {
+                  arrows: false,
+                  centerMode: true,
+                  centerPadding: '40px',
+                  slidesToShow: 1
+                }
               }
-            },
-            {
-              breakpoint: 480,
-              settings: {
-                arrows: false,
-                centerMode: true,
-                centerPadding: '40px',
-                slidesToShow: 1
-              }
-            }
-          ]
-        });
-})
+            ]
+          });
+  })
 
-$(".progresscircle").each(function() {
-  var value = $(this).attr('data-value');
-  console.log("VALUE", value)
+  $(".progresscircle").each(function() {
+    var value = $(this).attr('data-value');
+    console.log("VALUE", value)
 
-var left = $(this).find('.progress-left .progress-circle');
-var right = $(this).find('.progress-right .progress-circle');
+  var left = $(this).find('.progress-left .progress-circle');
+  var right = $(this).find('.progress-right .progress-circle');
 
-if (value > 0) {
-  if (value <= 50) {
-    right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
-  } else {
-    right.css('transform', 'rotate(180deg)')
-    left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+  if (value > 0) {
+    if (value <= 50) {
+      right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+    } else {
+      right.css('transform', 'rotate(180deg)')
+      left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+    }
   }
-}
 
-})
+  })
 
-function percentageToDegrees(percentage) {
+  function percentageToDegrees(percentage) {
 
-return percentage / 100 * 360
-}
+  return percentage / 100 * 360
+  }
 </script>
 @endpush
 
