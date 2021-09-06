@@ -412,13 +412,16 @@ class WalletController extends Controller
 					$checkTime = new Carbon($checkCode->fecha_codigo);
                     if ($checkTime->copy()->addMinutes(15) >= $fechaActual) {
 						$montoBruto = ($checkCode->monto + $checkCode->descuento);
-						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 0, 'codigo_confirmacion' => '']);
-
 						$descripcion = 'Retiro - Wallet: '.$checkCode->tipopago;
 
-						$this->saveRetiro(Auth::user()->ID, $montoBruto, $descripcion, $checkCode->descuento, $checkCode->monto);			
+						$resul = $this->saveRetiro($checkCode->iduser, $montoBruto, $descripcion, $checkCode->descuento, $checkCode->monto);
+						if ($resul) {
+							Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 0, 'codigo_confirmacion' => '']);
+							return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con exito y su retiro esta pendiente por ser procesado');
+						} else {
+							return redirect()->back()->with('msj2', 'Hubo un error a procesar el retiro, por favor meta el codigo de nuevo');	
+						}
 						
-						return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con exito y su retiro esta pendiente por ser procesado');
 					}else{
 						Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 2]);
 						return redirect()->back()->with('msj2', 'Su código expiro, por favor realice un nuevo retiro, el ya hecho fue anulado');
@@ -442,51 +445,62 @@ class WalletController extends Controller
 	 * @param string $descripcion
 	 * @param float $descuento
 	 * @param float $montoNeto
-	 * @return void
+	 * @return bool
 	 */
-	public function saveRetiro($iduser, $montoBruto, $descripcion, $descuento, $montoNeto)
+	public function saveRetiro($iduser, $montoBruto, $descripcion, $descuento, $montoNeto): bool
 	{
-		$user = User::find($iduser);
-		$user->wallet_amount = ($user->wallet_amount - $montoBruto);
-		$user->save();
-		$datosW = [
-			'iduser' => $user->ID,
-			'usuario' => $user->display_name,
-			'descripcion' => $descripcion,
-			'descuento' => $descuento,
-			'puntos' => 0,
-			'puntosI' => 0,
-			'puntosD' => 0,
-			'email_referred' => $user->user_email,
-			'debito' => 0,
-			'credito' => $montoNeto,
-			'balance' => $user->wallet_amount,
-			'tipotransacion' => 1,
-		];
-		$this->saveWallet($datosW);
+		try {
+			$user = User::find($iduser);
+			$montoretido = ($user->wallet_amount - $montoBruto);
+			// $user->save();
+			User::where('ID', $iduser)->update(['wallet_amount' => $montoretido]);
+			$datosW = [
+				'iduser' => $user->ID,
+				'usuario' => $user->display_name,
+				'descripcion' => $descripcion,
+				'descuento' => $descuento,
+				'puntos' => 0,
+				'puntosI' => 0,
+				'puntosD' => 0,
+				'email_referred' => $user->user_email,
+				'debito' => 0,
+				'credito' => $montoNeto,
+				'balance' => $user->wallet_amount,
+				'tipotransacion' => 1,
+			];
+			$this->saveWallet($datosW);
 
-		$rentabilidad = DB::table('log_rentabilidad')->where([
-			['iduser', Auth::user()->ID],
-		])->whereRaw('limite > retirado')->first();
+			$rentabilidad = DB::table('log_rentabilidad')->where([
+				['iduser', $iduser],
+			])->whereRaw('limite > retirado')->first();
 
-		$dataUpdate = [
-			'balance' => $user->wallet_amount,
-			'retirado' => $montoBruto
-		];
-		
-		$dataLogRentabilidadPay = [
-			'iduser' => Auth::user()->ID,
-			'id_log_renta' => $rentabilidad->id,
-			'porcentaje' => 0,
-			'debito' => 0,
-			'credito' => $montoBruto,
-			'balance' => $user->wallet_amount,
-			'fecha_pago' => Carbon::now(),
-			'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$montoBruto
-		];
-
-		DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
-		DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+			if (!empty($rentabilidad)) {
+				$dataUpdate = [
+					'balance' => $user->wallet_amount,
+					'retirado' => ($rentabilidad->retirado + $montoBruto)
+				];
+				
+				$dataLogRentabilidadPay = [
+					'iduser' => $iduser,
+					'id_log_renta' => $rentabilidad->id,
+					'porcentaje' => 0,
+					'debito' => 0,
+					'credito' => $montoBruto,
+					'balance' => $user->wallet_amount,
+					'fecha_pago' => Carbon::now(),
+					'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$montoBruto
+				];
+	
+				DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+				DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+			}else{
+				return false;
+			}
+			return true;
+		} catch (\Throwable $th) {
+			\Log::error('Guardar Retiro ->'.$th);
+			return false;
+		}
 	}
 
 	public function anularRetiro()

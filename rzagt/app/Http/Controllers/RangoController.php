@@ -179,4 +179,21 @@ class RangoController extends Controller
 		return view('admin.listRanfos', compact('users'));
 	}
 
+	/**
+	 * Reinicio de los puntos de rangos
+	 *
+	 * @return void
+	 */
+	public function resetPoints()
+	{
+		$users = User::where([
+			['status', '=', 1],
+			['rol_id', '>=', 1]
+		])->get();
+		foreach ($users as $user) {
+			$rol = Rol::find($user->rol_id);
+			User::where('id', '=', $user->ID)->update(['puntos_rank' => $rol->grupal]);
+		}
+	}
+
 }
