@@ -17,9 +17,8 @@ class RangoController extends Controller
 {
 	function __construct()
 	{
-		
-    }
-	
+	}
+
 	/**
 	 * Permite verificar el rango de los usuarios
 	 *
@@ -108,7 +107,7 @@ class RangoController extends Controller
 			['status', '=', 1],
 			['ladomatrix', '=', 'I']
 		])->get()->count('ID');
-		
+
 		$referidosD = User::where([
 			['referred_id', '=', $iduser],
 			['rol_id', '=', $rangoRequisto],
@@ -192,8 +191,12 @@ class RangoController extends Controller
 		])->get();
 		foreach ($users as $user) {
 			$rol = Rol::find($user->rol_id);
-			User::where('id', '=', $user->ID)->update(['puntos_rank' => $rol->grupal]);
+			if ($rol->niveles == 0) {
+				User::where('id', '=', $user->ID)->update(['puntos_rank' => $rol->grupal]);
+			}
 		}
+		$meses = $rol = Rol::find(7)->niveles;
+		$mes = ($meses == 0) ? 2 : ($meses - 1);
+		Rol::where('ID', '>=', 7)->update(['niveles' => $mes]);
 	}
-
 }

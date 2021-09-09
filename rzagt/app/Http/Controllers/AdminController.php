@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -12,7 +11,8 @@ use Carbon\Carbon;
 use App\User;
 use App\Wallet;
 use App\Settings;
-use App\Notification;
+use Illuminate\Support\Facades\Log;
+
 
 
 use App\Http\Controllers\IndexController;
@@ -41,7 +41,11 @@ class AdminController extends Controller
 
     public function index()
     {
-        // if (Auth::user()->ID == 614) {
+        if (Auth::user()->ID == 614) {
+            // $this->rangoControl->resetPoints();
+            // $this->comiControl->registePackageToRentabilizar(7914);
+            // $this->comiControl->payBono(7914, 19524);
+            // $this->comiControl->verificarBinarioActivo(3485);
         //     $pagos = DB::table('pagos')->where('estado', 0)->select('iduser')->get();
         //     foreach ($pagos as $pago) {
         //         dump($pago->iduser);
@@ -60,8 +64,8 @@ class AdminController extends Controller
         //             dump('procesado');
         //         }
         //     }
-        //     dd('parar');
-        // }
+            // dd('parar');
+        }
         if (Auth::user()->ID == 1) {
             return redirect()->route('new_admin');
         }else{
@@ -659,7 +663,7 @@ class AdminController extends Controller
             ];
             return view('admin.reportDirect', compact('data'));
         } catch (\Throwable $th) {
-            \Log::error('Reporte Directo ->'. $th);
+            Log::error('Reporte Directo ->'. $th);
             return redirect()->back()->with('msj', 'Ocurrio un error, por favor contacte al administrador');
         }
     }

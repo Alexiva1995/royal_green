@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use App\Wallet;
 use App\MetodoPago; use App\SettingsComision; use App\Pagos; use App\Monedas;
 use App\Http\Controllers\IndexController;
-use PragmaRX\Google2FA\Google2FA;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -292,7 +292,7 @@ class WalletController extends Controller
 	 * @param array $datos - arreglo con los datos necesarios
 	 */
 	public function saveWallet($datos){
-		Wallet::create($datos);
+		return Wallet::create($datos);
 	}
     
     /**
@@ -307,11 +307,6 @@ class WalletController extends Controller
 			$fecha = new Carbon;
 			if (!empty($datos)){
 				$resta = $datos->total;
-				// if (Auth::user()->check_token_google == 1) {
-				// 	if (!(new Google2FA())->verifyKey(Auth::user()->toke_google, $datos->code)) {
-				// 		return redirect()->back()->with('msj2', 'el codigo es incorrecto');
-				// 	}
-				// }
 				$checkPago = Pagos::where([
 					['iduser', '=', Auth::user()->ID],
 					['estado', '=', 0],
@@ -330,19 +325,10 @@ class WalletController extends Controller
 						$disponible = 1000000;
 					}
 					if ($resta > $disponible) {
-						return redirect()->back()->with('msj2', 'El monto a retirar no puede ser mayor a monto disponible');
+						return redirect()->back()->with('msj2', 'El retiro supera el maximo invertido');
 					}
 					if($resta <= $datos->montodisponible){
 						$tipopago = $datos->metodowallet;
-						// if(!empty($datos->metodocorreo)){
-						//     $tipopago = 'Email: '.$datos->metodocorreo;
-						// }
-						// if(!empty($datos->metodowallet)){
-						//     $tipopago = $tipopago.'- Wallet: '.$datos->metodowallet;
-						// }
-						// if(!empty($datos->metodobancario)){
-						//     $tipopago = $tipopago.'- Bank data: '.$datos->metodobancario;
-						// }
 						$metodo = MetodoPago::find($datos->metodopago);
 						if ($resta > $datos->monto_min) {
 							$codigo = substr(md5(time()), 0, 16);
@@ -383,7 +369,7 @@ class WalletController extends Controller
 			return redirect()->back(); 
 			}
 	   } catch (\Throwable $th) {
-		   \Log::error('Retiro ->'.$th);
+		   Log::error('Retiro ->'.$th);
 			return redirect()->back()->with('msj2', 'ocurrio un error al procesar el retiro, consulte con el adminitrador');
 	   }
 	}
@@ -431,7 +417,7 @@ class WalletController extends Controller
 				}
 			}
 		} catch (\Throwable $th) {
-			\Log::error('Validar ->'.$th);
+			Log::error('Validar ->'.$th);
 			return redirect()->back()->with('msj2', 'ocurrio un error al validar el codigo, consulte con el adminitrador');
 			// dd($th);
 		}
@@ -450,31 +436,38 @@ class WalletController extends Controller
 	public function saveRetiro($iduser, $montoBruto, $descripcion, $descuento, $montoNeto): bool
 	{
 		try {
+			$result = false;
+
+			
 			$user = User::find($iduser);
+			$montoTmp = $user->wallet_amount;
 			$montoretido = ($user->wallet_amount - $montoBruto);
 			// $user->save();
-			User::where('ID', $iduser)->update(['wallet_amount' => $montoretido]);
-			$datosW = [
-				'iduser' => $user->ID,
-				'usuario' => $user->display_name,
-				'descripcion' => $descripcion,
-				'descuento' => $descuento,
-				'puntos' => 0,
-				'puntosI' => 0,
-				'puntosD' => 0,
-				'email_referred' => $user->user_email,
-				'debito' => 0,
-				'credito' => $montoNeto,
-				'balance' => $user->wallet_amount,
-				'tipotransacion' => 1,
-			];
-			$this->saveWallet($datosW);
+			$check1 = User::where('ID', $iduser)->update(['wallet_amount' => $montoretido]);
 
-			$rentabilidad = DB::table('log_rentabilidad')->where([
-				['iduser', $iduser],
-			])->whereRaw('limite > retirado')->first();
+			if ($check1) {
+				$datosW = [
+					'iduser' => $user->ID,
+					'usuario' => $user->display_name,
+					'descripcion' => $descripcion,
+					'descuento' => $descuento, 
+					'puntos' => 0,
+					'puntosI' => 0,
+					'puntosD' => 0,
+					'email_referred' => $user->user_email,
+					'debito' => 0,
+					'credito' => $montoNeto,
+					'balance' => $user->wallet_amount,
+					'tipotransacion' => 1,
+				];
+				$check2 = $this->saveWallet($datosW);
+	
+				$rentabilidad = DB::table('log_rentabilidad')->where([
+					['iduser', $iduser],
+				])->whereRaw('limite > retirado')->first();
 
-			if (!empty($rentabilidad)) {
+				// $retiradoTmp = $rentabilidad->retiradoll;
+	
 				$dataUpdate = [
 					'balance' => $user->wallet_amount,
 					'retirado' => ($rentabilidad->retirado + $montoBruto)
@@ -491,14 +484,25 @@ class WalletController extends Controller
 					'concepto' => 'Retiro de la rentabilidad '.$rentabilidad->id.', por un monto de'.$montoBruto
 				];
 	
-				DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
-				DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
-			}else{
-				return false;
+				
+				if ($check2) {
+					$check3 = DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
+					if ($check3) {
+						$result = true;
+						DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+					}else{
+						$check1 = User::where('ID', $iduser)->update(['wallet_amount' => $montoTmp]);
+						$$lastRegister = Wallet::where('iduser', $iduser)->orderBy('id', 'desc')->first();
+						Wallet::where('id', $$lastRegister->id)->delete();
+					}
+				}else {
+					$check1 = User::where('ID', $iduser)->update(['wallet_amount' => $montoTmp]);
+				}
 			}
-			return true;
+
+			return $result;
 		} catch (\Throwable $th) {
-			\Log::error('Guardar Retiro ->'.$th);
+			Log::error('Guardar Retiro ->'.$th);
 			return false;
 		}
 	}
@@ -512,7 +516,7 @@ class WalletController extends Controller
 			])->update(['estado' => 2]);
 			return redirect()->back()->with('msj2', 'Su Anulación del retiro fue exitoso');
 		} catch (\Throwable $th) {
-			\Log::error('Retiro ->'.$th);
+			Log::error('Retiro ->'.$th);
 			return redirect()->back()->with('msj2', 'ocurrio un error al anular el retiro, consulte con el adminitrador');
 		}
 	}
@@ -609,7 +613,7 @@ class WalletController extends Controller
 				return redirect()->back()->with('msj2', 'El Monto a retirar no puede ser mayor a su monto disponible');	
 			}
 		} catch (\Throwable $th) {
-			\Log::error('Retiro Admin ->'.$th);
+			Log::error('Retiro Admin ->'.$th);
 			return redirect()->back()->with('msj2', 'Ocurrio un error al hacer el retiro, consulte con el administrador');
 		}
 	}

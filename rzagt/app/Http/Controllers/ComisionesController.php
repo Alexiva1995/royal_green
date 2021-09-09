@@ -10,7 +10,7 @@ use App\Commission;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\WalletController;
 use App\Wallet;
-use phpDocumentor\Reflection\Types\Boolean;
+use Illuminate\Support\Facades\Log;
 
 class ComisionesController extends Controller
 {
@@ -42,6 +42,7 @@ class ComisionesController extends Controller
         $compra = $this->funciones->getInfoPurchase($idcompra, $iduser);
         if (!empty($compra)) {
             $compra = $compra[0];
+            dump($compra);
             if ($compra['tipo_activacion'] != 'Manual') {
                 $this->bonoDirecto($compra);
                 $this->bonoIndirecto($compra);
@@ -391,7 +392,7 @@ class ComisionesController extends Controller
                 }
             }
         }
-
+        dump('Derecha: '.$binarioDer.' - Izquierdad: '.$binarioIzq);
         if ($binarioDer == 1 && $binarioIzq == 1) {
             $result = 1;   
         }
@@ -607,7 +608,7 @@ class ComisionesController extends Controller
                 return redirect()->route('admin.index')->with('msj', 'Rentabilidad pagada con exito');
             }
         } catch (\Throwable $th) {
-            \Log::error('Pagar Rentabilidad ->'. $th);
+            Log::error('Pagar Rentabilidad ->'. $th);
             return redirect()->route('admin.index')->with('msj', 'Ocurrio un error, por favor contacte al administrador');
         }
     }
