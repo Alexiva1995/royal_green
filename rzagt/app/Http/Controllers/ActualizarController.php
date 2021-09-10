@@ -299,18 +299,35 @@ class ActualizarController extends Controller
             if ($validate) {
                 $user = User::find($request->id);
                 $puntos = json_decode($user->puntos);
-                $puntos->binario_der = $request->binario_der;
                 if ($puntos->binario_der != $request->binario_der) {
                     $this->auditoria($user->ID, 'puntos binarios derechos', $puntos->binario_der, $request->binario_der);
+                    $puntos->binario_der = $request->binario_der;
                 }
-                $puntos->binario_izq = $request->binario_izq;
                 if ($puntos->binario_izq != $request->binario_izq) {
                     $this->auditoria($user->ID, 'puntos binarios izquierdos', $puntos->binario_izq, $request->binario_izq);
+                    $puntos->binario_izq = $request->binario_izq;
                 }
                 $user->puntos = json_encode($puntos);
                 $user->save();
 
                 $concepto = 'Puntos Binarios Actualizados Exitosamente';
+            }
+            
+            
+        }elseif ($request->data == 'puntos'){
+            $validate = $request->validate([
+                'puntos_rank' => 'required',
+            ]);
+
+            if ($validate) {
+                $user = User::find($request->id);
+                if ($user->puntos_rank != $request->puntos_rank) {
+                    $this->auditoria($user->ID, 'puntos de rangos', $user->puntos_rank, $request->puntos_rank);
+                    $user->puntos_rank = $request->puntos_rank;
+                    $user->save();
+                }
+
+                $concepto = 'Puntos de Rangos Actualizados Exitosamente';
             }
             
             

@@ -73,7 +73,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
-                        aria-controls="contact" aria-selected="false">Puntos Binarios</a>
+                        aria-controls="contact" aria-selected="false">Puntos Binarios Y Rangos</a>
                 </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link" id="bancaria-tab" data-toggle="tab" href="#bancaria" role="tab"

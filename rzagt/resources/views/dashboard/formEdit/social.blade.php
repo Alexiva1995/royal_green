@@ -29,3 +29,25 @@
     </div>
 
 </form>
+
+<form action="{{ action($controler, ['data' => 'puntos']) }}" method="post">
+    {{ method_field('PUT') }}
+    {{ csrf_field() }}
+
+
+    <legend>Puntos Rangos</legend>
+    <input name="id" type="hidden" value="{{$data['segundo']->ID}}">
+
+    <div class="form-group" style="margin-bottom: 15px;">
+        <label>Puntos Rangos</label>
+
+        <input name="puntos_rank" type="text" placeholder="{{$data['principal']->puntos_rank}}" class="form-control social"
+            value="{{$data['principal']->puntos_rank}}" required>
+    </div>
+
+    <div class="col-12" id="botom2">
+        {{-- <button type="button" class="btn btn-danger" onclick="cancelarSocial();">Cancel</button> --}}
+        <button type="submit" class="btn btn-success">Send</button>
+    </div>
+
+</form>
