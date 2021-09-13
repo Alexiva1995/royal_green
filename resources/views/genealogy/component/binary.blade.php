@@ -10,7 +10,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            {{-- <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class=" d-flex white mt-2">
@@ -19,17 +19,17 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 
     <div class="col-6">
         <div class="w-100 art" id="tarjeta">
-            <div class="row p-2">
-                <div class="col-12 mb-3 d-flex justify-content-center">
+            <div class="row p-2 d-flex justify-content-between">
+                <div class="col-4 mb-3 d-flex justify-content-center">
                     <img id="imagen" class="rounded-circle img-fluid" width="110px" height="110px">
                 </div>
-                <div class="col-12">
+                <div class="col-8">
                     <div class="text-white">
                         <p><b>Fecha de Ingreso:</b> <span id="fecha_ingreso"></span></p>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="container">
+            {{-- <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class=" d-flex white mt-2">
@@ -71,6 +71,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
