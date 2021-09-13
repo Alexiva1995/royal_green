@@ -17,12 +17,12 @@
                     <a class="base" href="#">
                         @if (empty($base->photoDB))
                         <img src="{{asset('assets/img/royal_green/logos/logo.svg')}}" alt="{{$base->name}}"
-                            title="{{$base->name}}" class="pt-1 rounded-circle"
-                            style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">
+                            title="{{$base->name}}" class="rounded-circle"
+                            style="width: 100%;height: 100%; margin-left: 0px;margin-top: 0px;">
                         @else
                         <img src="{{asset('storage/photo/'.$base->photoDB)}}" alt="{{$base->name}}"
                             title="{{$base->name}}" class="pt-1 rounded-circle"
-                            style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">
+                            style="width: 100%;height: 100%; margin-left: 0px;margin-top: 0px;">
                         @endif
                     </a>
                     {{-- Nivel 1 --}}

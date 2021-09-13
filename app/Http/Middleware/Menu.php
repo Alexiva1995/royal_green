@@ -248,14 +248,14 @@ class Menu
                 'icon' => 'feather icon-pocket',
                 'complementoruta' => '',
                 'submenus' => [
-                    // [
-                    //     'name' => 'Por generar',
-                    //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                    //     'ruta' => route('settlement'),
-                    //     'complementoruta' => ''
-                    // ],
                     [
                         'name' => 'Generar',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('settlement'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Pendiente',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.pending'), 
                         'complementoruta' => ''
