@@ -15,24 +15,4 @@ class RankRecords extends Model
         'iduser', 'rank_actual_id', 'rank_previou_id',
         'fecha_inicio', 'fecha_fin'
     ];
-
-    /**
-     * Permite obtener el rango al que pertenece
-     *
-     * @return void
-     */
-    public function getRank()
-    {
-        return $this->belongsTo('App\Models\Ranks', 'rank_actual_id', 'id');
-    }
-
-    /**
-     * Permite obtener el usuario al que pertenece
-     *
-     * @return void
-     */
-    public function getUserRank()
-    {
-        return $this->belongsTo('App\Models\User', 'iduser', 'id');
-    }
 }

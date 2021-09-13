@@ -59,6 +59,7 @@
 <script>
    $(document).ready(function () {
     let idrango = parseInt($('#idrango').val())
+  console.log(idrango);
   $('.carrusel_rango').slick({
           infinite: true,
           centerMode: true,
@@ -95,6 +96,7 @@
 
 $(".progresscircle").each(function() {
   var value = $(this).attr('data-value');
+  console.log("VALUE", value)
 
 var left = $(this).find('.progress-left .progress-circle');
 var right = $(this).find('.progress-right .progress-circle');
@@ -106,13 +108,14 @@ if (value > 0) {
     right.css('transform', 'rotate(180deg)')
     left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
   }
+}
 
-  })
+})
 
-  function percentageToDegrees(percentage) {
+function percentageToDegrees(percentage) {
 
-  return percentage / 100 * 360
-  }
+return percentage / 100 * 360
+}
 </script>
 @endpush
 

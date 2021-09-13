@@ -19,8 +19,7 @@
                                     <th>Email</th>
                                     <th>Estado</th>                                 
                                     <th>Prioridad</th>
-                                    {{-- <th>tiempo</th> --}}
-                                    <th>Fecha de creacion</th>
+                                    <th>fecha de creacion</th>
                                     <th>Accion</th>
                                 </tr>
 
@@ -50,13 +49,6 @@
                                     @elseif($item->priority == '2')
                                     <td> <a class="text-uppercase">Bajo</a></td>
                                     @endif
-
-
-                                    {{-- @if ($time_msj != 'NULL')
-                                    <td>{{$time_msj}}</td>
-                                    @else
-                                    <td>Esperando Respuesta</td>
-                                    @endif --}}
 
                                     <td>{{ $item->created_at}}</td>
                                     

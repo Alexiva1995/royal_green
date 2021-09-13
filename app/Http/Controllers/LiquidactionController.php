@@ -72,8 +72,7 @@ class LiquidactionController extends Controller
             foreach ($liquidaciones as $liqui) {
                 $liqui->fullname = $liqui->getUserLiquidation->fullname;
             }
-            $type = $status;
-            return view('settlement.history', compact('liquidaciones', 'estado', 'type'));
+            return view('settlement.history', compact('liquidaciones', 'estado'));
         } catch (\Throwable $th) {
             Log::error('Liquidaction - indexHistory -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -186,11 +185,10 @@ class LiquidactionController extends Controller
 
             foreach ($comiciones as $comi) {
                 $fecha = new Carbon($comi->created_at);
-                $comi->fecha = $fecha->format('Y-m-d'); 
+                $comi->fecha = $fecha->format('Y-m-d');
                 $referido = User::find($comi->referred_id);
                 $comi->referido = ($referido != null) ? $referido->only('fullname') : 'Usuario no Disponible';
             }
-            
             $user = User::find($comiciones->pluck('iduser')[0]);
 
             $detalles = [
@@ -396,12 +394,6 @@ class LiquidactionController extends Controller
         try {
             if ($validate) {
                 $idliquidation = $request->idliquidation;
-                $fullname = $request->fullname;
-                $iduser = $request->iduser;
-                $total = str_replace(',','.',str_replace('.','',$request->total));
-                $total = round($total, 2);
-                // dd($total);
-                // dd("ID Liquidacion " . $idliquidation, "Fulll Name " . $fullname, "ID Usuario " . $iduser, "Total " . $total);
                 $accion = 'No Procesada';
                 if ($request->action == 'reverse') {
                     $accion = 'Reversada';
@@ -419,19 +411,6 @@ class LiquidactionController extends Controller
                     ];
                     DB::table('log_liquidations')->insert($arrayLog);
                 }
-
-                $concepto = 'Liquidacion del usuario '.$fullname.' por un monto de '.$total;
-                $referred_id = User::find($iduser)->referred_id;
-                $arrayWallet =[
-                    'iduser' => $iduser,
-                    'referred_id' => $referred_id,
-                    'monto' =>  $total,
-                    'descripcion' => $concepto,
-                    'status' => 0,
-                    'tipo_transaction' => 1,
-                ];
-                // dd($arrayWallet);
-                $this->walletController->saveWallet($arrayWallet);
                 
                 return redirect()->back()->with('msj-success', 'La Liquidacion fue '.$accion.' con exito');
             }
@@ -507,7 +486,7 @@ class LiquidactionController extends Controller
                 return redirect()->back()->with('msj-danger', 'El monto minimo de retirar es 50 Usd');
             }
 
-            $feed = ($bruto * 0.045);
+            $feed = ($bruto * 0.06);
             $total = ($bruto - $feed);
           
             $arrayLiquidation = [
@@ -535,27 +514,4 @@ class LiquidactionController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
-
-        /**
-     * LLeva a la vistas de las liquidaciones reservadas o aprobadas a los Users
-     *
-     * @param string $status
-     * @return void
-     */
-    public function retiroHistory()
-    {
-        try {
-            $id = Auth::id();
-            $liquidaciones = Liquidaction::where('iduser', $id)->get();
-            foreach ($liquidaciones as $liqui) {
-                $liqui->fullname = $liqui->getUserLiquidation->fullname;
-            }
-            return view('settlement.retiros', compact('liquidaciones'));
-        } catch (\Throwable $th) {
-            Log::error('Liquidaction - retiroHistory -> Error: '.$th);
-            abort(403, "Ocurrio un error, contacte con el administrador");
-        }
-    }
-
-
 }

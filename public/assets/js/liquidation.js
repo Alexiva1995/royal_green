@@ -4,7 +4,7 @@ var vm_liquidation = new Vue({
         return{
             seleAllComision: false,
             StatusProcess: '',
-            ComisionesDetalles: [] 
+            ComisionesDetalles: []
         }
     },
     methods: {

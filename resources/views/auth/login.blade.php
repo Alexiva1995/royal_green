@@ -12,13 +12,13 @@
 @section('content')
 <div class="row auth-inner">
     <!-- Left bg-->
-    <div class="col-sm-6 col-md-8 col-lg-8 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
+    <div class="col-sm-6 col-md-7 col-lg-7 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
         <div class="">
             <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="" class="logo">
         </div>
     </div>
     <!-- Login-->
-    <div class="col-12 col-sm-6 col-lg-4 col-md-4 d-flex align-items-center p-2 px-4">
+    <div class="col-12 col-sm-6 col-lg-5 col-md-5 d-flex align-items-center p-2 px-4">
         <div class="row">
             <h2 class="fw-bold text-white col-12">Iniciar Sesión</h2>
             <p class=" text-white col-12">
@@ -36,15 +36,15 @@
                 </div>
                 @endif
                 <div class="mb-1 col-12">
-                    <label class="form-label text-white" for="email"><b>Correo Electronico</b></label>
-                    <input class="form-control border border-primary rounded" type="text" name="email"
-                        placeholder="john@example.com" autofocus required tabindex="1" />
+                    <label class="form-label text-white" for="username"><b>Usuario</b></label>
+                    <input class="form-control border border-primary rounded" type="text" name="username"
+                        placeholder="john example" autofocus required tabindex="1" />
                 </div>
                 <div class="mb-1 col-12">
                     <div class="d-flex justify-content-between">
                         <label class="form-label text-white" for="password"><b>Contraseña</b></label><a
                             href="{{ route('password.request') }}"><small><b><u>Olvide
-                                        mi contraseña</u></b> </small></a>
+                                mi contraseña</u></b> </small></a>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
                         <input class="form-control border border-primary rounded-left" type="password" name="password"
