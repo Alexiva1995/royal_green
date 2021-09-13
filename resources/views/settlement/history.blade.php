@@ -26,11 +26,7 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        @if ($type == 'Pagadas')
-                        <h1 class="text-white">Retiros Confirmados</h1>
-                        @elseif ($type == 'Reservadas')
-                        <h1 class="text-white">Retiros Reservados</h1>
-                        @endif
+                        <h1 class="text-white">Liquidaciones Pagadas</h1>
                         <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">

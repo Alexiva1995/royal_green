@@ -37,6 +37,6 @@ class CreateOrdenPurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orden_purchases');
+        Schema::dropIfExists('orden_services');
     }
 }

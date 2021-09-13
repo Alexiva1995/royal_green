@@ -19,53 +19,48 @@ class PackagesTableSeeder extends Seeder
             
             [
               "id"=>"1",
-              "name"=>"r50",
+              "name"=>"Paquete A",
               "price"=>"50",
             ],
             [
               "id"=>"2",
-              "name"=>"r100",
+              "name"=>"Paquete B",
               "price"=>"100",
             ],
             [
               "id"=>"3",
-              "name"=>"r250",
-              "price"=>"250",
+              "name"=>"Paquete C",
+              "price"=>"300",
             ],
              [
               "id"=>"4",
-              "name"=>"r500",
+              "name"=>"Paquete D",
               "price"=>"500",
             ],
             [
               "id"=>"5",
-              "name"=>"rg1000",
+              "name"=>"Paquete E",
               "price"=>"1000",
             ],
             [
               "id"=>"6",
-              "name"=>"rg2000",
+              "name"=>"Paquete F",
               "price"=>"2000",
             ],
             [
               "id"=>"7",
-              "name"=>"rg5000",
-              "price"=>"5000",
+              "name"=>"Paquete G",
+              "price"=>"3000",
             ],
             [
               "id"=>"8",
-              "name"=>"rg10000",
-              "price"=>"10000",
+              "name"=>"Paquete H",
+              "price"=>"5000",
             ],
             [
               "id"=>"9",
-              "name"=>"rg25000",
-              "price"=>"25000",
-            ],
-            [
-              "id"=>"10",
-              "name"=>"rg50000",
-              "price"=>"50000",
+              "name"=>"Paquete I",
+              "price"=>"10000",
             ],
           
     ];

@@ -3,8 +3,7 @@
 @push('vendor_css')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/core/menu/menu-types/vertical-menu.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/core/colors/palette-gradient.css')}}">
-<link rel="stylesheet" type="text/css"
-    href="{{asset('assets/app-assets/css/plugins/forms/validation/form-validation.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/plugins/forms/validation/form-validation.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/auth/style.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/dashboard/colors.css')}}">
 @endpush
@@ -19,12 +18,14 @@
 
 @push('custom_js')
 <script>
-    $(document).ready(function () {
-        @if($user-> photoDB != NULL)
-        previewPersistedFile("{{asset('storage/photo/'.$user->photoDB)}}", 'photo_preview');
-        @endif
-    });
 
+
+$(document).ready(function() {
+          @if($user->photoDB != NULL)
+                previewPersistedFile("{{asset('storage/photo/'.$user->photoDB)}}", 'photo_preview');
+          @endif
+        });
+   
 
 
     function previewFile(input, preview_id) {
@@ -55,9 +56,11 @@
 @endpush
 
 @section('content')
+
 <div class="app-content">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow" style="background: #11262C;"></div>
+
     <div class="content-body">
         <!-- account setting page start -->
         <section id="page-account-settings">
@@ -79,55 +82,70 @@
                                 Cambiar la contraseña
                             </a>
                         </li>-->
-                {{--                         <li class="nav-item">
+  {{--                         <li class="nav-item">
                             <a class="nav-link d-flex py-75"
                                 href="{{ route('kyc') }}">
-                <i class="feather icon-file-text mr-50 font-medium-3"></i>
-                Verificar KYC
-                </a>
-                </li> --}}
+                                <i class="feather icon-file-text mr-50 font-medium-3"></i>
+                                Verificar KYC
+                            </a>
+                        </li> --}}
 
-                {{-- <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a class="nav-link d-flex py-75"
                                 href="{{ route('profile.change-password')}}">
-                <i class="feather icon-lock mr-50 font-medium-3"></i>
-                Cambiar la contraseña
-                </a>
-                </li> --}}
-                {{-- <li class="nav-item">
+                                <i class="feather icon-lock mr-50 font-medium-3"></i>
+                                Cambiar la contraseña
+                            </a>
+                        </li> --}}
+                        {{-- <li class="nav-item">
                             <a class="nav-link d-flex py-75" id="account-pill-social" data-toggle="pill"
                                 href="#account-vertical-social" aria-expanded="false">
                                 <i class="feather icon-link mr-50 font-medium-3"></i>
                                 Tu clave API
                             </a>
                         </li> --}}
-                </ul>
-            </div>
+                    </ul>
+                </div>
+ 
+                <!-- right content section -->
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body" style="background: #11262C;">
+                                <div class="tab-content">
+                                    
+                                    <div role="tabpanel" class="tab-pane active" id="account-vertical-general"
+                                        aria-labelledby="account-pill-general" aria-expanded="true">
 
-            <!-- right content section -->
-                <div class="col-md-12 rounded card">
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div role="tabpanel" class="tab-pane active" id="account-vertical-general"
-                                    aria-labelledby="account-pill-general" aria-expanded="true">
-                                    @include('users.componenteProfile.edit-profile')
+                                        @include('users.componenteProfile.edit-profile')
+
+                                    </div>
+
+                                    <div role="tabpanel" class="tab-pane" id="account-vertical-pass"
+                                        aria-labelledby="account-pill-pass" aria-expanded="false">
+
+                                        @include('users.componenteProfile.changePassword')
+
+                                    </div>
+
+                         
+
                                 </div>
-                                <div role="tabpanel" class="tab-pane" id="account-vertical-pass"
-                                    aria-labelledby="account-pill-pass" aria-expanded="false">
-                                    @include('users.componenteProfile.changePassword')
-                                </div>
-                            </div>
-                            {{-- <div class="tab-pane fade " id="account-vertical-social" role="tabpanel"
+
+                              {{-- <div class="tab-pane fade " id="account-vertical-social" role="tabpanel"
                                     aria-labelledby="account-pill-social" aria-expanded="false">
+
                                     @include('users.componenteProfile.api-profile')
+                                   
                                 </div> --}}
+
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
     </div>
-</div>
-</section>
+    </section>
 </div>
 </div>
 @endsection

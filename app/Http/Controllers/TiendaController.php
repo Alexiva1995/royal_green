@@ -45,13 +45,12 @@ class TiendaController extends Controller
             $packages = Packages::orderBy('id', 'asc')->paginate();
 
             $invertido = Auth::user()->inversionMasAlta();
-            $idInvertido = null;
+            // dd($invertido);
             if(isset($invertido)){
-                $idInvertido = $invertido->package_id;
                 $invertido = $invertido->invertido;
             }
             
-            return view('shop.index', compact('packages', 'invertido', 'idInvertido'));
+            return view('shop.index', compact('packages', 'invertido'));
         } catch (\Throwable $th) {
             Log::error('Tienda - Index -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -273,9 +272,7 @@ class TiendaController extends Controller
         $user = User::findOrFail($orden->iduser);
 
         $this->walletController->payAll();
-        
-        
-        
+  
         if(isset($user->inversionMasAlta()->invertido)){
       
             $inversion = $user->inversionMasAlta();
@@ -307,7 +304,6 @@ class TiendaController extends Controller
         $user = User::findOrFail($orden->iduser);
         $user->status = '1';
         $user->save();
-        $this->walletController->bonos($user, $orden);
 
         return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
     }

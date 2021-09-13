@@ -26,7 +26,7 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <h1 class="text-white">Retiros por Confirmar</h1>
+                        <h1 class="text-white">Liquidaciones Pendientes</h1>
                         <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
@@ -48,7 +48,7 @@
                                     <td>{{$liqui->id}}</td>
                                     <td>{{$liqui->fullname}}</td>
                                     <td>{{$liqui->total}}</td>
-                                    <td>{{$liqui->monto_bruto}}</td> 
+                                    <td>{{$liqui->monto_bruto}}</td>
                                     <td>{{$liqui->feed}}</td>
                                     <td>{{$liqui->hash}}</td>
                                     <td>{{$liqui->wallet_used}}</td>

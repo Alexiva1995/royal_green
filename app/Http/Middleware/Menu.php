@@ -110,13 +110,13 @@ class Menu
                     [
                         'name' => 'Billetera',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('wallet.index'),
+                        'ruta' => '',
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Retiros',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('retiro.history'),
+                        'ruta' => '',
                         'complementoruta' => ''
                     ],
                 ],
@@ -158,25 +158,25 @@ class Menu
 
             // Inversiones
             'Inversiones' => [
-                'submenu' => 1,
-                'ruta' => '',
+                'submenu' => 0,
+                'ruta' => route('inversiones.index'),
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                 'icon' => 'feather icon-dollar-sign',
                 'complementoruta' => '',
-                'submenus' => [
-                    [
-                        'name' => 'Lista de Inversiones',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('inversiones.index'),
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Activacion Manual',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('inversiones.activacion'),
-                        'complementoruta' => ''
-                    ]
-                 ],
+                // 'submenus' => [
+                //     [
+                //         'name' => 'Activas',
+                //         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                //         'ruta' => route('inversiones.index', 1),
+                //         'complementoruta' => ''
+                //     ],
+                //     [
+                //         'name' => 'Culminadas',
+                //         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                //         'ruta' => route('inversiones.index', 2),
+                //         'complementoruta' => ''
+                //     ]
+                // ],
             ],
             // Fin Inversiones
 
@@ -209,7 +209,7 @@ class Menu
                     [
                         'name' => 'Beneficio Royal',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('reports.beneficio'),
+                        'ruta' => '',
                         'complementoruta' => ''
                     ],
                 ]
@@ -225,65 +225,83 @@ class Menu
                 'complementoruta' => '',
                 'submenus' => [
                     [
+                        'name' => 'Dashboard',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
                         'name' => 'Rangos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('audit.rangos'),
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Wallet',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Red',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
                         'complementoruta' => ''
                     ],
                     [
                         'name' => 'Historial de puntos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => route('audit.puntos')
-                    ]
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Modificar Billetera',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
                 ]
              ],
             // Fin Auditoria
 
             // Liquidaciones
-            'Retiros' => [
+            'Liquidaciones' => [
                 'submenu' => 1,
                 'ruta' => 'javascripts:;',
                 'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                 'icon' => 'feather icon-pocket',
                 'complementoruta' => '',
                 'submenus' => [
-                    // [
-                    //     'name' => 'Por generar',
-                    //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                    //     'ruta' => route('settlement'),
-                    //     'complementoruta' => ''
-                    // ],
                     [
-                        'name' => 'Generar',
+                        'name' => 'Por generar',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement.pending'), 
+                        'ruta' => route('settlement'),
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Realizados',
+                        'name' => 'Pendientes',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => route('settlement.pending'),
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Realizadas',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.history.status', 'Pagadas'),
                         'complementoruta' => ''
                     ],
-                    // [
-                    //     'name' => 'Reservados',
-                    //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                    //     'ruta' => route('settlement.history.status', 'Reservadas'),
-                    //     'complementoruta' => ''
-                    // ],
                 ],
             ],
             // Fin Liquidaciones
 
             // Retiros
-            // 'Retiros' => [
-            //     'submenu' => 0,
-            //     'ruta' => '',
-            //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-            //     'icon' => 'feather icon-send',
-            //     'complementoruta' => '',
-            // ],
+            'Retiros' => [
+                'submenu' => 0,
+                'ruta' => '',
+                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                'icon' => 'feather icon-send',
+                'complementoruta' => '',
+            ],
             // Fin Retiros
 
             // Red

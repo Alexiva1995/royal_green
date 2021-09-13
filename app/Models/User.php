@@ -86,28 +86,16 @@ class User extends Authenticatable
         $this->notify(new ResetPasswordNotification($token));
     }
 
-    public function getUserInversiones()
+    public function getInversiones()
     {
         return $this->hasMany('App\Models\Inversion', 'iduser');
     }
-    
+
     public function inversionMasAlta()
     {
-        return $this->getUserInversiones()->where('status', 1)->orderBy('invertido', 'desc')->first();
+        return $this->getInversiones()->where('status', 1)->orderBy('invertido', 'desc')->first();
         //->sortByDesc('invertido')
     }
- 
-    public function montoInvertido()
-    {
-        $monto = 0;
-        foreach($this->getUserInversiones as $inversion){
-            if($inversion->status == 1){
-                $monto+= $inversion->invertido;
-            }
-        }
-        return number_format($monto,2);
-    }
-
 
     public function saldoDisponible()
     {
@@ -185,7 +173,7 @@ class User extends Authenticatable
         $result = 0;
         $disponible = $this->saldoDisponibleNumber();        
         if ($disponible > 0) {
-            $result = ($disponible * 0.045);
+            $result = ($disponible * 0.06);
         }
         return floatval($result);
     }
@@ -204,17 +192,4 @@ class User extends Authenticatable
         }
         return floatval($result);
     }
-
-       /**
-     * Permite obtener todo el historial de rangos obtenidos
-     *
-     * @return void
-     */
-    public function getRanksRecords()
-    {
-        return $this->hasMany('App\Models\RankRecords', 'iduser');
-    }
-
-
-    
 }
