@@ -86,7 +86,7 @@ class Menu
                     [
                         'name' => 'Inversiones',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('inversiones.index'),
+                        'ruta' => ,
                         'complementoruta' => ''
                     ]
                 ],
@@ -116,7 +116,7 @@ class Menu
                     [
                         'name' => 'Retiros',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('payments.index'),
                         'complementoruta' => ''
                     ],
                 ],
