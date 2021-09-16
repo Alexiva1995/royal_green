@@ -27,7 +27,7 @@
                                 @foreach ($payments as $item)
                                 <tr class="text-center text-white">
                                     <td>{{$item->id}}</td>
-                                    <td>{{$item->created_at}}</td>
+                                    <td>{{date('Y-M-d', strtotime($item->created_at))}}</td>
                                     <td>{{$item->wallet_used}}</td>
                                     <td>{{$item->hash}}</td>
                                     <td>{{$item->monto_bruto}}</td>
