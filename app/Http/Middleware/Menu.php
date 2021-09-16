@@ -86,7 +86,7 @@ class Menu
                     [
                         'name' => 'Inversiones',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => ,
+                        'ruta' => route('inversiones.index'),
                         'complementoruta' => ''
                     ]
                 ],
