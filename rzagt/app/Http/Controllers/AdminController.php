@@ -41,31 +41,11 @@ class AdminController extends Controller
 
     public function index()
     {
-        if (Auth::user()->ID == 614) {
-            // $this->rangoControl->resetPoints();
-            // $this->comiControl->registePackageToRentabilizar(7914);
-            // $this->comiControl->payBono(7914, 19524);
-            // $this->comiControl->verificarBinarioActivo(3485);
-        //     $pagos = DB::table('pagos')->where('estado', 0)->select('iduser')->get();
-        //     foreach ($pagos as $pago) {
-        //         dump($pago->iduser);
-        //         $verificarTipo = DB::table('log_rentabilidad')->where([
-        //             ['iduser', '=', $pago->iduser],				
-        //         ])->get()->last();
-        //         $checkPago = DB::table('wp_posts')->where([
-        //             ['ID', '=', $verificarTipo->idcompra],+
-        //             ['to_ping', '=', 'Manual'],
-        //         ])->first();
-        //         if ($checkPago != null) {
-        //             DB::table('log_rentabilidad')->where([
-        //                 ['iduser', '=', $pago->iduser],
-        //                 ['idcompra', '=', $checkPago->ID]
-        //             ])->update(['nivel_minimo_cobro' => 7]);
-        //             dump('procesado');
-        //         }
-        //     }
-            // dd('parar');
-        }
+        // if (Auth::user()->ID == 614) {
+        //     $this->rangoControl->checkRango(564);
+            
+        //     dd('parar');
+        // }
         if (Auth::user()->ID == 1) {
             return redirect()->route('new_admin');
         }else{

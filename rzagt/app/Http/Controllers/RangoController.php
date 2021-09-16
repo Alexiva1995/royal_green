@@ -41,7 +41,7 @@ class RangoController extends Controller
 					$cantAprobado++;
 				}
 			}
-
+			// dd($cantAprobado, $cantRequisito);
 			// Verifica si cumple con los rangos necesario en su red
 			if ($rolnuevo->referidos > 0) {
 				$cantRequisito++;
@@ -103,14 +103,14 @@ class RangoController extends Controller
 		$result = 0;
 		$referidosI = User::where([
 			['referred_id', '=', $iduser],
-			['rol_id', '=', $rangoRequisto],
+			['rol_id', '>=', $rangoRequisto],
 			['status', '=', 1],
 			['ladomatrix', '=', 'I']
 		])->get()->count('ID');
 
 		$referidosD = User::where([
 			['referred_id', '=', $iduser],
-			['rol_id', '=', $rangoRequisto],
+			['rol_id', '>=', $rangoRequisto],
 			['status', '=', 1],
 			['ladomatrix', '=', 'D']
 		])->get()->count('ID');
