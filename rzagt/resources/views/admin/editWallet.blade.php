@@ -135,7 +135,7 @@
               </div>
               <div class="form-group">
                 <label for="">Monto</label>
-                <input type="number" class="form-control" step="ani" min="0" name="monto" id="" required>
+                <input type="number" class="form-control" step="any" min="0" name="monto" id="" required>
                 <p class="text-muted">Colocar el monto en positivo, el sistema hara automanticamente la suma o resta dependiendo de la accion</p>
               </div>
             <input type="hidden" name="iduser" id="iduser">
