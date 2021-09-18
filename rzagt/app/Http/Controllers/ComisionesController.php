@@ -526,6 +526,9 @@ class ComisionesController extends Controller
                         if ($sponsor->ID == 1220 && $sponsor->nivel == 1) {
                             $porcentaje = 0.05;
                         }
+                        if ($sponsor->ID == 1127 && $sponsor->nivel == 1) {
+                            $porcentaje = 0.05;
+                        }
                         if ($cobra) {
                             $userReferido = User::find($iduser);
                             $concepto = 'Bono Contrucion, Obtenido del usuario '.$userReferido->display_name;

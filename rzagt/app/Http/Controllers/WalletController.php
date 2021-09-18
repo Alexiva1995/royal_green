@@ -291,8 +291,11 @@ class WalletController extends Controller
 	 * @access public
 	 * @param array $datos - arreglo con los datos necesarios
 	 */
-	public function saveWallet($datos){
-		return Wallet::create($datos);
+	public function saveWallet($datos):int
+	{
+		$wallet = Wallet::create($datos);
+		$result = (empty($wallet)) ? 0 : $wallet->id;
+		return $result;
 	}
     
     /**
@@ -400,10 +403,19 @@ class WalletController extends Controller
 						$montoBruto = ($checkCode->monto + $checkCode->descuento);
 						$descripcion = 'Retiro - Wallet: '.$checkCode->tipopago;
 
-						$resul = $this->saveRetiro($checkCode->iduser, $montoBruto, $descripcion, $checkCode->descuento, $checkCode->monto);
+						$resul = $this->saveRetiro($checkCode->iduser, $montoBruto, $descripcion, $checkCode->descuento, $checkCode->monto, $checkCode->id);
 						if ($resul) {
-							Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 0, 'codigo_confirmacion' => '']);
-							return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con exito y su retiro esta pendiente por ser procesado');
+							$pago = Pagos::where([
+								['codigo_confirmacion', '=', $request->code],
+								['id_wallet_log', '>', 0]
+							])->update(['estado' => 0, 'codigo_confirmacion' => '']);
+							if ($pago) {
+								return redirect()->back()->with('msj', 'Su Codigo de validacion de retiro fueron valido con exito y su retiro esta pendiente por ser procesado');
+							}else{
+								Pagos::where('codigo_confirmacion', $request->code)->update(['estado' => 2]);
+								return redirect()->back()->with('msj2', 'Ocurrio un error al momento de procesar el retiro, por favor vuelva a intentarlos en unos minutos');
+							}
+							
 						} else {
 							return redirect()->back()->with('msj2', 'Hubo un error a procesar el retiro, por favor meta el codigo de nuevo');	
 						}
@@ -431,9 +443,10 @@ class WalletController extends Controller
 	 * @param string $descripcion
 	 * @param float $descuento
 	 * @param float $montoNeto
-	 * @return bool
+	 * @param integer $idpago
+	 * @return boolean
 	 */
-	public function saveRetiro($iduser, $montoBruto, $descripcion, $descuento, $montoNeto): bool
+	public function saveRetiro(int $iduser, float $montoBruto, string $descripcion, float $descuento, float $montoNeto, int $idpago ): bool
 	{
 		try {
 			$result = false;
@@ -485,11 +498,12 @@ class WalletController extends Controller
 				];
 	
 				
-				if ($check2) {
+				if ($check2 > 0) {
 					$check3 = DB::table('log_rentabilidad')->where('id', $rentabilidad->id)->update($dataUpdate);
 					if ($check3) {
 						$result = true;
 						DB::table('log_rentabilidad_pay')->insert($dataLogRentabilidadPay);
+						Pagos::where('id', $idpago)->update(['id_wallet_log' => $check2]);
 					}else{
 						$check1 = User::where('ID', $iduser)->update(['wallet_amount' => $montoTmp]);
 						$$lastRegister = Wallet::where('iduser', $iduser)->orderBy('id', 'desc')->first();

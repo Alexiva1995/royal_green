@@ -15,7 +15,7 @@ class Pagos extends Model
     protected $fillable = [
          'iduser', 'username', 'email', 'monto', 'fechasoli', 'fechapago', 'metodo',
          'estado', 'tipopago', 'descuento', 'tipowallet', 'tipo_retiro', 'idrentabilidad',
-         'codigo_confirmacion', 'fecha_codigo', 'bkp'
+         'codigo_confirmacion', 'fecha_codigo', 'bkp', 'id_wallet_log'
     ];
     
      public function scopeSearch($query, $iduser){
