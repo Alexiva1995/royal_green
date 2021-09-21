@@ -380,7 +380,6 @@ class WalletController extends Controller
         try {
                 $comision = ($orden->total * 0.1);
                 $sponsor = User::find($user->referred_id);
-                // dd($sponsor);
                 // dd($user->inversionMasAlta()->invertido);
                 if ($sponsor->status == '1') {
                     $concepto = 'Bono Directo  - N° '.$orden->id.' - '.$orden->getOrdenUser->fullname;
