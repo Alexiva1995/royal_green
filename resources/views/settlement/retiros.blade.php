@@ -31,13 +31,13 @@
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>Name</th>
+                                    <th>Nombre</th>
                                     <th>Total </th>
                                     <th>Monto Bruto</th>
                                     <th>Feed</th>
                                     <th>Hash</th>
                                     <th>Billetera</th>
-                                    <th>Status</th>
+                                    <th>Estado</th>
                                     <th>Fecha</th>
                                 </tr>
                             </thead>
@@ -56,8 +56,6 @@
                                        En Espera
                                        @elseif($liqui->status == 1)
                                        Liquidado
-                                       @else
-                                       Reversado
                                        @endif
                                     </td>
                                     <td>{{date('Y-m-d', strtotime($liqui->created_at))}}</td>

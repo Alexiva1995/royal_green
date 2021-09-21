@@ -226,7 +226,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'Datatables' => yajra\Datatables\Datatables::class,
+        'Datatables' => Yajra\DataTables\Datatables::class,
 
     ],
 
