@@ -13,7 +13,7 @@
             </div>
     
             <div class="card-header d-flex align-items-center mt-3">
-                <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible" style="border: 1px solid #fff;"><b>RETIRAR</b></button>
+                <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible"  style="border: 1px solid #fff;"><b>RETIRAR</b></button>
             </div>
         </div>
     </div>
@@ -74,8 +74,8 @@
     </div>
 </div>
 
-@endsection
 {{-- permite llamar a las opciones de las tablas --}}
 @include('layouts.componenteDashboard.optionDatatable')
 
 @include('layouts.componenteDashboard.modalRetirar')
+@endsection

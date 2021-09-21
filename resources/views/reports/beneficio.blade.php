@@ -15,14 +15,14 @@
             <div class="col-md-4 col-12 mt-2">
                 <div class="card btn-secondary text-white text-center mx-2">
                     <p class="card-title my-2">Ingreso</p>
-                    <span id="comision" class="font-large-1 font-weight-bold">{{number_format($ingreso,2,".",",")}}</span>
+                    <span id="ingresos" class="font-large-1 font-weight-bold">{{number_format($ingreso,2,".",",")}}</span>
                 </div>
             </div>
 
             <div class="col-md-4 col-12 mt-2">
                 <div class="card btn-secondary text-white text-center mx-2">
                     <p class="card-title my-2">Comisión</p>
-                    <span id="ingresos" class="font-large-1 font-weight-bold">{{number_format($comision, 2, ".",",")}}</span>
+                    <span id="comision" class="font-large-1 font-weight-bold">{{number_format($comision, 2, ".",",")}}</span>
                 </div>
             </div>
         </div>
@@ -93,6 +93,27 @@
 @push('page_css')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+<style>
+
+    .flatpickr-calendar{
+        background: #173138 !important;
+    }
+
+    .flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay{
+        background: #66ffcc;
+    }
+
+    .flatpickr-day.inRange{
+        -webkit-box-shadow: -5px 0 0 #1ca384, 5px 0 0 #1ca384;
+        box-shadow: -5px 0 0 #1ca384, 5px 0 0 #1ca384;
+    }
+
+    .flatpickr-day.inRange, .flatpickr-day.prevMonthDay.inRange, .flatpickr-day.nextMonthDay.inRange, .flatpickr-day.today.inRange, .flatpickr-day.prevMonthDay.today.inRange, .flatpickr-day.nextMonthDay.today.inRange, .flatpickr-day:hover, .flatpickr-day.prevMonthDay:hover, .flatpickr-day.nextMonthDay:hover, .flatpickr-day:focus, .flatpickr-day.prevMonthDay:focus, .flatpickr-day.nextMonthDay:focus{
+        background: #1ca384;
+        border-color: #1ca384;
+    }
+    
+</style>
 @endpush
 
 @push('page_js')
