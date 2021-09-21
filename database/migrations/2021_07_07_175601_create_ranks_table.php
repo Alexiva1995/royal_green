@@ -18,6 +18,7 @@ class CreateRanksTable extends Migration
             $table->string('name');
             $table->longtext('description');
             $table->longtext('points');
+            $table->integer('mes_reinicio');
             $table->enum('status', [0, 1])->default(0)->comment('0 - Activo, 1 - Inactivo');
             $table->timestamps();
         });
