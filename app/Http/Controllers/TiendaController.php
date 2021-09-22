@@ -101,7 +101,7 @@ class TiendaController extends Controller
                     $pagado = $inversion->invertido;
 
                     $nuevoInvertido = ($paquete->price - $pagado); 
-                    $porcentaje = ($nuevoInvertido * 0.03);
+                    $porcentaje = 0;//($nuevoInvertido * 0.03);
 
                     $total = ($nuevoInvertido + $porcentaje);
                     //ACTUALIZAMOS LA INVERSION

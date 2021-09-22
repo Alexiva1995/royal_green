@@ -140,4 +140,27 @@ class RankController extends Controller
         // actualiza el rango
         User::where('id', $iduser)->update(['rank_id' => $rol_new]); 
     }
+
+        /**
+     * Reinicio de los puntos de rangos
+     *
+     * @return void
+     */
+    public function resetPoints()
+    {
+
+        $users = User::where([
+            ['status', '=', "1"],
+            ['rank_id', '>=', 1]
+        ])->get();
+        foreach ($users as $user) {
+            $rank = Ranks::find($user->rank_id);
+            if ($rank->mes_reinicio == 0) {
+                User::where('id', '=', $user->id)->update(['point_rank' => $rank->points]);
+            }
+        }
+        $meses = $rank = Ranks::find(6)->mes_reinicio;
+        $mes = ($meses == 0) ? 2 : ($meses - 1);
+        Ranks::where('id', '>=', 6)->update(['mes_reinicio' => $mes]);
+    }
 }
