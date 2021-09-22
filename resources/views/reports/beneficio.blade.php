@@ -128,7 +128,9 @@
             mode: "range",
             onClose: function(selectedDates, dateStr, instance){
                 let fecha = dateStr;
-                if(fecha.length >10){
+                if(fecha.length > 1){
+
+                    if(fecha.length >10){
                     from = fecha.substr(0,10);
                     to = fecha.substr(14);
                 }else{
@@ -157,6 +159,8 @@
                 .catch(function(error) {
                     console.log(error);
                 });
+                }
+                
             }
         });
 
