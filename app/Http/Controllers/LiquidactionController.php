@@ -549,6 +549,7 @@ class LiquidactionController extends Controller
     public function retiroHistory()
     {
         try {
+            
             $id = Auth::id();
             $liquidaciones = Liquidaction::where('iduser', $id)->get();
             foreach ($liquidaciones as $liqui) {
@@ -560,6 +561,4 @@ class LiquidactionController extends Controller
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
-
-
 }
