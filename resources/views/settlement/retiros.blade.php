@@ -32,8 +32,8 @@
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
                                     <th>Nombre</th>
-                                    <th>Total </th>
-                                    <th>Monto Bruto</th>
+                                    <th>Total</th>
+                                    <th>Monto</th>
                                     <th>Feed</th>
                                     <th>Hash</th>
                                     <th>Billetera</th>
