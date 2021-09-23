@@ -31,9 +31,9 @@
                 <div class="card-body card-dashboard">
                     <div class="table-responsive ">
                         <h1 class="text-white">Lista de Usuarios</h1>
-                        
+
                         <table class="table w-100 nowrap scroll-horizontal-vertical myTable table-striped w-100 text-white ">
-                            
+
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
@@ -48,7 +48,7 @@
                             </thead>
 
                             <tbody>
-                                 @foreach ($user as $item)
+                                @foreach ($user as $item)
                                 <tr class="text-center text-white">
                                     <td>{{ $item->id}}</td>
                                     <td>{{ $item->fullname}}</td>
@@ -67,7 +67,7 @@
                                     @else
                                     <td>Normal</td>
                                     @endif
-                                    
+
 
                                     @if ($item->status == '0')
                                     <td>Inactivo</td>
@@ -84,34 +84,28 @@
                                     @endif
                                     <td>{{ $item->created_at}}</td>
                                     <td>
-                                    
-                                    {{-- @if ($item->dni != NULL && $item->status == 0)
-                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-bold-600"><i class="fa fa-check-square-o "></i></a>
-                                    @endif --}}
-                                    
-                                    @if(Auth::user()->id == $item->id)
-                                    <a href="{{ route('profile') }}" class="btn btn-secondary text-bold-600"><i class="fa fa-pencil"></i></a>
-                                    @else
-                                    <a href="{{ route('users.edit-user',$item->id) }}" class="btn btn-secondary text-bold-600"><i class="fa fa-pencil"></i></a>
-                                    
-                                    
-                                    <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn">
-                                        @csrf
-                                        <button type="submit" class="btn btn-primary text-bold-600">
-                                            <i class="fa fa-eye"></i>
 
-                                        </button>
+                                        {{-- @if ($item->dni != NULL && $item->status == 0)
+                                     <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-b old-600"><i class="fa fa-check-square-o "></i></a>
+                                        @endif --}}
 
-                                     </form>
+                                        <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn">
+                                            @csrf
+                                            <button type="submit" class="btn btn-primary text-bold-600">
+                                                <i class="fa fa-eye"></i>
 
-                                    {{-- <button class="btn btn-danger" onclick="vm_ordenFollowers.deleteData('{{$item->id}}')">
+                                            </button>
+
+                                        </form>
+
+                                        {{-- <button class="btn btn-danger" onclick="vm_ordenFollowers.deleteData('{{$item->id}}')">
                                         <form action="{{route('users.destroy-user', $item->id)}}" method="post" id="delete{{$item->id}}">
                                             @csrf
                                             @method('DELETE')admin
                                         </form>
                                         <i class="fa fa-trash"></i>
-                                    </button> --}}
-                                    @endif
+                                        </button> --}}
+
                                     </td>
                                 </tr>
                                 @endforeach
@@ -127,4 +121,3 @@
 @endsection
 {{-- permite llamar a las opciones de las tablas --}}
 @include('layouts.componenteDashboard.optionDatatable')
-

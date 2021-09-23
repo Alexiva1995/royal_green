@@ -82,9 +82,14 @@ class ReporteController extends Controller
         $data = [$ordenes, $comision];
         return $data;
     }
-
+    
     public function graphisDashboard()
     {
         
+    }
+
+    public function rentabilidad()
+    {
+        return view('reports.rentabilidad');
     }
 }

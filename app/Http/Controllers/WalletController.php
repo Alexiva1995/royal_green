@@ -387,9 +387,6 @@ class WalletController extends Controller
                     Log::info('Bono Directo Pagado');
                     // dd("Usuario " . $orden->iduser, "Referido " . $sponsor->id, "Id de Orden " . $orden->id, "Comision " . $comision, "Concepto " . $concepto);
 
-                }else{
-                    // $concepto = 'Bono directo del Usuario '.$orden->getOrdenUser->fullname;
-                    // $this->preSaveWallet($sponsor->id, $orden->iduser, $orden->id, 0, $concepto);
                 }
 
                 //******PAGO DEL BONO INDIRECTO NIVEL 2 *********//
@@ -476,6 +473,8 @@ class WalletController extends Controller
                                         'referred_id' => $orden->iduser,
                                         'orden_purchase_id' => $orden->id,
                                         'puntos_d' => $puntosD,
+                                        'puntos_reales_i' => $puntosI,
+                                        'puntos_reales_d' => $puntosD,
                                         'puntos_i' => $puntosI,
                                         'side' => $side,
                                         'status' => 0,
@@ -509,7 +508,7 @@ class WalletController extends Controller
             ['status', '=', 0],
             ['puntos_i', '>', 0],
         ])->selectRaw('iduser, SUM(puntos_d) as totald, SUM(puntos_i) as totali')->groupBy('iduser')->get();
-        
+        // dd(($binarios));
         foreach ($binarios as $binario) {
             $puntos = 0;
             $side_mayor = $side_menor = '';
@@ -563,29 +562,55 @@ class WalletController extends Controller
      */
     private function setPointBinaryPaid(float $pagar, string $ladomenor, int $iduser, string $ladomayor)
     {
-        $lisComision = [];
+        //LADO MAYOR
         $binarios = WalletBinary::where([
             ['side', '=', $ladomayor],
             ['iduser', '=', $iduser],
             ['status', '=', 0]
-        ])->get();
+        ])->orderBy('id', 'asc')->get();
         $field_side = ($ladomayor == 'D') ? 'puntos_d' : 'puntos_i';
-        $sum = 0;
-        foreach ($binarios as $binario) {
-            $sum += $binario->$field_side;
-            if ($sum <= $pagar) {
-                $lisComision[] = $binario->id;
-            }elseif($sum > $pagar){
-                $sum -= $binario->$field_side;
-            }
-        }
-
-        WalletBinary::where([
+        $this->foreachSetPoint($binarios,  $pagar, $field_side);
+       
+        //LADO MENOR
+        $binarios = WalletBinary::where([
             ['side', '=', $ladomenor],
             ['iduser', '=', $iduser],
             ['status', '=', 0]
-        ])->update(['status' => '1']);
+        ])->orderBy('id', 'asc')->get();
+        $field_side = ($ladomenor == 'I') ? 'puntos_i' : 'puntos_d';
+        $this->foreachSetPoint($binarios,  $pagar, $field_side);
+    }
 
+     /**
+     * Bucle para descontar los puntos
+     *
+     * @param collection $binarios
+     * @param integer $pagar
+     * @param string $field_side
+     * @return void
+     */
+    public function foreachSetPoint($binarios, $pagar, $field_side)
+    {
+        $lisComision = [];
+        $pagar_copy = $pagar;
+        foreach ($binarios as $binario) {
+            $wallet = WalletBinary::findOrFail($binario->id);
+            if ($pagar_copy > 0) {
+                if ($pagar_copy <= $binario->$field_side) {
+                    $adecontar = $pagar_copy;
+                }else{
+                    $adecontar = $binario->$field_side;
+                }
+                $pagar_copy -=  $adecontar;
+                $wallet->$field_side -= $adecontar;
+                if ($wallet->$field_side == 0) {
+                    $lisComision[] = $binario->id;
+                }
+                $wallet->save();
+            }else {
+                break;
+            }        
+        }
         WalletBinary::whereIn('id', $lisComision)->update(['status' => '1']);
     }
 
