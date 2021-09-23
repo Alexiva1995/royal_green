@@ -5,15 +5,23 @@
 @endpush
 
 @section('content')
-{{-- <div class='under'> --}}
-<div class="row d-flex justify-content-center">
-    <div class="text-center col-12">
-        <img src="{{asset('assets/img/royal_green/logos/logo.svg')}}" class="img-fluid" width="650px" alt="bg">
+
+
+<div class="row auth-inner">
+    <!-- Left bg-->
+    <div class="col-sm-6 col-md-8 col-lg-8 d-none d-sm-flex d-md-flex d-lg-flex royal_bg">
+        <div class="">
+            <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="" class="logo">
+        </div>
     </div>
-    <div class="col-10 col-ms-6 col-md-6 col-lg-4 row">
-        <div class="card" style="background: #11262C;">
+
+
+    <div class="col-12 col-sm-6 col-lg-4 col-md-4 d-flex align-items-center p-2 px-4">
+        <div class="row">
             <div class="card-header d-flex justify-content-center">
-                <h3 class="card-title text-input-holder text-white"><b>Restablecer Contraseña</b></h3>
+
+                <h3 class="card-title text-input-holder text-white"><a href="{{route('login')}}"><i class="fas fa-arrow-left mr-3"></i></a> <b>Restablecer Contraseña</b></h3>
+
             </div>
             <div class="card-body col-12">
                 <h5 class="text-white mb-2">
@@ -38,31 +46,69 @@
                     @endif
                     <div class="row">
                         <div class="col-12">
-                            <input type="email" class="form-control border border-primary rounded" name="email"
-                                value="{{ old('email') }}" required placeholder="Ingresa tu email">
+
+                            <div class="input-text">
+                                <input type="email" class="form-control border border-primary rounded" name="email" value="{{ old('email') }}" required placeholder="Ingresa tu email" style="background-color:#11262c;">
+                                <label class="text-white">Ingresa tu email</label>
+                            </div>
+
                         </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-outline-primary rounded mt-1">
                                 <b>Enviar Código</b>
                             </button>
-                            <a href="{{route('login')}}" class="btn btn-danger rounded mt-1">
-                                <b>Volver al inicio</b>
-                            </a>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
-{{-- <div class='wave'></div>
-    <div class='wave wave2'></div>
-    <div class='wave wave3'></div>
-</div> --}}
-@endsection
 
-@push('custom_js')
-<script>
-    $("#validate").validate();
-</script>
-@endpush
+    <style>
+        input::placeholder {
+            color: #FFFFFF !important;
+            font-weight: bold;
+        }
+
+        .form-control {
+            color: #FFFFFF;
+        }
+
+        .input-text {
+            position: relative;
+        }
+
+        input {
+            font-size: 18px;
+            border-width: 0 0 1px 0;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            width: 100%;
+
+        }
+
+        input:not(:placeholder-shown)+label {
+            top: -21px;
+            opacity: 1;
+            visibility: visible;
+            font-weight: bold;
+        }
+
+        label {
+            position: absolute;
+            left: 0;
+            top: 10px;
+            color: #fff;
+            font-size: 14px;
+            opacity: 1;
+            visibility: hidden;
+            transition: 0.17s all ease-in-out;
+        }
+    </style>
+    @endsection
+
+    @push('custom_js')
+    <script>
+        $("#validate").validate();
+    </script>
+    @endpush
