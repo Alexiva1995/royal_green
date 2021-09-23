@@ -164,6 +164,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('/rangos-data', 'AuditController@dataRangos')->name('audit.datarangos');
             Route::get('/puntos', 'AuditController@puntosBinarios')->name('audit.puntos');
             Route::get('/puntos-data', 'AuditController@dataPuntos')->name('audit.datapuntos');
+            Route::get('/modificar-comisiones', 'AuditController@modificarComisiones')->name('audit.modificar.comisiones');
         });
 
          //Ruta de liquidacion

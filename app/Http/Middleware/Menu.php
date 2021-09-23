@@ -235,6 +235,12 @@ class Menu
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
                         'complementoruta' => route('audit.puntos')
+                    ],
+                    [
+                        'name' => 'Modificar Comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => route('audit.modificar.comisiones')
                     ]
                 ]
              ],

@@ -93,4 +93,24 @@ class AuditController extends Controller
                 ->make(true);
         }
     }
+
+    public function modificarComisiones()
+    {
+        $users = User::where('status', '1')->select(['id', 'username'])->orderBy('id', 'desc')->get();
+        return view('audit.modificarcomisiones', compact('users'));
+    }
+
+    /**
+     * Petición asincrona para la obtención de comisiones mediante el id de usuario
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function dataComisiones(int $id)
+    {
+        $wallets = User::find($id)->getWallet->where('tipo_transaction', 0)->toArray();
+        // dd($wallets);
+        return response()->json($wallets);
+
+    }
 }
