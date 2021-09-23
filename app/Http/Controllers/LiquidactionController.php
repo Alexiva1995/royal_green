@@ -503,11 +503,15 @@ class LiquidactionController extends Controller
             ])->get();
 
             $bruto = $comisiones->sum('monto');
-            if ($bruto < 50) {
-                return redirect()->back()->with('msj-danger', 'El monto minimo de retirar es 50 Usd');
+            if ($bruto < 25) {
+                return redirect()->back()->with('msj-danger', 'El monto minimo de retirar es 25 Usd');
             }
-
-            $feed = ($bruto * 0.045);
+            
+            if($bruto <= 250){
+                $feed = ($bruto * 0.085);
+            }else{
+                $feed = ($bruto * 0.045);
+            }
             $total = ($bruto - $feed);
           
             $arrayLiquidation = [
