@@ -444,16 +444,61 @@ class WalletController extends Controller
      *
      * @return void
      */
-    public function payPointsBinary()
+    public function payPointsBinary($id = null)
     {
         try {
-            $ordenes = $this->getOrdens(null);
-            foreach ($ordenes as $orden) {
+            if($id == null){
+                $ordenes = $this->getOrdens(null);
+                foreach ($ordenes as $orden) {
+                    $sponsors = $this->treeController->getSponsor($orden->iduser, [], 0, 'id', 'binary_id');
+                    $side = $orden->getOrdenUser->binary_side;
+                    foreach ($sponsors as $sponsor) {
+                        if ($sponsor->id != $orden->iduser) {
+                        if ($sponsor->id != 1) {
+
+                                    $check = WalletBinary::where([
+                                        ['iduser', '=', $sponsor->id],
+                                        ['referred_id', '=', $orden->iduser],
+                                        ['orden_purchase_id', '=', $orden->id]
+                                    ])->first();
+                                    if (empty($check)) {
+                                        $concepto = 'Puntos binarios del Usuario '.$orden->getOrdenUser->fullname;
+                                        $puntosD = $puntosI = 0;
+                                        if ($sponsor->status == '1') {
+                                            if ($side == 'I') {
+                                                $puntosI = $orden->total;
+                                            }elseif($side == 'D'){
+                                                $puntosD = $orden->total;
+                                            }
+                                        }
+                                        $dataWalletPoints = [
+                                            'iduser' => $sponsor->id,
+                                            'referred_id' => $orden->iduser,
+                                            'orden_purchase_id' => $orden->id,
+                                            'puntos_d' => $puntosD,
+                                            'puntos_reales_i' => $puntosI,
+                                            'puntos_reales_d' => $puntosD,
+                                            'puntos_i' => $puntosI,
+                                            'side' => $side,
+                                            'status' => 0,
+                                            'descripcion' => $concepto
+                                        ];
+                                        
+                                        WalletBinary::create($dataWalletPoints);
+                                }
+                        }                    
+                        }
+                        $side = $sponsor->binary_side;
+                    }
+                }
+            }else{
+                $orden = OrdenPurchases::findOrFail($id);
+
                 $sponsors = $this->treeController->getSponsor($orden->iduser, [], 0, 'id', 'binary_id');
                 $side = $orden->getOrdenUser->binary_side;
                 foreach ($sponsors as $sponsor) {
                     if ($sponsor->id != $orden->iduser) {
-                       if ($sponsor->id != 1) {
+                    if ($sponsor->id != 1) {
 
                                 $check = WalletBinary::where([
                                     ['iduser', '=', $sponsor->id],
@@ -485,7 +530,7 @@ class WalletController extends Controller
                                     
                                     WalletBinary::create($dataWalletPoints);
                             }
-                       }                    
+                    }                    
                     }
                     $side = $sponsor->binary_side;
                 }

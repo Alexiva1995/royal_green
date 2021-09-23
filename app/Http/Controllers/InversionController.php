@@ -65,6 +65,7 @@ class InversionController extends Controller
     {
         // try {
         //CREAMOS LA ORDEN
+
         $paquete = Packages::find($request->paquete);
 
         $user = User::findOrFail($request->id);
@@ -107,15 +108,15 @@ class InversionController extends Controller
 
             $orden = OrdenPurchases::create($data);
         }
-
+        
         ////////////////////////////////////
         //LE colocamos los puntos
-
+        //dump('sin puntos');
         if (isset($request->comision)) {
-
+            //dump('con puntos');
             $this->WalletController->payPointsBinary($orden->id);
         }
-
+    
         if (isset($user->inversionMasAlta()->invertido)) {
 
             $inversion = $user->inversionMasAlta();
