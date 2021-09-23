@@ -89,9 +89,6 @@
                                      <a href="{{ route('users.show-user',$item->id) }}" class="btn btn-warning text-b old-600"><i class="fa fa-check-square-o "></i></a>
                                         @endif --}}
 
-
-
-
                                         <form action="{{route('impersonate.start', $item)}}" method="POST" class="btn">
                                             @csrf
                                             <button type="submit" class="btn btn-primary text-bold-600">
