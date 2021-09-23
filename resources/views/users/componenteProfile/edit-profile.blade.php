@@ -63,7 +63,7 @@
                     name="address">{{ $user->address}}</textarea>
             </div>
         </div>
-        <div class="col-12">
+       <!--  <div class="col-12">
             <div class="form-group">
                 <h2 class="font-weight-bold text-white">Dirección de Billetera </h2>
             </div>
@@ -89,7 +89,7 @@
         <div class="col-12 mb-2">
             <a href="https://accounts.binance.com/es/register" target="_blank" class="gold waves-effect waves-light">
                 <b>¿No tiene billetera? Abre una cuenta en binance</b></a>
-        </div>
+        </div> -->
         <div class="col-12">
             <div class="form-group">
                 <h2 class="font-weight-bold text-white">Cambiar contraseña</h2>
