@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\InversionController;
 use App\Http\Controllers\WalletController;
-
+use Coinbase;
 
 class TiendaController extends Controller
 {
@@ -42,15 +42,15 @@ class TiendaController extends Controller
     {
         try {
             // title
-            $packages = Packages::orderBy('id', 'asc')->paginate();
-
+            $packages = Packages::where('id', '>', 1)->orderBy('id', 'asc')->get();
+            
             $invertido = Auth::user()->inversionMasAlta();
             $idInvertido = null;
             if(isset($invertido)){
                 $idInvertido = $invertido->package_id;
                 $invertido = $invertido->invertido;
             }
-            
+        
             return view('shop.index', compact('packages', 'invertido', 'idInvertido'));
         } catch (\Throwable $th) {
             Log::error('Tienda - Index -> Error: '.$th);
@@ -134,16 +134,14 @@ class TiendaController extends Controller
                         'package_id' => $paquete->id,
                         'cantidad' => 1,
                         'total' => $total,
-                        'monto' => $paquete->price
+                        'monto' => $paquete->price,
+                        'name' => $paquete->name
                     ];
                     
                     $data['idorden'] = $this->saveOrden($data);
                     $data['descripcion'] = $paquete->description;    
                 }
                 
-                
-               
-
                 $url = $this->generalUrlOrden($data);
                // dd($url);
                 if (!empty($url)) {
@@ -209,6 +207,24 @@ class TiendaController extends Controller
     private function generalUrlOrden($data): string
     {
         //try {
+
+            $charge = Coinbase::createCharge([
+                'name' => 'Producto '.$data['name'],
+                'description' => $data['descripcion'],
+                'local_price' => [
+                    'amount' => $data['total'],
+                    'currency' => 'USD',
+                ],
+                'pricing_type' => 'fixed_price',
+            ]);
+          
+            OrdenPurchases::where('id', $data['idorden'])->update([
+                'id_coinbase' => $charge['data']['id'],
+                'code_coinbase' => $charge['data']['code'],
+            ]);
+            
+            return $charge['data']['hosted_url'];
+            /*
             $headers = [
                 'x-api-key: '.$this->apis_key_nowpayments,
                 'Content-Type:application/json'
@@ -259,6 +275,7 @@ class TiendaController extends Controller
                 }
 
             return $resul;
+            */
         /*} catch (\Throwable $th) {
             Log::error('Tienda - generalUrlOrden -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");

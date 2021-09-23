@@ -24,7 +24,8 @@ class CreateOrdenPurchasesTable extends Migration
             $table->integer('cantidad');
             $table->decimal('total');
             $table->decimal('monto')->nullable();
-            $table->text('idtransacion')->nullable()->comment('ID de la transacion');
+            $table->text('id_coinbase')->nullable()->comment('ID de la transacion coinbase');
+            $table->text('code_coinbase')->nullable()->comment('Codigo de la transacion coinbase');
             $table->enum('status', [0, 1, 2, 3])->default(0)->comment('0 - En Espera, 1 - Completada, 2 - Rechazada, 3 - Cancelada');
             $table->timestamps();
         });
