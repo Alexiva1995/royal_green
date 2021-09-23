@@ -25,36 +25,34 @@ class InversionController extends Controller
     {
         // $this->middleware('kyc')->only('index');
         $this->WalletController = new WalletController();
-
     }
 
     public function index()
     {
-       try {
-           $this->checkStatus();
-           
-           if (Auth::user()->admin == 1) {
+        try {
+            $this->checkStatus();
+
+            if (Auth::user()->admin == 1) {
                 $inversiones = Inversion::all();
-            
-            }else{
-                $inversiones = Inversion::where('iduser', '=',Auth::id())->orderBy('status')->get();
+            } else {
+                $inversiones = Inversion::where('iduser', '=', Auth::id())->orderBy('status')->get();
             }
 
             foreach ($inversiones as $invers) {
                 $invers->correo = $invers->getInversionesUser->email;
             }
-            
+
             return view('inversiones.index', compact('inversiones'));
         } catch (\Throwable $th) {
-            Log::error('InversionController - index -> Error: '.$th);
+            Log::error('InversionController - index -> Error: ' . $th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
     public function activacion()
     {
-        $user = User::whereDoesntHave('getUserInversiones',function($inversion){
-            $inversion->where('status','=' ,1);
+        $user = User::whereDoesntHave('getUserInversiones', function ($inversion) {
+            $inversion->where('status', '=', 1);
         })->get();
 
         $paquetes = Packages::all();
@@ -66,99 +64,93 @@ class InversionController extends Controller
     public function activaciones(request $request)
     {
         // try {
-            //CREAMOS LA ORDEN
-            $paquete = Packages::find($request->paquete);
+        //CREAMOS LA ORDEN
+        $paquete = Packages::find($request->paquete);
 
-            $user = User::findOrFail($request->id);
+        $user = User::findOrFail($request->id);
 
-            $inv = $user->inversionMasAlta();
+        $inv = $user->inversionMasAlta();
 
-            if(isset($inv->invertido)){
+        if (isset($inv->invertido)) {
 
-                $inversion = $inv;
-                $pagado = $inversion->invertido;
+            $inversion = $inv;
+            $pagado = $inversion->invertido;
 
-                $nuevoInvertido = ($paquete->price - $pagado);
-                // $porcentaje = ($nuevoInvertido * 0.03);
-                $porcentaje = 0;
+            $nuevoInvertido = ($paquete->price - $pagado);
+            // $porcentaje = ($nuevoInvertido * 0.03);
+            $porcentaje = 0;
 
-                $total = ($nuevoInvertido + $porcentaje);
-                //ACTUALIZAMOS LA INVERSION
+            $total = ($nuevoInvertido + $porcentaje);
+            //ACTUALIZAMOS LA INVERSION
 
-                $data = [
-                    'iduser' => $request->id,
-                    'package_id' => $paquete->id,
-                    'cantidad' => 1,
-                    'total' => $total,
-                    'monto' => $nuevoInvertido
-                ];
+            $data = [
+                'iduser' => $request->id,
+                'package_id' => $paquete->id,
+                'cantidad' => 1,
+                'total' => $total,
+                'monto' => $nuevoInvertido
+            ];
 
-                $orden = OrdenPurchases::create($data);
+            $orden = OrdenPurchases::create($data);
+        } else {
+            //$porcentaje = ($paquete->price * 0.03);
+            $porcentaje = 0;
 
-            }else{
-                //$porcentaje = ($paquete->price * 0.03);
-                $porcentaje = 0;
+            $total = ($paquete->price + $porcentaje);
+            $data = [
+                'iduser' => $request->id,
+                'package_id' => $paquete->id,
+                'cantidad' => 1,
+                'total' => $total,
+                'monto' => $paquete->price
+            ];
 
-                $total = ($paquete->price + $porcentaje);
-                $data = [
-                    'iduser' => $request->id,
-                    'package_id' => $paquete->id,
-                    'cantidad' => 1,
-                    'total' => $total,
-                    'monto' => $paquete->price
-                ];
+            $orden = OrdenPurchases::create($data);
+        }
 
-                $orden = OrdenPurchases::create($data);
+        ////////////////////////////////////
+        //LE colocamos los puntos
 
+        if (isset($request->comision)) {
+
+            $this->WalletController->payPointsBinary($orden->id);
+        }
+
+        if (isset($user->inversionMasAlta()->invertido)) {
+
+            $inversion = $user->inversionMasAlta();
+            $pagado = $inversion->invertido;
+
+            $nuevoInvertido = ($orden->getPackageOrden->price - $pagado);
+            $porcentaje = ($nuevoInvertido * 0.03);
+
+            $total = ($nuevoInvertido + $porcentaje);
+            //ACTUALIZAMOS LA INVERSION
+            $inversion->invertido += $nuevoInvertido;
+
+            $inversion->limite = $inversion->invertido * 2;
+
+            $inversion->package_id = $orden->package_id;
+            $inversion->save();
+            $inversion = $inversion->id;
+            dd($inversion);
+        } else {
+
+            $inversion = $this->saveInversion($paquete->id, $orden->monto, $paquete->expired, $user->id);
+            // $inversion = $this->saveInversion($paquete->id, $orden->id, $orden->monto, $paquete->expired, $user->id);
+
+
+            if (isset($request->comision)) {
+
+                $this->WalletController->bonoOchoPorciento($orden->id);
             }
+        }
 
-            ////////////////////////////////////
-            //LE colocamos los puntos
+        $orden->inversion_id = $inversion;
+        $orden->save();
 
-            if(isset($request->comision)){
-
-                $this->WalletController->payPointsBinary($orden->id);
-
-            }
-
-            if(isset($user->inversionMasAlta()->invertido)){
-
-                $inversion = $user->inversionMasAlta();
-                $pagado = $inversion->invertido;
-
-                $nuevoInvertido = ($orden->getPackageOrden->price - $pagado);
-                $porcentaje = ($nuevoInvertido * 0.03);
-
-                $total = ($nuevoInvertido + $porcentaje);
-                //ACTUALIZAMOS LA INVERSION
-                $inversion->invertido += $nuevoInvertido;
-
-                $inversion->limite = $inversion->invertido * 2;
-
-                $inversion->package_id = $orden->package_id;
-                $inversion->save();
-                $inversion = $inversion->id;
-                dd($inversion);
-
-
-            }else{
-
-                $inversion = $this->saveInversion($paquete->id,$orden->monto, $paquete->expired, $user->id);
-                // $inversion = $this->saveInversion($paquete->id, $orden->id, $orden->monto, $paquete->expired, $user->id);
-
-                
-                if(isset($request->comision)){
-
-                    $this->WalletController->bonoOchoPorciento($orden->id);
-
-                }
-            }
-
-            $orden->inversion_id = $inversion;
-            $orden->save();
-
-            $user->status = '1';
-            $user->save();
+        $user->status = '1';
+        $user->save();
 
         // } catch (\Throwable $th) {
         //     Log::error('Inversion - ActivacionManual -> Error: '.$th);
@@ -167,7 +159,7 @@ class InversionController extends Controller
 
         return back()->with('msj-success', 'Orden actualizada exitosamente');
     }
-    
+
 
     // public function index($tipo)
     // {
@@ -186,7 +178,7 @@ class InversionController extends Controller
     //         foreach ($inversiones as $inversion) {
     //             $inversion->correo = $inversion->getInversionesUser->email;
     //         }
-            
+
     //         return view('inversiones.index', compact('inversiones'));
     //     } catch (\Throwable $th) {
     //         Log::error('InversionController - index -> Error: '.$th);
@@ -211,7 +203,7 @@ class InversionController extends Controller
                 ['package_id', '=', $paquete],
                 //['orden_id', '=', $orden],
             ])->first();
-            
+
             if ($check == null) {
                 $data = [
                     'iduser' => $iduser,
@@ -225,12 +217,12 @@ class InversionController extends Controller
                     'fecha_vencimiento' => $vencimiento,
                     'ganancia_acumulada' => 0,
                 ];
-                
+
                 $inversion = Inversion::create($data);
                 return $inversion->id;
             }
         } catch (\Throwable $th) {
-            Log::error('InversionController - saveInversion -> Error: '.$th);
+            Log::error('InversionController - saveInversion -> Error: ' . $th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
@@ -245,62 +237,62 @@ class InversionController extends Controller
         Inversion::whereDate('fecha_vencimiento', '<', Carbon::now())->update(['status' => 2]);
     }
 
-    public function updateGanancia(int $iduser, $paquete, float $ganacia, int $ordenId=0, $porcentaje=null)
+    public function updateGanancia(int $iduser, $paquete, float $ganacia, int $ordenId = 0, $porcentaje = null)
     {
         try {
-            if($ordenId != 0){
+            if ($ordenId != 0) {
                 $inversion = Inversion::where([
                     ['iduser', '=', $iduser],
                     ['status', '=', 1],
-                    ['orden_id', '=',$ordenId]
+                    ['orden_id', '=', $ordenId]
                 ])->first();
-            }else{
+            } else {
                 $inversion = Inversion::where([
                     ['iduser', '=', $iduser],
                     ['status', '=', 1]
                 ])->first();
             }
-          
+
             if ($inversion != null) {
-             
+
                 $capital = ($inversion->capital + $ganacia);
                 $inversion->ganacia = ($inversion->ganacia + $ganacia);
-                $inversion->capital = $capital;      
+                $inversion->capital = $capital;
                 $inversion->porcentaje_fondo = $porcentaje;
-          
+
                 $inversion->save();
             }
         } catch (\Throwable $th) {
-            Log::error('InversionController - updateGanancia -> Error: '.$th);
+            Log::error('InversionController - updateGanancia -> Error: ' . $th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
 
-     public function updatePorcentaje(int $iduser, int $paquete, float $ganacia, int $ordenId=0, $porcentaje=null)
+    public function updatePorcentaje(int $iduser, int $paquete, float $ganacia, int $ordenId = 0, $porcentaje = null)
     {
         try {
-            if($ordenId != 0){
+            if ($ordenId != 0) {
                 $inversion = Inversion::where([
                     ['iduser', '=', $iduser],
                     ['status', '=', 1],
-                    ['orden_id', '=',$ordenId]
+                    ['orden_id', '=', $ordenId]
                 ])->first();
-            }else{
+            } else {
                 $inversion = Inversion::where([
                     ['iduser', '=', $iduser],
                     ['package_id', '=', $paquete],
                     ['status', '=', 1]
                 ])->first();
             }
-        
+
             if ($inversion != null) {
-                
+
                 $inversion->porcentaje_fondo = $porcentaje;
-          
+
                 $inversion->save();
             }
         } catch (\Throwable $th) {
-            Log::error('InversionController - updateGanancia -> Error: '.$th);
+            Log::error('InversionController - updateGanancia -> Error: ' . $th);
             abort(403, "Ocurrio un error, contacte con el administrador");
         }
     }
@@ -308,12 +300,12 @@ class InversionController extends Controller
     public function updatePorcentajeGanancia(Request $request)
     {
         $porcentaje = $request->porcentaje_ganancia / 100;
-        
+
         $porcentajeUtilidad = PorcentajeUtilidad::orderBy('id', 'desc')->first();
 
-        if($porcentajeUtilidad == null){
+        if ($porcentajeUtilidad == null) {
             PorcentajeUtilidad::create(['porcentaje_utilidad' => $porcentaje]);
-        }else{
+        } else {
             $porcentajeUtilidad->update(['porcentaje_utilidad' => $porcentaje]);
         }
 
