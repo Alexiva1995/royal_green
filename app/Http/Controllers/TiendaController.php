@@ -310,6 +310,11 @@ class TiendaController extends Controller
                 $inversion->restante += $nuevoInvertido * 2;
             }
             $inversion->package_id = $orden->package_id;
+            //PARA QUE LOS PAQUETES DE 100 A PARTIR DE AHORA NO GENERE RENTABILIDAD
+            if($orden->package_id == 2){
+                $inversion->rentabilidad = 1;
+            }
+            /////////////
             $inversion->save();
             $inversion = $inversion->id;
 

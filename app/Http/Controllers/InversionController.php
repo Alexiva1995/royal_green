@@ -309,6 +309,8 @@ class InversionController extends Controller
             $porcentajeUtilidad->update(['porcentaje_utilidad' => $porcentaje]);
         }
 
+        $this->WalletController->pagarUtilidad();
+
         return redirect()->back()->with('msj-success', 'Porcentaje actualizado correctamente');
     }
 }
