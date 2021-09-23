@@ -56,6 +56,8 @@
                                        En Espera
                                        @elseif($liqui->status == 1)
                                        Liquidado
+                                       @else
+                                       Reversado
                                        @endif
                                     </td>
                                     <td>{{date('Y-m-d', strtotime($liqui->created_at))}}</td>
