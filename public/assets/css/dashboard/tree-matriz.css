@@ -165,6 +165,10 @@ right connector from last child*/
           z-index: 1;
       }
   }
+  #center{
+    margin: auto;
+
+  }
 
   .art {
       background: url("../../img/royal_green/fondos/bg.png");
