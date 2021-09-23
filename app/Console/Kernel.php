@@ -35,6 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('check:rank')->daily();
         $schedule->command('checkstatus:purchase')->everyTenMinutes();
         $schedule->command('pagar:utilidad')->weekdays()->daily();
+        $schedule->command('reset:points')->monthly();
     }
 
     /**
