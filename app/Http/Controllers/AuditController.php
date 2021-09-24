@@ -73,52 +73,53 @@ class AuditController extends Controller
      */
     public function dataPuntos(Request $request)
     {
-        if ($request->ajax()) {
-            $data = WalletBinary::latest()->where('iduser', $request->id)->get();
-            return Datatables::of($data)
-                ->addColumn('id', function($data){
-                    return $data->id;
-                })
-                ->addColumn('usuario', function($data){
-                    return $data->getUserBinary->email;
-                })
-                ->addColumn('referido', function($data){
-                    return $data->referred_id->email;
-                })
-                ->addColumn('puntos_derecha', function($data){
-                    if($data->side == 'D'){
-                        return $data->puntos_reales;
-                    }else{
-                        return 0;
-                    }
-                    
-                })
-                ->addColumn('puntos_izquierda', function($data){
-                    if($data->side == 'I'){
-                        return $data->puntos_reales;
-                    }else{
-                        return 0;
-                    }
-                })
-                ->addColumn('lado', function($data){
-                    if($data->side == 'I'){
-                        return 'Izquierda';
-                    }else{
-                        return 'Derecha';
-                    }
-                })
-                ->addColumn('estado', function($data){
-                    if($data->status == 0){
-                        return 'En espera';
-                    }elseif($data->status == 1){
-                        return 'Pagado';
-                    }elseif($data->status == 2){
-                        return 'Cancelado';
-                    }
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
+      
+        $data = WalletBinary::where('iduser', $request->id)->orderBy('id', 'desc')->get();
+
+        return Datatables::of($data)
+            ->addColumn('id', function($data){
+                return $data->id;
+            })
+            ->addColumn('usuario', function($data){
+                return $data->getUserBinary->email;
+            })
+            ->addColumn('referido', function($data){
+                return $data->referred_id;
+            })
+            ->addColumn('puntos_derecha', function($data){
+                if($data->side == 'D'){
+                    return $data->puntos_reales;
+                }else{
+                    return 0;
+                }
+                
+            })
+            ->addColumn('puntos_izquierda', function($data){
+                if($data->side == 'I'){
+                    return $data->puntos_reales;
+                }else{
+                    return 0;
+                }
+            })
+            ->addColumn('lado', function($data){
+                if($data->side == 'I'){
+                    return 'Izquierda';
+                }else{
+                    return 'Derecha';
+                }
+            })
+            ->addColumn('estado', function($data){
+                if($data->status == 0){
+                    return 'En espera';
+                }elseif($data->status == 1){
+                    return 'Pagado';
+                }elseif($data->status == 2){
+                    return 'Cancelado';
+                }
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    
     }
 
     public function modificarComisiones()

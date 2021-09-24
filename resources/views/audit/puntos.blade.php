@@ -26,11 +26,13 @@
                     <thead>
 
                         <tr class="text-center text-dark text-uppercase pl-2">                                
-                            <th>ID</th>
+                            <th>Id</th>
                             <th>Usuario</th>
                             <th>Referido</th>
                             <th>Puntos Derecha</th>
                             <th>Puntos Izquierda</th> 
+                            <th>Lado</th>
+                            <th>Estado</th>
                         </tr>
 
                     </thead>
