@@ -271,45 +271,49 @@ class WalletController extends Controller
 
     public function pagarUtilidad()
     {
-        $inversiones = Inversion::where('status', 1)->get();
+        $inversiones = Inversion::where('status', 1)->whereHas('getInversionesUser', function($user){ 
+            $user->where('genera_rentabilidad', 1);
+        })->get();
+    
+        foreach($inversiones as $inversion){
+            if($inversion->package_id != 2 && $inversion->rentabilidad != 1){
+                //establecemos maxima ganancia
+                if($inversion->max_ganancia == null){
+                    $inversion->max_ganancia = $inversion->invertido * 2;
+                    $inversion->restante = $inversion->max_ganancia;
+                }
+                $porcentaje = PorcentajeUtilidad::orderBy('id', 'desc')->first();
+                $cantidad = $inversion->invertido * $porcentaje->porcentaje_utilidad;
+                $resta = $inversion->restante - $cantidad;
+                
+                if($resta < 0){//comparamos si se pasa de lo que puede ganar
+                    $cantidad = $inversion->restante;
+                    $inversion->restante = 0;
+                    $inversion->ganacia = $inversion->max_ganancia;
+                    $inversion->status = 2;
+                }else{
+                    $inversion->restante = $resta;
+                    $inversion->ganacia += $cantidad;
+                }
+                $data = [
+                    'iduser' => $inversion->iduser,
+                    'referred_id' => null,
+                    'cierre_comision_id' => null,
+                    'monto' => $cantidad,
+                    'descripcion' => 'Profit de '.($porcentaje->porcentaje_utilidad * 100). ' %',
+                    'status' => 0,
+                    'tipo_transaction' => 0,
+                    'orden_purchases_id' => $inversion->orden_id
+                ];
 
-        foreach ($inversiones as $inversion) {
-            //establecemos maxima ganancia
-            if ($inversion->max_ganancia == null) {
-                $inversion->max_ganancia = $inversion->invertido * 2;
-                $inversion->restante = $inversion->max_ganancia;
+                if($data['monto'] > 0){
+                    $wallet = Wallet::create($data);
+                    $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['monto']);
+                    $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
+                }
+                    
+                $inversion->save();
             }
-            $porcentaje = PorcentajeUtilidad::orderBy('id', 'desc')->first();
-            $cantidad = $inversion->invertido * $porcentaje->porcentaje_utilidad;
-            $resta = $inversion->restante - $cantidad;
-
-            if ($resta < 0) { //comparamos si se pasa de lo que puede ganar
-                $cantidad = $inversion->restante;
-                $inversion->restante = 0;
-                $inversion->ganacia = $inversion->max_ganancia;
-                $inversion->status = 2;
-            } else {
-                $inversion->restante = $resta;
-                $inversion->ganacia += $cantidad;
-            }
-            $data = [
-                'iduser' => $inversion->iduser,
-                'referred_id' => null,
-                'cierre_comision_id' => null,
-                'monto' => $cantidad,
-                'descripcion' => 'Profit de ' . ($porcentaje->porcentaje_utilidad * 100) . ' %',
-                'status' => 0,
-                'tipo_transaction' => 0,
-                'orden_purchases_id' => $inversion->orden_id
-            ];
-
-            if ($data['monto'] > 0) {
-                $wallet = Wallet::create($data);
-                $saldoAcumulado = ($wallet->getWalletUser->wallet - $data['monto']);
-                $wallet->getWalletUser->update(['wallet' => $saldoAcumulado]);
-            }
-
-            $inversion->save();
         }
     }
 
@@ -435,11 +439,56 @@ class WalletController extends Controller
      *
      * @return void
      */
-    public function payPointsBinary()
+    public function payPointsBinary($id = null)
     {
         try {
-            $ordenes = $this->getOrdens(null);
-            foreach ($ordenes as $orden) {
+            if($id == null){
+                $ordenes = $this->getOrdens(null);
+                foreach ($ordenes as $orden) {
+                    $sponsors = $this->treeController->getSponsor($orden->iduser, [], 0, 'id', 'binary_id');
+                    $side = $orden->getOrdenUser->binary_side;
+                    foreach ($sponsors as $sponsor) {
+                        if ($sponsor->id != $orden->iduser) {
+                        if ($sponsor->id != 1) {
+
+                                    $check = WalletBinary::where([
+                                        ['iduser', '=', $sponsor->id],
+                                        ['referred_id', '=', $orden->iduser],
+                                        ['orden_purchase_id', '=', $orden->id]
+                                    ])->first();
+                                    if (empty($check)) {
+                                        $concepto = 'Puntos binarios del Usuario '.$orden->getOrdenUser->fullname;
+                                        $puntosD = $puntosI = 0;
+                                        if ($sponsor->status == '1') {
+                                            if ($side == 'I') {
+                                                $puntosI = $orden->total;
+                                            }elseif($side == 'D'){
+                                                $puntosD = $orden->total;
+                                            }
+                                        }
+                                        $dataWalletPoints = [
+                                            'iduser' => $sponsor->id,
+                                            'referred_id' => $orden->iduser,
+                                            'orden_purchase_id' => $orden->id,
+                                            'puntos_d' => $puntosD,
+                                            'puntos_reales_i' => $puntosI,
+                                            'puntos_reales_d' => $puntosD,
+                                            'puntos_i' => $puntosI,
+                                            'side' => $side,
+                                            'status' => 0,
+                                            'descripcion' => $concepto
+                                        ];
+                                        
+                                        WalletBinary::create($dataWalletPoints);
+                                }
+                        }                    
+                        }
+                        $side = $sponsor->binary_side;
+                    }
+                }
+            }else{
+                $orden = OrdenPurchases::findOrFail($id);
+
                 $sponsors = $this->treeController->getSponsor($orden->iduser, [], 0, 'id', 'binary_id');
                 $side = $orden->getOrdenUser->binary_side;
                 foreach ($sponsors as $sponsor) {

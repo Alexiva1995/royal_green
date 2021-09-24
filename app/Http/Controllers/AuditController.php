@@ -72,7 +72,7 @@ class AuditController extends Controller
     public function dataPuntos(Request $request)
     {
         if ($request->ajax()) {
-            $data = WalletBinary::latest()->get();
+            $data = WalletBinary::latest()->where('iduser', $request->id)->get();
             return Datatables::of($data)
                 ->addColumn('id', function($data){
                     return $data->id;
@@ -81,13 +81,29 @@ class AuditController extends Controller
                     return $data->getUserBinary->email;
                 })
                 ->addColumn('referido', function($data){
-                    return User::find($data->getUserBinary->referred_id)->email;
+                    return $data->referred_id->email;
                 })
                 ->addColumn('puntos_derecha', function($data){
                     return $data->puntos_d;
                 })
                 ->addColumn('puntos_izquierda', function($data){
                     return $data->puntos_i;
+                })
+                ->addColumn('lado', function($data){
+                    if($data->side == 'I'){
+                        return 'Izquierda';
+                    }else{
+                        return 'Derecha';
+                    }
+                })
+                ->addColumn('estado', function($data){
+                    if($data->status == 0){
+                        return 'En espera';
+                    }elseif($data->status == 1){
+                        return 'Pagado';
+                    }elseif($data->status == 2){
+                        return 'Cancelado';
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);
