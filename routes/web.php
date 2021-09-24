@@ -203,7 +203,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::put('updatePorcentajeGanancia', 'InversionController@updatePorcentajeGanancia')->name('updatePorcentajeGanancia');
     });
     Route::get('adminWallet', 'WalletController@adminWallet')->name('wallet.adminWallet');
-    Route::post('adminWallets', 'WalletController@adminWallets')->name('wallet.adminWallets');
+    Route::get('adminWallets', 'WalletController@adminWallets')->name('wallet.adminWallets');
 
 
     Route::get('dataGrafica', 'HomeController@dataGrafica')->name('dataGrafica');

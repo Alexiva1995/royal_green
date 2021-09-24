@@ -508,9 +508,9 @@ class LiquidactionController extends Controller
             }
             
             if($bruto <= 250){
-                $feed = ($bruto * 4.5);
+                $feed = ($bruto * 0.085);
             }else{
-                $feed = ($bruto * 8.5);
+                $feed = ($bruto * 0.045);
             }
             $total = ($bruto - $feed);
           
