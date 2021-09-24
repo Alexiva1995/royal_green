@@ -30,8 +30,7 @@ class CreateWalletBinariesTable extends Migration
             //$table->decimal('balance')->nullable()->comment('balance del cash');
             $table->string('side', 1);
             $table->string('descripcion');
-            $table->double('puntos_reales_d')->default(0)->comment('puntos del lado derecho');
-            $table->double('puntos_reales_i')->default(0)->comment('puntos del lado izquierdo');
+            $table->decimal('puntos_reales')->default(0)->comment('puntos ganados sin modificar');
             $table->tinyInteger('status')->default(0)->comment('0 - En espera, 1 - Pagado (liquidado), 2 - Cancelado');
             $table->timestamps();
         });

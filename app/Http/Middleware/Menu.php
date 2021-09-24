@@ -243,16 +243,10 @@ class Menu
                         'complementoruta' => route('audit.puntos')
                     ],
                     [
-                        'name' => 'Modificar comisiones',
+                        'name' => 'Modificar Comisiones',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
-                        'complementoruta' => ''
-                    ],
-                    [
-                        'name' => 'Binario',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
-                        'complementoruta' => ''
+                        'complementoruta' => route('audit.modificar.comisiones')
                     ]
                    
                 ]
