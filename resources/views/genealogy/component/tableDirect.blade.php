@@ -2,7 +2,7 @@
 <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
     <thead class="">
         <tr class="text-center text-white bg-purple-alt2">
-            <th>#</th>
+            <th>ID</th>
             <th>Usuario</th>
             <th>Paquete</th>
             <th>Estado</th>

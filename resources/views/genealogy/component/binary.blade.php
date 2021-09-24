@@ -1,35 +1,28 @@
-    <div class="col-3 text-center">
+    <div class="col-md-3 col-lg-3 d-none d-lg-block d-md-block text-center">
         <div class="row">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class=" d-flex white mt-2">
-                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Puntos izquierda:
+                            <button class="btn-tree text-left text-uppercase">Puntos izquierda:
                                 {{$binario['totali']}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class=" d-flex white mt-2">
-                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Total red Izquierdos:
-                                {{$red_i}}</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="col-6">
+    
+    <div class="col-md-6 col-lg-6 col-sm-12">
         <div class="w-100 art" id="tarjeta">
             <div class="row p-2">
-                <div class="col-12 mb-3 d-flex justify-content-center">
-                    <img id="imagen" class="rounded-circle img-fluid" width="110px" height="110px">
+                <div class="col-md-4 col-lg-4">
+                    <div class="mb-3 d-flex justify-content-center">
+                        <img id="imagen" class="rounded-circle" width="120px" height="120px">
+                    </div>
                 </div>
-                <div class="col-12">
+                
+                <div class="col-md-8 col-lg-8mt-2">
                     <div class="text-white">
                         <p><b>Fecha de Ingreso:</b> <span id="fecha_ingreso"></span></p>
                     </div>
@@ -50,24 +43,29 @@
         </div>
     </div>
 
-    <div class="col-3 text-center">
+    <div class="col-sm-6 d-none d-md-none d-lg-none d-xl-none d-inline text-center">
         <div class="row">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class=" d-flex white mt-2">
-                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Puntos Derecha:
-                                {{$binario['totald']}}</button>
+                            <button class="btn-tree text-left text-uppercase">Puntos izquierda:
+                                {{$binario['totali']}}</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 col-lg-3 col-sm-6 text-center">
+        <div class="row">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <div class=" d-flex white mt-2">
-                            <button class="btn-tree text-left text-uppercase" style="width: 247px;">Total red Derechos:
-                                {{$red_d}}</button>
+                            <button class="btn-tree text-left text-uppercase">Puntos Derecha:
+                                {{$binario['totald']}}</button>
                         </div>
                     </div>
                 </div>

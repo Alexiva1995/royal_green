@@ -98,19 +98,26 @@ class TicketsController extends Controller
 
     // permite ver la lista de tickets
 
-    public function listUser()
+    public function listUser(Request $request)
     {
-
+        //Aqui llamo todos los tickets de un usuario
         $ticket = Ticket::where('iduser', Auth::id())->get();
-
-        // $ticket_msj = MessageTicket::all()->where('id_user', Auth::id())->where('type', 1);
-
-        // foreach($ticket_msj as $time){
-        //   $time_msj = $time->created_at->diffForHumans();
-        // }
-
+        //recorro dicho tickets
+        foreach ($ticket as $ticke) {
+            //Verifico el ultimos mensaje obtenido de un ticket en especifico
+            $message = MessageTicket::where('id_ticket', '=', $ticke->id) // aqui comparo el ticket
+                ->where('type', 1) //verificas que sea nivel 1
+                ->select('created_at') // selecciona el campo o los campos a trabajar en nuestro caso create_at
+                ->orderBy('id', 'desc') //ordeno de mayor a menor para saber cual es el mensaje mas reciente
+                ->first(); // obtengo solamente el mensaje mas reciente
+            $ticke->send = '' ; // por default declaramos en vacio 
+            //verifico si existe un ultimo mensaje
+            if ($message != null) {
+                // en caso de que existe un mensaje veao en tiempo humano cuando fue la ultima vez que me lo hicieron
+                $ticke->send = $message->created_at->diffForHumans();
+            }
+        }
         return view('tickets.componenteTickets.user.list-user')
-            // ->with('time_msj', $time_msj)
             ->with('ticket', $ticket);
     }
 
