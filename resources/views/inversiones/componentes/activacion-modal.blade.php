@@ -34,6 +34,16 @@
                         </span>
                         <span>Click para generar comision</span>
                     </div>
+
+                    <div class="vs-checkbox-con vs-checkbox-success ">
+                        <input type="checkbox" name="rentabilidad" id="rentabilidad">
+                        <span class="vs-checkbox ">
+                            <span class="vs-checkbox--check">
+                                <i class="vs-icon feather icon-check"></i>
+                            </span>
+                        </span>
+                        <span>Click para generar rentabilidad</span>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger"

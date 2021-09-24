@@ -5,6 +5,7 @@
             <th>Nombre</th>
             <th>Correo</th>
             <th>Nivel</th>
+            <th>Lado Binario</th>
             <th>Estado</th>
             <th>Ingreso</th>
         </tr>
@@ -15,6 +16,13 @@
             <td>{{$item->fullname}}</td>
             <td>{{$item->email}}</td>
             <td>{{$item->nivel}}</td>
+            <td>
+                @if($item->binary_side == 'I')
+                Izquierda
+                @else
+                Derecha
+                @endif
+            </td>
             @if ($item->status == '0')
             <td> <a class=" btn btn-info text-white text-bold-600">Inactivo</a></td>
             @elseif($item->status == '1')

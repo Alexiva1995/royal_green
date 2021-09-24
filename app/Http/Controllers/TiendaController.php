@@ -117,7 +117,8 @@ class TiendaController extends Controller
                         'package_id' => $paquete->id,
                         'cantidad' => 1,
                         'total' => $total,
-                        'monto' => $nuevoInvertido
+                        'monto' => $nuevoInvertido,
+                        'name' => $paquete->name
                     ];
                 
                     //$orden = OrdenPurchases::findOrFail($inversion->orden_id)->update($data);
@@ -287,49 +288,50 @@ class TiendaController extends Controller
         $orden = OrdenPurchases::findOrFail($request->id);
         $orden->status = $request->status;
         $orden->save();
-        $user = User::findOrFail($orden->iduser);
 
-        $this->walletController->payAll();
-        
-        
-        
-        if(isset($user->inversionMasAlta()->invertido)){
-      
-            $inversion = $user->inversionMasAlta();
-            $pagado = $inversion->invertido;
+        if($request->status == '1'){
+            $user = User::findOrFail($orden->iduser);
 
-            $nuevoInvertido = ($orden->getPackageOrden->price - $pagado); 
-            $porcentaje = ($nuevoInvertido * 0.03);
+            $this->walletController->payAll();           
+            
+            if(isset($user->inversionMasAlta()->invertido)){
+        
+                $inversion = $user->inversionMasAlta();
+                $pagado = $inversion->invertido;
 
-            $total = ($nuevoInvertido + $porcentaje);
-            //ACTUALIZAMOS LA INVERSION
-            $inversion->invertido += $nuevoInvertido;
-            $inversion->capital += $nuevoInvertido;
-            if(isset($inversion->max_ganancia) && isset($inversion->invertido)){
-                $inversion->max_ganancia = $inversion->invertido * 2;
-                $inversion->restante += $nuevoInvertido * 2;
+                $nuevoInvertido = ($orden->getPackageOrden->price - $pagado); 
+                $porcentaje = ($nuevoInvertido * 0.03);
+
+                $total = ($nuevoInvertido + $porcentaje);
+                //ACTUALIZAMOS LA INVERSION
+                $inversion->invertido += $nuevoInvertido;
+                $inversion->capital += $nuevoInvertido;
+                if(isset($inversion->max_ganancia) && isset($inversion->invertido)){
+                    $inversion->max_ganancia = $inversion->invertido * 2;
+                    $inversion->restante += $nuevoInvertido * 2;
+                }
+                $inversion->package_id = $orden->package_id;
+                //PARA QUE LOS PAQUETES DE 100 A PARTIR DE AHORA NO GENERE RENTABILIDAD
+                if($orden->package_id == 2){
+                    $inversion->rentabilidad = 1;
+                }
+                /////////////
+                $inversion->save();
+                $inversion = $inversion->id;
+
+            }else{
+            
+                $inversion = $this->registeInversion($request->id);
             }
-            $inversion->package_id = $orden->package_id;
-            //PARA QUE LOS PAQUETES DE 100 A PARTIR DE AHORA NO GENERE RENTABILIDAD
-            if($orden->package_id == 2){
-                $inversion->rentabilidad = 1;
-            }
-            /////////////
-            $inversion->save();
-            $inversion = $inversion->id;
-
-        }else{
         
-            $inversion = $this->registeInversion($request->id);
+            $orden->inversion_id = $inversion;
+            $orden->save();
+            
+            $user = User::findOrFail($orden->iduser);
+            $user->status = '1';
+            $user->save();
+            $this->walletController->bonos($user, $orden);
         }
-    
-        $orden->inversion_id = $inversion;
-        $orden->save();
-        
-        $user = User::findOrFail($orden->iduser);
-        $user->status = '1';
-        $user->save();
-        $this->walletController->bonos($user, $orden);
 
         return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
     }

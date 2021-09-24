@@ -272,7 +272,9 @@ class WalletController extends Controller
 
     public function pagarUtilidad()
     {
-        $inversiones = Inversion::where('status', 1)->get();
+        $inversiones = Inversion::where('status', 1)->whereHas('getInversionesUser', function($user){ 
+            $user->where('genera_rentabilidad', 1);
+        })->get();
     
         foreach($inversiones as $inversion){
             if($inversion->package_id != 2 && $inversion->rentabilidad != 1){
