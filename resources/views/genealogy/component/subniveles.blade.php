@@ -3,7 +3,7 @@
     @if (empty($data->photoDB))
         <img src="http://127.0.0.1:8000/assets/img/royal_green/logos/arbol.svg" class="rounded-circle" alt="{{$data->name}}" title="{{$data->name}}" width="55px">
     @else
-        <img src="{{asset('storage/photo/'.$data->photoDB)}}" class="rounded-circle" alt="{{$data->name}}" title="{{$data->name}}">
+        <img src="{{asset('storage/photo/'.$data->photoDB)}}" class="rounded-circle" alt="{{$data->name}}" title="{{$data->name}}" width="55" height="55">
     @endif
 </a>
 

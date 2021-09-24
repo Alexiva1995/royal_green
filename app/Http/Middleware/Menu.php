@@ -201,11 +201,17 @@ class Menu
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Remover Billetera',
+                        'name' => 'Rangos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => '',
+                        'ruta' => route('audit.rangos'),
                         'complementoruta' => ''
                     ],
+                    // [
+                    //     'name' => 'Remover Billetera',
+                    //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                    //     'ruta' => '',
+                    //     'complementoruta' => ''
+                    // ],
                     [
                         'name' => 'Beneficio Royal',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -224,12 +230,6 @@ class Menu
                 'icon' => 'feather icon-layout',
                 'complementoruta' => '',
                 'submenus' => [
-                    [
-                        'name' => 'Rangos',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('audit.rangos'),
-                        'complementoruta' => ''
-                    ],
                     [
                         'name' => 'Historial de puntos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
@@ -261,15 +261,15 @@ class Menu
                     //     'complementoruta' => ''
                     // ],
                     [
-                        'name' => 'Generar',
+                        'name' => 'Solicitud de Retiros',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => route('settlement.pending'), 
                         'complementoruta' => ''
                     ],
                     [
-                        'name' => 'Realizados',
+                        'name' => 'Historial de Retiros',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('settlement.history.status', 'Pagadas'),
+                        'ruta' => route('settlement.history'),
                         'complementoruta' => ''
                     ],
                     // [
@@ -312,12 +312,12 @@ class Menu
                         'ruta' => route('genealogy_type', 'tree'),
                         'complementoruta' => ''
                     ],
-                    [
-                        'name' => 'Referidos',
-                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                        'ruta' => route('genealogy_list_network', 'direct'),
-                        'complementoruta' => ''
-                    ],
+                    // [
+                    //     'name' => 'Referidos',
+                    //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                    //     'ruta' => route('genealogy_list_network', 'direct'),
+                    //     'complementoruta' => ''
+                    // ],
                 ],
             ],
             // Fin Red
@@ -345,13 +345,13 @@ class Menu
                 ]
             ],
             // Usuarios
-            'Usuarios' => [
-                'submenu' => 0,
-                'ruta' => route('users.list-user'),
-                'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
-                'icon' => 'feather icon-user',
-                'complementoruta' => '',
-            ],
+            // 'Usuarios' => [
+            //     'submenu' => 0,
+            //     'ruta' => route('users.list-user'),
+            //     'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+            //     'icon' => 'feather icon-user',
+            //     'complementoruta' => '',
+            // ],
             // Fin Usuarios
 
             // Soporte
