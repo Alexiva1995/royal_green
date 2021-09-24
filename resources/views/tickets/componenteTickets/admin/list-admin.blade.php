@@ -54,7 +54,7 @@
                                     @endif
 
                                     <td>{{$item->send}}</td>
-                                    <td><a href="{{ route('ticket.edit-admin',$item->id) }}" class="btn btn-primary text-bold-600">Revisar</a></td>
+                                    <td><a href="{{ route('ticket.edit-admin',$item->id) }}" class="btn btn-primary text-bold-600">Ver</a></td>
                                 </tr>
                                 @endforeach
                             </tbody>
