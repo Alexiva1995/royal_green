@@ -14,6 +14,7 @@
                                     <th>Paquete</th>
                                     <th>Monto</th>
                                     <th>Estado</th>
+                                    <th>ID Coinbase</th>
                                     <th>Fecha de Creación</th>
                                 </tr>
 
@@ -26,6 +27,7 @@
                                     <td>{{-- {{$orden->getGroupOrden->name}} --}} {{$orden->getPackageOrden->name}}</td>
                                     <td>{{$orden->total}}</td>
 
+
                                     @if ($orden->status == '0')
                                     <td> <a class=" btn btn-outline-primary text-white text-bold-600">Esperando</a></td>
                                     @elseif($orden->status == '1')
@@ -33,7 +35,7 @@
                                     @elseif($orden->status >= '2')
                                     <td> <a class=" btn btn-danger text-white text-bold-600">Cancelado</a></td>
                                     @endif
-
+                                    <td>{{$orden->idtransacion}}</td>
                                     <td>{{date('Y-M-d', strtotime($orden->created_at))}}</td>
                                 </tr>
                                 @endforeach
