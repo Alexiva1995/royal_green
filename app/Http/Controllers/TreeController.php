@@ -54,9 +54,9 @@ class TreeController extends Controller
     public function indexNewtwork($network)
     {
         try {
-            $allNetwork = ($network == 'direct') ? 1 : 0;
+            $allNetwork = ($network == 'direct') ? 2 : 0;
             $users = $this->getChidrens2(Auth::id(), [], 1, 'referred_id', $allNetwork);
-      
+        
             //$title = ($network == 'direct') ? 'Directo' : ' En Red';
             $title = '';
             //Titulo

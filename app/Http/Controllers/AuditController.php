@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Datatables;
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\Inversion;
 use App\Models\RankRecords;
 use App\Models\WalletBinary;
 use Illuminate\Http\Request;
@@ -71,26 +73,115 @@ class AuditController extends Controller
      */
     public function dataPuntos(Request $request)
     {
+      
+        $data = WalletBinary::where('iduser', $request->id)->orderBy('id', 'desc')->get();
+
+        return Datatables::of($data)
+            ->addColumn('id', function($data){
+                return $data->id;
+            })
+            ->addColumn('usuario', function($data){
+                return $data->getUserBinary->email;
+            })
+            ->addColumn('referido', function($data){
+                return $data->referred_id;
+            })
+            ->addColumn('puntos_derecha', function($data){
+                if($data->side == 'D'){
+                    return $data->puntos_reales;
+                }else{
+                    return 0;
+                }
+                
+            })
+            ->addColumn('puntos_izquierda', function($data){
+                if($data->side == 'I'){
+                    return $data->puntos_reales;
+                }else{
+                    return 0;
+                }
+            })
+            ->addColumn('lado', function($data){
+                if($data->side == 'I'){
+                    return 'Izquierda';
+                }else{
+                    return 'Derecha';
+                }
+            })
+            ->addColumn('estado', function($data){
+                if($data->status == 0){
+                    return 'En espera';
+                }elseif($data->status == 1){
+                    return 'Pagado';
+                }elseif($data->status == 2){
+                    return 'Cancelado';
+                }
+            })
+            ->rawColumns(['action'])
+            ->make(true);
+    
+    }
+
+    public function modificarComisiones()
+    {
+        $users = User::where('status', '1')->select(['id', 'username'])->orderBy('id', 'desc')->get();
+        return view('audit.modificarcomisiones', compact('users'));
+    }
+
+    /**
+     * Petición asincrona para la obtención de comisiones mediante el id de usuario
+     *
+     * @param integer $id
+     * @return void
+     */
+    public function dataComisiones(Request $request)
+    {
         if ($request->ajax()) {
-            $data = WalletBinary::latest()->get();
+            $data = Wallet::where('iduser', $request->id)->where('status', 0)->get();
+            // dd($data);
             return Datatables::of($data)
                 ->addColumn('id', function($data){
                     return $data->id;
                 })
-                ->addColumn('usuario', function($data){
-                    return $data->getUserBinary->email;
+                ->addColumn('email', function($data){
+                    return $data->getWalletUser->email;
                 })
-                ->addColumn('referido', function($data){
-                    return User::find($data->getUserBinary->referred_id)->email;
+                ->addColumn('descripcion', function($data){
+                    return $data->descripcion;
                 })
-                ->addColumn('puntos_derecha', function($data){
-                    return $data->puntos_d;
+                ->addColumn('monto', function($data){
+                    return $data->monto;
                 })
-                ->addColumn('puntos_izquierda', function($data){
-                    return $data->puntos_i;
+                ->addColumn('creacion', function($data){
+                    return $data->created_at->format('Y-m-d');
                 })
                 ->rawColumns(['action'])
                 ->make(true);
         }
+    }
+/**
+ * Establece la Comision con staatus 1
+ *
+ * @param Request $request
+ * @return void
+ */
+    public function eliminarComision(Request $request)
+    {
+        try{
+            $comision = Wallet::find($request->id);
+            $comision->update([
+                'status' => 2,
+            ]);
+            $inversion = Inversion::where('iduser', $comision->iduser)->first();
+            $restoGanancia = $inversion->ganacia - $comision->monto;
+            $inversion->update([
+                'ganacia' => $restoGanancia,
+            ]);
+            return response('success');
+        }catch (\Throwable $th) {
+            Log::error('AuditController - eliminarComision -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+
     }
 }

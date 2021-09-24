@@ -65,10 +65,11 @@ class InversionController extends Controller
     {
         // try {
         //CREAMOS LA ORDEN
+
         $paquete = Packages::find($request->paquete);
 
         $user = User::findOrFail($request->id);
-
+        
         $inv = $user->inversionMasAlta();
 
         if (isset($inv->invertido)) {
@@ -107,15 +108,15 @@ class InversionController extends Controller
 
             $orden = OrdenPurchases::create($data);
         }
-
+        
         ////////////////////////////////////
         //LE colocamos los puntos
-
+        //dump('sin puntos');
         if (isset($request->comision)) {
-
+            //dump('con puntos');
             $this->WalletController->payPointsBinary($orden->id);
         }
-
+    
         if (isset($user->inversionMasAlta()->invertido)) {
 
             $inversion = $user->inversionMasAlta();
@@ -133,7 +134,7 @@ class InversionController extends Controller
             $inversion->package_id = $orden->package_id;
             $inversion->save();
             $inversion = $inversion->id;
-            dd($inversion);
+            
         } else {
 
             $inversion = $this->saveInversion($paquete->id, $orden->monto, $paquete->expired, $user->id);
@@ -142,14 +143,19 @@ class InversionController extends Controller
 
             if (isset($request->comision)) {
 
-                $this->WalletController->bonoOchoPorciento($orden->id);
+                $this->WalletController->bonos($user,$orden);
             }
         }
 
         $orden->inversion_id = $inversion;
         $orden->save();
-
+        
         $user->status = '1';
+       
+        if (!isset($request->rentabilidad)) {
+            
+            $user->genera_rentabilidad = 0;
+        }
         $user->save();
 
         // } catch (\Throwable $th) {
@@ -308,6 +314,8 @@ class InversionController extends Controller
         } else {
             $porcentajeUtilidad->update(['porcentaje_utilidad' => $porcentaje]);
         }
+
+        $this->WalletController->pagarUtilidad();
 
         return redirect()->back()->with('msj-success', 'Porcentaje actualizado correctamente');
     }

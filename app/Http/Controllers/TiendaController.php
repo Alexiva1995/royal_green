@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\InversionController;
 use App\Http\Controllers\WalletController;
-
+use Coinbase;
 
 class TiendaController extends Controller
 {
@@ -42,15 +42,15 @@ class TiendaController extends Controller
     {
         try {
             // title
-            $packages = Packages::orderBy('id', 'asc')->paginate();
-
+            $packages = Packages::where('id', '>', 1)->orderBy('id', 'asc')->get();
+            
             $invertido = Auth::user()->inversionMasAlta();
             $idInvertido = null;
             if(isset($invertido)){
                 $idInvertido = $invertido->package_id;
                 $invertido = $invertido->invertido;
             }
-            
+        
             return view('shop.index', compact('packages', 'invertido', 'idInvertido'));
         } catch (\Throwable $th) {
             Log::error('Tienda - Index -> Error: '.$th);
@@ -117,7 +117,8 @@ class TiendaController extends Controller
                         'package_id' => $paquete->id,
                         'cantidad' => 1,
                         'total' => $total,
-                        'monto' => $nuevoInvertido
+                        'monto' => $nuevoInvertido,
+                        'name' => $paquete->name
                     ];
                 
                     //$orden = OrdenPurchases::findOrFail($inversion->orden_id)->update($data);
@@ -134,16 +135,14 @@ class TiendaController extends Controller
                         'package_id' => $paquete->id,
                         'cantidad' => 1,
                         'total' => $total,
-                        'monto' => $paquete->price
+                        'monto' => $paquete->price,
+                        'name' => $paquete->name
                     ];
                     
                     $data['idorden'] = $this->saveOrden($data);
                     $data['descripcion'] = $paquete->description;    
                 }
                 
-                
-               
-
                 $url = $this->generalUrlOrden($data);
                // dd($url);
                 if (!empty($url)) {
@@ -209,6 +208,24 @@ class TiendaController extends Controller
     private function generalUrlOrden($data): string
     {
         //try {
+
+            $charge = Coinbase::createCharge([
+                'name' => 'Producto '.$data['name'],
+                'description' => $data['descripcion'],
+                'local_price' => [
+                    'amount' => $data['total'],
+                    'currency' => 'USD',
+                ],
+                'pricing_type' => 'fixed_price',
+            ]);
+          
+            OrdenPurchases::where('id', $data['idorden'])->update([
+                'id_coinbase' => $charge['data']['id'],
+                'code_coinbase' => $charge['data']['code'],
+            ]);
+            
+            return $charge['data']['hosted_url'];
+            /*
             $headers = [
                 'x-api-key: '.$this->apis_key_nowpayments,
                 'Content-Type:application/json'
@@ -259,6 +276,7 @@ class TiendaController extends Controller
                 }
 
             return $resul;
+            */
         /*} catch (\Throwable $th) {
             Log::error('Tienda - generalUrlOrden -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -270,44 +288,50 @@ class TiendaController extends Controller
         $orden = OrdenPurchases::findOrFail($request->id);
         $orden->status = $request->status;
         $orden->save();
-        $user = User::findOrFail($orden->iduser);
 
-        $this->walletController->payAll();
-        
-        
-        
-        if(isset($user->inversionMasAlta()->invertido)){
-      
-            $inversion = $user->inversionMasAlta();
-            $pagado = $inversion->invertido;
+        if($request->status == '1'){
+            $user = User::findOrFail($orden->iduser);
 
-            $nuevoInvertido = ($orden->getPackageOrden->price - $pagado); 
-            $porcentaje = ($nuevoInvertido * 0.03);
+            $this->walletController->payAll();           
+            
+            if(isset($user->inversionMasAlta()->invertido)){
+        
+                $inversion = $user->inversionMasAlta();
+                $pagado = $inversion->invertido;
 
-            $total = ($nuevoInvertido + $porcentaje);
-            //ACTUALIZAMOS LA INVERSION
-            $inversion->invertido += $nuevoInvertido;
-            $inversion->capital += $nuevoInvertido;
-            if(isset($inversion->max_ganancia) && isset($inversion->invertido)){
-                $inversion->max_ganancia = $inversion->invertido * 2;
-                $inversion->restante += $nuevoInvertido * 2;
+                $nuevoInvertido = ($orden->getPackageOrden->price - $pagado); 
+                $porcentaje = ($nuevoInvertido * 0.03);
+
+                $total = ($nuevoInvertido + $porcentaje);
+                //ACTUALIZAMOS LA INVERSION
+                $inversion->invertido += $nuevoInvertido;
+                $inversion->capital += $nuevoInvertido;
+                if(isset($inversion->max_ganancia) && isset($inversion->invertido)){
+                    $inversion->max_ganancia = $inversion->invertido * 2;
+                    $inversion->restante += $nuevoInvertido * 2;
+                }
+                $inversion->package_id = $orden->package_id;
+                //PARA QUE LOS PAQUETES DE 100 A PARTIR DE AHORA NO GENERE RENTABILIDAD
+                if($orden->package_id == 2){
+                    $inversion->rentabilidad = 1;
+                }
+                /////////////
+                $inversion->save();
+                $inversion = $inversion->id;
+
+            }else{
+            
+                $inversion = $this->registeInversion($request->id);
             }
-            $inversion->package_id = $orden->package_id;
-            $inversion->save();
-            $inversion = $inversion->id;
-
-        }else{
         
-            $inversion = $this->registeInversion($request->id);
+            $orden->inversion_id = $inversion;
+            $orden->save();
+            
+            $user = User::findOrFail($orden->iduser);
+            $user->status = '1';
+            $user->save();
+            $this->walletController->bonos($user, $orden);
         }
-    
-        $orden->inversion_id = $inversion;
-        $orden->save();
-        
-        $user = User::findOrFail($orden->iduser);
-        $user->status = '1';
-        $user->save();
-        $this->walletController->bonos($user, $orden);
 
         return redirect()->back()->with('msj-success', 'Orden actualizada exitosamente');
     }

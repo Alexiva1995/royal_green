@@ -19,6 +19,7 @@
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
         "mervick/emojionearea": "^3.0.0",
+        "shakurov/coinbase": "^0.7.7",
         "tightenco/ziggy": "^0.9.4",
         "yajra/laravel-datatables": "^1.5",
         "yajra/laravel-datatables-oracle": "^9.18"

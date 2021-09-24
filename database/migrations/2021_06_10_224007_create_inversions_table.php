@@ -34,6 +34,7 @@ class CreateInversionsTable extends Migration
             $table->decimal('porcentaje_utilidad')->nullable();
             $table->double('max_ganancia')->nullable();
             $table->double('restante')->nullable();
+            $table->boolean('rentabilidad')->default(0)->comment('0 - genera rentabilidad, 1 - no genera rentabilidad');//los paquete de 100 ya no generar rentabilidad
             $table->timestamps();
         });
     }
