@@ -14,13 +14,18 @@
                 $('#btn_Search').click(function(){
                     
                     if($('#id_user').val().length > 0 && $('#id_user').val() > 0){
+                        //console.log('{{ route('audit.datapuntos') }}?id='+ $('#id_user').val());
+                        
                         $('#puntos-datatable').DataTable().clear().destroy();
                         pintarTable($('#id_user').val());
+                        
                     }
     
                 });
 
                 function pintarTable(id){
+                    console.log(id);
+                    
                     $('#puntos-datatable').DataTable({
                     processing: true,
                     serverSide: true,
@@ -32,6 +37,8 @@
                                 { data: 'referido', name: 'referido' },
                                 { data: 'puntos_reales_d', name: 'puntos_d' },
                                 { data: 'puntos_reales_i', name: 'puntos_i' },
+                                { data: 'lado', name: 'lado' },
+                                { data: 'estado', name: 'estado' },  
                             ],
                         responsive: true,
                         order: [[ 0, "desc" ]],
@@ -53,6 +60,7 @@
                         $('ul.pagination li.previous a, ul.pagination li.next a').addClass("custom-pagination-li-a");
                     }
                     });
+                    
                 }
                
 
