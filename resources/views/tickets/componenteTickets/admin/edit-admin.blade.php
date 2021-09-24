@@ -136,7 +136,7 @@
 
                                     <span class="text-danger text-bold-600">Aqui podra escribir el mensaje para el
                                         admin</span>
-                                    <textarea class="form-control border border-primary rounded-0 chat-window-message" required type="text" id="message" name="message"></textarea>
+                                    <textarea class="form-control border border-primary rounded-0 chat-window-message"  type="text" id="message" name="message"></textarea>
                                 </div>
 
                                 <div class="col-12">
