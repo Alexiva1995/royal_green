@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Wallet;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\OrdenPurchases;
+use App\Models\porcentaje_utilidads;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\View;
 
@@ -89,7 +91,11 @@ class ReporteController extends Controller
     }
 
     public function rentabilidad()
-    {
-        return view('reports.rentabilidad');
+    { 
+        $id = Auth::id();
+        $table = porcentaje_utilidads::where('id', $id)->get();
+     
+        
+        return view('reports.rentabilidad')->with('table',$table);
     }
 }
