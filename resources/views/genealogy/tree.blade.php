@@ -17,12 +17,12 @@
                     <a class="base" href="#">
                         @if (empty($base->photoDB))
                         <img src="{{asset('assets/img/royal_green/logos/logo.svg')}}" alt="{{$base->name}}"
-                            title="{{$base->name}}" class="pt-1 rounded-circle"
-                            style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">
+                            title="{{$base->name}}" class="rounded-circle"
+                            style="width: 100%;height: 100%;">
                         @else
                         <img src="{{asset('storage/photo/'.$base->photoDB)}}" alt="{{$base->name}}"
-                            title="{{$base->name}}" class="pt-1 rounded-circle"
-                            style="width: 95%;height: 107%;margin-left: 0px;margin-top: -8px;">
+                            title="{{$base->name}}" class="rounded-circle"
+                            style="width: 100%;height: 100%;">
                         @endif
                     </a>
                     {{-- Nivel 1 --}}
@@ -118,7 +118,7 @@
         $('#nombre').text(data.fullname);
 
         if (data.photoDB == null) {
-            $('#imagen').attr('src', "{{asset('assets/img/royal_green/logos/arbol.svg')}}");
+            $('#imagen').attr('src', "{{asset('assets/img/royal_green/logos/perfil8.jpeg')}}");
         } else {
             $('#imagen').attr('src', '/storage/photo/' + data.photoDB);
         }
