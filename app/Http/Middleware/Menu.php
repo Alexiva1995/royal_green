@@ -231,11 +231,30 @@ class Menu
                 'complementoruta' => '',
                 'submenus' => [
                     [
+                        'name' => 'Wallet',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
                         'name' => 'Historial de puntos',
                         'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
                         'ruta' => '',
                         'complementoruta' => route('audit.puntos')
+                    ],
+                    [
+                        'name' => 'Modificar comisiones',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
+                    ],
+                    [
+                        'name' => 'Binario',
+                        'blank'=> '', // si es para una pagina diferente del sistema solo coloquen _blank
+                        'ruta' => '',
+                        'complementoruta' => ''
                     ]
+                   
                 ]
              ],
             // Fin Auditoria
