@@ -64,16 +64,16 @@ class LiquidactionController extends Controller
      * @param string $status
      * @return void
      */
-    public function indexHistory($status)
+    public function indexHistory()
     {
         try {
-            $estado = ($status == 'Reservadas') ? 2 : 1;
-            $liquidaciones = Liquidaction::where('status', $estado)->get();
+
+           $liquidaciones = Liquidaction::all();
             foreach ($liquidaciones as $liqui) {
                 $liqui->fullname = $liqui->getUserLiquidation->fullname;
             }
-            $type = $status;
-            return view('settlement.history', compact('liquidaciones', 'estado', 'type'));
+            return view('settlement.history', compact('liquidaciones'));
+
         } catch (\Throwable $th) {
             Log::error('Liquidaction - indexHistory -> Error: '.$th);
             abort(403, "Ocurrio un error, contacte con el administrador");
@@ -508,9 +508,9 @@ class LiquidactionController extends Controller
             }
             
             if($bruto <= 250){
-                $feed = ($bruto * 0.085);
+                $feed = ($bruto * 4.5);
             }else{
-                $feed = ($bruto * 0.045);
+                $feed = ($bruto * 8.5);
             }
             $total = ($bruto - $feed);
           

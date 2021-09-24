@@ -23,7 +23,7 @@
                                 @foreach ($ordenes as $orden)
                                 <tr class="text-center">
                                     <td>{{$orden->id}}</td>
-                                    <td>{{-- {{$orden->getGroupOrden->name}} --}} - {{$orden->getPackageOrden->name}}</td>
+                                    <td>{{-- {{$orden->getGroupOrden->name}} --}} {{$orden->getPackageOrden->name}}</td>
                                     <td>{{$orden->total}}</td>
 
                                     @if ($orden->status == '0')

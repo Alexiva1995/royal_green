@@ -26,18 +26,18 @@
             <div class="card-content">
                 <div class="card-body card-dashboard">
                     <div class="table-responsive">
-                        <h1 class="text-white">Retiros por Confirmar</h1>
+                        <h1 class="text-white">Solicitud de Retiros</h1>
                         <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
                             <thead class="">
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
-                                    <th>Name</th>
+                                    <th>Nombre</th>
                                     <th>Total </th>
-                                    <th>Monto Bruto</th>
+                                    <th>Monto</th>
                                     <th>Feed</th>
                                     <th>Hash</th>
                                     <th>Billetera</th>
-                                    <th>Status</th>
+                                    <th>Estado</th>
                                     <th>Fecha</th>
                                     <th>Accion</th>
                                 </tr>
@@ -52,7 +52,13 @@
                                     <td>{{$liqui->feed}}</td>
                                     <td>{{$liqui->hash}}</td>
                                     <td>{{$liqui->wallet_used}}</td>
-                                    <td>{{$liqui->status}}</td>
+                                    <td>
+                                       @if($liqui->status == 0)
+                                       En Espera
+                                       @elseif($liqui->status == 1)
+                                       Liquidado
+                                       @endif
+                                    </td>
                                     <td>{{date('Y-m-d', strtotime($liqui->created_at))}}</td>
                                     <td>
                                         <button class="btn btn-primary" onclick="vm_liquidation.getDetailComisionLiquidation({{$liqui->id}})">

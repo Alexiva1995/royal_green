@@ -173,7 +173,9 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             Route::get('/', 'LiquidactionController@index')->name('settlement');
             Route::get('/pending', 'LiquidactionController@indexPendientes')->name('settlement.pending');
             Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
-            Route::get('/{status}/history', 'LiquidactionController@indexHistory')->name('settlement.history.status');
+             Route::get('/history', 'LiquidactionController@indexHistory')->name('settlement.history');
+
+            // Route::get('/{status}/history', 'LiquidactionController@indexHistory')->name('settlement.history.status');
 
             // Route::get('liquidation-store','LiquidactionController@store')->name('liquidation.store');
             // Route::get('liquidation-edit/{id}','LiquidactionController@edit')->name('liquidation.edit');
