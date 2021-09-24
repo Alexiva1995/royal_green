@@ -66,7 +66,7 @@
                                 <span class="progress-right">
                                     <span class="progress-circle"></span>
                                 </span>
-                                <div class="progress-value">{{number_format(round(Auth::user()->progreso(), 2))}}%</div>
+                                <div class="progress-value">{{round(Auth::user()->progreso(), 2)}}%</div>
                             </div>
                         </div>
                         
