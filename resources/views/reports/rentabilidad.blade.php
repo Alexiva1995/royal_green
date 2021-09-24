@@ -15,16 +15,16 @@
                                     <th>ID</th>
                                     <th>Porcentaje</th>
                                     <th>Fecha</th>
-                                  
+
                                 </tr>
 
                             </thead>
                             @foreach($table as $tables)
-                            <tbody>
+                            <tbody class="text-center">
                                 <th>{{$tables->id}}</th>
                                 <th>{{$tables->porcentaje_utilidad}}</th>
                                 <th>{{$tables->created_at}}</th>
-               
+
 
                             </tbody>
                             @endforeach
