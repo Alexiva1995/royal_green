@@ -14,7 +14,7 @@
           var options = {
             colors: ['#BA8621'],
             series: [{
-              name: "Referidos",
+              name: "Ganancia de este mes",
               data: response.data.valores
           }],
             chart: {
