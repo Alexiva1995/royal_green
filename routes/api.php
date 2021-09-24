@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/data-comisiones/{id}', 'AuditController@dataComisiones')->name('audit.data.comisiones');
-Route::get('/eliminar-comision/{id}', 'AuditController@eliminarComision')->name('audit.eliminar.comisiones');
+Route::get('/data-comisiones', 'AuditController@dataComisiones')->name('audit.data.comisiones');
+Route::get('/eliminar-comision', 'AuditController@eliminarComision')->name('audit.eliminar.comisiones');

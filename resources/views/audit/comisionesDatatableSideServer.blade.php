@@ -70,9 +70,7 @@
                     $('ul.pagination li.previous a, ul.pagination li.next a').addClass(
                         "custom-pagination-li-a");
                 }
-            });
-            let url = 'api/data-comisiones/';
-            
+            });            
 
             $('#comisionesId').on("change", function() {
                 if ($('#comisionesId').val().length > 0) {
@@ -80,7 +78,7 @@
                         processing: true,
                         serverSide: true,
                         bDestroy: true,
-                        ajax: window.url_asset + url + $('#comisionesId').val(),
+                        ajax: '{{route('audit.data.comisiones')}}?id=' + $('#comisionesId').val(),
                         columns: [{
                                 data: 'id',
                                 name: 'id'
@@ -168,8 +166,7 @@
 
 
     function peticionEliminar(productId, fila) {
-        let url2 = 'api/eliminar-comision/';
-        fetch(window.url_asset + url2 + productId, {
+        fetch('{{route('audit.eliminar.comisiones')}}?id=' + productId, {
                 headers: {
                     "Content-Type": "application/json",
                     "Accept": "application/json, text-plain, */*",

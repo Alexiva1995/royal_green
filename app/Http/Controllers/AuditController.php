@@ -160,7 +160,7 @@ class AuditController extends Controller
         }
     }
 /**
- * Establece la Comision con staatus 1
+ * Establece la Comision con staatus 2
  *
  * @param Request $request
  * @return void
