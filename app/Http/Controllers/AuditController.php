@@ -86,10 +86,19 @@ class AuditController extends Controller
                     return User::find($data->getUserBinary->referred_id)->email;
                 })
                 ->addColumn('puntos_derecha', function($data){
-                    return $data->puntos_d;
+                    if($data->side == 'D'){
+                        return $data->puntos_reales;
+                    }else{
+                        return 0;
+                    }
+                    
                 })
                 ->addColumn('puntos_izquierda', function($data){
-                    return $data->puntos_i;
+                    if($data->side == 'I'){
+                        return $data->puntos_reales;
+                    }else{
+                        return 0;
+                    }
                 })
                 ->rawColumns(['action'])
                 ->make(true);

@@ -464,8 +464,10 @@ class WalletController extends Controller
                                     if ($sponsor->status == '1') {
                                         if ($side == 'I') {
                                             $puntosI = $orden->total;
+                                            $puntosReales = $puntosI;
                                         }elseif($side == 'D'){
                                             $puntosD = $orden->total;
+                                            $puntosReales = $puntosD;
                                         }
                                     }
                                     $dataWalletPoints = [
@@ -473,8 +475,7 @@ class WalletController extends Controller
                                         'referred_id' => $orden->iduser,
                                         'orden_purchase_id' => $orden->id,
                                         'puntos_d' => $puntosD,
-                                        'puntos_reales_i' => $puntosI,
-                                        'puntos_reales_d' => $puntosD,
+                                        'puntos_reales' => $puntosReales,
                                         'puntos_i' => $puntosI,
                                         'side' => $side,
                                         'status' => 0,
