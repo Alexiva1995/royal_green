@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Datatables;
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\Inversion;
 use App\Models\RankRecords;
 use App\Models\WalletBinary;
 use Illuminate\Http\Request;
@@ -106,11 +108,54 @@ class AuditController extends Controller
      * @param integer $id
      * @return void
      */
-    public function dataComisiones(int $id)
+    public function dataComisiones(Request $request)
     {
-        $wallets = User::find($id)->getWallet->where('tipo_transaction', 0)->toArray();
-        // dd($wallets);
-        return response()->json($wallets);
+        if ($request->ajax()) {
+            $data = Wallet::where('iduser', $request->id)->where('status', 0)->get();
+            // dd($data);
+            return Datatables::of($data)
+                ->addColumn('id', function($data){
+                    return $data->id;
+                })
+                ->addColumn('email', function($data){
+                    return $data->getWalletUser->email;
+                })
+                ->addColumn('descripcion', function($data){
+                    return $data->descripcion;
+                })
+                ->addColumn('monto', function($data){
+                    return $data->monto;
+                })
+                ->addColumn('creacion', function($data){
+                    return $data->created_at->format('Y-m-d');
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+    }
+/**
+ * Establece la Comision con staatus 1
+ *
+ * @param Request $request
+ * @return void
+ */
+    public function eliminarComision(Request $request)
+    {
+        try{
+            $comision = Wallet::find($request->id);
+            $comision->update([
+                'status' => 2,
+            ]);
+            $inversion = Inversion::where('iduser', $comision->iduser)->first();
+            $restoGanancia = $inversion->ganacia - $comision->monto;
+            $inversion->update([
+                'ganacia' => $restoGanancia,
+            ]);
+            return response('success');
+        }catch (\Throwable $th) {
+            Log::error('AuditController - eliminarComision -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
 
     }
 }
