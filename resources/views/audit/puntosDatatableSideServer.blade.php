@@ -11,38 +11,26 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script>
      $(function() {
-                $('#btn_Search').click(function(){
-                    
-                    if($('#id_user').val().length > 0 && $('#id_user').val() > 0){
-                        $('#puntos-datatable').DataTable().clear().destroy();
-                        pintarTable($('#id_user').val());
-                    }
-    
-                });
-
-                function pintarTable(id){
-                    $('#puntos-datatable').DataTable({
-                    processing: true,
-                    serverSide: true,
-                    retrieve: true,
-                    ajax: '{{ route('audit.datapuntos') }}?id='+id,
-                    columns: [
-                                { data: 'id', name: 'id' },
-                                { data: 'usuario', name: 'usuario' },
-                                { data: 'referido', name: 'referido' },
-                                { data: 'puntos_reales_d', name: 'puntos_d' },
-                                { data: 'puntos_reales_i', name: 'puntos_i' },
-                            ],
-                        responsive: true,
-                        order: [[ 0, "desc" ]],
-                        searching: true,
-                        bLengthChange: true,
-                        pageLength: 5,
-                        language: {
-                            paginate: {
-                                next:				">",
-                                previous:			"<"
-                            },
+               $('#puntos-datatable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('audit.datapuntos') }}',
+                columns: [
+                            { data: 'id', name: 'id' },
+                            { data: 'usuario', name: 'usuario' },
+                            { data: 'referido', name: 'referido' },
+                            { data: 'puntos_derecha', name: 'puntos_derecha' },
+                            { data: 'puntos_izquierda', name: 'puntos_izquierda' },
+                        ],
+                    responsive: true,
+                    order: [[ 0, "desc" ]],
+                    searching: true,
+                    bLengthChange: true,
+                    pageLength: 5,
+                    language: {
+                        paginate: {
+                            next:				">",
+                            previous:			"<"
                         },
                     drawCallback: function( settings ) {
                         $('tbody tr').addClass("text-center text-white pl-2");
