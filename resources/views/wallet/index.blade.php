@@ -2,6 +2,9 @@
 
 {{-- contenido --}}
 @section('content')
+<div class="card-header d-flex align-items-center">
+    <a href="{{ url()->previous() }}" class="btn btn-dark rounded" style="border: 1px solid #fff;"><b>Regresar</b></a>
+</div>
 <div class="row">
     <div class="col-sm-4 col-12 mt-1">
         <div class="card h-80 p-2 art-2"> 
@@ -9,12 +12,9 @@
                 <h2 class="mt-1 mb-0 text-white font-weight-light"><b>Saldo disponible</b></h2>
             </div>
             <div class="card-sub d-flex align-items-center">
-                <h1 class="text-white mb-0"><b style="color: #66FFCC;">$ {{Auth::user()->saldoDisponible()}}</b></h1>
+                <h1 class="text-white mb-0"><b style="color: #66FFCC;">$ {{$saldoDisponible}}</b></h1>
             </div>
     
-            <div class="card-header d-flex align-items-center mt-3">
-                <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible"  style="border: 1px solid #fff;"><b>RETIRAR</b></button>
-            </div>
         </div>
     </div>
     
@@ -76,6 +76,4 @@
 
 {{-- permite llamar a las opciones de las tablas --}}
 @include('layouts.componenteDashboard.optionDatatable')
-
-@include('layouts.componenteDashboard.modalRetirar')
 @endsection
