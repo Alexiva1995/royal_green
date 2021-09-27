@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
     {   // $schedule->command('binary:comision')->daily();
         // $schedule->command('inspire')->hourly();
         // $schedule->command('daily:comision')->everyTenMinutes();
-        $schedule->command('binary:comision')->everyTenMinutes();
+        $schedule->command('binary:comision')->everyMinute();
         $schedule->command('check:rank')->daily();
         $schedule->command('checkstatus:purchase')->everyTenMinutes();
         $schedule->command('pagar:utilidad')->weekdays()->daily();
