@@ -34,9 +34,7 @@
                                     <th>Nombre</th>
                                     <th>Monto</th>
                                     <th>Feed</th>
-                                    <th>Total</th>
-                                   
-                                   
+                                    <th>Total</th>    
                                     <th>Hash</th>
                                     <th>Billetera</th>
                                     <th>Estado</th>
