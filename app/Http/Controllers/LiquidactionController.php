@@ -393,6 +393,8 @@ class LiquidactionController extends Controller
                 'correo_code' => ['required'], 
                 'wallet' => ['required']
             ]);
+
+            
         }else{
             $validate = $request->validate([
                 'comentario' => ['required'],
@@ -404,11 +406,11 @@ class LiquidactionController extends Controller
                 $idliquidation = $request->idliquidation;
                 $liquidation = Liquidaction::find($idliquidation);
                 $accion = 'No Procesada';
-
+                
                 if ($this->reversarRetiro30Min()) {
                     return redirect()->back()->with('msj-danger', 'El tiempo limite fue excedido');
                 }
-
+                
                 if (session()->has('intentos_fallidos')) {
 
                     if (session('intentos_fallidos') >= 3) {
@@ -417,20 +419,35 @@ class LiquidactionController extends Controller
                         $accion = 'Reversada';
                         $this->reversarLiquidacion($idliquidation, $request->comentario);
                     }
-
-                    //Verifica si los codigo esta bien
-                    if (!$this->doubleAuthController->checkCode($liquidation->iduser, $request->google_code) && $liquidation->code_correo != $request->correo_code && session()->has('intentos_fallidos')) {
-                        session(['intentos_fallidos' => (session('intentos_fallidos') + 1)]);
-                        return redirect()->back()->with('msj-danger', 'La Liquidacion fue '.$accion.' con exito, Codigos incorrectos');
-                    }
-
+                }  
+                
+                //Verifica si los codigo esta bien
+                
+                if (!$this->doubleAuthController->checkCode($liquidation->iduser, $request->google_code) && $liquidation->code_correo != $request->correo_code && session()->has('intentos_fallidos')) {
+                    session(['intentos_fallidos' => (session('intentos_fallidos') + 1)]);
+                    return redirect()->back()->with('msj-danger', 'La Liquidacion fue '.$accion.' con exito, Codigos incorrectos');
+                }
+               
+                $accion = 'No Procesada';
+                if(!isset($request->fullname) && !isset($request->iduser) && !isset($request->total)){
+                    $this->aprovarLiquidacion($idliquidation, '');
+                    
+                    $accion = 'Aprobada';
+                    $request->comentario = '';
+                    
+                    $fullname = auth()->user()->fullname;
+                    
+                    $iduser = auth()->user()->id;
+                    $total = $liquidation->total;
+                    
+                }else{
                     $fullname = $request->fullname;
                     $iduser = $request->iduser;
                     $total = str_replace(',','.',str_replace('.','',$request->total));
                     $total = round($total, 2);
                     // dd($total);
                     // dd("ID Liquidacion " . $idliquidation, "Fulll Name " . $fullname, "ID Usuario " . $iduser, "Total " . $total);
-                    $accion = 'No Procesada';
+                    
                     if ($request->action == 'reverse') {
                         $accion = 'Reversada';
                         $this->reversarLiquidacion($idliquidation, $request->comentario);
@@ -439,7 +456,8 @@ class LiquidactionController extends Controller
                         $this->aprovarLiquidacion($idliquidation, $request->hash);
                     }
                 }
-
+                
+                
                 if ($accion != 'No Procesada') {
                     $arrayLog = [
                         'idliquidation' => $idliquidation,
