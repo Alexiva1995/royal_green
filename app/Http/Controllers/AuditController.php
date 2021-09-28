@@ -59,8 +59,9 @@ class AuditController extends Controller
 
     public function puntosBinarios()
     {
-         // Liquidaction::where([['iduser', '=', Auth::user()->id], ['status', '=', '1']])->get();
-          $puntos = WalletBinary::where('iduser', '=', Auth::user()->id)->orderBy('id', 'desc')->get();
+
+         $puntos = WalletBinary::all();
+         
         try {
              return view('audit.puntos', compact('puntos'));
          } catch (\Throwable $th) {
