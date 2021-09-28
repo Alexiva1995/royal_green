@@ -224,6 +224,11 @@ class InversionController extends Controller
                     'ganancia_acumulada' => 0,
                 ];
 
+                //PARA QUE LOS PAQUETES DE 100 A PARTIR DE AHORA NO GENERE RENTABILIDAD
+                if($paquete == 2){
+                    $data['rentabilidad'] = 1;
+                }
+
                 $inversion = Inversion::create($data);
                 return $inversion->id;
             }

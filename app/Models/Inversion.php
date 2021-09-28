@@ -13,7 +13,7 @@ class Inversion extends Model
         'package_id', 'invertido',
         'ganacia', 'retiro', 'capital', 'progreso',
         'fecha_vencimiento', 'iduser', 'ganancia_acumulada',
-        'restante', 'max_ganancia'
+        'restante', 'max_ganancia', 'rentabilidad'
     ];
 
     
