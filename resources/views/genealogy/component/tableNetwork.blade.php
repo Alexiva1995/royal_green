@@ -2,6 +2,7 @@
 <table class="table nowrap scroll-horizontal-vertical myTable table-striped">
     <thead class="">
         <tr class="text-center text-white bg-purple-alt2">
+            <th>#</th>
             <th>Nombre</th>
             <th>Correo</th>
             <th>Nivel</th>
@@ -13,6 +14,7 @@
     <tbody>
         @foreach ($data as $item)
         <tr class="text-center">
+            <td>{{$item->id}}</td>
             <td>{{$item->fullname}}</td>
             <td>{{$item->email}}</td>
             <td>{{$item->nivel}}</td>
@@ -24,7 +26,7 @@
                 @endif
             </td>
             @if ($item->status == '0')
-            <td> <a class=" btn btn-info text-white text-bold-600">Inactivo</a></td>
+            <td> <a class=" btn btn-danger text-white text-bold-600">Inactivo</a></td>
             @elseif($item->status == '1')
             <td> <a class=" btn btn-success text-white text-bold-600">Activo</a></td>
             @elseif($item->status == '2')
