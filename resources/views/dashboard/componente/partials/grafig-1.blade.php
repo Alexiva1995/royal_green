@@ -14,7 +14,7 @@
           var options = {
             colors: ['#BA8621'],
             series: [{
-              name: "Ganancia de este mes",
+              name: "Ganancia",
               data: response.data.valores
           }],
             chart: {
@@ -70,6 +70,11 @@
         },
         tooltip: {
           enabled: true,
+          y: {
+              formatter: function (val) {
+                  return "$" + val.toFixed(2)
+              }
+              },
           style:{
             colors: ['#000']
           }
