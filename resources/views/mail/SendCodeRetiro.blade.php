@@ -40,15 +40,18 @@
                                 </tr>
                                 <tr>
                                     <td style="padding:0 35px;">
-                                        <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">¿Has solicitado restablecer su contraseña?</h1>
-                                        <h3>Si es asi siga las instrucciones del correo, si no es asi ignore este correo</h3>
-                                        <span
-                                            style="display:inline-block; vertical-align:middle; margin:15px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                        <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                            No podemos simplemente enviarle su contraseña anterior. Se ha generado un enlace único para restablecer su contraseña. Para restablecer su contraseña, haga clic en el siguiente enlace y siga las instrucciones.
-                                        </p>
-                                        <a href="{{$url}}"
-                                            style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Cambiar Contraseña</a>
+                                        <div class="row">
+                                            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2">
+                                                <h2 class="card-title fw-bold mb-1 text-white">Usuario {{$user}}</h2>
+                                                <h4>Detalles Orden</h4>
+                                                <h5>Billetera: <b>{{$billetera}}</b></h5>
+                                                <h5>Total a Recibir: <b>{{$total}}</b></h5>
+                            
+                                                <p>Este es su codigo de retiro pendiente, vigente por solo 30 minutos</p>
+                                                <p>Codigo: {{$code}}</p>
+                                                
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                                 <tr>

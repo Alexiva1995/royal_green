@@ -116,14 +116,14 @@
 @endsection
 
 <script type="text/javascript">
-    function tarjeta(data, url) {
+    function tarjeta(data, url, img) {
 
         // console.log(data);
 
         $('#nombre').text(data.fullname);
 
         if (data.photoDB == null) {
-            $('#imagen').attr('src', "{{asset('assets/img/royal_green/logos/perfil8.jpeg')}}");
+            $('#imagen').attr('src', img);
         } else {
             $('#imagen').attr('src', '/storage/photo/' + data.photoDB);
         }

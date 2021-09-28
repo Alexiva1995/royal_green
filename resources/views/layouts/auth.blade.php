@@ -21,8 +21,13 @@
 </head>
 
 <body>
+    @include('layouts.componenteDashboard.messageSystem')
     @yield('content')
+    
     @include('layouts.componenteAuth.scripts')
+
+    
+    
 </body>
 
 </html>

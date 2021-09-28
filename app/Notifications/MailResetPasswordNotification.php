@@ -11,14 +11,17 @@ class MailResetPasswordNotification extends Notification
 {
     use Queueable;
 
+    public $user;
+    public $message;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($token)
+    public function __construct($user,$token)
     {
         //
+        $this->user = $user;
         $this->token = $token;
     }
 
@@ -42,7 +45,14 @@ class MailResetPasswordNotification extends Notification
     public function toMail($notifiable)
     {
         $token = $this->token;
-        return (new MailMessage)->view('auth.passwords.email-code', compact('token'));
+        return (new MailMessage)->view('auth.passwords.email-code', [
+            'user' => $this->user,
+            'message' => $this->message,
+            'url' => url(route('password.reset', [
+                'token' => $this->token,
+                'email' => $notifiable->getEmailForPasswordReset(),
+            ], false))
+        ]);
             // ->greeting('¡Hola!')
             // ->subject('Reinicio de contraseña')
             // ->line('Esta recibiendo este correo porque se ha pedido reiniciar la contraseña desde su cuenta.')
