@@ -16,7 +16,7 @@
             <div class="input-group mb-3">
                 <input style="border: 1px solid #66FFCC;" type="number" class="form-control" placeholder="ID de usuario" aria-label="ID de usuario" min="1" id="id_user">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-primary" type="button" id="btn_Search">Button</button>
+                  <button class="btn btn-outline-primary" type="button" id="btn_Search">Buscar</button>
                 </div>
             </div>
 
