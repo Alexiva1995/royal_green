@@ -60,7 +60,7 @@ class AuditController extends Controller
     public function puntosBinarios()
     {
 
-         $puntos = WalletBinary::all();
+         $puntos = WalletBinary::orderBy('id', 'desc')->get();
          
         try {
              return view('audit.puntos', compact('puntos'));

@@ -41,7 +41,7 @@
                                 <tr class="text-center">
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->getUserBinary->fullname}}</td>
-                                    <td>{{$item-> getUserReferred->fullname}}</td>
+                                    <td>{{$item->getUserReferred->fullname}}</td>
                                     <td>{{$item->puntos_reales}}</td>
                                     <td>{{$item->side}}</td>
                                      @if ($item->status == '0')
