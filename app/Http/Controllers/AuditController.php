@@ -9,6 +9,7 @@ use App\Models\Inversion;
 use App\Models\RankRecords;
 use App\Models\WalletBinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class AuditController extends Controller
@@ -58,8 +59,11 @@ class AuditController extends Controller
 
     public function puntosBinarios()
     {
+
+         $puntos = WalletBinary::all();
+         
         try {
-             return view('audit.puntos');
+             return view('audit.puntos', compact('puntos'));
          } catch (\Throwable $th) {
              Log::error('AuditController - index -> Error: '.$th);
              abort(403, "Ocurrio un error, contacte con el administrador");
