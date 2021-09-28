@@ -249,7 +249,7 @@
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-100 p-0" style="background: #173138;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
-                        <h5 class="mt-1 mb-0 text-white"><b>Ganancia de este mes - 2021</b></h5>
+                        <h5 class="mt-1 mb-0 text-white"><b>Ganancias</b></h5>
                     </div>
                         @include('dashboard.componente.partials.grafig-1')
                 </div>

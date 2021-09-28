@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\Controllers\RankController;
 use App\Http\Controllers\TreeController;
 use App\Http\Controllers\WalletController;
+use App\Models\Wallet;
 
 class HomeController extends Controller
 {
@@ -185,7 +186,7 @@ class HomeController extends Controller
         $fecha_ini = Carbon::createFromDate($anno,1,1)->startOfDay();
         $fecha_fin = Carbon::createFromDate($anno, 12,1)->endOfMonth()->endOfDay();
 
-        $ordenes = OrdenPurchases::where('iduser', Auth::id())->where('status', '1')
+        $ordenes = Wallet::where('iduser', Auth::id())->where('status', '0')
                     ->select(
                         
                         DB::raw('date_format(created_at,"%m/%Y") as created'),
