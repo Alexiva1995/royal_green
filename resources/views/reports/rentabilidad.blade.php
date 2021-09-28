@@ -22,8 +22,9 @@
                             @foreach($table as $tables)
                             <tbody class="text-center">
                                 <th>{{$tables->id}}</th>
-                                <th>{{$tables->porcentaje_utilidad}}</th>
-                                <th>{{$tables->created_at}}</th>
+                       <!--          <th>{{$tables->porcentaje_utilidad}}</th> -->
+                               <td>{{number_format($tables->porcentaje_utilidad,2,",",".")}} %</td>
+                                <td>{{date('Y-M-d', strtotime($tables->created_at))}}</td>
 
 
                             </tbody>

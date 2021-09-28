@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-white" id="modalModalAccionTitle"
-                    v-text="(StatusProcess == 'reverse') ? 'Reservar Liquidacion' : 'Aprobar Liquidacion'"></h5>
+                    v-text="(StatusProcess == 'reverse') ? 'Reversar Liquidacion' : 'Aprobar Liquidacion'"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -31,7 +31,7 @@
                             :required="(StatusProcess == 'reverse') ? true : false"></textarea>
                     </div>
                     <div class="form-group text-center">
-                        <button class="btn btn-outline-primary" v-text="(StatusProcess == 'reverse') ? 'Reservar' : 'Aprobar'"></button>
+                        <button class="btn btn-outline-primary" v-text="(StatusProcess == 'reverse') ? 'Reversar' : 'Aprobar'"></button>
                         <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
