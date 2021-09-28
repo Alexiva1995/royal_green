@@ -184,4 +184,16 @@ class AuditController extends Controller
         }
 
     }
+
+
+    /**
+     * Vista para ver el arbol binario del usuario por medio del id
+     *
+     * @return void
+     */
+    public function verBinario()
+    {
+        $users = User::where('status', '1')->select(['id', 'username'])->orderBy('id', 'desc')->get();
+        return view('audit.verBinario', compact('users'));
+    }
 }
