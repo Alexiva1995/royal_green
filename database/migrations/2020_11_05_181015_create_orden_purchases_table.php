@@ -27,6 +27,9 @@ class CreateOrdenPurchasesTable extends Migration
             $table->text('id_coinbase')->nullable()->comment('ID de la transacion coinbase');
             $table->text('code_coinbase')->nullable()->comment('Codigo de la transacion coinbase');
             $table->enum('status', [0, 1, 2, 3])->default(0)->comment('0 - En Espera, 1 - Completada, 2 - Rechazada, 3 - Cancelada');
+            $table->enum('manual', [0, 1])->default(0)->comment('0 - Manual, 1 - No es manual');
+            $table->enum('comisiones', [0, 1])->default(0)->comment('0 - Genera comisiones, 1 - No genera comisiones');
+            $table->enum('rentabilidad', [0, 1])->default(0)->comment('0 - Genera rentabilidad, 1 - No genera rentabilidad');
             $table->timestamps();
         });
     }
