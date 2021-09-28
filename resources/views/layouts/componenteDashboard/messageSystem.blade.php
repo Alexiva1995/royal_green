@@ -8,7 +8,7 @@
 {{-- no funcionas --}}
 @endpush
 
-@push('page_vendor_js')
+@push('custom_js')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/vendors/css/extensions/toastr.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/app-assets/css/plugins/extensions/toastr.css')}}">
 <script src="{{asset('assets/app-assets/vendors/js/extensions/toastr.min.js')}}"></script>

@@ -83,7 +83,7 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         // Your your own implementation.
-        $this->notify(new ResetPasswordNotification($token));
+        $this->notify(new ResetPasswordNotification($this ,$token));
     }
 
     public function getUserInversiones()

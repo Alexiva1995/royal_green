@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('checkEmail/{id}', 'UserController@checkEmail')->name('checkemail');
+
 Route::get('/', 'HomeController@home')->middleware('auth');
 
 Route::get('terminos', function () {
@@ -24,8 +26,13 @@ Route::get('terminos', function () {
 })->name('term');
 
 
-Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
+Route::prefix('dashboard')->middleware('menu', 'auth', 'check.email')->group(function ()
 {
+
+    // 2fact
+    Route::get('/2fact', 'DoubleAutenticationController@index')->name('2fact');
+    Route::post('/2fact', 'DoubleAutenticationController@checkCodeLogin')->name('2fact.post');
+    
     // Inicio
     Route::get('/home', 'HomeController@index')->name('home');
      // Inicio de usuarios
@@ -132,6 +139,13 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
         Route::get('ticket-show-admin/{id}','TicketsController@showAdmin')->name('ticket.show-admin');
     });
 
+     //Ruta de liquidacion
+     Route::prefix('settlement')->group(function()
+     {
+        Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
+        Route::get('/withdraw', 'LiquidactionController@withdraw')->name('settlement.withdraw');
+        Route::get('{wallet}/sendcodeemail', 'LiquidactionController@sendCodeEmail')->name('send-code-email');
+     });
 
     /**
      * Seccion del sistema para el admin
@@ -173,9 +187,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth')->group(function ()
             //Ruta liquidaciones realizadas
             Route::get('/', 'LiquidactionController@index')->name('settlement');
             Route::get('/pending', 'LiquidactionController@indexPendientes')->name('settlement.pending');
-            Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
              Route::get('/history', 'LiquidactionController@indexHistory')->name('settlement.history');
-
             // Route::get('/{status}/history', 'LiquidactionController@indexHistory')->name('settlement.history.status');
 
             // Route::get('liquidation-store','LiquidactionController@store')->name('liquidation.store');
