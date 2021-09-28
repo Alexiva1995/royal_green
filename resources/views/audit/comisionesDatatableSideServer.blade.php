@@ -149,6 +149,12 @@
                 text: "Las inversiones del usuario se verán afectadas",
                 icon: "warning",
                 background: '#173138',
+                customClass: {
+                    title: 'text-white',
+                    content: 'text-white',
+                    htmlContainer: 'text-white',
+                    validationMessage: 'text-white',
+                },
                 confirmButtonColor: '#66ffccdb',
                 showCloseButton: true,
                 showCancelButton: true,
@@ -180,6 +186,12 @@
                     Swal.fire({
                         title: 'Ocurrio un error!',
                         text: 'Fallo al eliminar comision, intente luego',
+                        customClass: {
+                            title: 'text-white',
+                            content: 'text-white',
+                            htmlContainer: 'text-white',
+                            validationMessage: 'text-white',
+                        },
                         icon: 'warning',
                         background: '#173138'
                     })
@@ -190,6 +202,12 @@
                     Swal.fire({
                         title: 'Eliminado!',
                         text: 'La Comimsion se eliminó satisfactoriamente',
+                        customClass: {
+                            title: 'text-white',
+                            content: 'text-white',
+                            htmlContainer: 'text-white',
+                            validationMessage: 'text-white',
+                        },
                         icon: 'success',
                         confirmButtonColor: '#66ffccdb',
                         background: '#173138'
@@ -203,6 +221,12 @@
                     title: 'Ocurrio un error!',
                     text: 'Fallo al eliminar comision, intente luego',
                     type: 'error',
+                    customClass: {
+                        title: 'text-white',
+                        content: 'text-white',
+                        htmlContainer: 'text-white',
+                        validationMessage: 'text-white',
+                    },
                     background: '#173138',
                     confirmButtonClass: 'btn btn-primary text-dark'
                 })
