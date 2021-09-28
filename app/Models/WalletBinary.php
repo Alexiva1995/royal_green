@@ -26,4 +26,9 @@ class WalletBinary extends Model
     {
         return $this->belongsTo('App\Models\User', 'iduser', 'id');
     }
+
+     public function getUserReferred()
+    {
+        return $this->belongsTo('App\Models\User', 'referred_id', 'id');
+    }
 }
