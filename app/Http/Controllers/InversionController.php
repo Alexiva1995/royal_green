@@ -112,8 +112,6 @@ class InversionController extends Controller
                 $comisiones = '1';
             }
 
-            // dd($rentabilidad ." ".$comisiones);
-            dd('2');
 
             $data = [
                 'iduser' => $request->id,
