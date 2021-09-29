@@ -86,21 +86,11 @@ class AuditController extends Controller
                     return $data->id;
                 })
                 ->addColumn('referido', function($data){
-                    return $data->referred_id;
+                    return $data->getReferredBinary->fullname;
                 })
-                ->addColumn('puntos_derecha', function($data){
-                    if($data->side == 'D'){
-                        return $data->puntos_reales;
-                    }else{
-                        return 0;
-                    }                    
-                })
-                ->addColumn('puntos_izquierda', function($data){
-                    if($data->side == 'I'){
-                        return $data->puntos_reales;
-                    }else{
-                        return 0;
-                    }
+                ->addColumn('puntos', function($data){
+                    return $data->puntos_reales;
+                                       
                 })
                 ->addColumn('lado', function($data){
                     if($data->side == 'I'){
@@ -118,7 +108,6 @@ class AuditController extends Controller
                         return 'Cancelado';
                     }
                 })
-                ->rawColumns(['action'])
                 ->make(true);
         }
     

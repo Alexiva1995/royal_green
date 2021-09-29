@@ -30,7 +30,6 @@
                     <thead>
                         <tr class="text-center text-white bg-purple-alt2">                                
                         <th>ID</th>
-                        <th>Usuario</th>
                         <th>Referido</th>
                         <th>Puntos</th>
                         <th>Lado</th>

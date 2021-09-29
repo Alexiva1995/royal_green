@@ -88,12 +88,8 @@
                                 name: 'referido'
                             },
                             {
-                                data: 'puntos_derecha',
-                                name: 'puntos_derecha'
-                            },
-                            {
-                                data: 'puntos_izquierda',
-                                name: 'puntos_izquierda'
+                                data: 'puntos',
+                                name: 'puntos'
                             },
                             {
                                 data: 'lado',
@@ -103,16 +99,16 @@
                                 data: 'estado',
                                 name: 'estado'
                             }, 
-                            {
-                                data: 'id',
-                                name: 'action',
-                                class: 'clases_para_el_td',
-                                render: function(data, type,
-                                    row) { // con row obtienes la información por fila
-                                    return '<button data-eliminar="' + data +
-                                        '" class="btn btn-info rounded text-white eliminarComision" title="Cancelar Comision"><i class="fa fa-trash"></i></button>';
-                                }
-                            }
+                            // {
+                            //     data: 'id',
+                            //     name: 'action',
+                            //     class: 'clases_para_el_td',
+                            //     render: function(data, type,
+                            //         row) { // con row obtienes la información por fila
+                            //         return '<button data-eliminar="' + data +
+                            //             '" class="btn btn-info rounded text-white eliminarComision" title="Cancelar Comision"><i class="fa fa-trash"></i></button>';
+                            //     }
+                            // }
                         ],
                         responsive: true,
                         order: [
