@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('/data-comisiones', 'AuditController@dataComisiones')->name('audit.data.comisiones');
 Route::get('/eliminar-comision', 'AuditController@eliminarComision')->name('audit.eliminar.comisiones');
+Route::get('/getBinaryPoints/{id}', 'TreeController@getBinaryPoints')->name('audit.get.puntos');

@@ -116,6 +116,39 @@
 @endsection
 
 <script type="text/javascript">
+
+@if(request()->get('audit'))
+    document.addEventListener("DOMContentLoaded", function(){
+        let idUser = '{{request()->get('audit')}}';
+        idUser = parseInt(atob(idUser));
+        let url = '{{route('audit.get.puntos', ['temp'])}}';
+        url = url.replace('temp', idUser);
+        let puntosI = document.querySelector("#puntosI");
+        let puntosD = document.querySelector("#puntosD");
+        fetch(url, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text-plain, */*",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": window.csrf_token
+                },
+                method: 'get',
+            })
+            .then( response => response.text() )
+            .then( resultText => (
+                data = JSON.parse(resultText),
+                console.log(data),
+                puntosI.innerHTML = data.totali,
+                puntosD.innerHTML = data.totald
+
+                
+            ))
+            .catch(function(error) {
+                console.log(error);
+            });
+    })
+@endif
+
     function tarjeta(data, url, img) {
 
         // console.log(data);
