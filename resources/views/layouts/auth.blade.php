@@ -26,7 +26,7 @@
     
     @include('layouts.componenteAuth.scripts')
 
-    
+
     
 </body>
 
