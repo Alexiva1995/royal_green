@@ -58,6 +58,58 @@ class UserTableSeeder extends Seeder
                 'binary_side' => 'I',
             ],
 
+            [
+                'name' => 'Test',
+                'last_name' => 'RY 3',
+                'fullname' => 'Test RY 3',
+                'username' => 'TestRY3',
+                'email' => 'test@ry3.com',
+                'password' => Hash::make('123456789'),
+                'whatsapp' => '123456789',
+                'referred_id' => 3,
+                'binary_id' => 3,
+                'binary_side' => 'D',
+            ],
+
+            [
+                'name' => 'Test',
+                'last_name' => 'RY 4',
+                'fullname' => 'Test RY 4',
+                'username' => 'TestRY4',
+                'email' => 'test@ry4.com',
+                'password' => Hash::make('123456789'),
+                'whatsapp' => '123456789',
+                'referred_id' => 4,
+                'binary_id' => 4,
+                'binary_side' => 'D',
+            ],
+
+            [
+                'name' => 'Test',
+                'last_name' => 'RY 5',
+                'fullname' => 'Test RY 5',
+                'username' => 'TestRY5',
+                'email' => 'test@ry5.com',
+                'password' => Hash::make('123456789'),
+                'whatsapp' => '123456789',
+                'referred_id' => 5,
+                'binary_id' => 5,
+                'binary_side' => 'I',
+            ],
+
+            [
+                'name' => 'Test',
+                'last_name' => 'RY 6',
+                'fullname' => 'Test RY 6',
+                'username' => 'TestRY6',
+                'email' => 'test@ry6.com',
+                'password' => Hash::make('123456789'),
+                'whatsapp' => '123456789',
+                'referred_id' => 6,
+                'binary_id' => 6,
+                'binary_side' => 'D',
+            ],
+
     ];
     foreach ($arrayUsers as $users ) {
         User::create($users);

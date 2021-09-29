@@ -16,7 +16,7 @@
             <div class="input-group mb-3">
                 <input style="border: 1px solid #66FFCC;" type="number" class="form-control" placeholder="ID de usuario" aria-label="ID de usuario" min="1" id="id_user">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-primary" type="button" id="btn_Search">Button</button>
+                  <button class="btn btn-outline-primary" type="button" id="btn_Search">Buscar</button>
                 </div>
             </div>
 
@@ -25,17 +25,35 @@
                 <table class="table nowrap scroll-horizontal-vertical myTable2 yajra-datatable" id="puntos-datatable">
                     <thead>
 
-                        <tr class="text-center text-dark text-uppercase pl-2">                                
+                           <tr class="text-center text-white bg-purple-alt2">                                
                             <th>ID</th>
                             <th>Usuario</th>
                             <th>Referido</th>
-                            <th>Puntos Derecha</th>
-                            <th>Puntos Izquierda</th> 
-                        </tr>
+                            <th>Puntos</th>
+                            <th>Lado</th>
+                            <th>Estado</th>
+                            </tr>
 
-                    </thead>
-                    <tbody>
-                    </tbody>
+                            </thead>
+                            <tbody>
+
+                                @foreach ($puntos as $item) 
+                                <tr class="text-center">
+                                    <td>{{$item->id}}</td>
+                                    <td>{{$item->getUserBinary->fullname}}</td>
+                                    <td>{{$item->getUserReferred->fullname}}</td>
+                                    <td>{{$item->puntos_reales}}</td>
+                                    <td>{{$item->side}}</td>
+                                     @if ($item->status == '0')
+                                        <td>En espera</td>
+                                         @elseif($item->status == '1')
+                                         <td>Pagado</td>
+                                         @elseif($item->status == '2')
+                                         <td>Cancelado</td>
+                                         @endif
+                                </tr>
+                                @endforeach
+                         </tbody>
                 </table>
             </div>
         </div>

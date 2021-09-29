@@ -12,7 +12,7 @@
                     </div>
 
                     <div class="card-header d-flex align-items-center mt-3">
-                        <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible" style="border: 1px solid #66FFCC;"><b>RETIRAR</b></button>
+                        <a class="btn btn-dark rounded" href="{{route('settlement.withdraw')}}" style="border: 1px solid #66FFCC;"><b>RETIRAR</b></a>
                     </div>
                 </div>
             </div>
@@ -249,7 +249,7 @@
             <div class="col-sm-6 col-12 mt-1">
                 <div class="card h-100 p-0" style="background: #173138;">
                     <div class="card-header d-flex align-items-center text-right pb-0 pt-0 white">
-                        <h5 class="mt-1 mb-0 text-white"><b>Ganancia de este mes - 2021</b></h5>
+                        <h5 class="mt-1 mb-0 text-white"><b>Ganancias</b></h5>
                     </div>
                         @include('dashboard.componente.partials.grafig-1')
                 </div>

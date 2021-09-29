@@ -32,9 +32,9 @@
                                 <tr class="text-center text-white bg-purple-alt2">
                                     <th>ID</th>
                                     <th>Nombre</th>
-                                    <th>Total</th>
                                     <th>Monto</th>
                                     <th>Feed</th>
+                                    <th>Total</th>    
                                     <th>Hash</th>
                                     <th>Billetera</th>
                                     <th>Estado</th>
@@ -46,9 +46,9 @@
                                 <tr class="text-center text-white">
                                     <td>{{$liqui->id}}</td>
                                     <td>{{$liqui->fullname}}</td>
-                                    <td>{{$liqui->total}}</td>
                                     <td>{{$liqui->monto_bruto}}</td>
                                     <td>{{$liqui->feed}}</td>
+                                    <td>{{$liqui->total}}</td>
                                     <td>{{$liqui->hash}}</td>
                                     <td>{{$liqui->wallet_used}}</td>
                                     <td>

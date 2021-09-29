@@ -23,8 +23,8 @@ class CreateWalletBinariesTable extends Migration
             $table->foreign('orden_purchase_id')->references('id')->on('orden_purchases')->onUpdate('cascade')->onDelete('cascade');
             // $table->bigInteger('liquidation_id')->unsigned()->nullable();
             // $table->foreign('liquidation_id')->references('id')->on('liquidactions');
-            $table->double('puntos_d')->default(0)->comment('puntos del lado derecho');
             $table->double('puntos_i')->default(0)->comment('puntos del lado izquierdo');
+            $table->double('puntos_d')->default(0)->comment('puntos del lado derecho');
             //$table->decimal('debito')->default(0)->comment('entrada de cash');
             //$table->decimal('credito')->default(0)->comment('salida de cash');
             //$table->decimal('balance')->nullable()->comment('balance del cash');

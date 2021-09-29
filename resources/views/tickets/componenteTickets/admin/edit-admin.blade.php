@@ -93,8 +93,8 @@
                                                     <div class="chat chat-left">
                                                         <div class="chat-avatar">
                                                             <span class="avatar box-shadow-1 cursor-pointer">
-                                                                @if (Auth::user()->photoDB != NULL)
-                                                                <img src="{{asset('storage/photo/'.Auth::user()->photoDB)}}" alt="avatar" height="36" width="36">
+                                                                @if ($item->getUser->photoDB != NULL)
+                                                                <img src="{{asset('storage/photo/'.$item->getUser->photoDB)}}" alt="avatar" height="36" width="36">
                                                                 @else
                                                                 <img src="{{ asset('assets/img/royal_green/logos/logo.svg') }}" alt="avatar" height="36" width="36">
                                                                 @endif

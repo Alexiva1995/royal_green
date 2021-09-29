@@ -2,6 +2,9 @@
 
 @section('content')
 
+@if(Request::get('audit'))
+    <a href="{{ url()->previous() }}" class="btn btn-dark rounded" style="border: 1px solid #fff;"><b>Regresar</b></a>
+@endif
 <div class="row">
 
     @if ($type_tm == 1)
@@ -102,23 +105,25 @@
     </div>
 
     @if (Auth::id() != $base->id)
-    <div class="col-12 text-center">
-        <a class="btn btn-outline-primary border-primary rounded" href="{{route('genealogy_type', strtolower($type))}}">Regresar a mi arbol</a>
-    </div>
+        @if(!Request::get('audit'))
+        <div class="col-12 text-center">
+            <a class="btn btn-outline-primary border-primary rounded" href="{{route('genealogy_type', strtolower($type))}}">Regresar a mi arbol</a>
+        </div>
+        @endif
     @endif
 
 </div>
 @endsection
 
 <script type="text/javascript">
-    function tarjeta(data, url) {
+    function tarjeta(data, url, img) {
 
         // console.log(data);
 
         $('#nombre').text(data.fullname);
 
         if (data.photoDB == null) {
-            $('#imagen').attr('src', "{{asset('assets/img/royal_green/logos/perfil8.jpeg')}}");
+            $('#imagen').attr('src', img);
         } else {
             $('#imagen').attr('src', '/storage/photo/' + data.photoDB);
         }

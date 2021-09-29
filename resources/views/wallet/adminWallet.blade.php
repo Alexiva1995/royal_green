@@ -10,7 +10,7 @@
                 <div class="table-responsive">
                     <h1 class="text-white p-1">Wallet</h1>
 
-                    <form action="{{route('wallet.adminWallets')}}" method="post">
+                    <form action="{{route('wallet.adminWallets')}}" method="get">
                     @csrf
                         <div class="input-group ml-5 mb-5 col-10 mt-3">
                             <input name="iduser" type="text" class="form-control" placeholder="">

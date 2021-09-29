@@ -3,10 +3,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
+                        @if(!Request::get('audit'))
                         <div class=" d-flex white mt-2">
                             <button class="btn-tree text-left text-uppercase">Puntos izquierda:
                                 {{$binario['totali']}}</button>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -43,30 +45,18 @@
         </div>
     </div>
 
-    <div class="col-sm-6 d-none d-md-none d-lg-none d-xl-none d-inline text-center">
-        <div class="row">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class=" d-flex white mt-2">
-                            <button class="btn-tree text-left text-uppercase">Puntos izquierda:
-                                {{$binario['totali']}}</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="col-md-3 col-lg-3 col-sm-6 text-center">
         <div class="row">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
+                        @if(!Request::get('audit'))
                         <div class=" d-flex white mt-2">
                             <button class="btn-tree text-left text-uppercase">Puntos Derecha:
                                 {{$binario['totald']}}</button>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -39,4 +39,4 @@
 @endsection
 
 {{-- permite llamar a las opciones de las tablas --}}
-@include('layouts.componenteDashboard.optionDatatable')
+@include('layouts.componenteDashboard.optionDatatable') 
