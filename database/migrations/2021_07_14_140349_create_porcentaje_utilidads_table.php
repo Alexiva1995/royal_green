@@ -15,7 +15,7 @@ class CreatePorcentajeUtilidadsTable extends Migration
     {
         Schema::create('porcentaje_utilidads', function (Blueprint $table) {
             $table->id();
-            $table->decimal('porcentaje_utilidad', 8, 5)->nullable();
+            $table->double('porcentaje_utilidad')->nullable();
             $table->timestamps();
         });
     }

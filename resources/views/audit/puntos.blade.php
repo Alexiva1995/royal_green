@@ -36,7 +36,23 @@
 
                             </thead>
                             <tbody>
-                           
+
+                                @foreach ($puntos as $item) 
+                                <tr class="text-center">
+                                    <td>{{$item->id}}</td>
+                                    <td>{{$item->getUserBinary->fullname}}</td>
+                                    <td>{{$item->getUserReferred->fullname}}</td>
+                                    <td>{{$item->puntos_reales}}</td>
+                                    <td>{{$item->side}}</td>
+                                     @if ($item->status == '0')
+                                        <td>En espera</td>
+                                         @elseif($item->status == '1')
+                                         <td>Pagado</td>
+                                         @elseif($item->status == '2')
+                                         <td>Cancelado</td>
+                                         @endif
+                                </tr>
+                                @endforeach
                          </tbody>
                 </table>
             </div>
