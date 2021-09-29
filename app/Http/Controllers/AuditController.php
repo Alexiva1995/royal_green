@@ -63,7 +63,7 @@ class AuditController extends Controller
          $puntos = WalletBinary::orderBy('id', 'desc')->get();
          
         try {
-             return view('audit.puntos');
+            return view('audit.puntos', compact('puntos'));
          } catch (\Throwable $th) {
              Log::error('AuditController - index -> Error: '.$th);
              abort(403, "Ocurrio un error, contacte con el administrador");

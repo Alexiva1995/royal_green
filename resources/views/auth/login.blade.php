@@ -21,9 +21,6 @@
     <div class="col-12 col-sm-6 col-lg-6 col-md-6 d-flex align-items-center p-2 px-4">
         <div class="row">
             <h2 class="fw-bold text-white col-12">Iniciar Sesión</h2>
-            <p class=" text-white col-12">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim porro aliquam magni mollitia hic illum.
-            </p>
             <form class="mt-2" id="validate" action="{{ route('login') }}" method="POST">
                 @csrf
                 @if ($errors->any())
