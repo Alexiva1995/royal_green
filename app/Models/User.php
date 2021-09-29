@@ -219,6 +219,18 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\RankRecords', 'iduser');
     }
 
-
+    public function feeRetiro()
+    {
+        $result = 0;
+        $disponible = $this->saldoDisponibleNumber();        
+        if ($disponible > 0) {
+            if($disponible < 250){
+                $result = 0.085;
+            }else{
+                $result = 0.045;
+            }
+        }
+        return floatval($result * 100);
+    }
     
 }
