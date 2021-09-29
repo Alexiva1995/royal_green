@@ -27,8 +27,7 @@ class UpdateToken2FactUser extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->drop(['token_google']);
-            $table->drop(['activar_2fact']);
+            $table->dropColumn(['token_google', 'activar_2fact']);
         });
     }
 }
