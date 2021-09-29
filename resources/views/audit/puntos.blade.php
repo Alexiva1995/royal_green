@@ -20,13 +20,13 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
+             <div class="table-responsive">
             <h3 class="text-white p-1">Historial de Puntos Binarios</h3>
                 <table class="table nowrap scroll-horizontal-vertical myTable2 yajra-datatable" id="puntos-datatable">
                     <thead>
 
-                           <tr class="text-center text-white bg-purple-alt2">                                
-                            <th>ID</th>
+                            <tr class="text-center text-dark text-uppercase pl-2">                                 
+                            <th>Id</th>
                             <th>Usuario</th>
                             <th>Referido</th>
                             <th>Puntos</th>
@@ -41,7 +41,7 @@
                                 <tr class="text-center">
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->getUserBinary->fullname}}</td>
-                                    <td>{{$item-> getUserReferred->fullname}}</td>
+                                    <td>{{$item->getUserReferred->fullname}}</td>
                                     <td>{{$item->puntos_reales}}</td>
                                     <td>{{$item->side}}</td>
                                      @if ($item->status == '0')

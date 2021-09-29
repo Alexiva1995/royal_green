@@ -72,6 +72,7 @@ class InversionController extends Controller
         
         $inv = $user->inversionMasAlta();
 
+
         if (isset($inv->invertido)) {
 
             $inversion = $inv;
@@ -89,21 +90,39 @@ class InversionController extends Controller
                 'package_id' => $paquete->id,
                 'cantidad' => 1,
                 'total' => $total,
-                'monto' => $nuevoInvertido
+                'monto' => $nuevoInvertido,
             ];
 
             $orden = OrdenPurchases::create($data);
         } else {
             //$porcentaje = ($paquete->price * 0.03);
             $porcentaje = 0;
+            // dd('aqui estamos');
 
             $total = ($paquete->price + $porcentaje);
+
+            if (isset($request->comision)) {
+                $rentabilidad = '0';
+            }else{
+                $rentabilidad = '1';
+            }
+            if (isset($request->comision)) {
+                $comisiones = '0';
+            }else{
+                $comisiones = '1';
+            }
+
+
             $data = [
                 'iduser' => $request->id,
                 'package_id' => $paquete->id,
                 'cantidad' => 1,
                 'total' => $total,
-                'monto' => $paquete->price
+                'monto' => $paquete->price,
+                'status' => '1',
+                'manual' => '0',
+                'comisiones' => $comisiones,
+                'rentabilidad' => $rentabilidad,
             ];
 
             $orden = OrdenPurchases::create($data);
@@ -224,6 +243,11 @@ class InversionController extends Controller
                     'ganancia_acumulada' => 0,
                 ];
 
+                //PARA QUE LOS PAQUETES DE 100 A PARTIR DE AHORA NO GENERE RENTABILIDAD
+                if($paquete == 2){
+                    $data['rentabilidad'] = 1;
+                }
+
                 $inversion = Inversion::create($data);
                 return $inversion->id;
             }
@@ -306,15 +330,9 @@ class InversionController extends Controller
     public function updatePorcentajeGanancia(Request $request)
     {
         $porcentaje = $request->porcentaje_ganancia / 100;
-
-        $porcentajeUtilidad = PorcentajeUtilidad::orderBy('id', 'desc')->first();
-
-        if ($porcentajeUtilidad == null) {
-            PorcentajeUtilidad::create(['porcentaje_utilidad' => $porcentaje]);
-        } else {
-            $porcentajeUtilidad->update(['porcentaje_utilidad' => $porcentaje]);
-        }
-
+        
+        PorcentajeUtilidad::create(['porcentaje_utilidad' => $porcentaje]);
+    
         $this->WalletController->pagarUtilidad();
 
         return redirect()->back()->with('msj-success', 'Porcentaje actualizado correctamente');
