@@ -35,7 +35,7 @@
                                     @elseif($orden->status >= '2')
                                     <td> <a class=" btn btn-danger text-white text-bold-600">Cancelado</a></td>
                                     @endif
-                                    <td>{{$orden->idtransacion}}</td>
+                                    <td>{{$orden->id_coinbase}}</td>
                                     <td>{{date('Y-M-d', strtotime($orden->created_at))}}</td>
                                 </tr>
                                 @endforeach
