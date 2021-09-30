@@ -330,15 +330,9 @@ class InversionController extends Controller
     public function updatePorcentajeGanancia(Request $request)
     {
         $porcentaje = $request->porcentaje_ganancia / 100;
-
-        $porcentajeUtilidad = PorcentajeUtilidad::orderBy('id', 'desc')->first();
-
-        if ($porcentajeUtilidad == null) {
-            PorcentajeUtilidad::create(['porcentaje_utilidad' => $porcentaje]);
-        } else {
-            $porcentajeUtilidad->update(['porcentaje_utilidad' => $porcentaje]);
-        }
-
+        
+        PorcentajeUtilidad::create(['porcentaje_utilidad' => $porcentaje]);
+    
         $this->WalletController->pagarUtilidad();
 
         return redirect()->back()->with('msj-success', 'Porcentaje actualizado correctamente');

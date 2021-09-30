@@ -66,7 +66,7 @@
         
         function myScript(){
             idProduct.value = inputrange.value;
-            // submit.removeAttribute('disabled');
+            //submit.removeAttribute('disabled');
             if(oldId == idProduct.value){
                 submit.setAttribute('disabled', 'disabled');
             }else{

@@ -249,7 +249,7 @@ pre code {
 
 .form-control::-webkit-input-placeholder {
   font-size : 0.85rem;
-  border : 1px solid rgba(54,99,112,1)
+  border : 1px solid rgba(54,99,112,1);
   color : #fff;
   background: #11262C;
   -webkit-transition : all 0.2s ease;
@@ -258,7 +258,7 @@ pre code {
 
 .form-control::-moz-placeholder {
   font-size : 0.85rem;
-  border : 1px solid rgba(54,99,112,1)
+  border : 1px solid rgba(54,99,112,1);
   color : #fff;
   background: #11262C;
   -webkit-transition : all 0.2s ease;
@@ -267,7 +267,7 @@ pre code {
 
 .form-control:-ms-input-placeholder {
   font-size : 0.85rem;
-  border : 1px solid rgba(54,99,112,1)
+  border : 1px solid rgba(54,99,112,1);
   color : #fff;
   background: #11262C;
   -webkit-transition : all 0.2s ease;
@@ -276,7 +276,7 @@ pre code {
 
 .form-control::-ms-input-placeholder {
   font-size : 0.85rem;
-  border : 1px solid rgba(54,99,112,1)
+  border : 1px solid rgba(54,99,112,1);
   color : #fff;
   background: #11262C;
   -webkit-transition : all 0.2s ease;
@@ -285,7 +285,7 @@ pre code {
 
 .form-control::placeholder {
   font-size : 0.85rem;
-  border : 1px solid rgba(54,99,112,1)
+  border : 1px solid rgba(54,99,112,1);
   color : #fff;
   background: #11262C;
   -webkit-transition : all 0.2s ease;
