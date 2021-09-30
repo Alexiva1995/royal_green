@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Http\Controllers\DoubleAutenticationController;
 
 class LiquidactionController extends Controller
 {
@@ -24,6 +25,7 @@ class LiquidactionController extends Controller
     function __construct()
     {
         $this->walletController = new WalletController();
+        $this->doubleAuthController = new DoubleAutenticationController();
     }
 
     /**
@@ -398,6 +400,8 @@ class LiquidactionController extends Controller
         }else{
             $validate = $request->validate([
                 'comentario' => ['required'],
+                             'google_code' => ['required', 'numeric'],
+                'correo_code' => ['required'], 
             ]);
         }
         try {

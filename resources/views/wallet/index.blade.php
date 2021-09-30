@@ -19,7 +19,8 @@
             
             @if(!Request::post('iduser'))
             <div class="card-header d-flex align-items-center mt-3">
-                <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible"  style="border: 1px solid #fff;"><b>RETIRAR</b></button>
+                {{-- <button class="btn btn-dark rounded" data-toggle="modal" data-target="#modalSaldoDisponible"  style="border: 1px solid #fff;"><b>RETIRAR</b></button> --}}
+                <a class="btn btn-dark rounded" href="{{route('settlement.withdraw')}}" style="border: 1px solid #66FFCC;"><b>RETIRAR</b></a>
             </div>
             @endif
         </div>
@@ -40,7 +41,7 @@
                                     <th>Email</th>
                                     <th>Monto</th>    
                                 </tr>
-
+                                	
                             </thead>
                             <tbody>
                                 @foreach($wallets as $orden)
