@@ -458,24 +458,24 @@ class WalletController extends Controller
                                     ])->first();
                                     if (empty($check)) {
                                         $concepto = 'Puntos binarios del Usuario '.$orden->getOrdenUser->fullname;
-                                        $puntos_reales = $puntosD = $puntosI = 0;
+                                        $puntosReales = $puntosD = $puntosI = 0;
                                         if ($sponsor->status == '1') {
                                             if ($side == 'I') {
                                                 $puntosI = $orden->total;
-                                                $puntos_reales = $puntosI;
+                                                $puntosReales = $puntosI;
                                             }elseif($side == 'D'){
                                                 $puntosD = $orden->total;
-                                                $puntos_reales = $puntosD;
+                                                $puntosReales = $puntosD;
                                             }
                                         }
-                                        if($puntos_reales != 0){
+                                        if($puntosReales > 0){
                                             $dataWalletPoints = [
                                                 'iduser' => $sponsor->id,
                                                 'referred_id' => $orden->iduser,
                                                 'orden_purchase_id' => $orden->id,
                                                 'puntos_i' => $puntosI,
                                                 'puntos_d' => $puntosD,
-                                                'puntos_reales' => $puntos_reales,
+                                                'puntos_reales' => $puntosReales,
                                                 'side' => $side,
                                                 'status' => 0,
                                                 'descripcion' => $concepto
@@ -515,6 +515,7 @@ class WalletController extends Controller
                                             $puntosReales = $puntosD;
                                         }
                                     }
+                                if($puntosReales > 0){
                                     $dataWalletPoints = [
                                         'iduser' => $sponsor->id,
                                         'referred_id' => $orden->iduser,
@@ -528,6 +529,7 @@ class WalletController extends Controller
                                     ];
                                     
                                     WalletBinary::create($dataWalletPoints);
+                                }
                             }
                         }
                     }

@@ -95,11 +95,11 @@
                         </div>
                         <div class="col-6 col-md-6 mb-1">
                             <h5 class="text-white">Retiro Minimo</h5>
-                            <p class="text-white1"> 50 USDT</p>
+                            <p class="text-white1"> 25 USDT</p>
                         </div>
                         <div class="col-6 col-md-6 mb-1">
-                            <h5 class="text-white">% de Fee de Retiro</h5>
-                            <p class="text-white1"> 6%</p>
+                            <h5 class="text-white">% Fee de Retiro</h5>
+                            <p class="text-white1">% {{ number_format(Auth::user()->feeRetiro(), 2) }}</p>
                         </div>
                         <div class="col-6 col-md-6 mb-1">
                             <h5 class="text-white">Monto comision</h5>

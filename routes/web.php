@@ -177,7 +177,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth', 'check.email')->group(fun
             Route::get('/rangos', 'AuditController@rangos')->name('audit.rangos');
             Route::get('/rangos-data', 'AuditController@dataRangos')->name('audit.datarangos');
             Route::get('/puntos', 'AuditController@puntosBinarios')->name('audit.puntos');
-            Route::get('/puntos-data', 'AuditController@dataPuntos')->name('audit.datapuntos');
+            Route::get('/puntos-data', 'AuditController@dataPuntos')->name('audit.data.puntos');
             Route::get('/modificar-comisiones', 'AuditController@modificarComisiones')->name('audit.modificar.comisiones');
             Route::get('/ver-binario', 'AuditController@verBinario')->name('ver.binario');
         });

@@ -22,7 +22,7 @@
                             @foreach($table as $tables)
                             <tbody class="text-center">
                                 <th>{{$tables->id}}</th>
-                                <th>{{$tables->porcentaje_utilidad}} %</th>
+                                <th>{{number_format($tables->porcentaje_utilidad * 100, 2)}} %</th>
                                 <th>{{$tables->created_at}}</th>
 
 

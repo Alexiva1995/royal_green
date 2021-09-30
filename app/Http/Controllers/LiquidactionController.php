@@ -645,11 +645,11 @@ class LiquidactionController extends Controller
             ])->get();
 
             $bruto = $comisiones->sum('monto');
-            /*
-            if ($bruto < 50) {
+            
+            if ($bruto < 25) {
                 return 0;
             }
-            */
+            
             $feed = ($bruto * 0.06);
             $total = ($bruto - $feed);
         

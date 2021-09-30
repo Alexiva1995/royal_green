@@ -59,11 +59,11 @@ class AuditController extends Controller
 
     public function puntosBinarios()
     {
-
-         $puntos = WalletBinary::orderBy('id', 'desc')->get();
+        // $puntos = WalletBinary::orderBy('id', 'desc')->get();
+        $users = User::where('status', '1')->select(['id', 'username'])->orderBy('id', 'desc')->get();
          
         try {
-             return view('audit.puntos', compact('puntos'));
+             return view('audit.puntos', compact('users'));
          } catch (\Throwable $th) {
              Log::error('AuditController - index -> Error: '.$th);
              abort(403, "Ocurrio un error, contacte con el administrador");
@@ -71,58 +71,45 @@ class AuditController extends Controller
     }
 
     /**
-     * Datatable dinámico (ServerSide) que se muestra en audit.rangos 
+     * Datatable dinámico (ServerSide) que se muestra en audit.datos 
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function dataPuntos(Request $request)
     {
+        if ($request->ajax()) {
       
-        $data = WalletBinary::where('iduser', $request->id)->orderBy('id', 'desc')->get();
+            $data = WalletBinary::where('iduser', $request->id)->orderBy('id', 'desc')->get();
 
-        return Datatables::of($data)
-            ->addColumn('id', function($data){
-                return $data->id;
-            })
-            ->addColumn('usuario', function($data){
-                return $data->getUserBinary->email;
-            })
-            ->addColumn('referido', function($data){
-                return $data->referred_id;
-            })
-            ->addColumn('puntos_derecha', function($data){
-                if($data->side == 'D'){
+            return Datatables::of($data)
+                ->addColumn('id', function($data){
+                    return $data->id;
+                })
+                ->addColumn('referido', function($data){
+                    return $data->getReferredBinary->fullname;
+                })
+                ->addColumn('puntos', function($data){
                     return $data->puntos_reales;
-                }else{
-                    return 0;
-                }
-                
-            })
-            ->addColumn('puntos_izquierda', function($data){
-                if($data->side == 'I'){
-                    return $data->puntos_reales;
-                }else{
-                    return 0;
-                }
-            })
-            ->addColumn('lado', function($data){
-                if($data->side == 'I'){
-                    return 'Izquierda';
-                }else{
-                    return 'Derecha';
-                }
-            })
-            ->addColumn('estado', function($data){
-                if($data->status == 0){
-                    return 'En espera';
-                }elseif($data->status == 1){
-                    return 'Pagado';
-                }elseif($data->status == 2){
-                    return 'Cancelado';
-                }
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+                                       
+                })
+                ->addColumn('lado', function($data){
+                    if($data->side == 'I'){
+                        return 'Izquierda';
+                    }else{
+                        return 'Derecha';
+                    }
+                })
+                ->addColumn('estado', function($data){
+                    if($data->status == 0){
+                        return 'En espera';
+                    }elseif($data->status == 1){
+                        return 'Pagado';
+                    }elseif($data->status == 2){
+                        return 'Cancelado';
+                    }
+                })
+                ->make(true);
+        }
     
     }
 

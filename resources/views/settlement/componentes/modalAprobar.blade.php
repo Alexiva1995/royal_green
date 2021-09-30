@@ -23,7 +23,7 @@
                         <label for="">Codigo Correo</label>
                         <input type="text" name="correo_code" class="form-control" required>
                         <div class="col-12 text-center mt-1">
-                            <button type="button" class="btn btn-info text'white" v-on:click='sendCodeEmail' v-if='idliquidacion == 0'>Enviar Codigo</button>
+                            <button type="button" class="btn btn-primary" v-on:click='sendCodeEmail' v-if='idliquidacion == 0'>Enviar Codigo</button>
                             <span class='text-white' v-else>Codigo Enviado, tienes 30 min sino se cancelara el retiro automaticamente</span>
                         </div>
                     </div>
