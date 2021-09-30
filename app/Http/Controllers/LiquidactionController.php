@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Liquidaction;
+use App\Models\LogLiquidation;
 use App\Models\User;
 use App\Models\Wallet;
 use Carbon\Carbon;
@@ -434,7 +435,7 @@ class LiquidactionController extends Controller
                
                 $accion = 'No Procesada';
                 if(!isset($request->fullname) && !isset($request->iduser) && !isset($request->total)){
-                    $this->aprovarLiquidacion($idliquidation, '');
+                    $this->aprovarLiquidacion($idliquidation, '', '');
                     
                     $accion = 'Aprobada';
                     $request->comentario = '';
@@ -457,7 +458,7 @@ class LiquidactionController extends Controller
                         $this->reversarLiquidacion($idliquidation, $request->comentario);
                     }elseif ($request->action == 'aproved') {
                         $accion = 'Aprobada';
-                        $this->aprovarLiquidacion($idliquidation, $request->hash);
+                        $this->aprovarLiquidacion($idliquidation, $request->hash, $request->comentario);
                     }
                 }
                 
@@ -492,6 +493,61 @@ class LiquidactionController extends Controller
         }
     }
 
+
+     /**
+     * Permite elegir que opcion hacer con las solicitud de retiro
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function procesarSocilitud(Request $request)
+    {
+        try {
+
+                $idliquidation = $request->idliquidation;
+                $liquidation = Liquidaction::find($idliquidation);
+            
+                    $fullname = auth()->user()->fullname;
+                    
+                    $iduser = auth()->user()->id;
+                    $total = $liquidation->total;
+                    
+                    $fullname = $request->fullname;
+                    $iduser = $request->iduser;
+                    $total = str_replace(',','.',str_replace('.','',$request->total));
+                    $total = round($total, 2);
+
+                    if ($request->action == 'reverse') {
+                        $accion = 'Reversada';
+                        $this->reversarLiquidacion($idliquidation, $request->comentario);
+                    }elseif ($request->action == 'aproved') {
+                        $accion = 'Aprobada';
+                        $this->aprovarLiquidacion($idliquidation, $request->hash, $request->comentario);
+                    }
+                
+                
+
+                $concepto = 'Liquidacion del usuario '.$fullname.' por un monto de '.$total;
+                $referred_id = User::find($iduser)->referred_id;
+                $arrayWallet =[
+                    'iduser' => $iduser,
+                    'referred_id' => $referred_id,
+                    'monto' =>  $total,
+                    'descripcion' => $concepto,
+                    'status' => 0,
+                    'tipo_transaction' => 1,
+                ];
+
+                $this->walletController->saveWallet($arrayWallet);
+                
+                return redirect()->back()->with('msj-success', 'La Liquidacion fue '.$accion.' con exito');
+        } catch (\Throwable $th) {
+            Log::error('Liquidaction - procesarSocilitud -> Error: '.$th);
+            abort(403, "Ocurrio un error, contacte con el administrador");
+        }
+    }
+
+
     /**
      * Permite aprobar las liquidaciones
      *
@@ -499,14 +555,21 @@ class LiquidactionController extends Controller
      * @param string $hash
      * @return void
      */
-    public function aprovarLiquidacion($idliquidation, $hash)
+    public function aprovarLiquidacion($idliquidation, $hash, $comentario)
     {
         Liquidaction::where('id', $idliquidation)->update([
             'status' => 1,
             'hash' => $hash
         ]);
 
+        LogLiquidation::create([
+            'idliquidation' => $idliquidation,
+            'comentario' => $comentario,
+            'accion' => 'Aprovada',
+        ]);
+
         Wallet::where('liquidation_id', $idliquidation)->update(['liquidado' => 1]);
+
     }
 
     /**
@@ -523,6 +586,13 @@ class LiquidactionController extends Controller
         Wallet::where('liquidation_id', $idliquidation)->update([
             'status' => 0,
             'liquidation_id' => null,
+        ]);
+
+        LogLiquidation::create([
+            'idliquidation' => $idliquidation,
+            'comentario' => $comentario,
+            'accion' => 'Reservada',
+
         ]);
 
         // $concepto = 'Liquidacion Reservada - Motivo: '.$comentario;
