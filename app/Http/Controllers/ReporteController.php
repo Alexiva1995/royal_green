@@ -93,7 +93,7 @@ class ReporteController extends Controller
     public function rentabilidad()
     { 
         $id = Auth::id();
-        $table = porcentaje_utilidads::where('id', $id)->get();
+        $table = porcentaje_utilidads::all()->sortByDesc('id');
      
         
         return view('reports.rentabilidad')->with('table',$table);
