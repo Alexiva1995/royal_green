@@ -47,7 +47,7 @@
                 let idUserCode = btoa(idUser);
                 console.log(idUserCode);
                 if (idUser.length > 0) {
-                   let url = '{{route('genealogy_type_id', ['matriz', 'temp', 'audit' => 'yes'])}}';
+                   let url = '{{route('genealogy_type_id', ['matriz', 'temp'])}}?audit='+idUserCode;
                     url = url.replace('temp', idUserCode);
                     location.href = url;
                 }
