@@ -17,6 +17,7 @@
                                     <th>Paquete</th>
                                     <th>Fecha de Creación</th>
                                     <th>Monto</th>
+                                    <th>ID coinbase</th>
                                     <th>Estado</th>      
                                 </tr>
 
@@ -27,11 +28,10 @@
                                 <tr class="text-center text-white">
                                     <td>{{$orden->id}}</td>
                                     <td>{{$orden->name}}</td>
-                                    {{-- <td>{{$orden->grupo}}</td> --}}
-                                    <td>{{$orden->monto}}
+                                    <td>{{$orden->getPackageOrden->name}}</td>
                                     <td>{{date('Y-m-d', strtotime($orden->created_at))}}</td>
-                                    {{-- <td>{{$orden->idtransacion}}</td> --}}
-                                    <td>{{$orden->total}}</td>
+                                    <td>{{$orden->monto}}</td>
+                                    <td>{{$orden->id_coinbase}}</td>
 
                                     @if ($orden->status == '0')
                                     <td> <a class=" btn btn-info text-white text-bold-600" data-toggle="modal" data-target="#ModalStatus{{$orden->id}}">Esperando</a></td>
