@@ -68,7 +68,13 @@
                                                     
                                         </div>
                                     </td>
-                                    <td>{{$orden->getWalletReferred->email}}</td>
+                                    <td>
+                                        @if(isset($orden->getWalletReferred))
+                                        {{$orden->getWalletReferred->email}}
+                                        @else
+                                        -
+                                        @endif
+                                    </td>
                                     <td>{{$orden->monto}}</td>
                                 </tr>
                                 @endforeach
