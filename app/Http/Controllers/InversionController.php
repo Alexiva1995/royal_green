@@ -101,18 +101,6 @@ class InversionController extends Controller
 
             $total = ($paquete->price + $porcentaje);
 
-            if (isset($request->comision)) {
-                $rentabilidad = '0';
-            }else{
-                $rentabilidad = '1';
-            }
-            if (isset($request->comision)) {
-                $comisiones = '0';
-            }else{
-                $comisiones = '1';
-            }
-
-
             $data = [
                 'iduser' => $request->id,
                 'package_id' => $paquete->id,
@@ -121,11 +109,15 @@ class InversionController extends Controller
                 'monto' => $paquete->price,
                 'status' => '1',
                 'manual' => '0',
-                'comisiones' => $comisiones,
-                'rentabilidad' => $rentabilidad,
             ];
 
             $orden = OrdenPurchases::create($data);
+
+            if (!isset($request->comision)) {
+                $orden->comisiones = '1';
+                $orden->update();
+            }
+
         }
         
         ////////////////////////////////////
@@ -171,9 +163,9 @@ class InversionController extends Controller
         
         $user->status = '1';
        
-        if (!isset($request->rentabilidad)) {
+        if (isset($request->rentabilidad)) {
             
-            $user->genera_rentabilidad = 0;
+            $user->genera_rentabilidad = 1;
         }
         $user->save();
 

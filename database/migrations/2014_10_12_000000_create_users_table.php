@@ -35,7 +35,7 @@ class CreateUsersTable extends Migration
             $table->longtext('dni')->nullable();
             $table->longtext('wallet_address')->nullable();
             $table->longtext('photoDB')->nullable();
-            $table->boolean('genera_rentabilidad')->default(1)->comment('0 - No genera, 1 - Si genera');;
+            $table->boolean('genera_rentabilidad')->default(0)->comment('0 - Si genera, 1 - No genera');;
             $table->rememberToken();
             $table->timestamps();
         });
