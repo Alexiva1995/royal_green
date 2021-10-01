@@ -42,7 +42,7 @@ class AdminController extends Controller
     public function index()
     {
         // if (Auth::user()->ID == 614) {
-        //     $this->rangoControl->checkRango(564);
+        //     $this->rangoControl->resetPoints();
             
         //     dd('parar');
         // }
