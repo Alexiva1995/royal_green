@@ -117,6 +117,10 @@ class InversionController extends Controller
                 $orden->comisiones = '1';
                 $orden->update();
             }
+            if (!isset($request->rentabilidad)) {
+                $orden->rentabilidad = '1';
+                $orden->update();
+            }
 
         }
         
