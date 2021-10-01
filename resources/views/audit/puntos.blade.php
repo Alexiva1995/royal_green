@@ -41,7 +41,7 @@
                             </thead>
                             <tbody>
 
-                                @foreach ($puntos as $item) 
+                                @foreach ($users as $item) 
                                 <tr class="text-center">
                                     <td>{{$item->id}}</td>
                                     <td>{{$item->getUserBinary->fullname}}</td>
