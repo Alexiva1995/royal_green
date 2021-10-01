@@ -60,10 +60,10 @@ class AuditController extends Controller
 
     public function puntosBinarios()
     {
-        $puntos = WalletBinary::orderBy('id', 'desc')->get();
-        $users = User::where('status', '1')->select(['id', 'username'])->orderBy('id', 'desc')->get();
-         
         try {
+
+        $puntos = WalletBinary::orderBy('id', 'desc')->get();
+        $users = User::where('status', '1')->orderBy('id', 'desc')->get();
              return view('audit.puntos', compact('users', 'puntos'));
          } catch (\Throwable $th) {
              Log::error('AuditController - index -> Error: '.$th);

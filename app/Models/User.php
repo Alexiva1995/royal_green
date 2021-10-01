@@ -49,6 +49,22 @@ class User extends Authenticatable
     ]; 
 
 
+    /**
+     * Permite obtener los referidos
+     *
+     * @return void 
+     */
+    public function referido($id)
+    {
+        $referido = User::where('id', $id)->first();
+
+        if($referido == NULL){
+            return 'Sin Referidos';
+        }else{
+            return $referido->fullname;
+        }
+
+    }
 
     /**
      * Permite obtener todas las ordenes de compra de saldo realizadas
