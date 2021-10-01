@@ -24,13 +24,13 @@
                 <p class="text-white">Desliza para seleccionar</p> 
                 <div class="row justify-content-between align-items-center">
                     <div class="text-left">
-                        <img class="m-2" id="imagePackage" src="{{Auth::user()->inversionMasAlta() != null ?Auth::user()->inversionMasAlta()->getPackageOrden->img() : asset('assets/img/royal_green/logos/logo.svg')}}" alt="" style="width: 150px; heigh:auto;">
+                        <img class="m-2" id="imagePackage" src="{{$invertido != null ? $invertido->getPackageOrden->img() : asset('assets/img/royal_green/paquetes/rg100.png')}}" alt="" style="width: 150px; heigh:auto;">
                     </div>
                     <form class="text-right mr-3" action="{{route('shop.procces')}}" method="POST" target="_blank" class="d-inline">
                         @csrf
                         <input type="hidden" name="idproduct" id="idProduct">
-                        <input type="hidden" id="oldId" value="{{(isset($idInvertido)) ? $idInvertido : 0}}">
-                        <button class="btn btn'outline-dark rounded" style="border: 1px solid #66FFCC;" id="submit" type="submit" disabled>
+                        <input type="hidden" id="oldId" value="{{($idInvertido) != null ? $idInvertido : ''}}">
+                        <button class="btn btn'outline-dark rounded" style="border: 1px solid #66FFCC;" id="submit" type="submit" {{($idInvertido) != null ? 'disabled' : ''}}>
                             @if($invertido == null)
                                 Comprar
                             @else
@@ -39,9 +39,9 @@
                         </button>
                     </form>
                 </div>
-                
+
                 <div class="row col-12 justify-content-center mt-2">
-                        <input class="inputrange" id="inputrange" list="packages" type="range" min="{{(isset($idInvertido)) ? $idInvertido : 2}}" max="{{count($packages)}}" step="1" value="0">
+                        <input class="inputrange" id="inputrange" list="packages" type="range" min="2" max="{{count($packages) + 1}}" step="1" value="{{($idInvertido) != null ? $idInvertido : '2'}}">
                     <datalist id="packages">
                         @foreach ($packages as $items)
                         <option value="{{$items->id}}">
@@ -58,20 +58,35 @@
     document.addEventListener('DOMContentLoaded', function(){
         let inputrange = document.querySelector("#inputrange");
         let idProduct = document.querySelector("#idProduct");
-        let oldId = document.querySelector("#oldId").value;
+        let oldId = parseInt(document.querySelector("#oldId").value);
         let imagePackage = document.querySelector("#imagePackage");
         let submit = document.querySelector("#submit");
+
+       idProduct.value = parseInt(inputrange.value);
+        // console.log(oldId);
         inputrange.addEventListener("change", myScript);
+
+        // console.log("OldID Inicial " + oldId);
+        // console.log("Seleccionado Inicial " + inputrange.value);
         let src = '';
         
         function myScript(){
-            idProduct.value = inputrange.value;
-            //submit.removeAttribute('disabled');
-            if(oldId == idProduct.value){
-                submit.setAttribute('disabled', 'disabled');
+            // console.log("OldID " + oldId);
+            // console.log("Seleccionado " + inputrange.value);
+            idProduct.value = parseInt(inputrange.value);
+            
+            if(oldId != NaN){
+                if(idProduct.value <= oldId){
+                    submit.setAttribute('disabled', 'disabled');
+                }else{
+                    submit.removeAttribute('disabled');
+                }
             }else{
                 submit.removeAttribute('disabled');
             }
+
+
+            
   
             let img;
             switch (idProduct.value) {
@@ -107,7 +122,7 @@
                 break;
             
                 default:
-                img = "logos/logo.svg";
+                img = "paquetes/rg100.png";
                     break;
             }
             src = window.url_asset+'assets/img/royal_green/'+img;

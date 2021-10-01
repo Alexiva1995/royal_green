@@ -44,11 +44,11 @@ class TiendaController extends Controller
             // title
             $packages = Packages::where('id', '>', 1)->orderBy('id', 'asc')->get();
             
-            $invertido = Auth::user()->inversionMasAlta();
+            $invertido = OrdenPurchases::where('iduser', Auth::id())->where('status', '<', '2')->orderBy('monto', 'desc')->first();
+            // dd($invertido);
             $idInvertido = null;
             if(isset($invertido)){
                 $idInvertido = $invertido->package_id;
-                $invertido = $invertido->invertido;
             }
         
             return view('shop.index', compact('packages', 'invertido', 'idInvertido'));
