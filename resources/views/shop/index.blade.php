@@ -29,8 +29,8 @@
                     <form class="text-right mr-3" action="{{route('shop.procces')}}" method="POST" target="_blank" class="d-inline">
                         @csrf
                         <input type="hidden" name="idproduct" id="idProduct">
-                        <input type="hidden" id="oldId" value="{{(isset($idInvertido)) ? $idInvertido : ''}}">
-                        <button class="btn btn'outline-dark rounded" style="border: 1px solid #66FFCC;" id="submit" type="submit" {{(isset($idInvertido)) ? 'disabled' : ''}}>
+                        <input type="hidden" id="oldId" value="{{($idInvertido) != null ? $idInvertido : ''}}">
+                        <button class="btn btn'outline-dark rounded" style="border: 1px solid #66FFCC;" id="submit" type="submit" {{($idInvertido) != null ? 'disabled' : ''}}>
                             @if($invertido == null)
                                 Comprar
                             @else
@@ -39,9 +39,9 @@
                         </button>
                     </form>
                 </div>
-                
+
                 <div class="row col-12 justify-content-center mt-2">
-                        <input class="inputrange" id="inputrange" list="packages" type="range" min="2" max="{{count($packages) + 1}}" step="1" value="{{(isset($idInvertido)) ? $idInvertido : 2}}">
+                        <input class="inputrange" id="inputrange" list="packages" type="range" min="2" max="{{count($packages) + 1}}" step="1" value="{{($idInvertido) != null ? $idInvertido : '2'}}">
                     <datalist id="packages">
                         @foreach ($packages as $items)
                         <option value="{{$items->id}}">
@@ -62,7 +62,7 @@
         let imagePackage = document.querySelector("#imagePackage");
         let submit = document.querySelector("#submit");
 
-       
+       idProduct.value = parseInt(inputrange.value);
         // console.log(oldId);
         inputrange.addEventListener("change", myScript);
 
