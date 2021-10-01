@@ -143,6 +143,7 @@ Route::prefix('dashboard')->middleware('menu', 'auth', 'check.email')->group(fun
      Route::prefix('settlement')->group(function()
      {
         Route::post('/process', 'LiquidactionController@procesarLiquidacion')->name('settlement.process');
+        Route::post('/process-retirement', 'LiquidactionController@procesarSocilitud')->name('settlement.retirement');
         Route::get('/withdraw', 'LiquidactionController@withdraw')->name('settlement.withdraw');
         Route::get('{wallet}/sendcodeemail', 'LiquidactionController@sendCodeEmail')->name('send-code-email');
      });

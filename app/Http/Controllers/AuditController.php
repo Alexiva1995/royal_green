@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Datatables;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\Inversion;
 use App\Models\RankRecords;
 use App\Models\WalletBinary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -59,11 +60,11 @@ class AuditController extends Controller
 
     public function puntosBinarios()
     {
-        // $puntos = WalletBinary::orderBy('id', 'desc')->get();
+        $puntos = WalletBinary::orderBy('id', 'desc')->get();
         $users = User::where('status', '1')->select(['id', 'username'])->orderBy('id', 'desc')->get();
          
         try {
-             return view('audit.puntos', compact('users'));
+             return view('audit.puntos', compact('users', 'puntos'));
          } catch (\Throwable $th) {
              Log::error('AuditController - index -> Error: '.$th);
              abort(403, "Ocurrio un error, contacte con el administrador");

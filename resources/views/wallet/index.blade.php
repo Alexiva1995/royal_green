@@ -40,7 +40,7 @@
                                     <th>Email</th>
                                     <th>Monto</th>    
                                 </tr>
-
+                                	
                             </thead>
                             <tbody>
                                 @foreach($wallets as $orden)

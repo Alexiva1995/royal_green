@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="modal-body text-justify">
-                <form action="{{route('settlement.process')}}" method="post">
+                <form action="{{route('settlement.retirement')}}" method="post">
                     @csrf
                     <input type="hidden" name="idliquidation" :value="ComisionesDetalles.idliquidaction">
                     <input type="hidden" name="iduser" :value="ComisionesDetalles.iduser">
