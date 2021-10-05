@@ -91,8 +91,10 @@ class InversionController extends Controller
                 'cantidad' => 1,
                 'total' => $total,
                 'monto' => $nuevoInvertido,
+                'status' => '1',
+                'manual' => '1',
             ];
-
+        
             $orden = OrdenPurchases::create($data);
         } else {
             //$porcentaje = ($paquete->price * 0.03);
@@ -108,17 +110,13 @@ class InversionController extends Controller
                 'total' => $total,
                 'monto' => $paquete->price,
                 'status' => '1',
-                'manual' => '0',
+                'manual' => '1',
             ];
 
             $orden = OrdenPurchases::create($data);
 
             if (!isset($request->comision)) {
                 $orden->comisiones = '1';
-                $orden->update();
-            }
-            if (!isset($request->rentabilidad)) {
-                $orden->rentabilidad = '1';
                 $orden->update();
             }
 
@@ -147,12 +145,22 @@ class InversionController extends Controller
             $inversion->limite = $inversion->invertido * 2;
 
             $inversion->package_id = $orden->package_id;
+
+            if (!isset($request->rentabilidad)) {
+                $inversion->rentabilidad = '1';
+            }
+
             $inversion->save();
             $inversion = $inversion->id;
             
         } else {
+            if (!isset($request->rentabilidad)) {
+                $rent = '1';
+                $inversion = $this->saveInversion($paquete->id, $orden->monto, $paquete->expired, $user->id, $rent);
+            }else{
+                $inversion = $this->saveInversion($paquete->id, $orden->monto, $paquete->expired, $user->id);
+            }
 
-            $inversion = $this->saveInversion($paquete->id, $orden->monto, $paquete->expired, $user->id);
             // $inversion = $this->saveInversion($paquete->id, $orden->id, $orden->monto, $paquete->expired, $user->id);
 
 
@@ -216,7 +224,7 @@ class InversionController extends Controller
      * @param integer $iduser - ID del usuario 
      * @return void
      */
-    public function saveInversion(int $paquete, float $invertido, $vencimiento, int $iduser)
+    public function saveInversion(int $paquete, float $invertido, $vencimiento, int $iduser, $rent = '0')
     {
         try {
             $check = Inversion::where([
@@ -237,6 +245,7 @@ class InversionController extends Controller
                     'progreso' => 0,
                     'fecha_vencimiento' => $vencimiento,
                     'ganancia_acumulada' => 0,
+                    'rentabilidad' => $rent
                 ];
 
                 //PARA QUE LOS PAQUETES DE 100 A PARTIR DE AHORA NO GENERE RENTABILIDAD
