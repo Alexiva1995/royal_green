@@ -44,8 +44,8 @@
                                 @foreach ($users as $item) 
                                 <tr class="text-center">
                                     <td>{{$item->id}}</td>
-                                    <td>{{$item->getUserBinary->fullname}}</td>
-                                    <td>{{$item->getUserReferred->fullname}}</td>
+                                    <td>{{$item->fullname}}</td>
+                                    <td>{{$item->referido($item->referred_id)}}</td>
                                     <td>{{$item->puntos_reales}}</td>
                                     <td>{{$item->side}}</td>
                                      @if ($item->status == '0')
